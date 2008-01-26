@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="nu" default="go">
+	
+	<target name="go" depends="build, clean_the_bin, zip" />
+	
+	<target name="build" depends="common.find-svninfo, common.asminfo">
+		<delete dir=".\bin" failonerror="false" />
+		<delete file=".\nu.zip" failonerror="false" />
+		
+		<property name="config" value="Release" />
+		
+		<msbuild project=".\nu.sln">
+			<property name="Configuration" value="Release" />
+		</msbuild>
+
+	</target>
+
+	<target name="zip">
+		<zip zipfile="nu.zip">
+			<fileset basedir=".\bin">
+				<include name="**/*" />
+			</fileset>
+		</zip>
+	</target>
+	
+	<target name="common.find-svninfo">
+		<!-- For adding SVN revision to builds -->
+		<property name="svn.revision" value="0" overwrite="false" />
+		<!-- try to update the revision -->
+		<exec
+			program="svn"
+			commandline='info "${project::get-base-directory()}" --xml'
+			output="_revision.xml"
+			failonerror="false"/>
+		<xmlpeek
+			file="_revision.xml"
+			xpath="/info/entry/@revision"
+			property="svn.revision"
+			failonerror="false"/>
+		<delete file="_revision.xml" failonerror="false" />
+		<echo message="INFO: Using Subversion revision number: ${svn.revision}"/>
+	</target>
+	
+	<target name="common.asminfo" depends="common.find-svninfo">
+	
+		<property name="version.rev" value="${svn.revision}"  />
+		<property name="version.build" value="0" overwrite="false" />
+		
+		<asminfo output="SolutionVersion.cs" language="CSharp">
+			<imports>
+				<import namespace="System" />
+				<import namespace="System.Reflection" />
+				<import namespace="System.Runtime.InteropServices" />
+			</imports>
+			<attributes>
+				<attribute type="ComVisibleAttribute" value="false" />
+				<attribute type="CLSCompliantAttribute" value="true" />
+				<attribute type="AssemblyVersionAttribute" value="0.1.${version.rev}.${version.build}" />
+				<attribute type="AssemblyCopyrightAttribute" value="nu Project, original author or authors" />
+				<attribute type="AssemblyCompanyAttribute" value="altnetters" />
+			</attributes>
+		</asminfo>
+	</target>
+
+	<target name="clean_the_bin">
+		<delete failonerror="false">
+			<fileset>
+				<include name=".\bin\*.tests.dll" />
+				<include name=".\bin\*.tests.pdb" />
+				<include name=".\bin\Rhino.*" />
+				<include name=".\bin\nunit.*" />
+			</fileset>
+		</delete>
+	</target>
+</project>

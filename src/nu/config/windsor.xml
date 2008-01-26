@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<castle>
+	<components>
+
+    <component id="dispatcher"
+        lifestyle="singleton"
+        service="nu.IDispatcher, nu"
+        type="nu.Dispatcher, nu" />
+
+    <component id="help"
+					  lifestyle="singleton"
+					  service="nu.Commands.ICommand, nu"
+					  type="nu.Commands.HelpCommand, nu" />
+
+    <component id="new-project"
+					  lifestyle="singleton"
+					  service="nu.Commands.ICommand, nu"
+					  type="nu.Commands.NewProjectCommand, nu" />
+
+    <component id="inject"
+        lifestyle="singleton"
+        service="nu.Commands.ICommand, nu"
+        type="nu.Commands.NewProjectCommand, nu" />
+
+  </components>
+</castle>
