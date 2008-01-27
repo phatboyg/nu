@@ -1,4 +1,4 @@
-namespace nu.Commands
+    namespace nu.Commands
 {
     public class NewProjectCommand : Command
     {

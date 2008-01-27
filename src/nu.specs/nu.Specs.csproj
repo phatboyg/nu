@@ -64,7 +64,9 @@
     <Compile Include="..\SolutionVersion.cs">
       <Link>SolutionVersion.cs</Link>
     </Compile>
-    <Compile Include="Utility\CommandLineParserSpecs.cs" />
+    <Compile Include="Commands\HelpCommandSpecs.cs" />
+    <Compile Include="Utility\Arguments\ArgumentMapperSpecs.cs" />
+    <Compile Include="Utility\Arguments\ArgumentParserSpecs.cs" />
     <Compile Include="Commands\InjectCommandSpecs.cs" />
     <Compile Include="DispatcherSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,18 +1,26 @@
 namespace nu.Commands
 {
-   public abstract class Command : ICommand
-   {
-      public virtual void Route(string[] args)
-      {
-         Parser.ParseArgumentsWithUsage(args, this);
-         Execute();
-      }
+    using System.Collections.Generic;
+    using Utility;
 
-      public abstract void Execute();
+    public abstract class Command : ICommand
+    {
+        #region ICommand Members
 
-      public virtual string Name
-      {
-         get { return this.GetType().Name.Replace("Command", ""); }
-      }
-   }
+        public virtual void Route(IEnumerator<IArgument> arguments)
+        {
+            // TODO Parser.ParseArgumentsWithUsage(args, this);
+
+            Execute();
+        }
+
+        public abstract void Execute();
+
+        public virtual string Name
+        {
+            get { return GetType().Name.Replace("Command", ""); }
+        }
+
+        #endregion
+    }
 }

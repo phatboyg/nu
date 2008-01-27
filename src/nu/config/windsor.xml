@@ -2,25 +2,35 @@
 <castle>
 	<components>
 
-    <component id="dispatcher"
-        lifestyle="singleton"
-        service="nu.IDispatcher, nu"
-        type="nu.Dispatcher, nu" />
+		<component id="dispatcher"
+			lifestyle="singleton"
+			service="nu.IDispatcher, nu"
+			type="nu.Dispatcher, nu" />
 
-    <component id="help"
-					  lifestyle="singleton"
-					  service="nu.Commands.ICommand, nu"
-					  type="nu.Commands.HelpCommand, nu" />
+		<component id="help"
+				   lifestyle="singleton"
+				   service="nu.Commands.ICommand, nu"
+				   type="nu.Commands.HelpCommand, nu" />
 
-    <component id="new-project"
-					  lifestyle="singleton"
-					  service="nu.Commands.ICommand, nu"
-					  type="nu.Commands.NewProjectCommand, nu" />
+		<component id="new-project"
+				   lifestyle="singleton"
+				   service="nu.Commands.ICommand, nu"
+				   type="nu.Commands.NewProjectCommand, nu" />
 
-    <component id="inject"
-        lifestyle="singleton"
-        service="nu.Commands.ICommand, nu"
-        type="nu.Commands.NewProjectCommand, nu" />
+		<!--<component id="inject"
+				   lifestyle="singleton"
+				   service="nu.Commands.ICommand, nu"
+				   type="nu.Commands.InjectCommand, nu" />-->
 
-  </components>
+		<component id="argumentParser"
+				   lifestyle="transient"
+				   service="nu.Utility.IArgumentParser, nu"
+				   type="nu.Utility.ArgumentParser, nu"/>
+
+		<component id="argumentMapFactory"
+				   lifestyle="transient"
+				   service="nu.Utility.IArgumentMapFactory, nu"
+				   type="nu.Utility.ArgumentMapFactory, nu"/>
+
+	</components>
 </castle>

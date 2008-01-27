@@ -55,12 +55,20 @@
     </Compile>
     <Compile Include="Commands\Command.cs" />
     <Compile Include="IDispatcher.cs" />
+    <Compile Include="Utility\Arguments\Argument.cs" />
+    <Compile Include="Utility\Arguments\ArgumentAttribute.cs" />
+    <Compile Include="Utility\Arguments\ArgumentMapFactory.cs" />
+    <Compile Include="Utility\Arguments\ArgumentParser.cs" />
+    <Compile Include="Utility\Arguments\ArgumentTarget.cs" />
+    <Compile Include="Utility\Arguments\IArgument.cs" />
+    <Compile Include="Utility\Arguments\IArgumentMap.cs" />
+    <Compile Include="Utility\Arguments\IArgumentMapFactory.cs" />
+    <Compile Include="Utility\Arguments\IArgumentParser.cs" />
     <Compile Include="Utility\IFileSystem.cs" />
     <Compile Include="Model\ILocalPackageRepository.cs" />
     <Compile Include="Model\Package.cs" />
     <Compile Include="Model\PackageItem.cs" />
     <Compile Include="Model\PackageNotFoundException.cs" />
-    <Compile Include="Utility\CommandLineParser.cs" />
     <Compile Include="Commands\InjectCommand.cs" />
     <Compile Include="Commands\ListCommand.cs" />
     <Compile Include="Commands\NewProjectCommand.cs" />
