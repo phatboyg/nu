@@ -8,11 +8,19 @@ namespace nu.Commands
     /// <summary>
     /// Lists all currently registered commands if a name is supplied and their usage.
     /// </summary>
+    [Command(Description = "Displays help for the command-line syntax")]
     public class HelpCommand : Command
     {
+        private readonly IArgumentMapFactory _argumentMapFactory;
+
         private string _commandName;
 
-        [DefaultArgument]
+        public HelpCommand(IArgumentMapFactory argumentMapFactory)
+        {
+            _argumentMapFactory = argumentMapFactory;
+        }
+
+        [DefaultArgument(Description = "Display detailed help for the specified command")]
         public string CommandName
         {
             get { return _commandName; }
@@ -35,41 +43,34 @@ namespace nu.Commands
             }
             else
             {
-                DisplayCommandHelp(handlers);
+                DisplayCommandHelp();
             }
         }
 
-        private void DisplayCommandHelp(IEnumerable<IHandler> handlers)
+        private void DisplayCommandHelp()
         {
-            foreach (IHandler handler in handlers)
-            {
-                ICommand cmd = (ICommand) handler.Resolve(CreationContext.Empty);
-                string commandName = cmd.Name;
-                if (!String.IsNullOrEmpty(commandName) && string.Compare(commandName, _commandName, true) == 0)
-                {
-                    Console.WriteLine("{0} command:", commandName);
-                    // TODO Console.WriteLine(Parser.ArgumentsUsage(cmd.GetType()));
+            ICommand command = IoC.Resolve<ICommand>(_commandName);
 
-                    return;
-                }
-            }
+            IArgumentMap map = _argumentMapFactory.CreateMap(command);
 
-            Console.WriteLine("Command not found: {0}", _commandName);
+            Console.WriteLine("Usage:");
+            Console.WriteLine("nu {0} {1}", _commandName, map.Usage);
         }
 
         private static void DisplayCommandList(IEnumerable<IHandler> handlers)
         {
-            Console.WriteLine("Commands currently registered:" + Environment.NewLine);
+            Console.WriteLine("Available Commands:" + Environment.NewLine);
 
             foreach (IHandler handler in handlers)
             {
                 ICommand cmd = (ICommand) handler.Resolve(CreationContext.Empty);
-                string commandName = cmd.Name;
-                if (!String.IsNullOrEmpty(commandName))
-                {
-                    Console.WriteLine("Command Help: {0}:", commandName);
-                    // TODO Console.WriteLine(Parser.ArgumentsUsage(cmd.GetType()));
-                }
+
+                string description = string.Empty;
+                object[] attributes = cmd.GetType().GetCustomAttributes(typeof (CommandAttribute), false);
+                if (attributes.Length == 1)
+                    description = ((CommandAttribute) attributes[0]).Description;
+
+                Console.WriteLine("{0,-20}{1}", handler.ComponentModel.Name, description);
             }
         }
     }

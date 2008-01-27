@@ -5,6 +5,8 @@ namespace nu.Utility
     /// </summary>
     public interface IArgument
     {
+        string Key { get; }
+
         /// <summary>
         /// The value of the argument
         /// </summary>

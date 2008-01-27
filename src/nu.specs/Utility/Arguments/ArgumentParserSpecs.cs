@@ -41,5 +41,69 @@ namespace Specs_for_ArgumentParser
 
             Assert.That(arguments[0].Value, Is.EqualTo("two"));
         }
+
+        [Test]
+        public void A_switch_style_argument_should_return_a_boolean_value()
+        {
+            string[] args = new string[] {"-v"};
+
+            IArgumentParser parser = new ArgumentParser();
+
+            IList<IArgument> arguments = parser.Parse(args);
+
+            Assert.That(arguments.Count, Is.EqualTo(1));
+
+            Assert.That(arguments[0].Key, Is.EqualTo("v"));
+
+            Assert.That(arguments[0].Value, Is.EqualTo("true"));
+        }
+
+        [Test]
+        public void A_switch_style_argument_should_return_false_if_it_is_disabled()
+        {
+            string[] args = new string[] { "-v-" };
+
+            IArgumentParser parser = new ArgumentParser();
+
+            IList<IArgument> arguments = parser.Parse(args);
+
+            Assert.That(arguments.Count, Is.EqualTo(1));
+
+            Assert.That(arguments[0].Key, Is.EqualTo("v"));
+
+            Assert.That(arguments[0].Value, Is.EqualTo("false"));
+        }
+
+        [Test]
+        public void A_switch_style_argument_with_a_value_should_be_a_key_value_pair()
+        {
+            string[] args = new string[] { "-v:one" };
+
+            IArgumentParser parser = new ArgumentParser();
+
+            IList<IArgument> arguments = parser.Parse(args);
+
+            Assert.That(arguments.Count, Is.EqualTo(1));
+
+            Assert.That(arguments[0].Key, Is.EqualTo("v"));
+
+            Assert.That(arguments[0].Value, Is.EqualTo("one"));
+        }
+
+        [Test]
+        public void A_switch_style_argument_with_a_value_should_be_a_key_and_no_value()
+        {
+            string[] args = new string[] { "-v:" };
+
+            IArgumentParser parser = new ArgumentParser();
+
+            IList<IArgument> arguments = parser.Parse(args);
+
+            Assert.That(arguments.Count, Is.EqualTo(1));
+
+            Assert.That(arguments[0].Key, Is.EqualTo("v"));
+
+            Assert.That(arguments[0].Value, Is.EqualTo(""));
+        }
     }
 }

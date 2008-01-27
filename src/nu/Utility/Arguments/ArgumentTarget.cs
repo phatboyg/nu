@@ -23,4 +23,12 @@ namespace nu.Utility
             get { return _attribute; }
         }
     }
+
+    public class DefaultArgumentTarget : ArgumentTarget
+    {
+        public DefaultArgumentTarget(ArgumentAttribute attribute, PropertyInfo property)
+            : base(attribute, property)
+        {
+        }
+    }
 }

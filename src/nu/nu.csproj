@@ -54,9 +54,11 @@
       <Link>SolutionVersion.cs</Link>
     </Compile>
     <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\CommandAttribute.cs" />
     <Compile Include="IDispatcher.cs" />
     <Compile Include="Utility\Arguments\Argument.cs" />
     <Compile Include="Utility\Arguments\ArgumentAttribute.cs" />
+    <Compile Include="Utility\Arguments\ArgumentMap.cs" />
     <Compile Include="Utility\Arguments\ArgumentMapFactory.cs" />
     <Compile Include="Utility\Arguments\ArgumentParser.cs" />
     <Compile Include="Utility\Arguments\ArgumentTarget.cs" />
