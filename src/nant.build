@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <project name="nu" default="go">
-	
-	<target name="go" depends="build, clean_the_bin, zip" />
+
+  <loadtasks assembly="..\tools\nantcontrib-0.85\nant.contrib.tasks.dll" />
+  
+  <target name="go" depends="build, clean_the_bin, zip" />
 	
 	<target name="build" depends="common.find-svninfo, common.asminfo">
 		<delete dir=".\bin" failonerror="false" />
