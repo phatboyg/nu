@@ -42,7 +42,7 @@ namespace nu
 
             commandMap.ApplyTo(command, argumentEnumerator);
 
-            command.Route(argumentEnumerator);
+            command.Execute(argumentEnumerator);
         }
 
         #endregion

@@ -5,8 +5,6 @@ namespace nu.Commands
 
     public interface ICommand
     {
-        string Name { get; }
-        void Route(IEnumerator<IArgument> arguments);
-        void Execute();
+        void Execute(IEnumerator<IArgument> arguments);
     }
 }

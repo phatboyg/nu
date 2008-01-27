@@ -9,7 +9,7 @@ namespace nu.Commands
     /// Lists all currently registered commands if a name is supplied and their usage.
     /// </summary>
     [Command(Description = "Displays help for the command-line syntax")]
-    public class HelpCommand : Command
+    public class HelpCommand : ICommand
     {
         private readonly IArgumentMapFactory _argumentMapFactory;
 
@@ -27,13 +27,7 @@ namespace nu.Commands
             set { _commandName = value; }
         }
 
-        public override string Name
-        {
-            get { return "Help"; }
-        }
-
-
-        public override void Execute()
+        public void Execute(IEnumerator<IArgument> arguments)
         {
             IHandler[] handlers = IoC.Container.Kernel.GetAssignableHandlers(typeof (ICommand));
 
@@ -53,8 +47,7 @@ namespace nu.Commands
 
             IArgumentMap map = _argumentMapFactory.CreateMap(command);
 
-            Console.WriteLine("Usage:");
-            Console.WriteLine("nu {0} {1}", _commandName, map.Usage);
+            Console.WriteLine("Usage: nu {0} {1}", _commandName, map.Usage);
         }
 
         private static void DisplayCommandList(IEnumerable<IHandler> handlers)

@@ -1,10 +1,11 @@
 namespace nu.Commands
 {
     using System;
+    using System.Collections.Generic;
     using Model;
     using Utility;
 
-    public class InjectCommand : Command
+    public class InjectCommand : ICommand
     {
         private readonly IFileSystem _fileSystem;
         private readonly ILocalPackageRepository _localPackageRepository;
@@ -27,12 +28,7 @@ namespace nu.Commands
             set { _product = value; }
         }
 
-        public override string Name
-        {
-            get { return "Inject"; }
-        }
-
-        public override void Execute()
+        public void Execute(IEnumerator<IArgument> arguments)
         {
             if (string.IsNullOrEmpty(Product))
                 throw new ArgumentNullException("Product", "You must specify a product to inject");
