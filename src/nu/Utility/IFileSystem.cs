@@ -7,5 +7,6 @@ namespace nu
         bool Exists(string filePath);
         Stream Read(string filePath);
         void Write(Stream file);
+        void CreateDirectory(string directoryPath);
     }
 }

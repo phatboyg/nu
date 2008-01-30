@@ -61,9 +61,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SolutionVersion.cs">
-      <Link>SolutionVersion.cs</Link>
-    </Compile>
     <Compile Include="Commands\HelpCommandSpecs.cs" />
     <Compile Include="Utility\Arguments\ArgumentMapperSpecs.cs" />
     <Compile Include="Utility\Arguments\ArgumentParserSpecs.cs" />
