@@ -12,5 +12,15 @@ namespace nu.Utility
          Console.WriteLine(line);
          Console.WriteLine();
       }
+
+      public void WriteLine(string message)
+      {
+         Console.WriteLine(message);
+      }
+
+      public void WriteHeading(string message)
+      {
+         WriteLine(message + Environment.NewLine);
+      }
    }
 }

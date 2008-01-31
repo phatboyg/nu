@@ -12,12 +12,13 @@ namespace nu.Commands
    public class HelpCommand : ICommand
    {
       private readonly IArgumentMapFactory _argumentMapFactory;
-
+      private readonly IConsoleHelper _consoleHelper;
       private string _commandName;
 
-      public HelpCommand(IArgumentMapFactory argumentMapFactory)
+      public HelpCommand(IArgumentMapFactory argumentMapFactory, IConsoleHelper consoleHelper)
       {
          _argumentMapFactory = argumentMapFactory;
+         _consoleHelper = consoleHelper;
       }
 
       [DefaultArgument(Description = "Display detailed help for the specified command")]
@@ -50,10 +51,11 @@ namespace nu.Commands
          Console.WriteLine("Usage: nu {0} {1}", _commandName, map.Usage);
       }
 
-      private static void DisplayCommandList(IEnumerable<IHandler> handlers)
+      private void DisplayCommandList(IEnumerable<IHandler> handlers)
       {
          if (handlers == null) return;
-         Console.WriteLine("Available Commands:" + Environment.NewLine);
+
+         _consoleHelper.WriteHeading("Available Commands");
 
          foreach (IHandler handler in handlers)
          {
@@ -64,7 +66,9 @@ namespace nu.Commands
             if (attributes.Length == 1)
                description = ((CommandAttribute) attributes[0]).Description;
 
-            Console.WriteLine("{0,-20}{1}", handler.ComponentModel.Name, description);
+            string line = string.Format("{0,-20}{1}", handler.ComponentModel.Name, description);
+
+            _consoleHelper.WriteLine(line);
          }
       }
    }
