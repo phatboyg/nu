@@ -1,6 +1,5 @@
 namespace nu.Commands
 {
-   using System;
    using System.Collections.Generic;
    using Castle.MicroKernel;
    using Utility;
@@ -30,11 +29,9 @@ namespace nu.Commands
 
       public void Execute(IEnumerator<IArgument> arguments)
       {
-         IHandler[] handlers = IoC.Container.Kernel.GetAssignableHandlers(typeof (ICommand));
-
          if (string.IsNullOrEmpty(_commandName))
          {
-            DisplayCommandList(handlers);
+            DisplayCommandList();
          }
          else
          {
@@ -44,15 +41,25 @@ namespace nu.Commands
 
       private void DisplayCommandHelp()
       {
-         ICommand command = IoC.Resolve<ICommand>(_commandName);
+         ICommand command;
+         try
+         {
+            command = IoC.Resolve<ICommand>(_commandName);
+         }
+         catch (ComponentNotFoundException)
+         {
+            _consoleHelper.WriteError(string.Format("command '{0}' not found", _commandName));
+            return;
+         }
 
          IArgumentMap map = _argumentMapFactory.CreateMap(command);
-
-         Console.WriteLine("Usage: nu {0} {1}", _commandName, map.Usage);
+         _consoleHelper.WriteHeading(string.Format("Command: {0}", _commandName));
+         //_consoleHelper.WriteLine("Usage: nu {0} {1}", _commandName, map.Usage);
       }
 
-      private void DisplayCommandList(IEnumerable<IHandler> handlers)
+      private void DisplayCommandList()
       {
+         IHandler[] handlers = IoC.Container.Kernel.GetAssignableHandlers(typeof (ICommand));
          if (handlers == null) return;
 
          _consoleHelper.WriteHeading("Available Commands");

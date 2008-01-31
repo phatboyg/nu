@@ -39,7 +39,7 @@ namespace Specs_for_HelpCommand
          LastCall.IgnoreArguments();
 
          SetupResult.For(_handlerForFakeCommand2.ComponentModel).Return(
-               new ComponentModel("fake-command-2", typeof(ICommand), typeof(FakeCommand2)));
+            new ComponentModel("fake-command-2", typeof (ICommand), typeof (FakeCommand2)));
          SetupResult.For(_handlerForFakeCommand2.Resolve(null)).Return(new FakeCommand2());
          LastCall.IgnoreArguments();
 
@@ -53,7 +53,7 @@ namespace Specs_for_HelpCommand
       {
          using (Record)
          {
-            Expect.Call(_kernel.GetAssignableHandlers(typeof(ICommand))).Return(_handlers.ToArray());
+            Expect.Call(_kernel.GetAssignableHandlers(typeof (ICommand))).Return(_handlers.ToArray());
          }
          using (Playback)
          {
@@ -66,7 +66,7 @@ namespace Specs_for_HelpCommand
       {
          using (Record)
          {
-            Expect.Call(_kernel.GetAssignableHandlers(typeof(ICommand))).Return(_handlers.ToArray());
+            Expect.Call(_kernel.GetAssignableHandlers(typeof (ICommand))).Return(_handlers.ToArray());
             Get<IConsoleHelper>().WriteHeading(null);
             LastCall.IgnoreArguments();
          }
@@ -81,7 +81,7 @@ namespace Specs_for_HelpCommand
       {
          using (Record)
          {
-            Expect.Call(_kernel.GetAssignableHandlers(typeof(ICommand))).Return(_handlers.ToArray());
+            Expect.Call(_kernel.GetAssignableHandlers(typeof (ICommand))).Return(_handlers.ToArray());
             Get<IConsoleHelper>().WriteLine(null);
             LastCall.IgnoreArguments().Repeat.Twice();
          }
@@ -90,21 +90,41 @@ namespace Specs_for_HelpCommand
             _command.Execute(null);
          }
       }
-
    }
 
    [TestFixture]
    public class When_executing_with_a_command_argument : Spec
    {
-      private HelpCommand command;
+      private HelpCommand _command;
+      private IWindsorContainer _container;
+      private IArgumentMap _argumentMap;
 
       protected override void Before_each_spec()
       {
-         command = Create<HelpCommand>();
+         _command = Create<HelpCommand>();
+
+         _container = Mock<IWindsorContainer>();
+         IoC.InitializeContainer(_container);
+
+         SetupResult.For(_container.Resolve<ICommand>("fake-command-1")).Return(new FakeCommand1());
+
+         _argumentMap = Mock<IArgumentMap>();
+         SetupResult.For(Get<IArgumentMapFactory>().CreateMap(_command)).Return(_argumentMap);
+         SetupResult.For(_argumentMap.Usage).Return("usage");
       }
 
+      [Test]
       public void Display_the_command_name()
       {
+         using (Record)
+         {
+            Get<IConsoleHelper>().WriteHeading("Command: fake-command-1");
+         }
+         using (Playback)
+         {
+            _command.CommandName = "fake-command-1";
+            _command.Execute(null);
+         }
       }
 
       public void Display_the_command_description()
@@ -120,21 +140,52 @@ namespace Specs_for_HelpCommand
       }
    }
 
+   [TestFixture]
+   public class When_executing_with_an_invalid_command_argument : Spec
+   {
+      private HelpCommand _command;
+      private IWindsorContainer _container;
+      private IArgumentMap _argumentMap;
+
+      protected override void Before_each_spec()
+      {
+         _command = Create<HelpCommand>();
+
+         _container = Mock<IWindsorContainer>();
+         IoC.InitializeContainer(_container);
+
+         SetupResult.For(_container.Resolve<ICommand>("fake-command-1"))
+            .Throw(new ComponentNotFoundException(typeof (ICommand)));
+      }
+
+      [Test]
+      public void Display_a_command_not_found_message_if_unable_to_locate_a_command()
+      {
+         using (Record)
+         {
+            Get<IConsoleHelper>().WriteError("command 'fake-command-1' not found");
+         }
+         using (Playback)
+         {
+            _command.CommandName = "fake-command-1";
+            _command.Execute(null);
+         }
+      }
+   }
+
    [Description("Fake Command 1")]
    public class FakeCommand1 : ICommand
    {
       public void Execute(IEnumerator<IArgument> arguments)
       {
-         
       }
    }
 
    [Description("Fake Command 2")]
-   public class FakeCommand2: ICommand
+   public class FakeCommand2 : ICommand
    {
       public void Execute(IEnumerator<IArgument> arguments)
       {
-
       }
    }
 }

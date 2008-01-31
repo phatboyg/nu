@@ -11,8 +11,8 @@ namespace nu.Utility
       {
          string line = string.Format("Error: {0}.", message);
          
-         Console.WriteLine();
-         Console.WriteLine(line);
+         WriteBlankLine();
+         WriteLine(line);
       }
 
       public void WriteLine(string message)
@@ -20,19 +20,26 @@ namespace nu.Utility
          Console.WriteLine(message);
       }
 
-      public void WriteHeading(string message)
+      public void WriteLine(string message, params object[] args)
       {
-         WriteLine(Separator);
-         WriteLine(message);
-         WriteLine(Separator);
+         WriteLine(string.Format(message, args));
       }
 
-      public string Separator
+      public void WriteHeading(string message)
       {
-         get
-         {
-            return _separator ?? MakeSeparator();
-         }
+         WriteBlankLine();
+         WriteLine(message);
+         WriteSeparator();
+      }
+
+      public void WriteBlankLine()
+      {
+         WriteLine(string.Empty);
+      }
+
+      public void WriteSeparator()
+      {
+         WriteLine(string.Empty);
       }
 
       private string MakeSeparator()
