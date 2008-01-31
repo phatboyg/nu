@@ -1,8 +1,7 @@
-namespace nu.Model.Project
+namespace nu.Utility
 {
     using System;
     using System.Collections.Generic;
-    using nu.Model.Template;
 
     public interface IProjectManifest
     {

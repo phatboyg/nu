@@ -64,7 +64,7 @@
     <Compile Include="Utility\Arguments\IArgumentParser.cs" />
     <Compile Include="Utility\ConsoleHelper.cs" />
     <Compile Include="Utility\IConsoleHelper.cs" />
-    <Compile Include="Utility\Generator.cs" />
+    <Compile Include="Model\Template\Generator.cs" />
     <Compile Include="Utility\IFileSystem.cs" />
     <Compile Include="Model\Package\ILocalPackageRepository.cs" />
     <Compile Include="Model\Package\Package.cs" />
@@ -80,6 +80,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Project\IProjectManifest.cs" />
+    <Compile Include="Model\Template\ITemplateContext.cs" />
+    <Compile Include="Model\Template\ITemplateProcessor.cs" />
+    <Compile Include="Model\Template\TransformationElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="config\windsor.xml">
