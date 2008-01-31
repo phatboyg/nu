@@ -1,4 +1,4 @@
-namespace nu.Model
+namespace nu.Model.Package
 {
    using System.Collections.Generic;
 

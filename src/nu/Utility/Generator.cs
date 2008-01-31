@@ -1,8 +1,9 @@
 namespace nu.Utility
 {
     using System;
+    using nu.Model.Project;
 
-    class Generator
+   class Generator
     {
         public Generator(IFileSystem fileSystem, IProjectManifest projectManifest)
         {

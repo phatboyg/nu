@@ -1,4 +1,4 @@
-namespace nu.Utility
+namespace nu.Model.Project
 {
     using System;
     using System.Collections.Generic;

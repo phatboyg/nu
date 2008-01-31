@@ -2,7 +2,7 @@ namespace nu.Commands
 {
     using System;
     using System.Collections.Generic;
-    using Model;
+    using nu.Model.Package;
     using Utility;
 
     public class InjectCommand : ICommand
@@ -22,7 +22,7 @@ namespace nu.Commands
             // HelpText = "The name of the product to inject.", 
             // LongName = "product",
             // ShortName = "p")] 
-            public string Product
+        public string Product
         {
             get { return _product; }
             set { _product = value; }

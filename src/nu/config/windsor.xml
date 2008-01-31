@@ -4,7 +4,6 @@
 
 		<component id="dispatcher"
 			lifestyle="singleton"
-			service="nu.IDispatcher, nu"
 			type="nu.Dispatcher, nu" />
 
 		<component id="help"
@@ -31,6 +30,11 @@
 				   lifestyle="transient"
 				   service="nu.Utility.IArgumentMapFactory, nu"
 				   type="nu.Utility.ArgumentMapFactory, nu"/>
+
+    <component id="consoleHelper"
+       lifestyle="transient"
+       service="nu.Utility.IConsoleHelper, nu"
+       type="nu.Utility.ConsoleHelper, nu"/>
 
 	</components>
 </castle>

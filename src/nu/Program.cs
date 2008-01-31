@@ -4,8 +4,7 @@ namespace nu
     {
         private static void Main(string[] args)
         {
-           IDispatcher dispatcher = IoC.Resolve<IDispatcher>();
-           dispatcher.Forward(args);
+           IoC.Resolve<Dispatcher>().Forward(args);
         }
     }
 }

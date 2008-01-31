@@ -1,70 +1,70 @@
 namespace Specs_for_ArgumentMapper
 {
-    using System.Collections.Generic;
-    using nu.Utility;
-    using NUnit.Framework;
-    using NUnit.Framework.SyntaxHelpers;
-    using XF.Specs;
+   using System.Collections.Generic;
+   using nu.Utility;
+   using NUnit.Framework;
+   using NUnit.Framework.SyntaxHelpers;
+   using XF.Specs;
 
-    [TestFixture]
-    public class When_mapping_attributes_to_an_object : Spec
-    {
-        internal class StringClass
-        {
-            private string _value;
+   [TestFixture]
+   public class When_mapping_attributes_to_an_object : Spec
+   {
+      internal class StringClass
+      {
+         private string _value;
 
-            [DefaultArgument]
-            public string Value
-            {
-                get { return _value; }
-                set { _value = value; }
-            }
-        }
+         [DefaultArgument]
+         public string Value
+         {
+            get { return _value; }
+            set { _value = value; }
+         }
+      }
 
-        internal class BooleanClass
-        {
-            private bool _value;    
-            [DefaultArgument]
-            public bool Value
-            {
-                get { return _value; }
-                set { _value = value; }
-            }
-	
-        }
+      internal class BooleanClass
+      {
+         private bool _value;
 
-        [Test]
-        public void A_string_value_should_be_stored_as_a_string()
-        {
-            List<IArgument> arguments = new List<IArgument>();
-            arguments.Add(new Argument("one"));
+         [DefaultArgument]
+         public bool Value
+         {
+            get { return _value; }
+            set { _value = value; }
+         }
+      }
 
-            StringClass sc = new StringClass();
+      [Test]
+      public void A_string_value_should_be_stored_as_a_string()
+      {
+         List<IArgument> arguments = new List<IArgument>();
+         arguments.Add(new Argument("one"));
 
-            IArgumentMapFactory mapFactory = new ArgumentMapFactory();
+         StringClass sc = new StringClass();
 
-            IArgumentMap map = mapFactory.CreateMap(sc);
+         IArgumentMapFactory mapFactory = new ArgumentMapFactory();
 
-            map.ApplyTo(sc, arguments.GetEnumerator());
+         IArgumentMap map = mapFactory.CreateMap(sc);
 
-            Assert.That(sc.Value, Is.EqualTo("one"));
-        }
+         map.ApplyTo(sc, arguments.GetEnumerator());
 
-        [Test]
-        public void A_boolean_value_should_be_converted_from_a_string()
-        {
-            List<IArgument> arguments = new List<IArgument>();
-            arguments.Add(new Argument("true"));
+         Assert.That(sc.Value, Is.EqualTo("one"));
+      }
 
-            BooleanClass bc = new BooleanClass();
+      [Test]
+      public void A_boolean_value_should_be_converted_from_a_string()
+      {
+         List<IArgument> arguments = new List<IArgument>();
+         arguments.Add(new Argument("true"));
 
-            IArgumentMapFactory mapFactory = new ArgumentMapFactory();
+         BooleanClass bc = new BooleanClass();
 
-            IArgumentMap map = mapFactory.CreateMap(bc);
+         IArgumentMapFactory mapFactory = new ArgumentMapFactory();
 
-            map.ApplyTo(bc, arguments.GetEnumerator());
+         IArgumentMap map = mapFactory.CreateMap(bc);
 
-            Assert.That(bc.Value, Is.True);
-        }
-    }
+         map.ApplyTo(bc, arguments.GetEnumerator());
+
+         Assert.That(bc.Value, Is.True);
+      }
+   }
 }
