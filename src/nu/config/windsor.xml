@@ -16,6 +16,11 @@
 				   service="nu.Commands.ICommand, nu"
 				   type="nu.Commands.NewProjectCommand, nu" />
 
+    <component id="list"
+       lifestyle="singleton"
+       service="nu.Commands.ICommand, nu"
+       type="nu.Commands.ListCommand, nu" />
+
 		<!--<component id="inject"
 				   lifestyle="singleton"
 				   service="nu.Commands.ICommand, nu"
@@ -36,5 +41,10 @@
        service="nu.Utility.IConsoleHelper, nu"
        type="nu.Utility.ConsoleHelper, nu"/>
 
+    <component id="Package.LocalPackageRepository"
+       lifestyle="transient"
+       service="nu.Model.Package.ILocalPackageRepository, nu"
+       type="nu.Model.Package.LocalPackageRepository, nu"/>
+    
 	</components>
 </castle>

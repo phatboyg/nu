@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CommandAttribute.cs" />
+    <Compile Include="Model\Package\LocalPackageRepository.cs" />
     <Compile Include="Utility\Arguments\Argument.cs" />
     <Compile Include="Utility\Arguments\ArgumentAttribute.cs" />
     <Compile Include="Utility\Arguments\ArgumentMap.cs" />
