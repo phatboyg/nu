@@ -96,6 +96,7 @@ namespace Specs_for_HelpCommand
    public class When_executing_with_a_command_argument : Spec
    {
       private HelpCommand _command;
+      private FakeCommand1 _commandWeWantHelpFor;
       private IWindsorContainer _container;
       private IArgumentMap _argumentMap;
 
@@ -106,10 +107,12 @@ namespace Specs_for_HelpCommand
          _container = Mock<IWindsorContainer>();
          IoC.InitializeContainer(_container);
 
-         SetupResult.For(_container.Resolve<ICommand>("fake-command-1")).Return(new FakeCommand1());
+         _commandWeWantHelpFor = new FakeCommand1();
+
+         SetupResult.For(_container.Resolve<ICommand>("fake-command-1")).Return(_commandWeWantHelpFor);
 
          _argumentMap = Mock<IArgumentMap>();
-         SetupResult.For(Get<IArgumentMapFactory>().CreateMap(_command)).Return(_argumentMap);
+         SetupResult.For(Get<IArgumentMapFactory>().CreateMap(_commandWeWantHelpFor)).Return(_argumentMap);
          SetupResult.For(_argumentMap.Usage).Return("usage");
       }
 

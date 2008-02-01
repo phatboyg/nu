@@ -8,7 +8,10 @@ namespace nu.Model.Package
    {
       public IEnumerable<Package> FindAll()
       {
-         throw new NotImplementedException();
+         List<Package> result = new List<Package>();
+         result.Add(new Package("one"));
+         result.Add(new Package("two"));
+         return result;
       }
 
       public Package FindCurrentVersionOf(string package)

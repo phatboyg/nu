@@ -46,6 +46,7 @@ namespace nu.Commands
         private void WriteToProject(PackageItem item)
         {
             //some transform stuff here?
+            // each package item has one or more targets or symbols
             TransformationElement elem = null;
             _fileSystem.Copy(elem.Source, elem.Destination);
         }
