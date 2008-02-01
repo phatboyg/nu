@@ -27,7 +27,7 @@ namespace nu.Commands
          set { _commandName = value; }
       }
 
-      public void Execute(IEnumerator<IArgument> arguments)
+      public void Execute(IEnumerable<IArgument> arguments)
       {
          if (string.IsNullOrEmpty(_commandName))
          {
@@ -54,7 +54,7 @@ namespace nu.Commands
 
          IArgumentMap map = _argumentMapFactory.CreateMap(command);
          _consoleHelper.WriteHeading(string.Format("Command: {0}", _commandName));
-         //_consoleHelper.WriteLine("Usage: nu {0} {1}", _commandName, map.Usage);
+         _consoleHelper.WriteLine("Usage: nu {0} {1}", _commandName, map.Usage);
       }
 
       private void DisplayCommandList()

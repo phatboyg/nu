@@ -9,7 +9,7 @@ namespace nu.Utility
         /// </summary>
         /// <param name="obj">The object onto which the arguments should be applied</param>
         /// <param name="arguments">An enumerator of arguments being applied</param>
-        void ApplyTo(object obj, IEnumerator<IArgument> arguments);
+        IEnumerable<IArgument> ApplyTo(object obj, IEnumerable<IArgument> arguments);
 
         string Usage { get; }
     }

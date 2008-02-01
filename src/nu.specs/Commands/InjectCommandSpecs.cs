@@ -11,18 +11,18 @@ namespace Specs_for_InjectCommand
    using Rhino.Mocks;
    using XF.Specs;
 
-   [TestFixture]
-   public class When_executing_the_inject_command_with_a_product_name : Spec
-   {
-      private InjectCommand command;
-      private IEnumerator<IArgument> args;
+    [TestFixture]
+    public class When_executing_the_inject_command_with_a_product_name_only : Spec
+    {
+        private InjectCommand command;
+        private IEnumerable<IArgument> args;
 
-      protected override void Before_each_spec()
-      {
-         command = Create<InjectCommand>();
+        protected override void Before_each_spec()
+        {
+            command = Create<InjectCommand>();
 
-         args = Mock<IEnumerator<IArgument>>();
-      }
+            args = Mock<IEnumerable<IArgument>>();
+        }
 
       [Test]
       public void Retrieve_the_package_by_product_name()
@@ -44,23 +44,23 @@ namespace Specs_for_InjectCommand
       }
    }
 
-   [TestFixture]
-   public class When_executing_the_inject_command_without_a_product_name : Spec
-   {
-      private InjectCommand command;
-      private IEnumerator<IArgument> args;
+    [TestFixture]
+    public class When_executing_the_inject_command_without_a_product_name : Spec
+    {
+        private InjectCommand command;
+        private IEnumerable<IArgument> args;
 
-      protected override void Before_each_spec()
-      {
-         command = Create<InjectCommand>();
-         args = Mock<IEnumerator<IArgument>>();
-      }
+        protected override void Before_each_spec()
+        {
+            command = Create<InjectCommand>();
+            args = Mock<IEnumerable<IArgument>>();
+        }
 
-      [Test]
-      [ExpectedException(typeof (ArgumentNullException))]
-      public void Retrieve_the_package_by_product_name()
-      {
-         command.Execute(args);
-      }
-   }
+        [Test]
+        [ExpectedException(typeof (ArgumentNullException))]
+        public void Retrieve_the_package_by_product_name()
+        {
+            command.Execute(args);
+        }
+    }
 }

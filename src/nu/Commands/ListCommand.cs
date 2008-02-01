@@ -16,7 +16,7 @@ namespace nu.Commands
           _consoleHelper = consoleHelper;
        }
 
-       public void Execute(IEnumerator<IArgument> arguments)
+       public void Execute(IEnumerable<IArgument> arguments)
        {
           IEnumerable<Package> packages = _localPackageRepository.FindAll();
 

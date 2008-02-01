@@ -176,7 +176,7 @@ namespace Specs_for_HelpCommand
    [Description("Fake Command 1")]
    public class FakeCommand1 : ICommand
    {
-      public void Execute(IEnumerator<IArgument> arguments)
+      public void Execute(IEnumerable<IArgument> arguments)
       {
       }
    }
@@ -184,7 +184,7 @@ namespace Specs_for_HelpCommand
    [Description("Fake Command 2")]
    public class FakeCommand2 : ICommand
    {
-      public void Execute(IEnumerator<IArgument> arguments)
+      public void Execute(IEnumerable<IArgument> arguments)
       {
       }
    }

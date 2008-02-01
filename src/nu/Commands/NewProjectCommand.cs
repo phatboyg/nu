@@ -8,14 +8,14 @@ namespace nu.Commands
    {
       private string _projectName;
 
-      [DefaultArgument(Description = "The name of the project to create")]
+      [DefaultArgument(Required = true, Description = "The name of the project to create")]
       public string ProjectName
       {
          get { return _projectName; }
          set { _projectName = value; }
       }
 
-      public void Execute(IEnumerator<IArgument> arguments)
+      public void Execute(IEnumerable<IArgument> arguments)
       {
          // verify a project doesn't alread exist.
          // find the project tree manifest

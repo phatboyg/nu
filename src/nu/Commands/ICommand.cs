@@ -5,6 +5,6 @@ namespace nu.Commands
 
     public interface ICommand
     {
-        void Execute(IEnumerator<IArgument> arguments);
+        void Execute(IEnumerable<IArgument> arguments);
     }
 }

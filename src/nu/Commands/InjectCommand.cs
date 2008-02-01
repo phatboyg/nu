@@ -26,7 +26,7 @@ namespace nu.Commands
             set { _product = value; }
         }
 
-        public void Execute(IEnumerator<IArgument> arguments)
+        public void Execute(IEnumerable<IArgument> arguments)
         {
             if (string.IsNullOrEmpty(Product))
                 throw new ArgumentNullException("Product", "You must specify a product to inject");
