@@ -44,7 +44,7 @@ namespace Specs_for_InjectCommand
    }
 
    [TestFixture]
-   public class When_executing_the_inject_command_without_a_product_name : Spec
+   public class When_installing_package_contents_into_a_project : Spec
    {
       private InjectCommand command;
       private IEnumerable<IArgument> args;
@@ -55,11 +55,35 @@ namespace Specs_for_InjectCommand
          args = Mock<IEnumerable<IArgument>>();
       }
 
-      [Test]
-      [ExpectedException(typeof (ArgumentNullException))]
-      public void Retrieve_the_package_by_product_name()
+      public void Check_the_project_instance_manifest_to_be_sure_the_package_is_not_already_installed()
       {
-         command.Execute(args);
+         
+      }
+
+      public void Obtain_the_project_instance_manifest_from_the_project_directory()
+      {
+         
+      }
+
+      public void Inject_each_package_item_into_sources_defined_in_the_project_instance_manifest()
+      {
+         
+      }
+   }
+
+   public class When_the_specified_directory_does_not_contain_a_project : Spec
+   {
+      public void Display_an_error()
+      {
+         
+      }
+   }
+
+   public class When_a_directory_is_not_specified : Spec
+   {
+      public void Attempt_to_find_the_project_in_the_current_working_directory()
+      {
+         
       }
    }
 }
