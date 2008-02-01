@@ -2,27 +2,25 @@ namespace nu.Model.Package
 {
     public class PackageItem
     {
-        private readonly string _name;
-        private readonly string _location;
+        private readonly string _fileName;
+        private readonly string _storageLocation;
 
-        public PackageItem(string name, string location)
+        public PackageItem(string fileName, string storageLocation)
         {
-            _name = name;
-            _location = location;
+            _fileName = fileName;
+            _storageLocation = storageLocation;
         }
 
 
-        public string Name
+        public string FileName
         {
-            get { return _name; }
+            get { return _fileName; }
         }
 
-        /// <summary>
-        /// lib / tools / etc
-        /// </summary>
-        public string Location
+
+        public string StorageLocation
         {
-            get { return _location; }
+            get { return _storageLocation; }
         }
     }
 }

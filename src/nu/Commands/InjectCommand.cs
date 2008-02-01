@@ -4,6 +4,7 @@ namespace nu.Commands
     using System.Collections.Generic;
     using System.IO;
     using nu.Model.Package;
+    using nu.Model.Template;
     using Utility;
 
     public class InjectCommand : ICommand
@@ -18,11 +19,7 @@ namespace nu.Commands
             _fileSystem = fileSystem;
         }
 
-        [Argument(Required = true)]
-        //, 
-            // HelpText = "The name of the product to inject.", 
-            // LongName = "product",
-            // ShortName = "p")] 
+        [Argument(Required = true)] 
         public string Product
         {
             get { return _product; }
@@ -48,11 +45,9 @@ namespace nu.Commands
 
         private void WriteToProject(PackageItem item)
         {
-            byte[] buffer = new byte[1];
-            Stream s = new MemoryStream(buffer);
-            s.WriteByte(1);
-
-            _fileSystem.Write("nunit.txt", s);
+            //some transform stuff here?
+            TransformationElement elem = null;
+            _fileSystem.Copy(elem.Source, elem.Destination);
         }
     }
 }
