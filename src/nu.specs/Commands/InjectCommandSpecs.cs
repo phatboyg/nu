@@ -2,6 +2,8 @@ namespace Specs_for_InjectCommand
 {
    using System;
    using System.Collections.Generic;
+   using System.IO;
+   using nu;
    using nu.Commands;
    using nu.Model.Package;
    using nu.Utility;
@@ -10,7 +12,7 @@ namespace Specs_for_InjectCommand
    using XF.Specs;
 
    [TestFixture]
-   public class When_executing_the_inject_command_with_a_product_name_only : Spec
+   public class When_executing_the_inject_command_with_a_product_name : Spec
    {
       private InjectCommand command;
       private IEnumerator<IArgument> args;
@@ -25,9 +27,14 @@ namespace Specs_for_InjectCommand
       [Test]
       public void Retrieve_the_package_by_product_name()
       {
+          byte[] buffer = new byte[1];
+          Stream s = new MemoryStream(buffer);
+          s.WriteByte(1);
+
          using (Mocks.Record())
          {
             Expect.Call(Get<ILocalPackageRepository>().FindCurrentVersionOf("nunit")).Return(new Package("nunit"));
+            Get<IFileSystem>().Write("nunit.txt", s);
          }
          using (Mocks.Playback())
          {

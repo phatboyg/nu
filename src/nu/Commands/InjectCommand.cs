@@ -2,6 +2,7 @@ namespace nu.Commands
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using nu.Model.Package;
     using Utility;
 
@@ -36,12 +37,22 @@ namespace nu.Commands
             Console.WriteLine("Injecting {0}", Product);
 
             Package pkg = _localPackageRepository.FindCurrentVersionOf(Product);
-            // get dependencies?
-
-            // write it to disk someplace
-            _fileSystem.Write(null);
-
+            
+            foreach(PackageItem item in pkg.Items)
+            {
+                WriteToProject(item);
+            }
+          
             Console.WriteLine("Finished Injecting {0}", Product);
+        }
+
+        private void WriteToProject(PackageItem item)
+        {
+            byte[] buffer = new byte[1];
+            Stream s = new MemoryStream(buffer);
+            s.WriteByte(1);
+
+            _fileSystem.Write("nunit.txt", s);
         }
     }
 }
