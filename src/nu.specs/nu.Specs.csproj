@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\HelpCommandSpecs.cs" />
+    <Compile Include="Commands\ListCommandSpecs.cs" />
     <Compile Include="Utility\Arguments\ArgumentMapperSpecs.cs" />
     <Compile Include="Utility\Arguments\ArgumentParserSpecs.cs" />
     <Compile Include="Commands\InjectCommandSpecs.cs" />
