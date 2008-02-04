@@ -51,6 +51,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CommandAttribute.cs" />
+    <Compile Include="Commands\InstallCommand.cs" />
+    <Compile Include="Model\Package\CatalogEntry.cs" />
+    <Compile Include="Model\Package\IPackageSource.cs" />
+    <Compile Include="Model\Package\IConfiguration.cs" />
     <Compile Include="Model\Package\LocalPackageRepository.cs" />
     <Compile Include="Utility\Arguments\Argument.cs" />
     <Compile Include="Utility\Arguments\ArgumentAttribute.cs" />
