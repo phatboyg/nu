@@ -11,13 +11,13 @@ namespace nu.Commands
    public class HelpCommand : ICommand
    {
       private readonly IArgumentMapFactory _argumentMapFactory;
-      private readonly IConsoleHelper _consoleHelper;
+      private readonly IConsole _console;
       private string _commandName;
 
-      public HelpCommand(IArgumentMapFactory argumentMapFactory, IConsoleHelper consoleHelper)
+      public HelpCommand(IArgumentMapFactory argumentMapFactory, IConsole console)
       {
          _argumentMapFactory = argumentMapFactory;
-         _consoleHelper = consoleHelper;
+         _console = console;
       }
 
       [DefaultArgument(Description = "Display detailed help for the specified command")]
@@ -48,13 +48,13 @@ namespace nu.Commands
          }
          catch (ComponentNotFoundException)
          {
-            _consoleHelper.WriteError(string.Format("command '{0}' not found", _commandName));
+            _console.WriteError(string.Format("command '{0}' not found", _commandName));
             return;
          }
 
          IArgumentMap map = _argumentMapFactory.CreateMap(command);
-         _consoleHelper.WriteHeading(string.Format("Command: {0}", _commandName));
-         _consoleHelper.WriteLine("Usage: nu {0} {1}", _commandName, map.Usage);
+         _console.WriteHeading(string.Format("Command: {0}", _commandName));
+         _console.WriteLine("Usage: nu {0} {1}", _commandName, map.Usage);
       }
 
       private void DisplayCommandList()
@@ -62,7 +62,7 @@ namespace nu.Commands
          IHandler[] handlers = IoC.Container.Kernel.GetAssignableHandlers(typeof (ICommand));
          if (handlers == null) return;
 
-         _consoleHelper.WriteHeading("Available Commands");
+         _console.WriteHeading("Available Commands");
 
          foreach (IHandler handler in handlers)
          {
@@ -75,7 +75,7 @@ namespace nu.Commands
 
             string line = string.Format("{0,-20}{1}", handler.ComponentModel.Name, description);
 
-            _consoleHelper.WriteLine(line);
+            _console.WriteLine(line);
          }
       }
    }

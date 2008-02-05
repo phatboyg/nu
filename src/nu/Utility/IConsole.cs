@@ -1,6 +1,6 @@
 namespace nu.Utility
 {
-   public interface IConsoleHelper
+   public interface IConsole
    {
       void WriteHeading(string message);
       void WriteError(string message);

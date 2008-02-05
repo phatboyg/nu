@@ -67,7 +67,7 @@ namespace Specs_for_HelpCommand
          using (Record)
          {
             Expect.Call(_kernel.GetAssignableHandlers(typeof (ICommand))).Return(_handlers.ToArray());
-            Get<IConsoleHelper>().WriteHeading(null);
+            Get<IConsole>().WriteHeading(null);
             LastCall.IgnoreArguments();
          }
          using (Playback)
@@ -82,7 +82,7 @@ namespace Specs_for_HelpCommand
          using (Record)
          {
             Expect.Call(_kernel.GetAssignableHandlers(typeof (ICommand))).Return(_handlers.ToArray());
-            Get<IConsoleHelper>().WriteLine(null);
+            Get<IConsole>().WriteLine(null);
             LastCall.IgnoreArguments().Repeat.Twice();
          }
          using (Playback)
@@ -121,7 +121,7 @@ namespace Specs_for_HelpCommand
       {
          using (Record)
          {
-            Get<IConsoleHelper>().WriteHeading("Command: fake-command-1");
+            Get<IConsole>().WriteHeading("Command: fake-command-1");
          }
          using (Playback)
          {
@@ -166,7 +166,7 @@ namespace Specs_for_HelpCommand
       {
          using (Record)
          {
-            Get<IConsoleHelper>().WriteError("command 'fake-command-1' not found");
+            Get<IConsole>().WriteError("command 'fake-command-1' not found");
          }
          using (Playback)
          {

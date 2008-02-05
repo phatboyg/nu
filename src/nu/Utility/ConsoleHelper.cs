@@ -3,7 +3,7 @@ namespace nu.Utility
    using System;
    using System.Text;
 
-   public class ConsoleHelper : IConsoleHelper
+   public class ConsoleHelper : IConsole
    {
       private string _separator;
 

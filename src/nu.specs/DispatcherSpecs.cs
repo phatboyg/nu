@@ -48,7 +48,7 @@ namespace Specs_for_Dispatcher
       {
          using (Record)
          {
-            Get<IConsoleHelper>().WriteError("command 'no-such-command' not found");
+            Get<IConsole>().WriteError("command 'no-such-command' not found");
          }
          using (Playback)
          {

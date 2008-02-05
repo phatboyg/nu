@@ -53,6 +53,7 @@
     <Compile Include="Commands\CommandAttribute.cs" />
     <Compile Include="Commands\InstallCommand.cs" />
     <Compile Include="Model\Package\CatalogEntry.cs" />
+    <Compile Include="Model\Package\IPackageCatalog.cs" />
     <Compile Include="Model\Package\IPackageSource.cs" />
     <Compile Include="Model\Package\IConfiguration.cs" />
     <Compile Include="Model\Package\LocalPackageRepository.cs" />
@@ -67,7 +68,7 @@
     <Compile Include="Utility\Arguments\IArgumentMapFactory.cs" />
     <Compile Include="Utility\Arguments\IArgumentParser.cs" />
     <Compile Include="Utility\ConsoleHelper.cs" />
-    <Compile Include="Utility\IConsoleHelper.cs" />
+    <Compile Include="Utility\IConsole.cs" />
     <Compile Include="Model\Template\Generator.cs" />
     <Compile Include="Utility\IFileSystem.cs" />
     <Compile Include="Model\Package\ILocalPackageRepository.cs" />

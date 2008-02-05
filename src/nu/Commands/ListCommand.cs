@@ -8,12 +8,12 @@ namespace nu.Commands
     public class ListCommand : ICommand
     {
        private readonly ILocalPackageRepository _localPackageRepository;
-       private readonly IConsoleHelper _consoleHelper;
+       private readonly IConsole _console;
 
-       public ListCommand(ILocalPackageRepository localPackageRepository, IConsoleHelper consoleHelper)
+       public ListCommand(ILocalPackageRepository localPackageRepository, IConsole console)
        {
           _localPackageRepository = localPackageRepository;
-          _consoleHelper = consoleHelper;
+          _console = console;
        }
 
        public void Execute(IEnumerable<IArgument> arguments)
@@ -22,13 +22,13 @@ namespace nu.Commands
 
           if (packages == null)
           {
-             _consoleHelper.WriteLine("No packages installed. Get to it!");
+             _console.WriteLine("No packages installed. Get to it!");
              return;
           }
 
           foreach(Package package in packages)
           {
-             _consoleHelper.WriteLine(package.Name);
+             _console.WriteLine(package.Name);
           }
        }
     }

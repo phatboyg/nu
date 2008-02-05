@@ -11,15 +11,15 @@ namespace nu
 
         private readonly IArgumentMapFactory _argumentMapFactory;
         private readonly IArgumentParser _argumentParser;
-        private readonly IConsoleHelper _consoleHelper;
+        private readonly IConsole _console;
 
         private string _commandName = "help";
 
         public Dispatcher(IArgumentParser argumentParser, IArgumentMapFactory argumentMapFactory,
-                          IConsoleHelper consoleHelper)
+                          IConsole console)
         {
             _argumentParser = argumentParser;
-            _consoleHelper = consoleHelper;
+            _console = console;
             _argumentMapFactory = argumentMapFactory;
         }
 
@@ -55,7 +55,7 @@ namespace nu
             {
                 string invalidCommandName = _commandName;
                 _commandName = DEFAULT_COMMAND;
-                _consoleHelper.WriteError(string.Format("command '{0}' not found", invalidCommandName));
+                _console.WriteError(string.Format("command '{0}' not found", invalidCommandName));
             }
         }
     }

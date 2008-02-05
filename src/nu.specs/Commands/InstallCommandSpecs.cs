@@ -31,7 +31,7 @@ namespace Specs_for_InstallCommand
       }
 
       [Test]
-      public void Update_the_contents_of_each_source()
+      public void Retrieve_the_contents_of_each_source()
       {
          IPackageSource source1 = Mock<IPackageSource>();
          IPackageSource source2 = Mock<IPackageSource>();
@@ -51,6 +51,70 @@ namespace Specs_for_InstallCommand
          {
             _command.Execute(null);
          }
+      }
+
+      [Test]
+      public void Update_the_package_catalog_with_contents_of_each_source()
+      {
+         IPackageSource source1 = Mock<IPackageSource>();
+         List<IPackageSource> sources = new List<IPackageSource>();
+         sources.Add(source1);
+         List<CatalogEntry> catalogEntries = new List<CatalogEntry>();
+         CatalogEntry catalogEntry = new CatalogEntry();
+         catalogEntries.Add(catalogEntry);
+
+         using (Record)
+         {
+            SetupResult
+               .For(Get<IConfiguration>().PackageSources)
+               .Return(sources);
+            SetupResult.For(source1.FetchPackageCatalog()).Return(catalogEntries);
+            Get<IPackageCatalog>().Update(catalogEntries);
+         }
+         using (Playback)
+         {
+            _command.Execute(null);
+         }
+      }
+
+      [Test]
+      public void Save_the_package_catalog()
+      {
+         IPackageSource source1 = Mock<IPackageSource>();
+         List<IPackageSource> sources = new List<IPackageSource>();
+         sources.Add(source1);
+
+         using (Record)
+         {
+            SetupResult
+               .For(Get<IConfiguration>().PackageSources)
+               .Return(sources);
+            Get<IPackageCatalog>().Save();
+         }
+         using (Playback)
+         {
+            _command.Execute(null);
+         }
+      }
+
+      public void Find_the_catalog_entry_for_the_named_package()
+      {
+         
+      }
+
+      public void Obtain_the_source_from_the_catalog_entry()
+      {
+         
+      }
+
+      public void Use_the_source_to_get_the_full_package()
+      {
+         
+      }
+
+      public void Install_the_package_in_the_local_repository()
+      {
+         
       }
    }
 }

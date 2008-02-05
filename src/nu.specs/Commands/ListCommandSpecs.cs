@@ -43,7 +43,7 @@ namespace Specs_for_ListCommand
          {
             SetupResult.For(Get<ILocalPackageRepository>().FindAll())
                .Return(packages);
-            Get<IConsoleHelper>().WriteLine(null);
+            Get<IConsole>().WriteLine(null);
             LastCall.IgnoreArguments().Repeat.Twice();
          }
          using (Playback)
@@ -70,7 +70,7 @@ namespace Specs_for_ListCommand
       {
          using (Record)
          {
-            Get<IConsoleHelper>().WriteLine("No packages installed. Get to it!");
+            Get<IConsole>().WriteLine("No packages installed. Get to it!");
          }
          using (Playback)
          {

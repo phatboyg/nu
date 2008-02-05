@@ -7,10 +7,14 @@ namespace nu.Commands
    public class InstallCommand : ICommand
    {
       private readonly IConfiguration _configuration;
+      private readonly IPackageCatalog _catalog;
+      private readonly IConsole _console;
 
-      public InstallCommand(IConfiguration configuration)
+      public InstallCommand(IConfiguration configuration, IPackageCatalog catalog, IConsole console)
       {
          _configuration = configuration;
+         _catalog = catalog;
+         _console = console;
       }
 
       public void Execute(IEnumerable<IArgument> arguments)
@@ -20,8 +24,12 @@ namespace nu.Commands
 
          foreach(IPackageSource source in sources)
          {
-            source.FetchPackageCatalog();
+            _catalog.Update(source.FetchPackageCatalog());
          }
+
+         _catalog.Save();
+
+
       }
    }
 }
