@@ -4,6 +4,7 @@ namespace nu.Commands
     using System.Collections.Generic;
     using System.IO;
     using nu.Model.Package;
+    using nu.Model.Project;
     using nu.Model.Template;
     using Utility;
 
@@ -11,11 +12,13 @@ namespace nu.Commands
     {
         private readonly IFileSystem _fileSystem;
         private readonly ILocalPackageRepository _localPackageRepository;
+        private IProjectManifest _projectManifest;
         private string _product;
 
-        public InjectCommand(ILocalPackageRepository localPackageRepository, IFileSystem fileSystem)
+        public InjectCommand(ILocalPackageRepository localPackageRepository, IFileSystem fileSystem, IProjectManifest projectManifest)
         {
             _localPackageRepository = localPackageRepository;
+            _projectManifest = projectManifest;
             _fileSystem = fileSystem;
         }
 
@@ -34,7 +37,7 @@ namespace nu.Commands
             Console.WriteLine("Injecting {0}", Product);
 
             Package pkg = _localPackageRepository.FindCurrentVersionOf(Product);
-            
+
             foreach(PackageItem item in pkg.Items)
             {
                 WriteToProject(item);
@@ -45,10 +48,10 @@ namespace nu.Commands
 
         private void WriteToProject(PackageItem item)
         {
-            //some transform stuff here?
-            // each package item has one or more targets or symbols
-            TransformationElement elem = null;
-            _fileSystem.Copy(elem.Source, elem.Destination);
+            string target = item.Target; //lib, tools, src, etc
+            string transformedTargetDir = "_someTransformationThing.Get(target)";
+
+            _fileSystem.Copy(item.StorageLocation, Path.Combine(transformedTargetDir, item.FileName));
         }
     }
 }

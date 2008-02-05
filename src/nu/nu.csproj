@@ -93,6 +93,8 @@
     <Content Include="config\windsor.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Model\Package\sample.package.xml" />
+    <Content Include="Model\Project\sample.project.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

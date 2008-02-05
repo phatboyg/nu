@@ -4,6 +4,7 @@ namespace nu.Model.Package
     {
         private readonly string _fileName;
         private readonly string _storageLocation;
+        private string _target;
 
         public PackageItem(string fileName, string storageLocation)
         {
@@ -17,10 +18,17 @@ namespace nu.Model.Package
             get { return _fileName; }
         }
 
-
+        /// <summary>
+        /// Where the item sits to be copied from
+        /// </summary>
         public string StorageLocation
         {
             get { return _storageLocation; }
+        }
+
+        public string Target
+        {
+            get { return _target; }
         }
     }
 }
