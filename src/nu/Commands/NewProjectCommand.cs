@@ -1,3 +1,5 @@
+using nu.Model.Template;
+
 namespace nu.Commands
 {
    using System.Collections.Generic;
@@ -6,6 +8,14 @@ namespace nu.Commands
    [Command(Description = "Creates a new project")]
    public class NewProjectCommand : ICommand
    {
+       private readonly Generator generator;
+
+       public NewProjectCommand(Generator generator)
+       {
+           this.generator = generator;
+       }
+
+
       private string _projectName;
 
       [DefaultArgument(Required = true, Description = "The name of the project to create")]
@@ -22,6 +32,7 @@ namespace nu.Commands
          // build filesystem according to manifest
          // inject any projects named in the manifest
          // have a nice day
+          generator.Generate();
       }
    }
 }

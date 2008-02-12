@@ -5,11 +5,11 @@ namespace nu.Model.Template
 
     public class Generator
     {
-        public Generator(IFileSystem fileSystem, IProjectManifest projectManifest, ITemplateProcessor templateProcessor)
+        public Generator(IFileSystem fileSystem, IProjectManifest projectManifest/*, ITemplateProcessor templateProcessor*/)
         {
             _fileSystem = fileSystem;
             _projectManifest = projectManifest;
-            _templateProcessor = templateProcessor;
+            //_templateProcessor = templateProcessor;
         }
 
         private readonly IProjectManifest _projectManifest;
@@ -35,18 +35,18 @@ namespace nu.Model.Template
 
         public void Generate()
         {
-            foreach (String directory in ProjectManifest.Directories)
+            foreach (projectTarget target in ProjectManifest.Directories)
             {
                 // need to change this to account for a user supplied directory.
-                FileSystem.CreateDirectory(directory);
+                FileSystem.CreateDirectory(target.path);
             }
 
-            foreach (TransformationElement element in ProjectManifest.Files)
-            {
-                // provide the template processor with extra data
-                // e.g. base directory, etc.
-                TemplateProcessor.Transform(element);
-            }
+            //foreach (TransformationElement element in ProjectManifest.Files)
+            //{
+            //    // provide the template processor with extra data
+            //    // e.g. base directory, etc.
+            //    TemplateProcessor.Transform(element);
+            //}
         }
     }
 }

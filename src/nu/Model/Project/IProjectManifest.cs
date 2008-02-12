@@ -6,7 +6,6 @@ namespace nu.Model.Project
 
     public interface IProjectManifest
     {
-        IEnumerable<String> Directories { get;}
-        IEnumerable<TransformationElement> Files { get;}
+        IList<projectTarget> Directories { get; }
     }
 }

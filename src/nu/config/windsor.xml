@@ -38,13 +38,32 @@
 
     <component id="consoleHelper"
        lifestyle="transient"
-       service="nu.Utility.IConsoleHelper, nu"
+       service="nu.Utility.IConsole, nu"
        type="nu.Utility.ConsoleHelper, nu"/>
 
     <component id="Package.LocalPackageRepository"
        lifestyle="transient"
        service="nu.Model.Package.ILocalPackageRepository, nu"
        type="nu.Model.Package.LocalPackageRepository, nu"/>
+
+    <component id="fileSystem"
+               lifestyle="transient"
+               service="nu.IFileSystem, nu"
+               type="nu.Utility.FileSystem, nu" />
+
+    <component id="xmlProjectManifest"
+               lifestyle="transient"
+               service="nu.Model.Project.IProjectManifest, nu"
+               type="nu.Model.Project.XmlProjectManifest, nu">
+      <parameters>
+        <xmlFile>sample.project.xml</xmlFile>
+      </parameters>
+    </component>
+
+    <component id="generator"
+               lifestyle="transient"
+               service="nu.Model.Template.Generator, nu"
+               type="nu.Model.Template.Generator, nu" />
     
 	</components>
 </castle>
