@@ -11,7 +11,7 @@
 				   service="nu.Commands.ICommand, nu"
 				   type="nu.Commands.HelpCommand, nu" />
 
-		<component id="new-project"
+		<component id="project"
 				   lifestyle="singleton"
 				   service="nu.Commands.ICommand, nu"
 				   type="nu.Commands.NewProjectCommand, nu" />

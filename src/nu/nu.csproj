@@ -62,7 +62,7 @@
     <Compile Include="Model\Package\IPackageSource.cs" />
     <Compile Include="Model\Package\IConfiguration.cs" />
     <Compile Include="Model\Package\LocalPackageRepository.cs" />
-    <Compile Include="Model\Project\newproject.cs">
+    <Compile Include="Model\Schemas\newproject.cs">
       <DependentUpon>newproject.xsd</DependentUpon>
     </Compile>
     <Compile Include="Model\Project\XmlProjectManifest.cs" />
@@ -104,13 +104,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Model\Package\sample.package.xml" />
-    <Content Include="Model\Project\sample.project.xml">
+    <Content Include="sample.project.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Model\Project\newproject.xsd" />
+    <None Include="Model\Schemas\newproject.xsd" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />
