@@ -3,27 +3,31 @@ using nu.Model.Template;
 namespace nu.Commands
 {
    using System.Collections.Generic;
+   using System.IO;
    using Utility;
 
    [Command(Description = "Creates a new project")]
    public class NewProjectCommand : ICommand
    {
-       private readonly Generator generator;
+       private readonly IFileSystem _fileSystem;
+       private readonly ProjectGenerator _ProjectGenerator;
 
-       public NewProjectCommand(Generator generator)
+       public NewProjectCommand(IFileSystem fileSystem, ProjectGenerator _ProjectGenerator)
        {
-           this.generator = generator;
+           _fileSystem = fileSystem;
+           this._ProjectGenerator = _ProjectGenerator;
        }
 
 
-      private string _projectName;
+       private string _projectName;
 
       [DefaultArgument(Required = true, Description = "The name of the project to create")]
       public string ProjectName
       {
-         get { return _projectName; }
+          get { return string.IsNullOrEmpty(_projectName) ? _fileSystem.CurrentDirectory : _projectName; }
          set { _projectName = value; }
       }
+       
 
       public void Execute(IEnumerable<IArgument> arguments)
       {
@@ -32,7 +36,7 @@ namespace nu.Commands
          // build filesystem according to manifest
          // inject any projects named in the manifest
          // have a nice day
-          generator.Generate();
+          _ProjectGenerator.Generate(ProjectName);
       }
    }
 }

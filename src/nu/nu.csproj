@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B106DBF9-AF90-414D-A40C-A0222BF8F5C8}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -79,7 +79,7 @@
     <Compile Include="Utility\ConsoleHelper.cs" />
     <Compile Include="Utility\FileSystem.cs" />
     <Compile Include="Utility\IConsole.cs" />
-    <Compile Include="Model\Template\Generator.cs" />
+    <Compile Include="Model\Project\ProjectGenerator.cs" />
     <Compile Include="Utility\IFileSystem.cs" />
     <Compile Include="Model\Package\ILocalPackageRepository.cs" />
     <Compile Include="Model\Package\Package.cs" />
@@ -100,17 +100,19 @@
     <Compile Include="Model\Template\TransformationElement.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="config\project\project.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="config\windsor.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Model\Package\sample.package.xml" />
-    <Content Include="sample.project.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Model\Schemas\newproject.xsd" />
+    <None Include="Model\Schemas\newproject.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />

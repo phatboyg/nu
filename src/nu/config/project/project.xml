@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<project>
+  <folders>
+    <target name="src" path=".\source" />
+    <target name="tools" path=".\tools" />
+    <target name="build" path=".\build" />
+    <target name="lib" path=".\lib" />
+  </folders>
+  <installedPackages>
+    <package name="nunit" />
+  </installedPackages>
+</project>

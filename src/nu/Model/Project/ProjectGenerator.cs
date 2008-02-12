@@ -1,11 +1,12 @@
 namespace nu.Model.Template
 {
     using System;
+    using System.IO;
     using nu.Model.Project;
 
-    public class Generator
+    public class ProjectGenerator
     {
-        public Generator(IFileSystem fileSystem, IProjectManifest projectManifest/*, ITemplateProcessor templateProcessor*/)
+        public ProjectGenerator(IFileSystem fileSystem, IProjectManifest projectManifest/*, ITemplateProcessor templateProcessor*/)
         {
             _fileSystem = fileSystem;
             _projectManifest = projectManifest;
@@ -33,12 +34,13 @@ namespace nu.Model.Template
         }
 
 
-        public void Generate()
+        public void Generate(String ProjectName)
         {
             foreach (projectTarget target in ProjectManifest.Directories)
             {
                 // need to change this to account for a user supplied directory.
-                FileSystem.CreateDirectory(target.path);
+                String fullDirectoryPath = Path.Combine(ProjectName, target.path);
+                FileSystem.CreateDirectory(fullDirectoryPath);
             }
 
             //foreach (TransformationElement element in ProjectManifest.Files)
