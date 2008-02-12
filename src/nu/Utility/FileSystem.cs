@@ -1,9 +1,13 @@
+using System;
 using System.IO;
 
 namespace nu.Utility
 {
     public class FileSystem : IFileSystem
     {
+        private string currentDirectory;
+        private string executingDirectory;
+
         public bool Exists(string filePath)
         {
             return File.Exists(filePath);
@@ -33,6 +37,16 @@ namespace nu.Utility
         public void Copy(string source, string destination)
         {
             File.Copy(source, destination);
+        }
+
+        public string CurrentDirectory
+        {
+            get { return Directory.GetCurrentDirectory(); }
+        }
+
+        public string ExecutingDirectory
+        {
+            get { return AppDomain.CurrentDomain.BaseDirectory; }
         }
     }
 }

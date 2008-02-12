@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Xml.Serialization;
 using nu.Model.Template;
 
@@ -12,7 +13,8 @@ namespace nu.Model.Project
         public XmlProjectManifest(IFileSystem fileSystem, string xmlFile)
         {
             _serializer = new XmlSerializer(typeof (project));
-            _project = (project)_serializer.Deserialize(fileSystem.Read(xmlFile));           
+            string fullPath = Path.Combine(fileSystem.ExecutingDirectory, xmlFile);
+            _project = (project)_serializer.Deserialize(fileSystem.Read(fullPath));           
         }
 
         public IList<projectTarget> Directories
