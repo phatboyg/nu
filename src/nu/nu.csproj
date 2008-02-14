@@ -100,9 +100,6 @@
     <Compile Include="Model\Template\TransformationElement.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="config\project\project.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="config\windsor.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -113,8 +110,13 @@
     <None Include="Model\Schemas\newproject.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Model\Schemas\project.xsx">
+      <DependentUpon>project.xsd</DependentUpon>
+    </None>
+    <Content Include="Model\Schemas\project.xsd" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="config\project\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
