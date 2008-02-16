@@ -6,11 +6,14 @@ namespace nu.Model.Template
 
     public class ProjectGenerator
     {
-        public ProjectGenerator(IFileSystem fileSystem, IProjectManifest projectManifest/*, ITemplateProcessor templateProcessor*/)
+        private const string PROJECT_KEY = "ProjectName";
+        private const string DIRECTORY_KEY = "Directory";
+
+        public ProjectGenerator(IFileSystem fileSystem, IProjectManifest projectManifest, ITemplateProcessor templateProcessor)
         {
             _fileSystem = fileSystem;
             _projectManifest = projectManifest;
-            //_templateProcessor = templateProcessor;
+            _templateProcessor = templateProcessor;
         }
 
         private readonly IProjectManifest _projectManifest;
@@ -34,21 +37,44 @@ namespace nu.Model.Template
         }
 
 
-        public void Generate(String ProjectName)
+        public void Generate(String ProjectName, String Directory)
         {
-            foreach (projectTarget target in ProjectManifest.Directories)
-            {
-                // need to change this to account for a user supplied directory.
-                String fullDirectoryPath = Path.Combine(ProjectName, target.path);
-                FileSystem.CreateDirectory(fullDirectoryPath);
-            }
 
-            //foreach (TransformationElement element in ProjectManifest.Files)
-            //{
-            //    // provide the template processor with extra data
-            //    // e.g. base directory, etc.
-            //    TemplateProcessor.Transform(element);
-            //}
+            string rootDirectory = GenerateRootDirectory(ProjectName, Directory);
+            ITemplateContext context = TemplateProcessor.CreateTemplateContext();
+            context.Items[PROJECT_KEY] = ProjectName;
+            context.Items[DIRECTORY_KEY] = Directory;
+
+            foreach (projectFolder target in ProjectManifest.Directories)
+            {
+                String pathTemplate = Path.Combine(rootDirectory, target.path);
+                String processedPath = TemplateProcessor.Process(pathTemplate, context);
+                FileSystem.CreateDirectory(processedPath);
+            }
+            
+            foreach(projectFile file in ProjectManifest.Files)
+            {
+                string fullSourceFilePath = Path.Combine(ProjectManifest.TemplateDirectory, file.source);
+                string contents = FileSystem.ReadToEnd(fullSourceFilePath);
+                
+                string processedFileContent = TemplateProcessor.Process(contents, context);
+                string fullDestinationFilePath = rootDirectory + file.destination;
+                string processedDestinationPath = TemplateProcessor.Process(fullDestinationFilePath, context);
+
+                FileSystem.Write(processedDestinationPath, processedFileContent);
+
+            }
         }
+
+        private string GenerateRootDirectory(string ProjectName,String Directory)
+        {
+            string rootDirectory;
+            if (!string.IsNullOrEmpty(Directory))
+                rootDirectory = Path.Combine(Directory, ProjectName);
+            else
+                rootDirectory = Path.Combine(FileSystem.CurrentDirectory, ProjectName);
+            return rootDirectory;
+        }
+
     }
 }

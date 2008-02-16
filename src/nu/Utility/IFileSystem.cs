@@ -1,3 +1,5 @@
+using System;
+
 namespace nu
 {
     using System.IO;
@@ -6,7 +8,9 @@ namespace nu
     {
         bool Exists(string filePath);
         Stream Read(string filePath);
+        String ReadToEnd(string filePath);
         void Write(string filePath, Stream file);
+        void Write(string filePath, String content);
         void CreateDirectory(string directoryPath);
         void Copy(string source, string destination);
         string CurrentDirectory { get; }

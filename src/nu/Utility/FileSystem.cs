@@ -5,9 +5,6 @@ namespace nu.Utility
 {
     public class FileSystem : IFileSystem
     {
-        private string currentDirectory;
-        private string executingDirectory;
-
         public bool Exists(string filePath)
         {
             return File.Exists(filePath);
@@ -17,6 +14,33 @@ namespace nu.Utility
         {
             return new FileStream(filePath, FileMode.Open);
         }
+
+        public String ReadToEnd(string filePath) 
+        {
+            string contents;
+            using (Stream stream = Read(filePath))
+            {
+                using(StreamReader reader = new StreamReader(stream))
+                {
+                    contents = reader.ReadToEnd();
+                }
+            }
+            return contents;
+        }
+
+
+        public void Write(string filePath, String contents)
+        {
+            using (FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate))
+            {
+                using(StreamWriter writer = new StreamWriter(fs))
+                {
+                    writer.Write(contents);
+                    writer.Flush();
+                }
+            }
+        }
+ 
 
         public void Write(string filePath, Stream file)
         {

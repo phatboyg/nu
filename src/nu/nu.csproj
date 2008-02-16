@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B106DBF9-AF90-414D-A40C-A0222BF8F5C8}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -49,6 +49,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\castle-1.0.rc3\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="NVelocity, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\castle-1.0.rc3\NVelocity.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -62,10 +66,12 @@
     <Compile Include="Model\Package\IPackageSource.cs" />
     <Compile Include="Model\Package\IConfiguration.cs" />
     <Compile Include="Model\Package\LocalPackageRepository.cs" />
-    <Compile Include="Model\Schemas\newproject.cs">
-      <DependentUpon>newproject.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Model\Project\XmlProjectManifest.cs" />
+    <Compile Include="Model\Schemas\project.cs">
+      <DependentUpon>project.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Template\NVelocityAdapter.cs" />
+    <Compile Include="Model\Template\TemplateContext.cs" />
     <Compile Include="Utility\Arguments\Argument.cs" />
     <Compile Include="Utility\Arguments\ArgumentAttribute.cs" />
     <Compile Include="Utility\Arguments\ArgumentMap.cs" />
@@ -97,7 +103,6 @@
     <Compile Include="Model\Project\IProjectManifest.cs" />
     <Compile Include="Model\Template\ITemplateContext.cs" />
     <Compile Include="Model\Template\ITemplateProcessor.cs" />
-    <Compile Include="Model\Template\TransformationElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="config\windsor.xml">
@@ -107,16 +112,25 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Model\Schemas\newproject.xsd">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="Model\Schemas\project.xsd" />
     <None Include="Model\Schemas\project.xsx">
-      <DependentUpon>project.xsd</DependentUpon>
+      <DependentUpon>project.xml</DependentUpon>
     </None>
-    <Content Include="Model\Schemas\project.xsd" />
+    <Content Include="config\project\Default.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config\project\Default.sln">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config\project\Default.Tests.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config\project\project.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Model\Schemas\project.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="config\project\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

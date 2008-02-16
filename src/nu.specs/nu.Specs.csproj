@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{7EBF6A88-89C6-46FF-9A2C-B211F0B60C90}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -53,6 +53,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\XF.Specs\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="NVelocity, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\castle-1.0.rc3\NVelocity.dll</HintPath>
+    </Reference>
     <Reference Include="Rhino.Mocks, Version=3.3.0.906, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\XF.Specs\Rhino.Mocks.dll</HintPath>
@@ -69,6 +73,7 @@
     <Compile Include="Commands\HelpCommandSpecs.cs" />
     <Compile Include="Commands\InstallCommandSpecs.cs" />
     <Compile Include="Commands\ListCommandSpecs.cs" />
+    <Compile Include="Model\Template\NVelocityAdapterSpecs.cs" />
     <Compile Include="Utility\Arguments\ArgumentMapperSpecs.cs" />
     <Compile Include="Utility\Arguments\ArgumentParserSpecs.cs" />
     <Compile Include="Commands\InjectCommandSpecs.cs" />
@@ -81,9 +86,6 @@
       <Project>{B106DBF9-AF90-414D-A40C-A0222BF8F5C8}</Project>
       <Name>nu</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

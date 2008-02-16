@@ -105,5 +105,17 @@ namespace Specs_for_ArgumentParser
 
             Assert.That(arguments[0].Value, Is.EqualTo(""));
         }
+        
+        [Test]
+        public void Should_parse_a_foward_slash_named_arguement()
+        {
+            string[] args = new string[]{"/d:c:\\projects"};
+            IArgumentParser parser = new ArgumentParser();
+            IList<IArgument> arguments = parser.Parse(args);
+
+            Assert.That(arguments.Count, Is.EqualTo(1));
+            Assert.That(arguments[0].Key, Is.EqualTo("d"));
+            Assert.That(arguments[0].Value, Is.EqualTo("c:\\projects"));
+        }
     }
 }

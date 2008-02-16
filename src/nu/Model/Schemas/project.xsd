@@ -1,15 +1,43 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<project>
-  <folders>
-    <folder path="" />
-    <folder path="" />
-  </folders>
-  <files>
-    <file source="" destination="" alias="" />
-    <file source="" destination="" alias="" />
-  </files>
-  <packages>
-    <package name="" />
-    <package name="" />
-  </packages>
-</project>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="project">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="folders">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="folder">
+                <xs:complexType>
+                  <xs:attribute name="path" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="files">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="file">
+                <xs:complexType>
+                  <xs:attribute name="source" type="xs:string" use="required" />
+                  <xs:attribute name="destination" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="packages">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="package">
+                <xs:complexType>
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

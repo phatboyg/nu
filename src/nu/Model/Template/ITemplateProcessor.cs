@@ -1,8 +1,10 @@
+using System;
+
 namespace nu.Model.Template
 {
     public interface ITemplateProcessor
     {
-        void Transform(TransformationElement element);
-        ITemplateContext Context{ get;}
+        ITemplateContext CreateTemplateContext();
+        string Process(String template, ITemplateContext context);
     }
 }

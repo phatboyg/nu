@@ -6,6 +6,8 @@ namespace nu.Model.Project
 
     public interface IProjectManifest
     {
-        IList<projectTarget> Directories { get; }
+        string TemplateDirectory { get;}
+        IList<nu.Model.Project.projectFolder> Directories { get; }
+        IList<projectFile> Files{ get;}
     }
 }

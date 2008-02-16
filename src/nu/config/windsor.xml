@@ -56,7 +56,7 @@
                service="nu.Model.Project.IProjectManifest, nu"
                type="nu.Model.Project.XmlProjectManifest, nu">
       <parameters>
-        <xmlFile>config\project\project.xml</xmlFile>
+        <xmlManifestFile>config\project\project.xml</xmlManifestFile>
       </parameters>
     </component>
 
@@ -64,6 +64,11 @@
                lifestyle="transient"
                service="nu.Model.Template.ProjectGenerator, nu"
                type="nu.Model.Template.ProjectGenerator, nu" />
+
+    <component id="templateProcessor"
+               lifestyle="transient"
+               service="nu.Model.Template.ITemplateProcessor, nu"
+               type="nu.Model.Template.NVelocityAdapter, nu" />
     
 	</components>
 </castle>
