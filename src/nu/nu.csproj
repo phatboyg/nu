@@ -118,6 +118,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="config\project\cs-35\build.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\cs-35\nant.build">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Model\Schemas\project.xsd" />
     <None Include="Model\Schemas\project.xsx">
       <DependentUpon>project.xml</DependentUpon>

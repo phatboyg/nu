@@ -58,7 +58,7 @@ namespace nu.Model.Project
             _serializer = new XmlSerializer(typeof (project));
             project serializedManifest = new project();
 
-            //extract to DTO converter - this is really dirty.
+            //extract to something else - this is really dirty.
             serializedManifest.files = new List<projectFile>(manifest.Files).ToArray();
             serializedManifest.folders = new List<projectFolder>(manifest.Directories).ToArray();
 
