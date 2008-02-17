@@ -66,9 +66,12 @@
     <Compile Include="Model\Package\IPackageSource.cs" />
     <Compile Include="Model\Package\IConfiguration.cs" />
     <Compile Include="Model\Package\LocalPackageRepository.cs" />
-    <Compile Include="Model\Project\IProjectPersister.cs" />
+    <Compile Include="Model\Project\IProjectEnvironment.cs" />
+    <Compile Include="Model\Project\IProjectGenerator.cs" />
+    <Compile Include="Model\Project\IProjectManifestStore.cs" />
+    <Compile Include="Model\Project\ProjectEnviornment.cs" />
     <Compile Include="Model\Project\ProjectPathBuilder.cs" />
-    <Compile Include="Model\Project\XmlProjectPersister.cs" />
+    <Compile Include="Model\Project\XmlProjectManifestStore.cs" />
     <Compile Include="Model\Project\XmlProjectManifest.cs" />
     <Compile Include="Model\Schemas\project.cs">
       <DependentUpon>project.xsd</DependentUpon>
@@ -128,9 +131,9 @@
     <Content Include="config\project\cs-35\Default.Tests.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="config\project\cs-35\project.xml">
+    <None Include="config\project\cs-35\project.nu">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="Model\Schemas\project.xml" />
   </ItemGroup>
   <ItemGroup>

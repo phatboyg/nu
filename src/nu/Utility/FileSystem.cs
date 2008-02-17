@@ -10,6 +10,11 @@ namespace nu.Utility
             return File.Exists(filePath);
         }
 
+        public bool DirectoryExists(string directory)
+        {
+            return Directory.Exists(directory);
+        }
+
         public Stream Read(string filePath)
         {
             return new FileStream(filePath, FileMode.Open);

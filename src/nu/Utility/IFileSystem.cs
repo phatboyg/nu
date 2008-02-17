@@ -7,6 +7,7 @@ namespace nu
     public interface IFileSystem
     {
         bool Exists(string filePath);
+        bool DirectoryExists(string directory);
         Stream Read(string filePath);
         String ReadToEnd(string filePath);
         void Write(string filePath, Stream file);

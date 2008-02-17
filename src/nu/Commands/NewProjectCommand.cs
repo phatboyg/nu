@@ -12,18 +12,19 @@ namespace nu.Commands
    public class NewProjectCommand : ICommand
    {
        private readonly IFileSystem _fileSystem;
-       private readonly IProjectManifest _manifest;
-       private readonly ProjectGenerator _ProjectGenerator;
-       private readonly IProjectPersister projectPersister;
+       private readonly IProjectGenerator _ProjectGenerator;
+       private readonly string _templateDirectory;
+       private readonly IProjectManifestStore _projectManifestStore;
        private string _projectName;
        private string _Directory;
 
-       public NewProjectCommand(IFileSystem fileSystem, IProjectManifest manifest, ProjectGenerator _ProjectGenerator, IProjectPersister projectPersister)
+       public NewProjectCommand(IFileSystem fileSystem, IProjectManifestStore projectManifestStore, 
+           IProjectGenerator projectGenerator, String templateDirectory)
        {
            _fileSystem = fileSystem;
-           _manifest = manifest;
-           this._ProjectGenerator = _ProjectGenerator;
-           this.projectPersister = projectPersister;
+           _ProjectGenerator = projectGenerator;
+           _templateDirectory = templateDirectory;
+           _projectManifestStore = projectManifestStore;
        }
 
       [DefaultArgument(Required = true, Description = "The name of the project to create")]
@@ -40,48 +41,28 @@ namespace nu.Commands
            set{ _Directory = value;}
        }
 
+       public IProjectManifestStore ProjectManifestStore
+       {
+           get { return _projectManifestStore; }
+       }
+
        public IFileSystem FileSystem
        {
            get { return _fileSystem; }
        }
 
-       public IProjectPersister ProjectPersister
-       {
-           get { return projectPersister; }
-       }
-
-       public IProjectManifest ProjectManifest
-       {
-           get { return _manifest; }
-       }
-
 
        public void Execute(IEnumerable<IArgument> arguments)
       {
-         // verify a project doesn't alread exist.
-         // find the project tree manifest
-         // build filesystem according to manifest
-         // inject any projects named in the manifest
-         // have a nice day
-          //System.Diagnostics.Debugger.Break();
-           string rootDirectory = GenerateRootDirectory(ProjectName, Directory);
-           if (!ProjectPersister.ManifestExists(rootDirectory))
+           IProjectEnvironment environment = new ProjectEnviornment(FileSystem, ProjectName, Directory, _templateDirectory);
+           if (!ProjectManifestStore.ManifestExists(environment))
            {
-               _ProjectGenerator.Generate(ProjectName, Directory);
-               ProjectPersister.SaveProjectManifest(ProjectManifest, rootDirectory);
+               IProjectManifest manifest = ProjectManifestStore.GetProjectManifestTemplate(environment);
+               _ProjectGenerator.Generate(manifest, environment);
+               ProjectManifestStore.SaveProjectManifest(manifest, environment);
+               // need to perform 'inject' on all packages associated to manifest.
            }
           
       }
-
-
-       private string GenerateRootDirectory(String projectName, String directory)
-       {
-           string rootDirectory;
-           if (!string.IsNullOrEmpty(Directory))
-               rootDirectory = Path.Combine(Directory, ProjectName);
-           else
-               rootDirectory = Path.Combine(FileSystem.CurrentDirectory, ProjectName);
-           return rootDirectory;
-       }
    }
 }
