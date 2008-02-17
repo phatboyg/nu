@@ -69,6 +69,11 @@
                lifestyle="transient"
                service="nu.Model.Template.ITemplateProcessor, nu"
                type="nu.Model.Template.NVelocityAdapter, nu" />
+
+    <component id="xmlProjectPersister"
+               lifestyle="transient"
+               service="nu.Model.Project.IProjectPersister, nu"
+               type="nu.Model.Project.XmlProjectPersister, nu" />
     
 	</components>
 </castle>

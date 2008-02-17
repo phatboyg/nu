@@ -1,3 +1,5 @@
+using System;
+using nu.Model.Project;
 using nu.Model.Template;
 
 namespace nu.Commands
@@ -10,14 +12,18 @@ namespace nu.Commands
    public class NewProjectCommand : ICommand
    {
        private readonly IFileSystem _fileSystem;
+       private readonly IProjectManifest _manifest;
        private readonly ProjectGenerator _ProjectGenerator;
+       private readonly IProjectPersister projectPersister;
        private string _projectName;
        private string _Directory;
 
-       public NewProjectCommand(IFileSystem fileSystem, ProjectGenerator _ProjectGenerator)
+       public NewProjectCommand(IFileSystem fileSystem, IProjectManifest manifest, ProjectGenerator _ProjectGenerator, IProjectPersister projectPersister)
        {
            _fileSystem = fileSystem;
+           _manifest = manifest;
            this._ProjectGenerator = _ProjectGenerator;
+           this.projectPersister = projectPersister;
        }
 
       [DefaultArgument(Required = true, Description = "The name of the project to create")]
@@ -38,9 +44,19 @@ namespace nu.Commands
        {
            get { return _fileSystem; }
        }
-       
 
-      public void Execute(IEnumerable<IArgument> arguments)
+       public IProjectPersister ProjectPersister
+       {
+           get { return projectPersister; }
+       }
+
+       public IProjectManifest ProjectManifest
+       {
+           get { return _manifest; }
+       }
+
+
+       public void Execute(IEnumerable<IArgument> arguments)
       {
          // verify a project doesn't alread exist.
          // find the project tree manifest
@@ -48,8 +64,24 @@ namespace nu.Commands
          // inject any projects named in the manifest
          // have a nice day
           //System.Diagnostics.Debugger.Break();
-          _ProjectGenerator.Generate(ProjectName, Directory);
+           string rootDirectory = GenerateRootDirectory(ProjectName, Directory);
+           if (!ProjectPersister.ManifestExists(rootDirectory))
+           {
+               _ProjectGenerator.Generate(ProjectName, Directory);
+               ProjectPersister.SaveProjectManifest(ProjectManifest, rootDirectory);
+           }
+          
       }
 
+
+       private string GenerateRootDirectory(String projectName, String directory)
+       {
+           string rootDirectory;
+           if (!string.IsNullOrEmpty(Directory))
+               rootDirectory = Path.Combine(Directory, ProjectName);
+           else
+               rootDirectory = Path.Combine(FileSystem.CurrentDirectory, ProjectName);
+           return rootDirectory;
+       }
    }
 }
