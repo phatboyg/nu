@@ -148,7 +148,6 @@ namespace Specs_for_HelpCommand
    {
       private HelpCommand _command;
       private IWindsorContainer _container;
-      private IArgumentMap _argumentMap;
 
       protected override void Before_each_spec()
       {

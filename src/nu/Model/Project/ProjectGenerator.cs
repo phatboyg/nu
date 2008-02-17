@@ -8,6 +8,7 @@ namespace nu.Model.Template
     {
         private const string PROJECT_KEY = "ProjectName";
         private const string DIRECTORY_KEY = "Directory";
+        private const string DIRECTORY_SEPARATOR_KEY = "PathSeparator";
 
         public ProjectGenerator(IFileSystem fileSystem, IProjectManifest projectManifest, ITemplateProcessor templateProcessor)
         {
@@ -37,13 +38,10 @@ namespace nu.Model.Template
         }
 
 
-        public void Generate(String ProjectName, String Directory)
+        public virtual void Generate(String ProjectName, String Directory)
         {
-
             string rootDirectory = GenerateRootDirectory(ProjectName, Directory);
-            ITemplateContext context = TemplateProcessor.CreateTemplateContext();
-            context.Items[PROJECT_KEY] = ProjectName;
-            context.Items[DIRECTORY_KEY] = Directory;
+            ITemplateContext context = BuildTemplateContext(ProjectName, Directory);
 
             foreach (projectFolder target in ProjectManifest.Directories)
             {
@@ -55,15 +53,24 @@ namespace nu.Model.Template
             foreach(projectFile file in ProjectManifest.Files)
             {
                 string fullSourceFilePath = Path.Combine(ProjectManifest.TemplateDirectory, file.source);
-                string contents = FileSystem.ReadToEnd(fullSourceFilePath);
-                
-                string processedFileContent = TemplateProcessor.Process(contents, context);
-                string fullDestinationFilePath = rootDirectory + file.destination;
+                string fileContent = FileSystem.ReadToEnd(fullSourceFilePath);
+
+                string processedFileContent = TemplateProcessor.Process(fileContent, context);
+                string fullDestinationFilePath = ProjectPathBuilder.Combine(rootDirectory,  file.destination);
                 string processedDestinationPath = TemplateProcessor.Process(fullDestinationFilePath, context);
 
                 FileSystem.Write(processedDestinationPath, processedFileContent);
 
             }
+        }
+
+        public virtual ITemplateContext BuildTemplateContext(string ProjectName, string Directory)
+        {
+            ITemplateContext context = TemplateProcessor.CreateTemplateContext();
+            context.Items[PROJECT_KEY] = ProjectName;
+            context.Items[DIRECTORY_KEY] = Directory;
+            context.Items[DIRECTORY_SEPARATOR_KEY] = Path.DirectorySeparatorChar;
+            return context;
         }
 
         private string GenerateRootDirectory(string ProjectName,String Directory)

@@ -97,8 +97,7 @@ namespace nu.Model.Project {
         private string sourceField;
         
         private string destinationField;
-        
-        private string aliasField;
+       
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]

@@ -66,6 +66,7 @@
     <Compile Include="Model\Package\IPackageSource.cs" />
     <Compile Include="Model\Package\IConfiguration.cs" />
     <Compile Include="Model\Package\LocalPackageRepository.cs" />
+    <Compile Include="Model\Project\ProjectPathBuilder.cs" />
     <Compile Include="Model\Project\XmlProjectManifest.cs" />
     <Compile Include="Model\Schemas\project.cs">
       <DependentUpon>project.xsd</DependentUpon>
@@ -116,22 +117,24 @@
     <None Include="Model\Schemas\project.xsx">
       <DependentUpon>project.xml</DependentUpon>
     </None>
-    <Content Include="config\project\Default.csproj">
+    <Content Include="config\project\cs-35\Default.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="config\project\Default.sln">
+    <Content Include="config\project\cs-35\Default.sln">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="config\project\Default.Tests.csproj">
+    <Content Include="config\project\cs-35\Default.Tests.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="config\project\project.xml">
+    <Content Include="config\project\cs-35\project.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Model\Schemas\project.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Exceptions\" />
+    <Folder Include="config\project\cs-20\" />
+    <Folder Include="config\project\vb-20\" />
+    <Folder Include="config\project\vb-35\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
