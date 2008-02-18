@@ -16,7 +16,7 @@
 				   service="nu.Commands.ICommand, nu"
 				   type="nu.Commands.NewProjectCommand, nu">
       <parameters>
-        <templateDirectory>config\project\cs-35\</templateDirectory>
+        <templateDirectory>config\project\cs-20\</templateDirectory>
       </parameters>
     </component>
 

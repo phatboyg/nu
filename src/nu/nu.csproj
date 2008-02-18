@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B106DBF9-AF90-414D-A40C-A0222BF8F5C8}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -118,6 +118,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="config\project\cs-20\build.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\cs-20\nant.build">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\cs-20\project.nu">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="config\project\cs-35\build.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -128,6 +137,15 @@
     <None Include="Model\Schemas\project.xsx">
       <DependentUpon>project.xml</DependentUpon>
     </None>
+    <Content Include="config\project\cs-20\Default.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config\project\cs-20\Default.sln">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config\project\cs-20\Default.Tests.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="config\project\cs-35\Default.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -143,7 +161,6 @@
     <Content Include="Model\Schemas\project.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="config\project\cs-20\" />
     <Folder Include="config\project\vb-20\" />
     <Folder Include="config\project\vb-35\" />
   </ItemGroup>
