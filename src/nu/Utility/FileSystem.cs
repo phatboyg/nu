@@ -5,6 +5,13 @@ namespace nu.Utility
 {
     public class FileSystem : IFileSystem
     {
+        private readonly IPath _path;
+
+        public FileSystem(IPath path)
+        {
+            _path = path;
+        }
+
         public bool Exists(string filePath)
         {
             return File.Exists(filePath);
@@ -76,6 +83,21 @@ namespace nu.Utility
         public string ExecutingDirectory
         {
             get { return AppDomain.CurrentDomain.BaseDirectory; }
+        }
+
+        public bool IsRooted(string path)
+        {
+            return Path.IsPathRooted(path);
+        }
+
+        public string Combine(string firstPath, string secondPath)
+        {
+            return _path.Combine(firstPath, secondPath);
+        }
+
+        public char DirectorySeparatorChar
+        {
+            get { return _path.DirectorySeparatorChar; }
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <project>
   <folders>
-    <folder path=".${PathSeparator}src" />
+    <folder key="src"  path=".${PathSeparator}src" />
     <folder path=".${PathSeparator}src${PathSeparator}${ProjectName}" />
     <folder path=".${PathSeparator}src${PathSeparator}${ProjectName}.Tests" />
-    <folder path=".${PathSeparator}lib"  />
-    <folder path=".${PathSeparator}tools" />
-    <folder path=".${PathSeparator}build" />
+    <folder key="lib" path=".${PathSeparator}lib"  />
+    <folder key="tools" path=".${PathSeparator}tools" />
+    <folder key="build" path=".${PathSeparator}build" />
     <folder path=".${PathSeparator}build${PathSeparator}docs" />
   </folders>
   <files>

@@ -66,6 +66,7 @@
     <Compile Include="Model\Package\IPackageSource.cs" />
     <Compile Include="Model\Package\IConfiguration.cs" />
     <Compile Include="Model\Package\LocalPackageRepository.cs" />
+    <Compile Include="Model\Project\ProjectElement.cs" />
     <Compile Include="Model\Project\IProjectEnvironment.cs" />
     <Compile Include="Model\Project\IProjectGenerator.cs" />
     <Compile Include="Model\Project\IProjectManifestStore.cs" />
@@ -109,6 +110,8 @@
     <Compile Include="Model\Project\IProjectManifest.cs" />
     <Compile Include="Model\Template\ITemplateContext.cs" />
     <Compile Include="Model\Template\ITemplateProcessor.cs" />
+    <Compile Include="Utility\IPath.cs" />
+    <Compile Include="Utility\PathAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="config\windsor.xml">

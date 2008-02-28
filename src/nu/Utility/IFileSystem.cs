@@ -16,5 +16,8 @@ namespace nu
         void Copy(string source, string destination);
         string CurrentDirectory { get; }
         string ExecutingDirectory { get; }
+        bool IsRooted(string path);
+        string Combine(string firstPath, string secondPath);
+        char DirectorySeparatorChar{ get;}
     }
 }
