@@ -109,6 +109,23 @@ namespace Specs_for_ProjectCommand
             }
         }
 
+        [Test]
+        public void Should_be_able_to_render_the_project_manifest_path_from_the_current_working_directory()
+        {
+            UnitOfWork.Reset();
+            UnitOfWork.RegisterItem<IFileSystem>(new FileSystem(new PathAdapter()));
+            string directory = @"c:\work";
+            using (Record)
+            {
+                SetupResult.For(fileSystem.CurrentDirectory).Return(directory);
+                
+            }
+            using (Playback)
+            {
+                AProjectEnvironment environment = new AProjectEnvironment(directory);
+                Assert.That(environment.ManifestPath, Is.EqualTo(@"c:\work\.nu\project.nu"));
+            }
+        }
     }
 
 
@@ -152,9 +169,11 @@ namespace Specs_for_ProjectCommand
 
         }
 
-    internal class AProjectEnvironment
+    public class AProjectEnvironment
     {
         private readonly string suppliedDirectory;
+        protected const string PROJECT_MANIFEST_DIRECTORY = ".nu";
+        protected const string PROJECT_MANIFEST_FILE = "project.nu";
 
         public AProjectEnvironment()
         {
@@ -166,7 +185,7 @@ namespace Specs_for_ProjectCommand
             suppliedDirectory = directory;
         }
 
-        public String ProjectDirectory
+        public virtual String ProjectDirectory
         {
             get
             {
@@ -185,12 +204,12 @@ namespace Specs_for_ProjectCommand
             }
         }
 
-        private static IFileSystem FileSystem
+        protected static IFileSystem FileSystem
         {
             get { return UnitOfWork.GetItem<IFileSystem>(); }
         }
 
-        public String ProjectName
+        public virtual String ProjectName
         {
             get
             {
@@ -198,6 +217,34 @@ namespace Specs_for_ProjectCommand
                 return ProjectDirectory.Substring(startIdx);
             }
         }
+
+        public virtual string ManifestPath
+        {
+            get
+            {
+                return FileSystem.Combine(ProjectDirectory, 
+                    FileSystem.Combine(PROJECT_MANIFEST_DIRECTORY, PROJECT_MANIFEST_FILE));
+            }
+        }
+    }
+
+    public class TemplateProjectEnvironment : AProjectEnvironment
+    {
+        
+
+        public override string ManifestPath
+        {
+            get
+            {
+                return FileSystem.Combine(ProjectDirectory, PROJECT_MANIFEST_FILE);
+            }
+        }
+    }
+
+    public class ProjectManifestStore
+    {
+        // should be able to take a project environment and load a manifest
+        // should be able to take a project environment and persist a manifest
     }
 
     public static class UnitOfWork
