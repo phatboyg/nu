@@ -35,6 +35,7 @@ namespace Specs_for_ProjectCommand
             fileSystem = Mock<IFileSystem>();
             UnitOfWork.Reset();
             UnitOfWork.RegisterItem<IFileSystem>(fileSystem);
+            UnitOfWork.RegisterItem<IPath>(new PathAdapter());
         }
 
         [Test]
@@ -112,8 +113,6 @@ namespace Specs_for_ProjectCommand
         [Test]
         public void Should_be_able_to_render_the_project_manifest_path_from_the_current_working_directory()
         {
-            UnitOfWork.Reset();
-            UnitOfWork.RegisterItem<IFileSystem>(new FileSystem(new PathAdapter()));
             string directory = @"c:\work";
             using (Record)
             {
@@ -126,6 +125,24 @@ namespace Specs_for_ProjectCommand
                 Assert.That(environment.ManifestPath, Is.EqualTo(@"c:\work\.nu\project.nu"));
             }
         }
+
+        [Test]
+        public void Should_render_the_template_manifest_path_from_the_current_directory_and_template_path()
+        {
+            string executingDirectory = @"c:\work";
+            string templateDirectory = @"project\cs-20";
+            using (Record)
+            {
+                SetupResult.For(fileSystem.ExecutingDirectory).Return(executingDirectory);
+
+            }
+            using (Playback)
+            {
+                AProjectEnvironment environment = new TemplateProjectEnvironment(templateDirectory);
+                Assert.That(environment.ManifestPath, Is.EqualTo(@"c:\work\project\cs-20\project.nu"));
+            }
+        }
+
     }
 
 
@@ -169,9 +186,27 @@ namespace Specs_for_ProjectCommand
 
         }
 
+
+    public class When_building_a_project_manifest_repository : Spec
+    {
+        [Test]
+        public void Should_be_able_to_query_for_a_sepecific_folder_by_name()
+        {
+            Spec_not_implemented();
+        }
+
+        [Test]
+        public void Should_be_able_to_retrieve_the_project_manifest_given_the_project_environment()
+        {
+            Spec_not_implemented();
+        }
+
+    }
+
+
     public class AProjectEnvironment
     {
-        private readonly string suppliedDirectory;
+        protected readonly string suppliedDirectory;
         protected const string PROJECT_MANIFEST_DIRECTORY = ".nu";
         protected const string PROJECT_MANIFEST_FILE = "project.nu";
 
@@ -195,7 +230,7 @@ namespace Specs_for_ProjectCommand
                         return suppliedDirectory;
                     else
                     {
-                        string path = FileSystem.Combine(FileSystem.CurrentDirectory, suppliedDirectory);   
+                        string path = Path.Combine(FileSystem.CurrentDirectory, suppliedDirectory);   
                         return path;
                     }
                 }
@@ -207,6 +242,11 @@ namespace Specs_for_ProjectCommand
         protected static IFileSystem FileSystem
         {
             get { return UnitOfWork.GetItem<IFileSystem>(); }
+        }
+
+        protected static IPath Path
+        {
+            get { return UnitOfWork.GetItem<IPath>(); }
         }
 
         public virtual String ProjectName
@@ -222,21 +262,29 @@ namespace Specs_for_ProjectCommand
         {
             get
             {
-                return FileSystem.Combine(ProjectDirectory, 
-                    FileSystem.Combine(PROJECT_MANIFEST_DIRECTORY, PROJECT_MANIFEST_FILE));
+                return Path.Combine(ProjectDirectory, 
+                    Path.Combine(PROJECT_MANIFEST_DIRECTORY, PROJECT_MANIFEST_FILE));
             }
         }
     }
 
     public class TemplateProjectEnvironment : AProjectEnvironment
     {
-        
+
+        public TemplateProjectEnvironment()
+        {
+        }
+
+        public TemplateProjectEnvironment(string directory) : base(directory)
+        {
+        }
 
         public override string ManifestPath
         {
             get
             {
-                return FileSystem.Combine(ProjectDirectory, PROJECT_MANIFEST_FILE);
+                return Path.Combine(FileSystem.ExecutingDirectory,
+                    Path.Combine(suppliedDirectory, PROJECT_MANIFEST_FILE));
             }
         }
     }
@@ -245,6 +293,25 @@ namespace Specs_for_ProjectCommand
     {
         // should be able to take a project environment and load a manifest
         // should be able to take a project environment and persist a manifest
+
+        private bool _intialized;
+
+        public bool Initialized
+        {
+            get { return _intialized; }
+        }
+
+        public void Initialize()
+        {
+            _intialized = true;
+        }
+
+        private IFileSystem FileSystem
+        {
+            get { return UnitOfWork.GetItem<IFileSystem>(); }
+        }
+
+
     }
 
     public static class UnitOfWork
