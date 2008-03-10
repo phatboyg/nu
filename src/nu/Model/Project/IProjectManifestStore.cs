@@ -1,12 +1,9 @@
-using System;
-
 namespace nu.Model.Project
 {
     public interface IProjectManifestStore
     {
-        IProjectManifest GetProjectManifestTemplate(IProjectEnvironment environment);
-        IProjectManifest GetProjectManifest(IProjectEnvironment environment);
-        void SaveProjectManifest(IProjectManifest manifest, IProjectEnvironment environment);
-        bool ManifestExists(IProjectEnvironment environment);
+        IProjectManifest Load(IProjectEnvironment environment);
+        void Save(IProjectEnvironment environment, IProjectManifest projectManifest);
+        bool Exists(IProjectEnvironment environment);
     }
 }

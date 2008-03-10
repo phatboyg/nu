@@ -6,6 +6,8 @@
 			lifestyle="singleton"
 			type="nu.Dispatcher, nu" />
 
+    <!-- Commands -->
+    
 		<component id="help"
 				   lifestyle="singleton"
 				   service="nu.Commands.ICommand, nu"
@@ -16,7 +18,8 @@
 				   service="nu.Commands.ICommand, nu"
 				   type="nu.Commands.NewProjectCommand, nu">
       <parameters>
-        <templateDirectory>config\project\cs-20\</templateDirectory>
+        <rootTemplateDirectory>config\project\</rootTemplateDirectory>
+        <defaultTemplate>cs-20</defaultTemplate>
       </parameters>
     </component>
 
@@ -29,6 +32,8 @@
 				   lifestyle="singleton"
 				   service="nu.Commands.ICommand, nu"
 				   type="nu.Commands.InjectCommand, nu" />-->
+    
+    <!-- Arguements -->
 
 		<component id="argumentParser"
 				   lifestyle="transient"
@@ -39,37 +44,46 @@
 				   lifestyle="transient"
 				   service="nu.Utility.IArgumentMapFactory, nu"
 				   type="nu.Utility.ArgumentMapFactory, nu"/>
+    
+    <!-- Screen -->
 
     <component id="consoleHelper"
        lifestyle="transient"
        service="nu.Utility.IConsole, nu"
        type="nu.Utility.ConsoleHelper, nu"/>
 
-    <component id="Package.LocalPackageRepository"
-       lifestyle="transient"
-       service="nu.Model.Package.ILocalPackageRepository, nu"
-       type="nu.Model.Package.LocalPackageRepository, nu"/>
+    <!-- I/O -->
+
+    <component id="pathAdapter"
+               lifestyle="transient"
+               service="nu.Utility.IPath, nu"
+               type="nu.Utility.PathAdapter, nu" />
 
     <component id="fileSystem"
                lifestyle="transient"
                service="nu.IFileSystem, nu"
                type="nu.Utility.FileSystem, nu" />
-
-    <component id="xmlProjectManifest"
-               lifestyle="transient"
-               service="nu.Model.Project.IProjectManifest, nu"
-               type="nu.Model.Project.XmlProjectManifest, nu">
-    </component>
-
+    
+    <!-- Template -->
+    
     <component id="templateProcessor"
-               lifestyle="transient"
-               service="nu.Model.Template.ITemplateProcessor, nu"
-               type="nu.Model.Template.NVelocityAdapter, nu" />
+       lifestyle="transient"
+       service="nu.Model.Template.ITemplateProcessor, nu"
+       type="nu.Model.Template.NVelocityAdapter, nu" />
+    
+    <!-- Local Package -->
+
+    <component id="Package.LocalPackageRepository"
+       lifestyle="transient"
+       service="nu.Model.Package.ILocalPackageRepository, nu"
+       type="nu.Model.Package.LocalPackageRepository, nu"/>
+    
+    <!-- New Project -->
 
     <component id="xmlProjectPersister"
                lifestyle="transient"
                service="nu.Model.Project.IProjectManifestStore, nu"
-               type="nu.Model.Project.XmlProjectManifestStore, nu" />
+               type="nu.Model.Project.Persistence.XmlProjectManifestStore, nu" />
 
     <component id="projectGenerator"
                lifestyle="transient"

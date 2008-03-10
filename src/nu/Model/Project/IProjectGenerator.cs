@@ -4,6 +4,6 @@ namespace nu.Model.Project
 {
     public interface IProjectGenerator
     {
-        void Generate(IProjectManifest manifest, IProjectEnvironment environment);
+        IProjectManifest Generate(IProjectManifest templateManifest, IProjectEnvironment environment, IProjectEnvironment templateEnvironment);
     }
 }

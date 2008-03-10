@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B106DBF9-AF90-414D-A40C-A0222BF8F5C8}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -66,17 +66,22 @@
     <Compile Include="Model\Package\IPackageSource.cs" />
     <Compile Include="Model\Package\IConfiguration.cs" />
     <Compile Include="Model\Package\LocalPackageRepository.cs" />
-    <Compile Include="Model\Project\ProjectElement.cs" />
     <Compile Include="Model\Project\IProjectEnvironment.cs" />
+    <Compile Include="Model\Project\ProjectManifest.cs" />
+    <Compile Include="Model\Project\DTO\FileDTO.cs" />
+    <Compile Include="Model\Project\DTO\FolderDTO.cs" />
+    <Compile Include="Model\Project\DTO\Manifest.cs" />
+    <Compile Include="Model\Project\DTO\PackageDTO.cs" />
+    <Compile Include="Model\Project\ProjectElement.cs" />
     <Compile Include="Model\Project\IProjectGenerator.cs" />
     <Compile Include="Model\Project\IProjectManifestStore.cs" />
     <Compile Include="Model\Project\ProjectEnviornment.cs" />
+    <Compile Include="Model\Project\ProjectManifestBuilder.cs" />
+    <Compile Include="Model\Project\ProjectManifestRepository.cs" />
     <Compile Include="Model\Project\ProjectPathBuilder.cs" />
-    <Compile Include="Model\Project\XmlProjectManifestStore.cs" />
-    <Compile Include="Model\Project\XmlProjectManifest.cs" />
-    <Compile Include="Model\Schemas\project.cs">
-      <DependentUpon>project.xsd</DependentUpon>
-    </Compile>
+    <Compile Include="Model\Project\TemplateProjectEnvironment.cs" />
+    <Compile Include="Model\Project\UnitOfWork.cs" />
+    <Compile Include="Model\Project\Persistence\XmlProjectManifestStore.cs" />
     <Compile Include="Model\Template\NVelocityAdapter.cs" />
     <Compile Include="Model\Template\TemplateContext.cs" />
     <Compile Include="Utility\Arguments\Argument.cs" />
@@ -136,10 +141,6 @@
     <None Include="config\project\cs-35\nant.build">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Model\Schemas\project.xsd" />
-    <None Include="Model\Schemas\project.xsx">
-      <DependentUpon>project.xml</DependentUpon>
-    </None>
     <Content Include="config\project\cs-20\Default.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -161,7 +162,6 @@
     <None Include="config\project\cs-35\project.nu">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="Model\Schemas\project.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="config\project\vb-20\" />

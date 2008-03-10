@@ -32,39 +32,41 @@ namespace nu.Model.Project
         }
 
 
-        public virtual void Generate(IProjectManifest manifest, IProjectEnvironment environment)
+        public virtual IProjectManifest Generate(IProjectManifest templateManifest, IProjectEnvironment environment, IProjectEnvironment templateEnvironment)
         {
-            string rootDirectory = environment.GetProjectDirectory();
+            string rootDirectory = environment.ProjectDirectory;
             ITemplateContext context = BuildTemplateContext(environment);
 
-            foreach (projectFolder target in manifest.Directories)
+            foreach (FolderDTO target in templateManifest.Directories)
             {
-                String pathTemplate = Path.Combine(rootDirectory, target.path);
+                String pathTemplate = Path.Combine(rootDirectory, target.Path);
                 String processedPath = TemplateProcessor.Process(pathTemplate, context);
                 FileSystem.CreateDirectory(processedPath);
+                target.Path = processedPath;
             }
-            
-            foreach(projectFile file in manifest.Files)
+
+            foreach (FileDTO file in templateManifest.Files)
             {
-                string templateFilePath = ProjectPathBuilder.Combine(environment.FileSystem.ExecutingDirectory, 
-                    ProjectPathBuilder.Combine(environment.TemplateDirectory, file.source));
+                string templateFilePath = ProjectPathBuilder.Combine(templateEnvironment.ProjectDirectory, file.Source);
                 string processedFilePath = TemplateProcessor.Process(templateFilePath, context);
                 string fileContent = FileSystem.ReadToEnd(processedFilePath);
 
                 string processedFileContent = TemplateProcessor.Process(fileContent, context);
-                string fullDestinationFilePath = ProjectPathBuilder.Combine(rootDirectory,  file.destination);
+                string fullDestinationFilePath = ProjectPathBuilder.Combine(rootDirectory,  file.Destination);
                 string processedDestinationPath = TemplateProcessor.Process(fullDestinationFilePath, context);
 
                 FileSystem.Write(processedDestinationPath, processedFileContent);
-
+                file.Source = string.Empty;
+                file.Destination = processedDestinationPath;
             }
+            return templateManifest;
         }
 
         public virtual ITemplateContext BuildTemplateContext(IProjectEnvironment environment)
         {
             ITemplateContext context = TemplateProcessor.CreateTemplateContext();
             context.Items[PROJECT_KEY] = environment.ProjectName;
-            context.Items[DIRECTORY_KEY] = environment.Directory;
+            context.Items[DIRECTORY_KEY] = environment.ProjectDirectory;
             context.Items[DIRECTORY_SEPARATOR_KEY] = Path.DirectorySeparatorChar;
             return context;
         }

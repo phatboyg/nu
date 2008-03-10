@@ -1,11 +1,11 @@
+using System;
+
 namespace nu.Model.Project
 {
     public interface IProjectEnvironment
     {
-        string GetProjectDirectory();
-        string ProjectName { get; }
-        string Directory { get; }
-        string TemplateDirectory { get; }
-        IFileSystem FileSystem{ get;}
+        String ProjectDirectory { get; }
+        String ProjectName { get; }
+        string ManifestPath { get; }
     }
 }

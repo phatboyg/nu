@@ -36,7 +36,7 @@ namespace nu.Commands
 
             Console.WriteLine("Injecting {0}", Product);
 
-            Package pkg = _localPackageRepository.FindCurrentVersionOf(Product);
+            nu.Model.Package.Package pkg = _localPackageRepository.FindCurrentVersionOf(Product);
 
             foreach(PackageItem item in pkg.Items)
             {

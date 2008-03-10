@@ -13,6 +13,7 @@ namespace nu
         void Write(string filePath, Stream file);
         void Write(string filePath, String content);
         void CreateDirectory(string directoryPath);
+        void CreateHiddenDirectory(string directoryPath);
         void Copy(string source, string destination);
         string CurrentDirectory { get; }
         string ExecutingDirectory { get; }

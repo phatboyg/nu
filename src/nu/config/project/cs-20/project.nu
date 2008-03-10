@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<project>
+<Manifest>
   <folders>
     <folder key="src"  path=".${PathSeparator}src" />
     <folder path=".${PathSeparator}src${PathSeparator}${ProjectName}" />
@@ -20,4 +20,4 @@
     <package name="" />
     <package name="" />
   </packages>
-</project>
+</Manifest>

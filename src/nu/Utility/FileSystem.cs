@@ -70,6 +70,12 @@ namespace nu.Utility
             Directory.CreateDirectory(directoryPath);
         }
 
+        public void CreateHiddenDirectory(string directoryPath)
+        {
+            DirectoryInfo di = Directory.CreateDirectory(directoryPath);
+            di.Attributes |= FileAttributes.Hidden;
+        }
+
         public void Copy(string source, string destination)
         {
             File.Copy(source, destination);
