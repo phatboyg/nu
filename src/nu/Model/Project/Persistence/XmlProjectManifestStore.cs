@@ -15,6 +15,10 @@ namespace nu.Model.Project.Persistence
             Manifest manifest;
             ProjectManifestBuilder builder = new ProjectManifestBuilder();
             XmlSerializer serializer = new XmlSerializer(typeof (Manifest));
+
+            if(!Exists(environment))
+                throw new FileNotFoundException(string.Format("'{0}' manifest does not exist", environment.ManifestPath));
+
             using (Stream stream = FileSystem.Read(environment.ManifestPath))
             {
                 manifest = (Manifest) serializer.Deserialize(stream);
