@@ -1,14 +1,10 @@
-using System;
 using System.IO;
-using System.Collections.Generic;
 using System.Xml.Serialization;
-using nu.Commands;
 
 namespace nu.Model.Project.Persistence
 {
     public class XmlProjectManifestStore : IProjectManifestStore
     {
-
         private static IFileSystem FileSystem
         {
             get { return UnitOfWork.GetItem<IFileSystem>(); }
@@ -18,10 +14,10 @@ namespace nu.Model.Project.Persistence
         {
             Manifest manifest;
             ProjectManifestBuilder builder = new ProjectManifestBuilder();
-            XmlSerializer serializer = new XmlSerializer(typeof(Manifest));
+            XmlSerializer serializer = new XmlSerializer(typeof (Manifest));
             using (Stream stream = FileSystem.Read(environment.ManifestPath))
             {
-                manifest = (Manifest)serializer.Deserialize(stream);
+                manifest = (Manifest) serializer.Deserialize(stream);
             }
             return builder.Build(manifest);
         }
@@ -29,7 +25,7 @@ namespace nu.Model.Project.Persistence
         public void Save(IProjectEnvironment environment, IProjectManifest projectManifest)
         {
             ProjectManifestBuilder builder = new ProjectManifestBuilder();
-            XmlSerializer serializer = new XmlSerializer(typeof(Manifest));
+            XmlSerializer serializer = new XmlSerializer(typeof (Manifest));
             using (StringWriter writer = new StringWriter())
             {
                 serializer.Serialize(writer, builder.Build(projectManifest));
@@ -40,7 +36,7 @@ namespace nu.Model.Project.Persistence
 
         private void PrepareManifestDirectory(IProjectEnvironment environment)
         {
-            if(!Exists(environment))
+            if (!Exists(environment))
             {
                 FileSystem.CreateHiddenDirectory(
                     RemoveManifestFileName(environment.ManifestPath));

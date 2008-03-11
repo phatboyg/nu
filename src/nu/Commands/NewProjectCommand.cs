@@ -56,22 +56,12 @@ namespace nu.Commands
             set { _template = value; }
         }
 
-        public IProjectManifestStore ProjectManifestStore
-        {
-            get { return _projectManifestStore; }
-        }
-
-        public IFileSystem FileSystem
-        {
-            get { return _fileSystem; }
-        }
-
 
         public void Execute(IEnumerable<IArgument> arguments)
         {
-            UnitOfWork.RegisterItem<IFileSystem>(new FileSystem(new PathAdapter()));
+            UnitOfWork.RegisterItem<IFileSystem>(_fileSystem);
             UnitOfWork.RegisterItem<IPath>(new PathAdapter());
-            UnitOfWork.RegisterItem<IProjectManifestStore>(ProjectManifestStore);
+            UnitOfWork.RegisterItem<IProjectManifestStore>(_projectManifestStore);
 
             ProjectManifestRepository repository = new ProjectManifestRepository();
             IProjectEnvironment projectEnvironment = new ProjectEnvironment(Directory, ProjectName);
@@ -98,8 +88,8 @@ namespace nu.Commands
         {
             return
                 String.IsNullOrEmpty(Template)
-                    ? FileSystem.Combine(_rootTemplateDirectory, _defaultTemplate)
-                    : FileSystem.Combine(_rootTemplateDirectory, Template);
+                    ? _fileSystem.Combine(_rootTemplateDirectory, _defaultTemplate)
+                    : _fileSystem.Combine(_rootTemplateDirectory, Template);
         }
     }
 }
