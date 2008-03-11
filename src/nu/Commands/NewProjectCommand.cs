@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using nu.Model.Project;
 using nu.Utility;
 
@@ -8,6 +9,7 @@ namespace nu.Commands
     [Command(Description = "Creates a new project")]
     public class NewProjectCommand : ICommand
     {
+        private readonly IConsole _console;
         private readonly IFileSystem _fileSystem;
         private readonly IProjectGenerator _ProjectGenerator;
         private readonly IProjectManifestStore _projectManifestStore;
@@ -19,11 +21,11 @@ namespace nu.Commands
         private string _Directory;
         private string _template;
 
-
         public NewProjectCommand(IFileSystem fileSystem, IProjectManifestStore projectManifestStore,
-                                 IProjectGenerator projectGenerator, String rootTemplateDirectory,
+                                 IProjectGenerator projectGenerator, IConsole console, String rootTemplateDirectory,
                                  String defaultTemplate)
         {
+            _console = console;
             _fileSystem = fileSystem;
             _ProjectGenerator = projectGenerator;
             _rootTemplateDirectory = rootTemplateDirectory;
@@ -75,13 +77,21 @@ namespace nu.Commands
             IProjectEnvironment projectEnvironment = new ProjectEnvironment(Directory, ProjectName);
             IProjectEnvironment templateEnvironment = new TemplateProjectEnvironment(BuildTemplateDirectory());
 
-            if (!repository.ManifestExists(projectEnvironment))
+            try
             {
-                IProjectManifest templateManifest = repository.LoadProjectManifest(templateEnvironment);
-                IProjectManifest generatedManifest =
-                    _ProjectGenerator.Generate(templateManifest, projectEnvironment, templateEnvironment);
-                repository.SaveProjectManifest(generatedManifest, projectEnvironment);
+                if (!repository.ManifestExists(projectEnvironment))
+                {
+                    IProjectManifest templateManifest = repository.LoadProjectManifest(templateEnvironment);
+                    IProjectManifest generatedManifest =
+                        _ProjectGenerator.Generate(templateManifest, projectEnvironment, templateEnvironment);
+                    repository.SaveProjectManifest(generatedManifest, projectEnvironment);
+                }
             }
+            catch(FileNotFoundException ex)
+            {
+                _console.WriteError(ex.Message);
+            }
+
         }
 
         private string BuildTemplateDirectory()

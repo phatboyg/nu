@@ -49,6 +49,10 @@ namespace nu.Model.Project
             {
                 string templateFilePath = ProjectPathBuilder.Combine(templateEnvironment.ProjectDirectory, file.Source);
                 string processedFilePath = TemplateProcessor.Process(templateFilePath, context);
+
+                if(!FileSystem.Exists(processedFilePath))
+                    throw new FileNotFoundException(string.Format("ProjectGenerator was provided '{0}' via the manifest which does not exist", processedFilePath));
+
                 string fileContent = FileSystem.ReadToEnd(processedFilePath);
 
                 string processedFileContent = TemplateProcessor.Process(fileContent, context);
