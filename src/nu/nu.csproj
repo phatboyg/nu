@@ -66,6 +66,8 @@
     <Compile Include="Model\Package\IPackageSource.cs" />
     <Compile Include="Model\Package\IConfiguration.cs" />
     <Compile Include="Model\Package\LocalPackageRepository.cs" />
+    <Compile Include="Model\Project\Generation\Exceptions\ProjectManifestRequiredException.cs" />
+    <Compile Include="Model\Project\Generation\ProjectTransformationPipeline.cs" />
     <Compile Include="Model\Project\IProjectEnvironment.cs" />
     <Compile Include="Model\Project\ProjectManifest.cs" />
     <Compile Include="Model\Project\DTO\FileDTO.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="Utility\Arguments\ArgumentMapFactory.cs" />
     <Compile Include="Utility\Arguments\ArgumentParser.cs" />
     <Compile Include="Utility\Arguments\ArgumentTarget.cs" />
+    <Compile Include="Utility\Arguments\Exceptions\MissingRequiredArgumentsException.cs" />
     <Compile Include="Utility\Arguments\IArgument.cs" />
     <Compile Include="Utility\Arguments\IArgumentMap.cs" />
     <Compile Include="Utility\Arguments\IArgumentMapFactory.cs" />

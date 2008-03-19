@@ -1,3 +1,7 @@
+using System;
+using System.Text;
+using nu.Utility.Exceptions;
+
 namespace nu
 {
     using System.Collections.Generic;
@@ -32,17 +36,33 @@ namespace nu
 
         public void Forward(string[] args)
         {
-            IList<IArgument> argumentList = _argumentParser.Parse(args);
-            IArgumentMap dispatcherMap = _argumentMapFactory.CreateMap(this);
-            IEnumerable<IArgument> remainingArgs = dispatcherMap.ApplyTo(this, argumentList);
+            try
+            {
+                IList<IArgument> argumentList = _argumentParser.Parse(args);
+                IArgumentMap dispatcherMap = _argumentMapFactory.CreateMap(this);
+                IEnumerable<IArgument> remainingArgs = dispatcherMap.ApplyTo(this, argumentList);
 
-            DefaultToTheHelpCommandIfCommandNameIsNotFound();
+                DefaultToTheHelpCommandIfCommandNameIsNotFound();
 
-            ICommand command = IoC.Resolve<ICommand>(_commandName);
-            IArgumentMap commandMap = _argumentMapFactory.CreateMap(command);
-            remainingArgs = commandMap.ApplyTo(command, remainingArgs);
+                ICommand command = IoC.Resolve<ICommand>(_commandName);
+                IArgumentMap commandMap = _argumentMapFactory.CreateMap(command);
+                remainingArgs = commandMap.ApplyTo(command, remainingArgs);
+                command.Execute(remainingArgs);
+            }
+            catch(MissingRequiredArgumentsException ex)
+            {
+                StringBuilder builder = new StringBuilder();
+                builder.Append( Environment.NewLine + "The following arguments are required but were not provided:"
+                    + Environment.NewLine);
 
-            command.Execute(remainingArgs);
+                foreach (ArgumentTarget argumentTarget in ex.ArgumentsMissing)
+                {
+                    builder.AppendFormat("{0,-20}{1}" + Environment.NewLine, "<" + argumentTarget.Property.Name + ">",
+                                        argumentTarget.Attribute.Description);
+                }
+                _console.WriteLine(builder.ToString());
+            }
+
         }
 
         private void DefaultToTheHelpCommandIfCommandNameIsNotFound()

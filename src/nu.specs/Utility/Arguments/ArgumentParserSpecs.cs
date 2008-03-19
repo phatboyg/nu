@@ -1,3 +1,5 @@
+using nu.Utility.Exceptions;
+
 namespace Specs_for_ArgumentParser
 {
     using System.Collections.Generic;
@@ -117,5 +119,6 @@ namespace Specs_for_ArgumentParser
             Assert.That(arguments[0].Key, Is.EqualTo("d"));
             Assert.That(arguments[0].Value, Is.EqualTo("c:\\projects"));
         }
+
     }
 }

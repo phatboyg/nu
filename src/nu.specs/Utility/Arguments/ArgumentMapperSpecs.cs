@@ -1,3 +1,5 @@
+using nu.Utility.Exceptions;
+
 namespace Specs_for_ArgumentMapper
 {
     using System.Collections.Generic;
@@ -30,6 +32,18 @@ namespace Specs_for_ArgumentMapper
             {
                 get { return _value; }
                 set { _value = value; }
+            }
+        }
+
+        internal class RequiredPropertyClass
+        {
+            private string _value;
+
+            [DefaultArgument(Required = true)]
+            public string Value
+            {
+                get{ return _value;}
+                set{ _value = value;}
             }
         }
 
@@ -66,5 +80,15 @@ namespace Specs_for_ArgumentMapper
 
             Assert.That(sc.Value, Is.EqualTo("one"));
         }
+
+        [Test, ExpectedException(typeof(MissingRequiredArgumentsException))]
+        public void Should_throw_exception_when_required_argument_isnot_provided()
+        {
+            IArgumentMapFactory mapFactory = new ArgumentMapFactory();
+            RequiredPropertyClass someClass = new RequiredPropertyClass();
+            IArgumentMap map = mapFactory.CreateMap(someClass);
+            map.ApplyTo(someClass, new List<IArgument>());
+        }
+
     }
 }

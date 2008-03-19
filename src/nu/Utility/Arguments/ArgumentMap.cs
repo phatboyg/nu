@@ -1,3 +1,6 @@
+using nu.Utility.Exceptions;
+using NVelocity.Runtime.Parser;
+
 namespace nu.Utility
 {
     using System;
@@ -11,6 +14,7 @@ namespace nu.Utility
         private readonly Dictionary<string, ArgumentTarget> _namedArgs = new Dictionary<string, ArgumentTarget>();
         private readonly Type _type;
         private readonly List<ArgumentTarget> _unnamedArgs = new List<ArgumentTarget>();
+        private readonly List<ArgumentTarget> _requiredArgs = new List<ArgumentTarget>();
 
         public ArgumentMap(Type type)
         {
@@ -32,6 +36,11 @@ namespace nu.Utility
                         _unnamedArgs.Add(arg);
                     else
                         _namedArgs.Add(arg.Attribute.Key, arg);
+
+                    if (arg.Attribute.Required)
+                    {
+                        _requiredArgs.Add(arg);
+                    }
                 }
             }
         }
@@ -85,7 +94,8 @@ namespace nu.Utility
 
         public IEnumerable<IArgument> ApplyTo(object obj, IEnumerable<IArgument> arguments)
         {
-            List<IArgument> unused = new List<IArgument>();
+            
+            List<IArgument> unused = new List<IArgument>();            
 
             int unnamedIndex = 0;
 
@@ -95,7 +105,10 @@ namespace nu.Utility
                 {
                     if (unnamedIndex < _unnamedArgs.Count)
                     {
-                        ApplyValueToProperty(_unnamedArgs[unnamedIndex++].Property, obj, arg.Value);
+                        PropertyInfo unnamedProperty = _unnamedArgs[unnamedIndex++].Property;
+                        ApplyValueToProperty(unnamedProperty, obj, arg.Value);
+                        RemoveRequiredPropertyTracking(unnamedProperty);
+
                     }
                     else
                     {
@@ -104,7 +117,9 @@ namespace nu.Utility
                 }
                 else if (_namedArgs.ContainsKey(arg.Key))
                 {
-                    ApplyValueToProperty(_namedArgs[arg.Key].Property, obj, arg.Value);
+                    PropertyInfo namedProperty = _namedArgs[arg.Key].Property;
+                    ApplyValueToProperty(namedProperty, obj, arg.Value);
+                    RemoveRequiredPropertyTracking(namedProperty);
                 }
                 else
                 {
@@ -112,8 +127,24 @@ namespace nu.Utility
                 }
             }
 
+            if(_requiredArgs.Count > 0)
+                throw new MissingRequiredArgumentsException(_requiredArgs);
+
             return unused;
         }
+
+        private void RemoveRequiredPropertyTracking(PropertyInfo appliedProperty)
+        {
+            _requiredArgs.ForEach(delegate(ArgumentTarget target)
+            {
+                if (string.Compare(appliedProperty.Name, target.Property.Name, true) == 0)
+                {
+                    _requiredArgs.Remove(target);
+                }
+            });
+
+        }
+
 
         public void ApplyValueToProperty(PropertyInfo property, object obj, string argumentValue)
         {
