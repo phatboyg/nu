@@ -35,7 +35,7 @@ namespace nu.Commands
 
         [DefaultArgument(Required = true, Description = "The name of the project to create. (required)")]
         public string ProjectName
-        {
+        {   
             get { return _projectName; }
             set { _projectName = value; }
         }

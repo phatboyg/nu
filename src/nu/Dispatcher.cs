@@ -52,8 +52,8 @@ namespace nu
             catch(MissingRequiredArgumentsException ex)
             {
                 StringBuilder builder = new StringBuilder();
-                builder.Append( Environment.NewLine + "The following arguments are required but were not provided:"
-                    + Environment.NewLine);
+                builder.Append( Environment.NewLine + "Error: The following arguments are required but were not provided:"
+                    + Environment.NewLine + Environment.NewLine);
 
                 foreach (ArgumentTarget argumentTarget in ex.ArgumentsMissing)
                 {
