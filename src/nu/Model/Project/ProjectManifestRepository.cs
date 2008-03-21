@@ -2,25 +2,26 @@ namespace nu.Model.Project
 {
     public class ProjectManifestRepository
     {
+        private readonly IProjectManifestStore _store;
 
-        private static IProjectManifestStore Store
+        public ProjectManifestRepository(IProjectManifestStore store)
         {
-            get { return UnitOfWork.GetItem<IProjectManifestStore>(); }
+            _store = store;
         }
 
         public virtual IProjectManifest LoadProjectManifest(IProjectEnvironment environment)
         {
-            return Store.Load(environment);
+            return _store.Load(environment);
         }
 
         public virtual void SaveProjectManifest(IProjectManifest projectManifest, IProjectEnvironment environment)
         {
-            Store.Save(environment, projectManifest);
+            _store.Save(environment, projectManifest);
         }
 
         public virtual bool ManifestExists(IProjectEnvironment environment)
         {
-            return Store.Exists(environment);
+            return _store.Exists(environment);
         }
     } 
 }

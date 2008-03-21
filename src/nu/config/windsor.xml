@@ -85,10 +85,29 @@
                service="nu.Model.Project.IProjectManifestStore, nu"
                type="nu.Model.Project.Persistence.XmlProjectManifestStore, nu" />
 
-    <component id="projectGenerator"
+    <component id="folderTransformation"
                lifestyle="transient"
-               service="nu.Model.Project.IProjectGenerator, nu"
-               type="nu.Model.Project.ProjectGenerator, nu" />
+               service="nu.Model.Project.Transformation.AbstractTransformationElement, nu"
+               type="nu.Model.Project.Transformation.FolderTransformationElement, nu" />
+
+    <component id="fileTransformation"
+           lifestyle="transient"
+           service="nu.Model.Project.Transformation.AbstractTransformationElement, nu"
+           type="nu.Model.Project.Transformation.FileTransformationElement, nu" />
+               
+    <component id="transformationPipeline"
+               lifestyle="transient"
+               service="nu.Model.Project.Transformation.IProjectTransformationPipeline, nu"
+               type="nu.Model.Project.Transformation.ProjectTransformationPipeline, nu">
+      <parameters>
+        <elements>
+          <array>
+            <item>${folderTransformation}</item>
+            <item>${fileTransformation}</item>
+          </array>
+        </elements>
+      </parameters>
+    </component>
     
 	</components>
 </castle>

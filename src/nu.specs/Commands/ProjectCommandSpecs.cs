@@ -30,9 +30,6 @@ namespace Specs_for_ProjectCommand
         protected override void Before_each_spec()
         {
             fileSystem = Mock<IFileSystem>();
-            UnitOfWork.Reset();
-            UnitOfWork.RegisterItem<IFileSystem>(fileSystem);
-            UnitOfWork.RegisterItem<IPath>(new PathAdapter());
         }
 
         [Test]
@@ -72,7 +69,7 @@ namespace Specs_for_ProjectCommand
             {
                 SetupResult.For(fileSystem.IsRooted(directory)).Return(true);
             }
-            IProjectEnvironment environment = new ProjectEnvironment(directory);
+            IProjectEnvironment environment = new ProjectEnvironment(directory, fileSystem);
             Assert.That(environment.ProjectDirectory, Is.EqualTo(directory));
         }
 
@@ -85,7 +82,7 @@ namespace Specs_for_ProjectCommand
                 SetupResult.For(fileSystem.DirectorySeparatorChar).Return(Path.DirectorySeparatorChar);
                 SetupResult.For(fileSystem.IsRooted(directory)).Return(true);
             }
-            IProjectEnvironment environment = new ProjectEnvironment(directory);
+            IProjectEnvironment environment = new ProjectEnvironment(directory, fileSystem);
             Assert.That(environment.ProjectName, Is.EqualTo("nu"));
         }
 
@@ -103,7 +100,7 @@ namespace Specs_for_ProjectCommand
             }
             using (Playback)
             {
-                IProjectEnvironment environment = new ProjectEnvironment(projectName);
+                IProjectEnvironment environment = new ProjectEnvironment(projectName, fileSystem);
                 Assert.That(environment.ProjectDirectory, Is.EqualTo(@"c:\work\test"));
             }
         }
@@ -118,7 +115,7 @@ namespace Specs_for_ProjectCommand
             }
             using (Playback)
             {
-                IProjectEnvironment environment = new ProjectEnvironment(directory);
+                IProjectEnvironment environment = new ProjectEnvironment(directory, fileSystem);
                 Assert.That(environment.ManifestPath, Is.EqualTo(@"c:\work\.nu\project.nu"));
             }
         }
@@ -134,49 +131,9 @@ namespace Specs_for_ProjectCommand
             }
             using (Playback)
             {
-                IProjectEnvironment environment = new TemplateProjectEnvironment(templateDirectory);
+                IProjectEnvironment environment = new TemplateProjectEnvironment(templateDirectory, fileSystem);
                 Assert.That(environment.ManifestPath, Is.EqualTo(@"c:\work\project\cs-20\project.nu"));
             }
-        }
-    }
-
-
-    public class When_building_a_unit_of_work : Spec
-    {
-        protected override void Before_each_spec()
-        {
-            UnitOfWork.Reset();
-        }
-
-        [Test]
-        public void Should_be_able_to_register_an_item_with_a_generic_interface()
-        {
-            string name = "nick";
-            UnitOfWork.RegisterItem<string>(name);
-            Assert.That(UnitOfWork.GetItem<string>(), Is.EqualTo(name));
-        }
-
-        [Test, ExpectedException(typeof (ArgumentException))]
-        public void Should_throw_an_argument_exception_when_the_same_type_is_registered_more_than_once()
-        {
-            string name = "nick";
-            UnitOfWork.RegisterItem<string>(name);
-            UnitOfWork.RegisterItem<string>(name);
-        }
-
-        [Test, ExpectedException(typeof (ArgumentException))]
-        public void Should_throw_an_exception_when_requesting_a_type_that_has_not_been_registered()
-        {
-            UnitOfWork.GetItem<string>();
-        }
-
-        [Test]
-        public void Should_be_able_to_clear_all_registration_from_the_unit_of_work()
-        {
-            string name = "nick";
-            UnitOfWork.RegisterItem<string>(name);
-            UnitOfWork.Reset();
-            UnitOfWork.RegisterItem<string>(name);
         }
     }
 

@@ -7,8 +7,8 @@ namespace nu.Model.Project
         {
         }
 
-        public TemplateProjectEnvironment(string directory)
-            : base(directory)
+        public TemplateProjectEnvironment(string directory, IFileSystem fileSystem)
+            : base(directory, fileSystem)
         {
         }
 
@@ -16,7 +16,7 @@ namespace nu.Model.Project
         {
             get
             {
-                return Path.Combine(FileSystem.ExecutingDirectory, suppliedDirectory);
+                return _fileSystem.Combine(_fileSystem.ExecutingDirectory, suppliedDirectory);
             }
         }
 
@@ -24,8 +24,8 @@ namespace nu.Model.Project
         {
             get
             {
-                return Path.Combine(FileSystem.ExecutingDirectory,
-                    Path.Combine(suppliedDirectory, PROJECT_MANIFEST_FILE));
+                return _fileSystem.Combine(_fileSystem.ExecutingDirectory,
+                    _fileSystem.Combine(suppliedDirectory, PROJECT_MANIFEST_FILE));
             }
         }
     }

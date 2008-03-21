@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using nu.Model.Project;
+using nu.Model.Project.Transformation;
 using nu.Utility;
 
 namespace nu.Commands
@@ -11,8 +12,8 @@ namespace nu.Commands
     {
         private readonly IConsole _console;
         private readonly IFileSystem _fileSystem;
-        private readonly IProjectGenerator _ProjectGenerator;
         private readonly IProjectManifestStore _projectManifestStore;
+        private readonly IProjectTransformationPipeline _pipeline;
 
         private readonly string _rootTemplateDirectory;
         private readonly string _defaultTemplate;
@@ -22,12 +23,12 @@ namespace nu.Commands
         private string _template;
 
         public NewProjectCommand(IFileSystem fileSystem, IProjectManifestStore projectManifestStore,
-                                 IProjectGenerator projectGenerator, IConsole console, String rootTemplateDirectory,
+                                 IProjectTransformationPipeline pipeline, IConsole console, String rootTemplateDirectory,
                                  String defaultTemplate)
         {
             _console = console;
             _fileSystem = fileSystem;
-            _ProjectGenerator = projectGenerator;
+            _pipeline = pipeline;
             _rootTemplateDirectory = rootTemplateDirectory;
             _defaultTemplate = defaultTemplate;
             _projectManifestStore = projectManifestStore;
@@ -59,22 +60,17 @@ namespace nu.Commands
 
         public void Execute(IEnumerable<IArgument> arguments)
         {
-            UnitOfWork.RegisterItem<IFileSystem>(_fileSystem);
-            UnitOfWork.RegisterItem<IPath>(new PathAdapter());
-            UnitOfWork.RegisterItem<IProjectManifestStore>(_projectManifestStore);
-
-            ProjectManifestRepository repository = new ProjectManifestRepository();
-            IProjectEnvironment projectEnvironment = new ProjectEnvironment(Directory, ProjectName);
-            IProjectEnvironment templateEnvironment = new TemplateProjectEnvironment(BuildTemplateDirectory());
+            ProjectManifestRepository repository = new ProjectManifestRepository(_projectManifestStore);
+            IProjectEnvironment projectEnvironment = new ProjectEnvironment(Directory, ProjectName, _fileSystem);
+            IProjectEnvironment templateEnvironment = new TemplateProjectEnvironment(BuildTemplateDirectory(), _fileSystem);
 
             try
             {
                 if (!repository.ManifestExists(projectEnvironment))
                 {
                     IProjectManifest templateManifest = repository.LoadProjectManifest(templateEnvironment);
-                    IProjectManifest generatedManifest =
-                        _ProjectGenerator.Generate(templateManifest, projectEnvironment, templateEnvironment);
-                    repository.SaveProjectManifest(generatedManifest, projectEnvironment);
+                    _pipeline.Process(templateManifest, projectEnvironment, templateEnvironment);
+                    repository.SaveProjectManifest(templateManifest, projectEnvironment);
                 }
             }
             catch(FileNotFoundException ex)

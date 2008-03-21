@@ -5,9 +5,11 @@ namespace nu.Model.Project.Persistence
 {
     public class XmlProjectManifestStore : IProjectManifestStore
     {
-        private static IFileSystem FileSystem
+        private readonly IFileSystem _fileSystem;
+
+        public XmlProjectManifestStore(IFileSystem fileSystem)
         {
-            get { return UnitOfWork.GetItem<IFileSystem>(); }
+            _fileSystem = fileSystem;
         }
 
         public IProjectManifest Load(IProjectEnvironment environment)
@@ -19,7 +21,7 @@ namespace nu.Model.Project.Persistence
             if(!Exists(environment))
                 throw new FileNotFoundException(string.Format("'{0}' manifest does not exist", environment.ManifestPath));
 
-            using (Stream stream = FileSystem.Read(environment.ManifestPath))
+            using (Stream stream = _fileSystem.Read(environment.ManifestPath))
             {
                 manifest = (Manifest) serializer.Deserialize(stream);
             }
@@ -34,7 +36,7 @@ namespace nu.Model.Project.Persistence
             {
                 serializer.Serialize(writer, builder.Build(projectManifest));
                 PrepareManifestDirectory(environment);
-                FileSystem.Write(environment.ManifestPath, writer.ToString());
+                _fileSystem.Write(environment.ManifestPath, writer.ToString());
             }
         }
 
@@ -42,19 +44,19 @@ namespace nu.Model.Project.Persistence
         {
             if (!Exists(environment))
             {
-                FileSystem.CreateHiddenDirectory(
+                _fileSystem.CreateHiddenDirectory(
                     RemoveManifestFileName(environment.ManifestPath));
             }
         }
 
-        private static string RemoveManifestFileName(string file)
+        private string RemoveManifestFileName(string file)
         {
-            return file.Substring(0, file.LastIndexOf(FileSystem.DirectorySeparatorChar));
+            return file.Substring(0, file.LastIndexOf(_fileSystem.DirectorySeparatorChar));
         }
 
         public bool Exists(IProjectEnvironment environment)
         {
-            return FileSystem.Exists(environment.ManifestPath);
+            return _fileSystem.Exists(environment.ManifestPath);
         }
     }
 }

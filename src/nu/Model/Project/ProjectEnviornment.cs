@@ -8,6 +8,7 @@ namespace nu.Model.Project
     {
         protected readonly string suppliedDirectory;
         protected readonly string suppliedProjectName;
+        protected readonly IFileSystem _fileSystem;
         protected const string PROJECT_MANIFEST_DIRECTORY = ".nu";
         protected const string PROJECT_MANIFEST_FILE = "project.nu";
 
@@ -16,15 +17,17 @@ namespace nu.Model.Project
 
         }
 
-        public ProjectEnvironment(string directory)
+        public ProjectEnvironment(string directory, IFileSystem fileSystem)
         {
             suppliedDirectory = directory;
+            _fileSystem = fileSystem;
         }
 
-        public ProjectEnvironment(string directory, string projectName)
+        public ProjectEnvironment(string directory, string projectName, IFileSystem fileSystem)
         {
             suppliedDirectory = directory;
             suppliedProjectName = projectName;
+            _fileSystem = fileSystem;
         }
 
         public virtual String ProjectDirectory
@@ -33,7 +36,7 @@ namespace nu.Model.Project
             {
                 if (!String.IsNullOrEmpty(suppliedDirectory))
                 {
-                    if (FileSystem.IsRooted(suppliedDirectory))
+                    if (_fileSystem.IsRooted(suppliedDirectory))
                     {
                         return
                             String.IsNullOrEmpty(suppliedProjectName)
@@ -42,7 +45,7 @@ namespace nu.Model.Project
                     }
                     else
                     {
-                        string path = Path.Combine(FileSystem.CurrentDirectory, suppliedDirectory);
+                        string path = Path.Combine(_fileSystem.CurrentDirectory, suppliedDirectory);
                         if (!String.IsNullOrEmpty(suppliedProjectName))
                             path = Path.Combine(path, suppliedProjectName);
                         return path;
@@ -51,20 +54,11 @@ namespace nu.Model.Project
                 else
                     return
                         String.IsNullOrEmpty(suppliedProjectName)
-                            ? FileSystem.CurrentDirectory
-                            : Path.Combine(FileSystem.CurrentDirectory, suppliedProjectName);
+                            ? _fileSystem.CurrentDirectory
+                            : _fileSystem.Combine(_fileSystem.CurrentDirectory, suppliedProjectName);
             }
         }
 
-        protected static IFileSystem FileSystem
-        {
-            get { return UnitOfWork.GetItem<IFileSystem>(); }
-        }
-
-        protected static IPath Path
-        {
-            get { return UnitOfWork.GetItem<IPath>(); }
-        }
 
         public virtual String ProjectName
         {
@@ -72,7 +66,7 @@ namespace nu.Model.Project
             {
                 if(String.IsNullOrEmpty(suppliedProjectName))
                 {
-                    int startIdx = ProjectDirectory.LastIndexOf(FileSystem.DirectorySeparatorChar.ToString()) + 1;
+                    int startIdx = ProjectDirectory.LastIndexOf(_fileSystem.DirectorySeparatorChar.ToString()) + 1;
                     return ProjectDirectory.Substring(startIdx); 
                 }
                 else
