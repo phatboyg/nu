@@ -41,13 +41,13 @@ namespace nu.Model.Project
                         return
                             String.IsNullOrEmpty(suppliedProjectName)
                                 ? suppliedDirectory
-                                : Path.Combine(suppliedDirectory, suppliedProjectName);
+                                : _fileSystem.Combine(suppliedDirectory, suppliedProjectName);
                     }
                     else
                     {
-                        string path = Path.Combine(_fileSystem.CurrentDirectory, suppliedDirectory);
+                        string path = _fileSystem.Combine(_fileSystem.CurrentDirectory, suppliedDirectory);
                         if (!String.IsNullOrEmpty(suppliedProjectName))
-                            path = Path.Combine(path, suppliedProjectName);
+                            path = _fileSystem.Combine(path, suppliedProjectName);
                         return path;
                     }
                 }
