@@ -1,5 +1,7 @@
+using System.Globalization;
 using System.IO;
 using System.Xml.Serialization;
+using nu.Resources;
 
 namespace nu.Model.Project.Persistence
 {
@@ -19,7 +21,8 @@ namespace nu.Model.Project.Persistence
             XmlSerializer serializer = new XmlSerializer(typeof (Manifest));
 
             if(!Exists(environment))
-                throw new FileNotFoundException(string.Format("'{0}' manifest does not exist", environment.ManifestPath));
+                throw new FileNotFoundException(string.Format(CultureInfo.CurrentUICulture, 
+                    nuresources.ProjectManifest_ManifestDoesNotExist, environment.ManifestPath));
 
             using (Stream stream = _fileSystem.Read(environment.ManifestPath))
             {

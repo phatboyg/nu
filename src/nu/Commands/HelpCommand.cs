@@ -1,3 +1,6 @@
+using System.Globalization;
+using nu.Resources;
+
 namespace nu.Commands
 {
    using System.Collections.Generic;
@@ -48,13 +51,14 @@ namespace nu.Commands
          }
          catch (ComponentNotFoundException)
          {
-            _console.WriteError(string.Format("command '{0}' not found", _commandName));
+            _console.WriteError(string.Format(CultureInfo.CurrentUICulture, 
+                nuresources.Common_CommandNotFound, _commandName));
             return;
          }
 
          IArgumentMap map = _argumentMapFactory.CreateMap(command);
-         _console.WriteHeading(string.Format("Command: {0}", _commandName));
-         _console.WriteLine("Usage: nu {0} {1}", _commandName, map.Usage);
+         _console.WriteHeading(string.Format(CultureInfo.CurrentUICulture, nuresources.Help_CommandName, _commandName));
+         _console.WriteLine(nuresources.Help_CommandUsage, _commandName, map.Usage);
       }
 
       private void DisplayCommandList()
@@ -62,7 +66,7 @@ namespace nu.Commands
          IHandler[] handlers = IoC.Container.Kernel.GetAssignableHandlers(typeof (ICommand));
          if (handlers == null) return;
 
-         _console.WriteHeading("Available Commands");
+         _console.WriteHeading(nuresources.Help_AvailableCommands);
 
          foreach (IHandler handler in handlers)
          {

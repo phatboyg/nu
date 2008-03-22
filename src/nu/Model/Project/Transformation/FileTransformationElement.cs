@@ -1,5 +1,7 @@
+using System.Globalization;
 using System.IO;
 using nu.Model.Template;
+using nu.Resources;
 
 namespace nu.Model.Project.Transformation
 {
@@ -25,7 +27,7 @@ namespace nu.Model.Project.Transformation
 
                 if (!_fileSystem.Exists(fileProcessedPath))
                     throw new FileNotFoundException(
-                        string.Format("ProjectGenerator was provided '{0}' via the manifest which does not exist", fileProcessedPath));
+                        string.Format(CultureInfo.CurrentUICulture, nuresources.FileTransformation_MissingFile, fileProcessedPath));
 
                 string fileContent = _fileSystem.ReadToEnd(fileProcessedPath);
                 string processedFileContent = _processor.Process(fileContent, context);

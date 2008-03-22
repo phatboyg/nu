@@ -74,6 +74,7 @@
     <Compile Include="Commands\InstallCommandSpecs.cs" />
     <Compile Include="Commands\ListCommandSpecs.cs" />
     <Compile Include="Commands\ProjectCommandSpecs.cs" />
+    <Compile Include="Model\Project\Transformation\ProjectTransformationPipelineSpecs.cs" />
     <Compile Include="Model\Template\NVelocityAdapterSpecs.cs" />
     <Compile Include="Utility\Arguments\ArgumentMapperSpecs.cs" />
     <Compile Include="Utility\Arguments\ArgumentParserSpecs.cs" />

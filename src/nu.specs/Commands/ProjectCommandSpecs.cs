@@ -3,6 +3,7 @@ using System.IO;
 using nu;
 using nu.Commands;
 using nu.Model.Project;
+using nu.Model.Project.Transformation;
 using nu.Utility;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
@@ -41,7 +42,7 @@ namespace Specs_for_ProjectCommand
             }
             using (Playback)
             {
-                IProjectEnvironment environment = new ProjectEnvironment();
+                IProjectEnvironment environment = new ProjectEnvironment(fileSystem);
                 Assert.That(environment.ProjectDirectory, Is.EqualTo(fileSystem.CurrentDirectory));
             }
         }
@@ -56,7 +57,7 @@ namespace Specs_for_ProjectCommand
             }
             using (Playback)
             {
-                IProjectEnvironment environment = new ProjectEnvironment();
+                IProjectEnvironment environment = new ProjectEnvironment(fileSystem);
                 Assert.That(environment.ProjectName, Is.EqualTo("fun"));
             }
         }
@@ -112,6 +113,7 @@ namespace Specs_for_ProjectCommand
             using (Record)
             {
                 SetupResult.For(fileSystem.CurrentDirectory).Return(directory);
+                SetupResult.For(fileSystem.IsRooted(directory)).Return(true);
             }
             using (Playback)
             {

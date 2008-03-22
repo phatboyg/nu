@@ -12,9 +12,9 @@ namespace nu.Model.Project
         protected const string PROJECT_MANIFEST_DIRECTORY = ".nu";
         protected const string PROJECT_MANIFEST_FILE = "project.nu";
 
-        public ProjectEnvironment()
+        public ProjectEnvironment(IFileSystem fileSystem)
         {
-
+            _fileSystem = fileSystem;
         }
 
         public ProjectEnvironment(string directory, IFileSystem fileSystem)

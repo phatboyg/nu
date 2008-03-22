@@ -1,5 +1,7 @@
 using System;
+using System.Globalization;
 using System.Text;
+using nu.Resources;
 using nu.Utility.Exceptions;
 
 namespace nu
@@ -17,7 +19,7 @@ namespace nu
         private readonly IArgumentParser _argumentParser;
         private readonly IConsole _console;
 
-        private string _commandName = "help";
+        private string _commandName = nuresources.Dispatcher_DefaultCommand;
 
         public Dispatcher(IArgumentParser argumentParser, IArgumentMapFactory argumentMapFactory,
                           IConsole console)
@@ -52,12 +54,12 @@ namespace nu
             catch(MissingRequiredArgumentsException ex)
             {
                 StringBuilder builder = new StringBuilder();
-                builder.Append( Environment.NewLine + "Error: The following arguments are required but were not provided:"
-                    + Environment.NewLine + Environment.NewLine);
+                builder.Append(string.Format(CultureInfo.CurrentUICulture,
+                    nuresources.Dispatcher_MissingRequiredArguments, Environment.NewLine));
 
                 foreach (ArgumentTarget argumentTarget in ex.ArgumentsMissing)
                 {
-                    builder.AppendFormat("{0,-20}{1}" + Environment.NewLine, "<" + argumentTarget.Property.Name + ">",
+                    builder.AppendFormat("{1,-20}{2}{0}", Environment.NewLine, "<" + argumentTarget.Property.Name + ">",
                                         argumentTarget.Attribute.Description);
                 }
                 _console.WriteLine(builder.ToString());
@@ -75,7 +77,8 @@ namespace nu
             {
                 string invalidCommandName = _commandName;
                 _commandName = DEFAULT_COMMAND;
-                _console.WriteError(string.Format("command '{0}' not found", invalidCommandName));
+                _console.WriteError(string.Format(CultureInfo.CurrentUICulture, 
+                    nuresources.Common_CommandNotFound, invalidCommandName));
             }
         }
     }

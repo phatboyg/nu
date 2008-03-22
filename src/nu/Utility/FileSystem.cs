@@ -86,7 +86,7 @@ namespace nu.Utility
             get { return Directory.GetCurrentDirectory(); }
         }
 
-        public string ExecutingDirectory
+        public virtual string ExecutingDirectory
         {
             get { return AppDomain.CurrentDomain.BaseDirectory; }
         }

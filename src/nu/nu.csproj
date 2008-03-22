@@ -87,6 +87,11 @@
     <Compile Include="Model\Project\Persistence\XmlProjectManifestStore.cs" />
     <Compile Include="Model\Template\NVelocityAdapter.cs" />
     <Compile Include="Model\Template\TemplateContext.cs" />
+    <Compile Include="Resources\nuresources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>nuresources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Utility\Arguments\Argument.cs" />
     <Compile Include="Utility\Arguments\ArgumentAttribute.cs" />
     <Compile Include="Utility\Arguments\ArgumentMap.cs" />
@@ -165,6 +170,13 @@
     <None Include="config\project\cs-35\project.nu">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\nuresources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>nuresources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="config\project\vb-20\" />

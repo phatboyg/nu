@@ -15,8 +15,8 @@ namespace nu.Model.Project.Transformation
             {
                 foreach (AbstractTransformationElement transformationElement in _elements)
                 {
-                    if (transformationElement.Transform(templateManifest, environment, templateEnvironment))
-                        continue;
+                    if (!transformationElement.Transform(templateManifest, environment, templateEnvironment))
+                        break;
                 }
             }
         }

@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace nu.Utility
 {
    using System;
@@ -9,7 +11,7 @@ namespace nu.Utility
 
       public void WriteError(string message)
       {
-         string line = string.Format("Error: {0}.", message);
+         string line = string.Format(CultureInfo.CurrentUICulture, "Error: {0}.", message);
          
          WriteBlankLine();
          WriteLine(line);
@@ -17,12 +19,12 @@ namespace nu.Utility
 
       public void WriteLine(string message)
       {
-         Console.WriteLine(message);
+         Console.WriteLine(string.Format(CultureInfo.CurrentUICulture, message));
       }
 
       public void WriteLine(string message, params object[] args)
       {
-         WriteLine(string.Format(message, args));
+         WriteLine(string.Format(CultureInfo.CurrentUICulture, message, args));
       }
 
       public void WriteHeading(string message)
