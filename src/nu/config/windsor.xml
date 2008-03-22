@@ -28,10 +28,10 @@
        service="nu.Commands.ICommand, nu"
        type="nu.Commands.ListCommand, nu" />
 
-		<!--<component id="inject"
+		<component id="inject"
 				   lifestyle="singleton"
 				   service="nu.Commands.ICommand, nu"
-				   type="nu.Commands.InjectCommand, nu" />-->
+				   type="nu.Commands.InjectCommand, nu" />
     
     <!-- Arguements -->
 

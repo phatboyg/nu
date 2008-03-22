@@ -13,5 +13,11 @@ namespace nu.Utility
         {
             get { return Path.DirectorySeparatorChar; }
         }
+
+
+        public string GetDirectoryName(string path)
+        {
+            return Path.GetDirectoryName(path);
+        }
     }
 }

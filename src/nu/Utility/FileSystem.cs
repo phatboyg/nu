@@ -105,5 +105,11 @@ namespace nu.Utility
         {
             get { return _path.DirectorySeparatorChar; }
         }
+
+
+        public string[] GetDirectories(string path)
+        {
+            return Directory.GetDirectories(path);
+        }
     }
 }

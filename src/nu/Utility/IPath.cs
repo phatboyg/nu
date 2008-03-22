@@ -4,5 +4,6 @@ namespace nu.Utility
     {
         string Combine(string firstPath, string secondPath);
         char DirectorySeparatorChar{ get;}
+        string GetDirectoryName(string path);
     }
 }

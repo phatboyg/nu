@@ -4,21 +4,20 @@ namespace nu.Commands
     using System.Collections.Generic;
     using System.IO;
     using nu.Model.Package;
-    using nu.Model.Project;
-    using nu.Model.Template;
     using Utility;
 
+    [Command(Description = "Injects a tool into the project")]
     public class InjectCommand : ICommand
     {
         private readonly IFileSystem _fileSystem;
         private readonly ILocalPackageRepository _localPackageRepository;
-        private IProjectManifest _projectManifest;
         private string _product;
+        private IConsole _console;
 
-        public InjectCommand(ILocalPackageRepository localPackageRepository, IFileSystem fileSystem, IProjectManifest projectManifest)
+        public InjectCommand(ILocalPackageRepository localPackageRepository, IFileSystem fileSystem, IConsole console)
         {
             _localPackageRepository = localPackageRepository;
-            _projectManifest = projectManifest;
+            _console = console;
             _fileSystem = fileSystem;
         }
 
@@ -34,16 +33,16 @@ namespace nu.Commands
             if (string.IsNullOrEmpty(Product))
                 throw new ArgumentNullException("Product", "You must specify a product to inject");
 
-            Console.WriteLine("Injecting {0}", Product);
+            _console.WriteLine("Injecting {0}", Product);
 
-            nu.Model.Package.Package pkg = _localPackageRepository.FindCurrentVersionOf(Product);
+            Package pkg = _localPackageRepository.FindCurrentVersionOf(Product);
 
             foreach(PackageItem item in pkg.Items)
             {
                 WriteToProject(item);
             }
-          
-            Console.WriteLine("Finished Injecting {0}", Product);
+
+            _console.WriteLine("Finished Injecting {0}", Product);
         }
 
         private void WriteToProject(PackageItem item)

@@ -20,5 +20,6 @@ namespace nu
         bool IsRooted(string path);
         string Combine(string firstPath, string secondPath);
         char DirectorySeparatorChar{ get;}
+        string[] GetDirectories(string path);
     }
 }
