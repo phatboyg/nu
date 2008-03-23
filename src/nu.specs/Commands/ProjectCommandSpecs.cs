@@ -102,38 +102,6 @@ namespace Specs_for_ProjectCommand
                 Assert.That(environment.ProjectDirectory, Is.EqualTo(@"c:\work"));
             }
         }
-
-        [Test]
-        public void Should_be_able_to_render_the_project_manifest_path_from_the_current_working_directory()
-        {
-            string directory = @"c:\work";
-            using (Record)
-            {
-                SetupResult.For(fileSystem.CurrentDirectory).Return(directory);
-                SetupResult.For(fileSystem.IsRooted(directory)).Return(true);
-            }
-            using (Playback)
-            {
-                IProjectEnvironment environment = new ProjectEnvironment("", directory);
-                //Assert.That(environment.ManifestPath, Is.EqualTo(@"c:\work\.nu\project.nu"));
-            }
-        }
-
-        [Test]
-        public void Should_render_the_template_manifest_path_from_the_current_directory_and_template_path()
-        {
-            string executingDirectory = @"c:\work";
-            string templateDirectory = @"project\cs-20";
-            using (Record)
-            {
-                SetupResult.For(fileSystem.ExecutingDirectory).Return(executingDirectory);
-            }
-            using (Playback)
-            {
-                IProjectEnvironment environment = new ProjectEnvironment("", @"c:\work\project\cs-20");
-                //Assert.That(environment.ManifestPath, Is.EqualTo(@"c:\work\project\cs-20\project.nu"));
-            }
-        }
     }
 
 

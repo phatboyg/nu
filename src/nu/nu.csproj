@@ -68,6 +68,7 @@
     <Compile Include="Model\Package\LocalPackageRepository.cs" />
     <Compile Include="Model\Project\IProjectEnvironment.cs" />
     <Compile Include="Model\Project\IProjectManifestRepository.cs" />
+    <Compile Include="Model\Project\Persistence\BaseProjectManifestStore.cs" />
     <Compile Include="Model\Project\ProjectManifest.cs" />
     <Compile Include="Model\Project\DTO\FileDTO.cs" />
     <Compile Include="Model\Project\DTO\FolderDTO.cs" />
