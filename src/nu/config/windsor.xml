@@ -80,10 +80,15 @@
     
     <!-- New Project -->
 
-    <component id="xmlProjectPersister"
+    <component id="xmlProjectStore"
                lifestyle="transient"
                service="nu.Model.Project.IProjectManifestStore, nu"
                type="nu.Model.Project.Persistence.XmlProjectManifestStore, nu" />
+
+    <component id="projectManifestRepsository"
+           lifestyle="transient"
+           service="nu.Model.Project.IProjectManifestRepository, nu"
+           type="nu.Model.Project.ProjectManifestRepository, nu" />
 
     <component id="folderTransformation"
                lifestyle="transient"

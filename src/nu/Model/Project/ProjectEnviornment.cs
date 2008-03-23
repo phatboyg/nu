@@ -6,84 +6,36 @@ namespace nu.Model.Project
 {
     public class ProjectEnvironment : IProjectEnvironment
     {
-        protected readonly string suppliedDirectory;
-        protected readonly string suppliedProjectName;
-        protected readonly IFileSystem _fileSystem;
-        protected const string PROJECT_MANIFEST_DIRECTORY = ".nu";
-        protected const string PROJECT_MANIFEST_FILE = "project.nu";
+        private readonly string _projectDirectory;
+        private readonly string _projectName;
+        private readonly bool _isTemplate;
 
-        public ProjectEnvironment(IFileSystem fileSystem)
+        public ProjectEnvironment(string projectName, string projectDirectory)
+            : this(projectName, projectDirectory, false)
         {
-            _fileSystem = fileSystem;
+
         }
 
-        public ProjectEnvironment(string directory, IFileSystem fileSystem)
+        public ProjectEnvironment(string projectName, string projectDirectory, bool isTemplate)
         {
-            suppliedDirectory = directory;
-            _fileSystem = fileSystem;
+            _projectName = projectName;
+            _projectDirectory = projectDirectory;
+            _isTemplate = isTemplate;
         }
 
-        public ProjectEnvironment(string directory, string projectName, IFileSystem fileSystem)
+        public string ProjectDirectory
         {
-            suppliedDirectory = directory;
-            suppliedProjectName = projectName;
-            _fileSystem = fileSystem;
+            get { return _projectDirectory; }
         }
 
-        public virtual String ProjectDirectory
+        public string ProjectName
         {
-            get
-            {
-                if (!String.IsNullOrEmpty(suppliedDirectory))
-                {
-                    if (_fileSystem.IsRooted(suppliedDirectory))
-                    {
-                        return
-                            String.IsNullOrEmpty(suppliedProjectName)
-                                ? suppliedDirectory
-                                : _fileSystem.Combine(suppliedDirectory, suppliedProjectName);
-                    }
-                    else
-                    {
-                        string path = _fileSystem.Combine(_fileSystem.CurrentDirectory, suppliedDirectory);
-                        if (!String.IsNullOrEmpty(suppliedProjectName))
-                            path = _fileSystem.Combine(path, suppliedProjectName);
-                        return path;
-                    }
-                }
-                else
-                    return
-                        String.IsNullOrEmpty(suppliedProjectName)
-                            ? _fileSystem.CurrentDirectory
-                            : _fileSystem.Combine(_fileSystem.CurrentDirectory, suppliedProjectName);
-            }
+            get { return _projectName; }
         }
 
-
-        public virtual String ProjectName
+        public bool IsTemplate
         {
-            get
-            {
-                if(String.IsNullOrEmpty(suppliedProjectName))
-                {
-                    int startIdx = ProjectDirectory.LastIndexOf(_fileSystem.DirectorySeparatorChar.ToString()) + 1;
-                    return ProjectDirectory.Substring(startIdx); 
-                }
-                else
-                {
-                    return suppliedProjectName;
-                }
-
-            }
-        }
-
-        public virtual string ManifestPath
-        {
-            get
-            {
-                return Path.Combine(ProjectDirectory,
-                    Path.Combine(PROJECT_MANIFEST_DIRECTORY, PROJECT_MANIFEST_FILE));
-            }
+            get { return _isTemplate; }
         }
     }
 }

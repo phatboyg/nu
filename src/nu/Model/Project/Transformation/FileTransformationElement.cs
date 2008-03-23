@@ -9,20 +9,23 @@ namespace nu.Model.Project.Transformation
     {
         private readonly ITemplateProcessor _processor;
         private readonly IFileSystem _fileSystem;
+        private readonly IProjectManifestRepository _manifestRepository;
 
-        public FileTransformationElement(ITemplateProcessor processor, IFileSystem fileSystem)
+        public FileTransformationElement(ITemplateProcessor processor, IFileSystem fileSystem, IProjectManifestRepository manifestRepository)
         {
             _processor = processor;
             _fileSystem = fileSystem;
+            _manifestRepository = manifestRepository;
         }
 
         public override bool Transform(IProjectManifest templateManifest, IProjectEnvironment environment, IProjectEnvironment templateEnvironment)
         {
-            string rootDirectory = environment.ProjectDirectory;
+            string rootDirectory = _manifestRepository.GetProjectDirectory(environment);
             ITemplateContext context = BuildTemplateContext(_fileSystem, _processor, environment);
             foreach (FileDTO file in templateManifest.Files)
             {
-                string fileTemplatePath = JoinTemplatePath(templateEnvironment.ProjectDirectory, file.Source);
+                string templateRoot = _manifestRepository.GetProjectDirectory(templateEnvironment);
+                string fileTemplatePath = JoinTemplatePath(templateRoot, file.Source);
                 string fileProcessedPath = _processor.Process(fileTemplatePath, context);
 
                 if (!_fileSystem.Exists(fileProcessedPath))

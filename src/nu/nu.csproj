@@ -67,6 +67,7 @@
     <Compile Include="Model\Package\IConfiguration.cs" />
     <Compile Include="Model\Package\LocalPackageRepository.cs" />
     <Compile Include="Model\Project\IProjectEnvironment.cs" />
+    <Compile Include="Model\Project\IProjectManifestRepository.cs" />
     <Compile Include="Model\Project\ProjectManifest.cs" />
     <Compile Include="Model\Project\DTO\FileDTO.cs" />
     <Compile Include="Model\Project\DTO\FolderDTO.cs" />
@@ -77,7 +78,6 @@
     <Compile Include="Model\Project\ProjectEnviornment.cs" />
     <Compile Include="Model\Project\ProjectManifestBuilder.cs" />
     <Compile Include="Model\Project\ProjectManifestRepository.cs" />
-    <Compile Include="Model\Project\TemplateProjectEnvironment.cs" />
     <Compile Include="Model\Project\Transformation\AbstractTransformationElement.cs" />
     <Compile Include="Model\Project\Transformation\Exceptions\ProjectManifestRequiredException.cs" />
     <Compile Include="Model\Project\Transformation\FileTransformationElement.cs" />
@@ -140,7 +140,7 @@
     <None Include="config\project\cs-20\nant.build">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="config\project\cs-20\project.nu">
+    <None Include="config\project\cs-20\.nu\project.nu">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="config\project\cs-35\build.bat">
@@ -167,7 +167,7 @@
     <Content Include="config\project\cs-35\Default.Tests.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="config\project\cs-35\project.nu">
+    <None Include="config\project\cs-35\.nu\project.nu">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

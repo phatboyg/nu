@@ -6,6 +6,6 @@ namespace nu.Model.Project
     {
         String ProjectDirectory { get; }
         String ProjectName { get; }
-        string ManifestPath { get; }
+        bool IsTemplate{ get;}
     }
 }
