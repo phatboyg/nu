@@ -10,13 +10,13 @@ namespace nu.Commands
     public class InjectCommand : ICommand
     {
         private readonly IFileSystem _fileSystem;
-        private readonly ILocalPackageRepository _localPackageRepository;
+        private readonly IPackageRepository _packageRepository;
         private string _product;
         private IConsole _console;
 
-        public InjectCommand(ILocalPackageRepository localPackageRepository, IFileSystem fileSystem, IConsole console)
+        public InjectCommand(IPackageRepository packageRepository, IFileSystem fileSystem, IConsole console)
         {
-            _localPackageRepository = localPackageRepository;
+            _packageRepository = packageRepository;
             _console = console;
             _fileSystem = fileSystem;
         }
@@ -35,7 +35,7 @@ namespace nu.Commands
 
             _console.WriteLine("Injecting {0}", Product);
 
-            Package pkg = _localPackageRepository.FindCurrentVersionOf(Product);
+            Package pkg = _packageRepository.FindCurrentVersionOf(Product);
 
             foreach(PackageItem item in pkg.Items)
             {

@@ -4,7 +4,7 @@ namespace nu.Model.Package
     using System.Collections.Generic;
     using Utility;
 
-    public class LocalPackageRepository : ILocalPackageRepository
+    public class LocalPackageRepository : IPackageRepository
     {
         //TODO: How does it know where the packages are?
 

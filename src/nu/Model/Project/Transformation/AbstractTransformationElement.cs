@@ -2,7 +2,8 @@ using nu.Model.Template;
 
 namespace nu.Model.Project.Transformation
 {
-    public abstract class AbstractTransformationElement
+    public abstract class AbstractTransformationElement :
+        ITransformationElement
     {
         protected const string PROJECT_KEY = "ProjectName";
         protected const string DIRECTORY_KEY = "Directory";
@@ -10,7 +11,7 @@ namespace nu.Model.Project.Transformation
 
         public abstract bool Transform(IProjectManifest templateManifest, IProjectEnvironment environment, IProjectEnvironment templateEnvironment);
 
-        protected virtual ITemplateContext BuildTemplateContext(IFileSystem fileSystem,
+        public virtual ITemplateContext BuildTemplateContext(IFileSystem fileSystem,
                 ITemplateProcessor templateProcessor, IProjectEnvironment environment)
         {
             ITemplateContext context = templateProcessor.CreateTemplateContext();
@@ -19,5 +20,13 @@ namespace nu.Model.Project.Transformation
             context.Items[DIRECTORY_SEPARATOR_KEY] = fileSystem.DirectorySeparatorChar;
             return context;
         }
+    }
+
+    public interface ITransformationElement
+    {
+        bool Transform(IProjectManifest templateManifest, IProjectEnvironment environment, IProjectEnvironment templateEnvironment);
+        ITemplateContext BuildTemplateContext(IFileSystem fileSystem,
+                ITemplateProcessor templateProcessor, IProjectEnvironment environment);
+
     }
 }

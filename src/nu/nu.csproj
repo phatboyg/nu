@@ -97,6 +97,7 @@
     <Compile Include="Model\Project\Persistence\XmlProjectManifestStore.cs" />
     <Compile Include="Model\Template\NVelocityTemplateProcessor.cs" />
     <Compile Include="Model\Template\TemplateContext.cs" />
+    <Compile Include="NuConfiguration.cs" />
     <Compile Include="Resources\nuresources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -117,7 +118,7 @@
     <Compile Include="Utility\FileSystem.cs" />
     <Compile Include="Utility\IConsole.cs" />
     <Compile Include="Utility\IFileSystem.cs" />
-    <Compile Include="Model\Package\ILocalPackageRepository.cs" />
+    <Compile Include="Model\Package\IPackageRepository.cs" />
     <Compile Include="Model\Package\Package.cs" />
     <Compile Include="Model\Package\PackageItem.cs" />
     <Compile Include="Model\Package\PackageNotFoundException.cs" />

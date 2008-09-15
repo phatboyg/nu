@@ -7,18 +7,18 @@ namespace nu.Commands
     [Command(Description = "List packages available in the local repository.")]
     public class ListCommand : ICommand
     {
-       private readonly ILocalPackageRepository _localPackageRepository;
+       private readonly IPackageRepository _packageRepository;
        private readonly IConsole _console;
 
-       public ListCommand(ILocalPackageRepository localPackageRepository, IConsole console)
+       public ListCommand(IPackageRepository packageRepository, IConsole console)
        {
-          _localPackageRepository = localPackageRepository;
+          _packageRepository = packageRepository;
           _console = console;
        }
 
        public void Execute(IEnumerable<IArgument> arguments)
        {
-          IEnumerable<Package> packages = _localPackageRepository.FindAll();
+          IEnumerable<Package> packages = _packageRepository.FindAll();
 
           if (packages == null)
           {

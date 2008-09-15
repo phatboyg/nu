@@ -2,9 +2,9 @@ namespace nu.Model.Project.Transformation
 {
     public class ProjectTransformationPipeline : IProjectTransformationPipeline
     {
-        private readonly AbstractTransformationElement[] _elements;
+        private readonly ITransformationElement[] _elements;
 
-        public ProjectTransformationPipeline(AbstractTransformationElement[] elements)
+        public ProjectTransformationPipeline(ITransformationElement[] elements)
         {
             _elements = elements;
         }
@@ -13,7 +13,7 @@ namespace nu.Model.Project.Transformation
         {
             if(_elements != null)
             {
-                foreach (AbstractTransformationElement transformationElement in _elements)
+                foreach (ITransformationElement transformationElement in _elements)
                 {
                     if (!transformationElement.Transform(templateManifest, environment, templateEnvironment))
                         break;

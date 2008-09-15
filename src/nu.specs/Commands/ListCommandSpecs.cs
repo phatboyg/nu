@@ -23,7 +23,7 @@ namespace Specs_for_ListCommand
       {
          using (Record)
          {
-            Expect.Call(Get<ILocalPackageRepository>().FindAll())
+            Expect.Call(Get<IPackageRepository>().FindAll())
                .Return(new List<Package>());
          }
          using (Playback)
@@ -41,7 +41,7 @@ namespace Specs_for_ListCommand
 
          using (Record)
          {
-            SetupResult.For(Get<ILocalPackageRepository>().FindAll())
+            SetupResult.For(Get<IPackageRepository>().FindAll())
                .Return(packages);
             Get<IConsole>().WriteLine(null);
             LastCall.IgnoreArguments().Repeat.Twice();
@@ -61,7 +61,7 @@ namespace Specs_for_ListCommand
       protected override void Before_each_spec()
       {
          _command = Create<ListCommand>();
-         SetupResult.For(Get<ILocalPackageRepository>().FindAll())
+         SetupResult.For(Get<IPackageRepository>().FindAll())
             .Return(null);
       }
 

@@ -2,7 +2,7 @@ namespace nu.Model.Package
 {
    using System.Collections.Generic;
 
-   public interface ILocalPackageRepository
+   public interface IPackageRepository
    {
       IEnumerable<Package> FindAll();
 
