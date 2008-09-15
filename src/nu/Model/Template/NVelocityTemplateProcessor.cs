@@ -9,7 +9,8 @@ using NVelocity.Exception;
 
 namespace nu.Model.Template
 {
-    public class NVelocityTemplateProcessor : VelocityEngine, ITemplateProcessor
+    public class NVelocityTemplateProcessor : 
+        VelocityEngine, ITemplateProcessor
     {
         public NVelocityTemplateProcessor()
         {
