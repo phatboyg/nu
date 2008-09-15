@@ -13,7 +13,7 @@ namespace nu.Model.Template
 
         protected override void Before_each_spec()
         {
-            processor = new NVelocityAdapter();
+            processor = new NVelocityTemplateProcessor();
             context = processor.CreateTemplateContext();
         }
 

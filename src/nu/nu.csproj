@@ -64,8 +64,12 @@
     </Compile>
     <Compile Include="Commands\CommandAttribute.cs" />
     <Compile Include="Commands\InstallCommand.cs" />
-    <Compile Include="config\project\cs-20\Properties\AssemblyInfo.cs" />
-    <Compile Include="config\project\cs-35\Properties\AssemblyInfo.cs" />
+    <Content Include="config\project\cs-20\Properties\AssemblyInfo.cs.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config\project\cs-35\Properties\AssemblyInfo.cs.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Compile Include="Model\Package\CatalogEntry.cs" />
     <Compile Include="Model\Package\IPackageCatalog.cs" />
     <Compile Include="Model\Package\IPackageSource.cs" />
@@ -91,7 +95,7 @@
     <Compile Include="Model\Project\Transformation\IProjectTransformationPipeline.cs" />
     <Compile Include="Model\Project\Transformation\ProjectTransformationPipeline.cs" />
     <Compile Include="Model\Project\Persistence\XmlProjectManifestStore.cs" />
-    <Compile Include="Model\Template\NVelocityAdapter.cs" />
+    <Compile Include="Model\Template\NVelocityTemplateProcessor.cs" />
     <Compile Include="Model\Template\TemplateContext.cs" />
     <Compile Include="Resources\nuresources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -182,7 +186,9 @@
     <Content Include="config\project\vb-20\Default.Tests.vbproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="config\project\vb-20\My Project\AssemblyInfo.vb" />
+    <Content Include="config\project\vb-20\My Project\AssemblyInfo.vb.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="config\project\vb-35\Default.vbproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -192,7 +198,9 @@
     <Content Include="config\project\vb-35\Default.Tests.vbproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="config\project\vb-35\My Project\AssemblyInfo.vb" />
+    <Content Include="config\project\vb-35\My Project\AssemblyInfo.vb.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="config\project\cs-35\.nu\project.nu">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

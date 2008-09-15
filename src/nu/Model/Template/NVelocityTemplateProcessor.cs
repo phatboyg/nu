@@ -9,9 +9,9 @@ using NVelocity.Exception;
 
 namespace nu.Model.Template
 {
-    public class NVelocityAdapter : VelocityEngine, ITemplateProcessor
+    public class NVelocityTemplateProcessor : VelocityEngine, ITemplateProcessor
     {
-        public NVelocityAdapter()
+        public NVelocityTemplateProcessor()
         {
             Init();
         }
@@ -27,7 +27,7 @@ namespace nu.Model.Template
             {
                 try
                 {
-                    Evaluate(CreateContext(context.Items), writer, "nu", template);
+                    Evaluate(CreateNVelocityContext(context.Items), writer, "nu", template);
                 }
                 catch (ParseErrorException pe)
                 {
@@ -41,12 +41,12 @@ namespace nu.Model.Template
             }
         }
 
-        private static IContext CreateContext(IDictionary<string, object> items)
+        private static IContext CreateNVelocityContext(IDictionary<string, object> items)
         {
             IDictionary internalDictionary = new Hashtable();
             foreach (string key in items.Keys)
                 internalDictionary.Add(key, items[key]);
-            VelocityContext context = new VelocityContext(new Hashtable(internalDictionary));
+            var context = new VelocityContext(new Hashtable(internalDictionary));
             return context;
         }
     }
