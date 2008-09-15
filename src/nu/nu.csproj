@@ -168,6 +168,26 @@
     <Content Include="config\project\cs-35\Default.Tests.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="config\project\vb-20\Default.vbproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config\project\vb-20\Default.sln">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config\project\vb-20\Default.Tests.vbproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config\project\vb-20\My Project\AssemblyInfo.vb" />
+    <Content Include="config\project\vb-35\Default.vbproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config\project\vb-35\Default.sln">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config\project\vb-35\Default.Tests.vbproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config\project\vb-35\My Project\AssemblyInfo.vb" />
     <None Include="config\project\cs-35\.nu\project.nu">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -190,6 +210,10 @@
       <LastGenOutput>nuresources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="config\project\cs-20\Properties\" />
+    <Folder Include="config\project\cs-35\Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
