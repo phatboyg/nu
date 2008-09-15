@@ -64,12 +64,12 @@
     </Compile>
     <Compile Include="Commands\CommandAttribute.cs" />
     <Compile Include="Commands\InstallCommand.cs" />
-    <Content Include="config\project\cs-20\Properties\AssemblyInfo.cs.txt">
+    <None Include="config\project\cs-20\Properties\AssemblyInfo.cs.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="config\project\cs-35\Properties\AssemblyInfo.cs.txt">
+    </None>
+    <None Include="config\project\cs-35\Properties\AssemblyInfo.cs.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Compile Include="Model\Package\CatalogEntry.cs" />
     <Compile Include="Model\Package\IPackageCatalog.cs" />
     <Compile Include="Model\Package\IPackageSource.cs" />
@@ -159,48 +159,48 @@
     <None Include="config\project\cs-35\nant.build">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="config\project\cs-20\Default.csproj">
+    <None Include="config\project\cs-20\Default.csproj.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="config\project\cs-20\Default.sln">
+    </None>
+    <None Include="config\project\cs-20\Default.sln.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="config\project\cs-20\Default.Tests.csproj">
+    </None>
+    <None Include="config\project\cs-20\Default.Tests.csproj.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="config\project\cs-35\Default.csproj">
+    </None>
+    <None Include="config\project\cs-35\Default.csproj.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="config\project\cs-35\Default.sln">
+    </None>
+    <None Include="config\project\cs-35\Default.sln.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="config\project\cs-35\Default.Tests.csproj">
+    </None>
+    <None Include="config\project\cs-35\Default.Tests.csproj.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="config\project\vb-20\Default.vbproj">
+    </None>
+    <None Include="config\project\vb-20\Default.vbproj.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="config\project\vb-20\Default.sln">
+    </None>
+    <None Include="config\project\vb-20\Default.sln.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="config\project\vb-20\Default.Tests.vbproj">
+    </None>
+    <None Include="config\project\vb-20\Default.Tests.vbproj.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="config\project\vb-20\My Project\AssemblyInfo.vb.txt">
+    </None>
+    <None Include="config\project\vb-20\My Project\AssemblyInfo.vb.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="config\project\vb-35\Default.vbproj">
+    </None>
+    <None Include="config\project\vb-35\Default.vbproj.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="config\project\vb-35\Default.sln">
+    </None>
+    <None Include="config\project\vb-35\Default.sln.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="config\project\vb-35\Default.Tests.vbproj">
+    </None>
+    <None Include="config\project\vb-35\Default.Tests.vbproj.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="config\project\vb-35\My Project\AssemblyInfo.vb.txt">
+    </None>
+    <None Include="config\project\vb-35\My Project\AssemblyInfo.vb.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
     <None Include="config\project\cs-35\.nu\project.nu">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
