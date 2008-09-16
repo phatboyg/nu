@@ -1,7 +1,7 @@
 namespace nu.Commands
 {
     using System.Collections.Generic;
-    using Utility;
+    using Model.ArgumentParsing;
 
     public interface ICommand
     {

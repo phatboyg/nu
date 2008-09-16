@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
-
-namespace nu.Utility.Exceptions
+namespace nu.Model.ArgumentParsing.Exceptions
 {
+    using System;
+    using System.Collections.Generic;
+
     public class MissingRequiredArgumentsException : ApplicationException
     {
         private readonly IList<ArgumentTarget> _requiredArgs;

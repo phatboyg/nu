@@ -7,6 +7,8 @@ using nu.Utility;
 
 namespace nu.Commands
 {
+    using Model.ArgumentParsing;
+
     [Command(Description = "Creates a new project")]
     public class NewProjectCommand : ICommand
     {

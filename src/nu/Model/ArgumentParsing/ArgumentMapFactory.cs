@@ -1,4 +1,4 @@
-namespace nu.Utility
+namespace nu.Model.ArgumentParsing
 {
     public class ArgumentMapFactory : IArgumentMapFactory
     {

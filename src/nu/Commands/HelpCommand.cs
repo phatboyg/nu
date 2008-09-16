@@ -5,6 +5,7 @@ namespace nu.Commands
 {
    using System.Collections.Generic;
    using Castle.MicroKernel;
+   using Model.ArgumentParsing;
    using Utility;
 
    /// <summary>

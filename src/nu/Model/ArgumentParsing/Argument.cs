@@ -1,4 +1,4 @@
-namespace nu.Utility
+namespace nu.Model.ArgumentParsing
 {
     public class Argument : IArgument
     {
@@ -30,5 +30,4 @@ namespace nu.Utility
 
         #endregion
     }
-      
 }

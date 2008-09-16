@@ -1,4 +1,4 @@
-namespace nu.Utility
+namespace nu.Model.ArgumentParsing
 {
     /// <summary>
     /// Base interface for an individual argument

@@ -1,6 +1,7 @@
 namespace nu.Commands
 {
     using System.Collections.Generic;
+    using Model.ArgumentParsing;
     using nu.Model.Package;
     using Utility;
 

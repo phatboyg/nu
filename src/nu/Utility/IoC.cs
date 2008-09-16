@@ -29,12 +29,13 @@ namespace nu
 
       private static void CreateContainer()
       {
-         if (_container != null) return;
-         string windsorConfig = ConfigurationManager.AppSettings["windsor"];
-         _container = new WindsorContainer(windsorConfig);
+          if (_container != null) return;
+          string windsorConfig = ConfigurationManager.AppSettings["windsor"];
+          _container = new WindsorContainer(windsorConfig);
+          //NuConfiguration.Configure(_container);
       }
 
-      public static void InitializeContainer(IWindsorContainer container)
+       public static void InitializeContainer(IWindsorContainer container)
       {
          _container = container;
       }

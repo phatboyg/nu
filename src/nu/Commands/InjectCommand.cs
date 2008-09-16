@@ -3,6 +3,7 @@ namespace nu.Commands
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using Model.ArgumentParsing;
     using nu.Model.Package;
     using Utility;
 

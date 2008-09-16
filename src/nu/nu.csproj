@@ -103,17 +103,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>nuresources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Utility\Arguments\Argument.cs" />
-    <Compile Include="Utility\Arguments\ArgumentAttribute.cs" />
-    <Compile Include="Utility\Arguments\ArgumentMap.cs" />
-    <Compile Include="Utility\Arguments\ArgumentMapFactory.cs" />
-    <Compile Include="Utility\Arguments\ArgumentParser.cs" />
-    <Compile Include="Utility\Arguments\ArgumentTarget.cs" />
-    <Compile Include="Utility\Arguments\Exceptions\MissingRequiredArgumentsException.cs" />
-    <Compile Include="Utility\Arguments\IArgument.cs" />
-    <Compile Include="Utility\Arguments\IArgumentMap.cs" />
-    <Compile Include="Utility\Arguments\IArgumentMapFactory.cs" />
-    <Compile Include="Utility\Arguments\IArgumentParser.cs" />
+    <Compile Include="Model\ArgumentParsing\Argument.cs" />
+    <Compile Include="Model\ArgumentParsing\ArgumentAttribute.cs" />
+    <Compile Include="Model\ArgumentParsing\ArgumentMap.cs" />
+    <Compile Include="Model\ArgumentParsing\ArgumentMapFactory.cs" />
+    <Compile Include="Model\ArgumentParsing\ArgumentParser.cs" />
+    <Compile Include="Model\ArgumentParsing\ArgumentTarget.cs" />
+    <Compile Include="Model\ArgumentParsing\Exceptions\MissingRequiredArgumentsException.cs" />
+    <Compile Include="Model\ArgumentParsing\IArgument.cs" />
+    <Compile Include="Model\ArgumentParsing\IArgumentMap.cs" />
+    <Compile Include="Model\ArgumentParsing\IArgumentMapFactory.cs" />
+    <Compile Include="Model\ArgumentParsing\IArgumentParser.cs" />
     <Compile Include="Utility\ConsoleHelper.cs" />
     <Compile Include="Utility\FileSystem.cs" />
     <Compile Include="Utility\IConsole.cs" />
@@ -224,6 +224,9 @@
       <LastGenOutput>nuresources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utility\Arguments\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

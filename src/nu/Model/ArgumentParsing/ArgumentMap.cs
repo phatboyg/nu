@@ -1,20 +1,18 @@
-using nu.Utility.Exceptions;
-using NVelocity.Runtime.Parser;
-
-namespace nu.Utility
+namespace nu.Model.ArgumentParsing
 {
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Reflection;
     using System.Text;
+    using Exceptions;
 
     public class ArgumentMap : IArgumentMap
     {
         private readonly Dictionary<string, ArgumentTarget> _namedArgs = new Dictionary<string, ArgumentTarget>();
+        private readonly List<ArgumentTarget> _requiredArgs = new List<ArgumentTarget>();
         private readonly Type _type;
         private readonly List<ArgumentTarget> _unnamedArgs = new List<ArgumentTarget>();
-        private readonly List<ArgumentTarget> _requiredArgs = new List<ArgumentTarget>();
 
         public ArgumentMap(Type type)
         {
@@ -25,8 +23,8 @@ namespace nu.Utility
                 object[] attributes = property.GetCustomAttributes(typeof (ArgumentAttribute), true);
                 if (attributes.Length == 1)
                 {
-                    ArgumentAttribute attribute = (ArgumentAttribute) attributes[0];
-                    DefaultArgumentAttribute defaultAttribute = attribute as DefaultArgumentAttribute;
+                    var attribute = (ArgumentAttribute) attributes[0];
+                    var defaultAttribute = attribute as DefaultArgumentAttribute;
 
                     ArgumentTarget arg = (defaultAttribute == null)
                                              ? new ArgumentTarget(attribute, property)
@@ -51,9 +49,9 @@ namespace nu.Utility
         {
             get
             {
-                StringBuilder sb = new StringBuilder();
+                var sb = new StringBuilder();
 
-                List<ArgumentTarget> allArgs = new List<ArgumentTarget>();
+                var allArgs = new List<ArgumentTarget>();
                 allArgs.AddRange(_namedArgs.Values);
                 allArgs.AddRange(_unnamedArgs);
 
@@ -90,12 +88,9 @@ namespace nu.Utility
             }
         }
 
-        #endregion
-
         public IEnumerable<IArgument> ApplyTo(object obj, IEnumerable<IArgument> arguments)
         {
-            
-            List<IArgument> unused = new List<IArgument>();            
+            var unused = new List<IArgument>();
 
             int unnamedIndex = 0;
 
@@ -108,7 +103,6 @@ namespace nu.Utility
                         PropertyInfo unnamedProperty = _unnamedArgs[unnamedIndex++].Property;
                         ApplyValueToProperty(unnamedProperty, obj, arg.Value);
                         RemoveRequiredPropertyTracking(unnamedProperty);
-
                     }
                     else
                     {
@@ -127,22 +121,23 @@ namespace nu.Utility
                 }
             }
 
-            if(_requiredArgs.Count > 0)
+            if (_requiredArgs.Count > 0)
                 throw new MissingRequiredArgumentsException(_requiredArgs);
 
             return unused;
         }
 
+        #endregion
+
         private void RemoveRequiredPropertyTracking(PropertyInfo appliedProperty)
         {
             _requiredArgs.ForEach(delegate(ArgumentTarget target)
-            {
-                if (string.Compare(appliedProperty.Name, target.Property.Name, true) == 0)
-                {
-                    _requiredArgs.Remove(target);
-                }
-            });
-
+                                      {
+                                          if (string.Compare(appliedProperty.Name, target.Property.Name, true) == 0)
+                                          {
+                                              _requiredArgs.Remove(target);
+                                          }
+                                      });
         }
 
 

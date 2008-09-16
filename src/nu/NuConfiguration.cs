@@ -12,6 +12,8 @@ using nu.Utility;
 
 namespace nu
 {
+    using Model.ArgumentParsing;
+
     public class NuConfiguration
     {
         public static void Configure(IWindsorContainer container)
@@ -37,6 +39,10 @@ namespace nu
             //package repository
             container.AddComponentWithLifestyle<IPackageRepository, LocalPackageRepository>("package.repository", LifestyleType.Transient);
 
+            //project stuff
+            container.AddComponentWithLifestyle<IProjectManifestStore, XmlProjectManifestStore>("xmlProjectStore", LifestyleType.Transient);
+            container.AddComponentWithLifestyle<IProjectManifestRepository, ProjectManifestRepository>("projectManifestRepository", LifestyleType.Transient);
+
             //default package commands
             container.AddComponent<ICommand, HelpCommand>("help" );
             container.AddComponent<ICommand, NewProjectCommand>("project");
@@ -47,8 +53,7 @@ namespace nu
 
         private static void SetupNewProject(IWindsorContainer container)
         {
-            container.AddComponentWithLifestyle<IProjectManifestStore, XmlProjectManifestStore>("xmlProjectStore", LifestyleType.Transient);
-            container.AddComponentWithLifestyle<IProjectManifestRepository, ProjectManifestRepository>("projectManifestRepository", LifestyleType.Transient);
+            
             container.AddComponentWithLifestyle<ITransformationElement, FolderTransformationElement>("folderTransformation", LifestyleType.Transient);
             container.AddComponentWithLifestyle<ITransformationElement, FileTransformationElement>("fileTransformation", LifestyleType.Transient);
             container.AddComponentWithLifestyle<IProjectTransformationPipeline, ProjectTransformationPipeline>("transformationPipeline", LifestyleType.Transient);

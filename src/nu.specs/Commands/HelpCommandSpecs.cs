@@ -6,6 +6,7 @@ namespace Specs_for_HelpCommand
    using Castle.Windsor;
    using nu;
    using nu.Commands;
+   using nu.Model.ArgumentParsing;
    using nu.Utility;
    using NUnit.Framework;
    using Rhino.Mocks;

@@ -1,9 +1,7 @@
-using nu.Utility.Exceptions;
-
 namespace Specs_for_ArgumentParser
 {
     using System.Collections.Generic;
-    using nu.Utility;
+    using nu.Model.ArgumentParsing;
     using NUnit.Framework;
     using NUnit.Framework.SyntaxHelpers;
     using XF.Specs;

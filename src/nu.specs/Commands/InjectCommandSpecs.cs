@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using nu.Commands;
 using nu.Model.Package;
-using nu.Utility;
 using NUnit.Framework;
 using Rhino.Mocks;
 using XF.Specs;
 
 namespace Specs_for_InjectCommand
 {
+    using nu.Model.ArgumentParsing;
+
     [TestFixture]
     public class When_executing_the_inject_command_with_a_product_name_only : Spec
     {

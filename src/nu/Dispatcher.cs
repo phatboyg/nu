@@ -2,13 +2,14 @@ using System;
 using System.Globalization;
 using System.Text;
 using nu.Resources;
-using nu.Utility.Exceptions;
 
 namespace nu
 {
     using System.Collections.Generic;
     using Castle.MicroKernel;
     using Commands;
+    using Model.ArgumentParsing;
+    using Model.ArgumentParsing.Exceptions;
     using Utility;
 
     public class Dispatcher
