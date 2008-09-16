@@ -47,7 +47,7 @@ namespace nu.Model.Template
             IDictionary internalDictionary = new Hashtable();
             foreach (string key in items.Keys)
                 internalDictionary.Add(key, items[key]);
-            var context = new VelocityContext(new Hashtable(internalDictionary));
+            VelocityContext context = new VelocityContext(new Hashtable(internalDictionary));
             return context;
         }
     }
