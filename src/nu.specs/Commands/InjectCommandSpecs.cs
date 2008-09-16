@@ -28,8 +28,8 @@ namespace Specs_for_InjectCommand
             using (Mocks.Record())
             {
                 Expect
-                    .Call(Get<IPackageRepository>().FindCurrentVersionOf("nunit"))
-                    .Return(new Package("nunit"));
+                    .Call(Get<IPackageRepository>().FindByName("nunit"))
+                    .Return(new Package("nunit", ".\\nunit"));
 
                 // One logical expectation per spec so i am taking this out
                 // Get<IFileSystem>().Write("nunit.txt", s);

@@ -36,8 +36,8 @@ namespace Specs_for_ListCommand
       public void Display_installed_packages()
       {
          List<Package> packages = new List<Package>();
-         packages.Add(new Package("one"));
-         packages.Add(new Package("two"));
+         packages.Add(new Package("one",".\\one"));
+         packages.Add(new Package("two", ".\\two"));
 
          using (Record)
          {

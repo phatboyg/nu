@@ -1,22 +1,28 @@
 namespace nu.Model.Package
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
     public class Package
     {
         private readonly string _name;
-        private List<PackageItem> _packageItems = new List<PackageItem>();
+        private readonly string _locationOnDisk;
+        private readonly List<PackageItem> _packageItems = new List<PackageItem>(); //TODO: How to add to this?
 
-        public Package(string name)
+        public Package(string name, string locationOnDisk)
         {
-            this._name = name;
+            _name = name;
+            _locationOnDisk = locationOnDisk;
         }
 
         public string Name
         {
-            get { return this._name; }
+            get { return _name; }
+        }
+
+        public string LocationOnDisk
+        {
+            get { return _locationOnDisk; }
         }
 
         public ReadOnlyCollection<PackageItem> Items

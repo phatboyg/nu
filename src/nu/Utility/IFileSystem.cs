@@ -21,5 +21,7 @@ namespace nu
         string Combine(string firstPath, string secondPath);
         char DirectorySeparatorChar{ get;}
         string[] GetDirectories(string path);
+
+        string GetNuRoot { get; }
     }
 }

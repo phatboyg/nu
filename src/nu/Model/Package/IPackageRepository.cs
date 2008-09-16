@@ -5,7 +5,6 @@ namespace nu.Model.Package
    public interface IPackageRepository
    {
       IEnumerable<Package> FindAll();
-
-      Package FindCurrentVersionOf(string package);
+      Package FindByName(string package);
    }
 }

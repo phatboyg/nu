@@ -111,5 +111,13 @@ namespace nu.Utility
         {
             return Directory.GetDirectories(path);
         }
+
+        public string GetNuRoot
+        {
+            get
+            {
+                return this.ExecutingDirectory;
+            }
+        }
     }
 }

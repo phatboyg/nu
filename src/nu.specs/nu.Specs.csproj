@@ -71,7 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\HelpCommandSpecs.cs" />
-    <Compile Include="Commands\InstallCommandSpecs.cs" />
     <Compile Include="Commands\ListCommandSpecs.cs" />
     <Compile Include="Commands\ProjectCommandSpecs.cs" />
     <Compile Include="Model\Project\Transformation\ProjectTransformationPipelineSpecs.cs" />

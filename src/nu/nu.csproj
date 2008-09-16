@@ -63,17 +63,12 @@
       <Link>SolutionVersion.cs</Link>
     </Compile>
     <Compile Include="Commands\CommandAttribute.cs" />
-    <Compile Include="Commands\InstallCommand.cs" />
     <None Include="config\project\cs-20\Properties\AssemblyInfo.cs.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="config\project\cs-35\Properties\AssemblyInfo.cs.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Compile Include="Model\Package\CatalogEntry.cs" />
-    <Compile Include="Model\Package\IPackageCatalog.cs" />
-    <Compile Include="Model\Package\IPackageSource.cs" />
-    <Compile Include="Model\Package\IConfiguration.cs" />
     <Compile Include="Model\Package\LocalPackageRepository.cs" />
     <Compile Include="Model\Project\IProjectEnvironment.cs" />
     <Compile Include="Model\Project\IProjectManifestRepository.cs" />

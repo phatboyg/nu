@@ -4,11 +4,12 @@ namespace nu.Model.Package
     {
         private readonly string _fileName;
         private readonly string _storageLocation;
-        private string _target;
+        private readonly string _target;
 
-        public PackageItem(string fileName, string storageLocation)
+        public PackageItem(string fileName, string storageLocation, string target)
         {
             _fileName = fileName;
+            _target = target;
             _storageLocation = storageLocation;
         }
 
@@ -19,13 +20,17 @@ namespace nu.Model.Package
         }
 
         /// <summary>
-        /// Where the item sits to be copied from
+        /// Where in the package directory the file is stored to be copied from
         /// </summary>
         public string StorageLocation
         {
             get { return _storageLocation; }
         }
 
+        //TODO: this should be some kind of enumeration
+        /// <summary>
+        /// lib, tools, stuff etc
+        /// </summary>
         public string Target
         {
             get { return _target; }
