@@ -2,7 +2,7 @@ using System;
 using NUnit.Framework;
 using Rhino.Mocks;
 
-namespace nu.specs
+namespace nu.Specs
 {
    [TestFixture]
    public abstract class TestBase
