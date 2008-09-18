@@ -127,7 +127,7 @@
     <Compile Include="Dispatcher.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
-    <Compile Include="Utility\IoC.cs" />
+    <Compile Include="Utility\Locator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Project\IProjectManifest.cs" />

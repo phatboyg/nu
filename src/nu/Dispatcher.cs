@@ -47,7 +47,7 @@ namespace nu
 
                 DefaultToTheHelpCommandIfCommandNameIsNotFound();
 
-                ICommand command = IoC.Resolve<ICommand>(_commandName);
+                ICommand command = Locator.Resolve<ICommand>(_commandName);
                 IArgumentMap commandMap = _argumentMapFactory.CreateMap(command);
                 remainingArgs = commandMap.ApplyTo(command, remainingArgs);
                 command.Execute(remainingArgs);
@@ -72,7 +72,7 @@ namespace nu
         {
             try
             {
-                IoC.Resolve<ICommand>(_commandName);
+                Locator.Resolve<ICommand>(_commandName);
             }
             catch (ComponentNotFoundException)
             {

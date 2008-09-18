@@ -29,7 +29,7 @@ namespace Specs_for_HelpCommand
          _container = Mock<IWindsorContainer>();
          _kernel = Mock<IKernel>();
          SetupResult.For(_container.Kernel).Return(_kernel);
-         IoC.InitializeContainer(_container);
+         Locator.InitializeContainer(_container);
 
          _handlerForFakeCommand1 = Mock<IHandler>();
          _handlerForFakeCommand2 = Mock<IHandler>();
@@ -106,7 +106,7 @@ namespace Specs_for_HelpCommand
          _command = Create<HelpCommand>();
 
          _container = Mock<IWindsorContainer>();
-         IoC.InitializeContainer(_container);
+         Locator.InitializeContainer(_container);
 
          _commandWeWantHelpFor = new FakeCommand1();
 
@@ -155,7 +155,7 @@ namespace Specs_for_HelpCommand
          _command = Create<HelpCommand>();
 
          _container = Mock<IWindsorContainer>();
-         IoC.InitializeContainer(_container);
+         Locator.InitializeContainer(_container);
 
          SetupResult.For(_container.Resolve<ICommand>("fake-command-1"))
             .Throw(new ComponentNotFoundException(typeof (ICommand)));

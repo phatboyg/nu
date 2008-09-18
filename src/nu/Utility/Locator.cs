@@ -3,7 +3,7 @@ namespace nu
    using System.Configuration;
    using Castle.Windsor;
 
-   public static class IoC
+   public static class Locator
    {
       private static IWindsorContainer _container;
 
