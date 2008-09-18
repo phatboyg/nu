@@ -7,15 +7,15 @@ namespace nu.Commands
     using nu.Model.Package;
     using Utility;
 
-    [Command(Description = "Injects a tool into the project")]
-    public class InjectCommand : ICommand
+    [Command(Description = "Installs a package into a NU solution.")]
+    public class InstallCommand : ICommand
     {
         private readonly IFileSystem _fileSystem;
         private readonly IPackageRepository _packageRepository;
-        private string _product;
+        private string _package;
         private IConsole _console;
 
-        public InjectCommand(IPackageRepository packageRepository, IFileSystem fileSystem, IConsole console)
+        public InstallCommand(IPackageRepository packageRepository, IFileSystem fileSystem, IConsole console)
         {
             _packageRepository = packageRepository;
             _console = console;
@@ -23,27 +23,27 @@ namespace nu.Commands
         }
 
         [Argument(Required = true)] 
-        public string Product
+        public string Package
         {
-            get { return _product; }
-            set { _product = value; }
+            get { return _package; }
+            set { _package = value; }
         }
 
         public void Execute(IEnumerable<IArgument> arguments)
         {
-            if (string.IsNullOrEmpty(Product))
-                throw new ArgumentNullException("Product", "You must specify a product to inject");
+            if (string.IsNullOrEmpty(Package))
+                throw new ArgumentNullException("Product", "You must specify a package to install");
 
-            _console.WriteLine("Injecting {0}", Product);
+            _console.WriteLine("Injecting {0}", Package);
 
-            Package pkg = _packageRepository.FindByName(Product);
+            Package pkg = _packageRepository.FindByName(Package);
 
             foreach(PackageItem item in pkg.Items)
             {
                 WriteToProject(item);
             }
 
-            _console.WriteLine("Finished Injecting {0}", Product);
+            _console.WriteLine("Finished Injecting {0}", Package);
         }
 
         private void WriteToProject(PackageItem item)

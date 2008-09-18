@@ -24,7 +24,7 @@ namespace nu.Model.Template
 
         public string Process(string template, ITemplateContext context)
         {
-            using(StringWriter writer = new StringWriter())
+            using(var writer = new StringWriter())
             {
                 try
                 {
@@ -45,9 +45,9 @@ namespace nu.Model.Template
         private static IContext CreateNVelocityContext(IDictionary<string, object> items)
         {
             IDictionary internalDictionary = new Hashtable();
-            foreach (string key in items.Keys)
+            foreach (var key in items.Keys)
                 internalDictionary.Add(key, items[key]);
-            VelocityContext context = new VelocityContext(new Hashtable(internalDictionary));
+            var context = new VelocityContext(new Hashtable(internalDictionary));
             return context;
         }
     }

@@ -48,7 +48,7 @@ namespace nu
             container.AddComponent<ICommand, NewProjectCommand>("project");
             SetupNewProject(container);
             container.AddComponent<ICommand, ListCommand>("list");
-            container.AddComponent<ICommand, InjectCommand>("inject");
+            container.AddComponent<ICommand, InstallCommand>("install");
         }
 
         private static void SetupNewProject(IWindsorContainer container)

@@ -4,20 +4,20 @@ using nu.Model.Package;
 using NUnit.Framework;
 using Rhino.Mocks;
 using XF.Specs;
+using nu.Model.ArgumentParsing;
 
-namespace Specs_for_InjectCommand
+namespace Specs_for_InstallCommand
 {
-    using nu.Model.ArgumentParsing;
-
+   
     [TestFixture]
     public class When_executing_the_inject_command_with_a_product_name_only : Spec
     {
-        private InjectCommand command;
+        private InstallCommand command;
         private IEnumerable<IArgument> args;
 
         protected override void Before_each_spec()
         {
-            command = Create<InjectCommand>();
+            command = Create<InstallCommand>();
 
             args = Mock<IEnumerable<IArgument>>();
         }
@@ -30,13 +30,10 @@ namespace Specs_for_InjectCommand
                 Expect
                     .Call(Get<IPackageRepository>().FindByName("nunit"))
                     .Return(new Package("nunit", ".\\nunit"));
-
-                // One logical expectation per spec so i am taking this out
-                // Get<IFileSystem>().Write("nunit.txt", s);
             }
             using (Mocks.Playback())
             {
-                command.Product = "nunit";
+                command.Package = "nunit";
                 command.Execute(args);
             }
         }
@@ -45,12 +42,12 @@ namespace Specs_for_InjectCommand
     [TestFixture]
     public class When_installing_package_contents_into_a_project : Spec
     {
-        private InjectCommand command;
+        private InstallCommand command;
         private IEnumerable<IArgument> args;
 
         protected override void Before_each_spec()
         {
-            command = Create<InjectCommand>();
+            command = Create<InstallCommand>();
             args = Mock<IEnumerable<IArgument>>();
         }
 
