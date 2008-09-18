@@ -1,4 +1,4 @@
-using System.Collections;
+using Castle.MicroKernel.Registration;
 
 namespace nu
 {
@@ -26,28 +26,36 @@ namespace nu
             container.AddComponent<Dispatcher>("dispatcher");
 
             //argument parsing
-            container.AddComponentWithLifestyle<IArgumentParser, ArgumentParser>("argumentParser", LifestyleType.Transient);
-            container.AddComponentWithLifestyle<IArgumentMapFactory, ArgumentMapFactory>("argumentMapFactory", LifestyleType.Transient);
+            
+            container.AddComponentLifeStyle<IArgumentParser, ArgumentParser>("argumentParser", LifestyleType.Transient);
+            container.AddComponentLifeStyle<IArgumentMapFactory, ArgumentMapFactory>("argumentMapFactory", LifestyleType.Transient);
 
             //helper shims
-            container.AddComponentWithLifestyle<IConsole, ConsoleHelper>("consoleHelper", LifestyleType.Transient);
-            container.AddComponentWithLifestyle<IPath, PathAdapter>("pathAdapter", LifestyleType.Transient);
-            container.AddComponentWithLifestyle<IFileSystem, FileSystem>("fileSystem", LifestyleType.Transient);
+            container.AddComponentLifeStyle<IConsole, ConsoleHelper>("consoleHelper", LifestyleType.Transient);
+            container.AddComponentLifeStyle<IPath, PathAdapter>("pathAdapter", LifestyleType.Transient);
+            container.AddComponentLifeStyle<IFileSystem, FileSystem>("fileSystem", LifestyleType.Transient);
 
             //templating
-            container.AddComponentWithLifestyle<ITemplateProcessor, NVelocityTemplateProcessor>("templateProcessor",
+            container.AddComponentLifeStyle<ITemplateProcessor, NVelocityTemplateProcessor>("templateProcessor",
                                                                                                 LifestyleType.Transient);
 
             //package repository
             container.AddComponent<IPackageRepository, LocalPackageRepository>("package.repository");
 
             //project stuff
-            container.AddComponentWithLifestyle<IProjectManifestStore, XmlProjectManifestStore>("xmlProjectStore", LifestyleType.Transient);
-            container.AddComponentWithLifestyle<IProjectManifestRepository, ProjectManifestRepository>("projectManifestRepository", LifestyleType.Transient);
+            container.AddComponentLifeStyle<IProjectManifestStore, XmlProjectManifestStore>("xmlProjectStore", LifestyleType.Transient);
+            container.AddComponentLifeStyle<IProjectManifestRepository, ProjectManifestRepository>("projectManifestRepository", LifestyleType.Transient);
 
             //default package commands
             container.AddComponent<ICommand, HelpCommand>("help");
-            container.AddComponent<ICommand, NewProjectCommand>("project");
+            container.Register(
+                Component.For<ICommand>().ImplementedBy<NewProjectCommand>()
+                .Named("project")
+                .Parameters(
+                    Parameter.ForKey("rootTemplateDirectory").Eq("a"), //TODO: correct this
+                    Parameter.ForKey("defaultTemplate").Eq("b"))); //TODO: Correct this
+            
+
             SetupNewProject(container);
             container.AddComponent<ICommand, ListCommand>("list");
             container.AddComponent<ICommand, InstallCommand>("install");
@@ -55,12 +63,12 @@ namespace nu
 
         private static void SetupNewProject(IWindsorContainer container)
         {
-            container.AddComponentWithLifestyle<ITransformationElement, FolderTransformationElement>(
-                "folderTransformation", LifestyleType.Transient);
-            container.AddComponentWithLifestyle<ITransformationElement, FileTransformationElement>(
-                "fileTransformation", LifestyleType.Transient);
-            container.AddComponentWithLifestyle<IProjectTransformationPipeline, ProjectTransformationPipeline>(
-                "transformationPipeline", LifestyleType.Transient);
+            container.AddComponentLifeStyle<ITransformationElement,FolderTransformationElement>("folderTransformation",
+                                            LifestyleType.Transient);
+
+            container.AddComponentLifeStyle<ITransformationElement,FileTransformationElement>("fileTransformation", LifestyleType.Transient);
+
+            container.AddComponentLifeStyle<IProjectTransformationPipeline,ProjectTransformationPipeline>("transformationPipeline", LifestyleType.Transient);
         }
     }
 
@@ -79,14 +87,7 @@ namespace nu
         public object Resolve(CreationContext context, ISubDependencyResolver parentResolver, ComponentModel model,
                               DependencyModel dependency)
         {
-            IHandler[] h = _kernel.GetHandlers(dependency.TargetType.GetElementType());
-            var l = new ArrayList();
-            foreach (var handler in h)
-            {
-                l.Add(handler.Resolve(CreationContext.Empty));
-            }
-            return l.ToArray();
-            //return _kernel.ResolveAll(dependency.TargetType.GetElementType(), null);
+            return _kernel.ResolveAll(dependency.TargetType.GetElementType(), null);
         }
 
         public bool CanResolve(CreationContext context, ISubDependencyResolver parentResolver, ComponentModel model,
