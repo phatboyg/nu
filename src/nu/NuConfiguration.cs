@@ -1,3 +1,5 @@
+using System.Collections;
+
 namespace nu
 {
     using System;
@@ -77,7 +79,13 @@ namespace nu
         public object Resolve(CreationContext context, ISubDependencyResolver parentResolver, ComponentModel model,
                               DependencyModel dependency)
         {
-            return null;
+            IHandler[] h = _kernel.GetHandlers(dependency.TargetType.GetElementType());
+            var l = new ArrayList();
+            foreach (var handler in h)
+            {
+                l.Add(handler.Resolve(CreationContext.Empty));
+            }
+            return l.ToArray();
             //return _kernel.ResolveAll(dependency.TargetType.GetElementType(), null);
         }
 
