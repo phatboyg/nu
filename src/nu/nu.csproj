@@ -137,9 +137,6 @@
     <Compile Include="Utility\PathAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="config\windsor.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Model\Package\sample.package.xml" />
   </ItemGroup>
   <ItemGroup>
