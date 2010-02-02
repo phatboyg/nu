@@ -1,6 +1,5 @@
 namespace nu.core
 {
-    using System.IO;
     using ICSharpCode.SharpZipLib.Zip;
     using NDepend.Helpers.FileDirectoryPath;
 
