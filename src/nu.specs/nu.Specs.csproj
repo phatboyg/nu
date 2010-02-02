@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{7EBF6A88-89C6-46FF-9A2C-B211F0B60C90}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -100,7 +100,7 @@
     <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\nu\nu.csproj">
+    <ProjectReference Include="..\nu.core\nu.core.csproj">
       <Project>{B106DBF9-AF90-414D-A40C-A0222BF8F5C8}</Project>
       <Name>nu</Name>
     </ProjectReference>

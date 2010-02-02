@@ -5,7 +5,8 @@ namespace nu.Utility
    using System;
    using System.Text;
 
-   public class ConsoleHelper : IConsole
+   public class ConsoleHelper : 
+       IConsole
    {
       private string _separator;
 

@@ -3,11 +3,11 @@ using System.IO;
 
 namespace nu.Utility
 {
-    public class FileSystem : IFileSystem
+    public class DotNetFileSystem : IFileSystem
     {
         private readonly IPath _path;
 
-        public FileSystem(IPath path)
+        public DotNetFileSystem(IPath path)
         {
             _path = path;
         }

@@ -1,0 +1,238 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B106DBF9-AF90-414D-A40C-A0222BF8F5C8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>nu.core</RootNamespace>
+    <AssemblyName>nu.core</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\castle\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.DynamicProxy2, Version=2.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\castle\Castle.DynamicProxy2.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.MicroKernel, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\castle\Castle.MicroKernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\castle\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="NVelocity, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\castle\NVelocity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SolutionVersion.cs">
+      <Link>SolutionVersion.cs</Link>
+    </Compile>
+    <Compile Include="Commands\CommandAttribute.cs" />
+    <None Include="config\project\cs-20\Properties\AssemblyInfo.cs.nut">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\cs-35\Properties\AssemblyInfo.cs.nut">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Compile Include="Model\Package\LocalPackageRepository.cs" />
+    <Compile Include="Model\Project\IProjectEnvironment.cs" />
+    <Compile Include="Model\Project\IProjectManifestRepository.cs" />
+    <Compile Include="Model\Project\Persistence\BaseProjectManifestStore.cs" />
+    <Compile Include="Model\Project\ProjectManifest.cs" />
+    <Compile Include="Model\Project\DTO\FileDTO.cs" />
+    <Compile Include="Model\Project\DTO\FolderDTO.cs" />
+    <Compile Include="Model\Project\DTO\Manifest.cs" />
+    <Compile Include="Model\Project\DTO\PackageDTO.cs" />
+    <Compile Include="Model\Project\ProjectElement.cs" />
+    <Compile Include="Model\Project\IProjectManifestStore.cs" />
+    <Compile Include="Model\Project\ProjectEnviornment.cs" />
+    <Compile Include="Model\Project\ProjectManifestBuilder.cs" />
+    <Compile Include="Model\Project\ProjectManifestRepository.cs" />
+    <Compile Include="Model\Project\Transformation\AbstractTransformationElement.cs" />
+    <Compile Include="Model\Project\Transformation\Exceptions\ProjectManifestRequiredException.cs" />
+    <Compile Include="Model\Project\Transformation\FileTransformationElement.cs" />
+    <Compile Include="Model\Project\Transformation\FolderTransformationElement.cs" />
+    <Compile Include="Model\Project\Transformation\IProjectTransformationPipeline.cs" />
+    <Compile Include="Model\Project\Transformation\ProjectTransformationPipeline.cs" />
+    <Compile Include="Model\Project\Persistence\XmlProjectManifestStore.cs" />
+    <Compile Include="Model\Template\NVelocityTemplateProcessor.cs" />
+    <Compile Include="Model\Template\TemplateContext.cs" />
+    <Compile Include="NuConfiguration.cs" />
+    <Compile Include="Resources\nuresources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>nuresources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ArgumentParsing\Argument.cs" />
+    <Compile Include="Model\ArgumentParsing\ArgumentAttribute.cs" />
+    <Compile Include="Model\ArgumentParsing\ArgumentMap.cs" />
+    <Compile Include="Model\ArgumentParsing\ArgumentMapFactory.cs" />
+    <Compile Include="Model\ArgumentParsing\ArgumentParser.cs" />
+    <Compile Include="Model\ArgumentParsing\ArgumentTarget.cs" />
+    <Compile Include="Model\ArgumentParsing\Exceptions\MissingRequiredArgumentsException.cs" />
+    <Compile Include="Model\ArgumentParsing\IArgument.cs" />
+    <Compile Include="Model\ArgumentParsing\IArgumentMap.cs" />
+    <Compile Include="Model\ArgumentParsing\IArgumentMapFactory.cs" />
+    <Compile Include="Model\ArgumentParsing\IArgumentParser.cs" />
+    <Compile Include="SubSystems\Dispay\ConsoleHelper.cs" />
+    <Compile Include="Utility\DotNetFileSystem.cs" />
+    <Compile Include="SubSystems\Dispay\IConsole.cs" />
+    <Compile Include="Utility\IFileSystem.cs" />
+    <Compile Include="Model\Package\IPackageRepository.cs" />
+    <Compile Include="Model\Package\Package.cs" />
+    <Compile Include="Model\Package\PackageItem.cs" />
+    <Compile Include="Model\Package\PackageNotFoundException.cs" />
+    <Compile Include="Commands\InstallCommand.cs" />
+    <Compile Include="Commands\ListCommand.cs" />
+    <Compile Include="Commands\NewProjectCommand.cs" />
+    <Compile Include="Dispatcher.cs" />
+    <Compile Include="Commands\HelpCommand.cs" />
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Utility\Locator.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Model\Project\IProjectManifest.cs" />
+    <Compile Include="Model\Template\ITemplateContext.cs" />
+    <Compile Include="Model\Template\ITemplateProcessor.cs" />
+    <Compile Include="Utility\IPath.cs" />
+    <Compile Include="Utility\PathAdapter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Model\Package\sample.package.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="config\project\cs-20\build.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\cs-20\nant.build">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\cs-20\.nu\project.nu">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\cs-35\build.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\cs-35\nant.build">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\cs-20\Default.csproj.nut">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\cs-20\Default.sln.nut">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\cs-20\Default.Tests.csproj.nut">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\cs-35\Default.csproj.nut">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\cs-35\Default.sln.nut">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\cs-35\Default.Tests.csproj.nut">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\vb-20\Default.vbproj.nut">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\vb-20\Default.sln.nut">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\vb-20\Default.Tests.vbproj.nut">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\vb-20\My Project\AssemblyInfo.vb.nut">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\vb-35\Default.vbproj.nut">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\vb-35\Default.sln.nut">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\vb-35\Default.Tests.vbproj.nut">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\vb-35\My Project\AssemblyInfo.vb.nut">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\cs-35\.nu\project.nu">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\vb-20\.nu\project.nu">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\vb-20\build.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\vb-35\.nu\project.nu">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="config\project\vb-35\build.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\nuresources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>nuresources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SubSystems\Configuration\" />
+    <Folder Include="SubSystems\FileSystem\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
