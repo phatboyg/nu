@@ -33,7 +33,7 @@ namespace nu
             //helper shims
             container.AddComponentLifeStyle<IConsole, ConsoleHelper>("consoleHelper", LifestyleType.Transient);
             container.AddComponentLifeStyle<IPath, PathAdapter>("pathAdapter", LifestyleType.Transient);
-            container.AddComponentLifeStyle<IFileSystem, FileSystem>("fileSystem", LifestyleType.Transient);
+            container.AddComponentLifeStyle<IFileSystem, DotNetFileSystem>("fileSystem", LifestyleType.Transient);
 
             //templating
             container.AddComponentLifeStyle<ITemplateProcessor, NVelocityTemplateProcessor>("templateProcessor",
