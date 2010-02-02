@@ -15,7 +15,7 @@ namespace nu
     using Model.Template;
     using Utility;
 
-    public class NuConfiguration
+    public class NuBootstrapper
     {
         public static void Configure(IWindsorContainer container)
         {

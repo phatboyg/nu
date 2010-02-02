@@ -52,6 +52,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\castle\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="NDepend.Helpers.FileDirectoryPath, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\NDepend.Helpers.FileDirectoryPath.dll</HintPath>
+    </Reference>
     <Reference Include="NVelocity, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\castle\NVelocity.dll</HintPath>
@@ -62,6 +70,13 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +90,13 @@
     <None Include="config\project\cs-35\Properties\AssemblyInfo.cs.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Compile Include="DirectoryInfoExtensions.cs" />
+    <Compile Include="JsonUtil.cs" />
+    <Compile Include="Model\Files\GlobalProperties.cs" />
+    <Compile Include="Model\Files\LocalNugInfo.cs" />
+    <Compile Include="Model\Files\NugSpec.cs" />
+    <Compile Include="Model\Files\NuRegistry.cs" />
+    <Compile Include="Model\Files\ProjectProperties.cs" />
     <Compile Include="Model\Package\LocalPackageRepository.cs" />
     <Compile Include="Model\Project\IProjectEnvironment.cs" />
     <Compile Include="Model\Project\IProjectManifestRepository.cs" />
@@ -98,7 +120,7 @@
     <Compile Include="Model\Project\Persistence\XmlProjectManifestStore.cs" />
     <Compile Include="Model\Template\NVelocityTemplateProcessor.cs" />
     <Compile Include="Model\Template\TemplateContext.cs" />
-    <Compile Include="NuConfiguration.cs" />
+    <Compile Include="NuBootstrapper.cs" />
     <Compile Include="Resources\nuresources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -115,10 +137,14 @@
     <Compile Include="Model\ArgumentParsing\IArgumentMap.cs" />
     <Compile Include="Model\ArgumentParsing\IArgumentMapFactory.cs" />
     <Compile Include="Model\ArgumentParsing\IArgumentParser.cs" />
+    <Compile Include="StreamExtensions.cs" />
+    <Compile Include="SubSystems\Configuration\Entries.cs" />
+    <Compile Include="SubSystems\Configuration\Entry.cs" />
+    <Compile Include="SubSystems\Configuration\NuConfiguration.cs" />
     <Compile Include="SubSystems\Dispay\ConsoleHelper.cs" />
-    <Compile Include="Utility\DotNetFileSystem.cs" />
+    <Compile Include="SubSystems\FileSystem\DotNetFileSystem.cs" />
     <Compile Include="SubSystems\Dispay\IConsole.cs" />
-    <Compile Include="Utility\IFileSystem.cs" />
+    <Compile Include="SubSystems\FileSystem\IFileSystem.cs" />
     <Compile Include="Model\Package\IPackageRepository.cs" />
     <Compile Include="Model\Package\Package.cs" />
     <Compile Include="Model\Package\PackageItem.cs" />
@@ -129,20 +155,25 @@
     <Compile Include="Dispatcher.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
-    <Compile Include="Utility\Locator.cs" />
+    <Compile Include="SubSystems\FileSystem\InstallationDirectory.cs" />
+    <Compile Include="SubSystems\FileSystem\ProjectDirectory.cs" />
+    <Compile Include="SubSystems\FileSystem\WellKnownPaths.cs" />
+    <Compile Include="SubSystems\FileSystem\WorkingDirectory.cs" />
+    <Compile Include="SubSystems\FileSystem\Zip.cs" />
+    <Compile Include="SubSystems\Locator\WLocator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Project\IProjectManifest.cs" />
     <Compile Include="Model\Template\ITemplateContext.cs" />
     <Compile Include="Model\Template\ITemplateProcessor.cs" />
-    <Compile Include="Utility\IPath.cs" />
-    <Compile Include="Utility\PathAdapter.cs" />
+    <Compile Include="SubSystems\FileSystem\IPath.cs" />
+    <Compile Include="SubSystems\FileSystem\PathAdapter.cs" />
+    <Compile Include="SubSystems\Network\Http.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Model\Package\sample.package.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="config\project\cs-20\build.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -222,10 +253,6 @@
       <LastGenOutput>nuresources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SubSystems\Configuration\" />
-    <Folder Include="SubSystems\FileSystem\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

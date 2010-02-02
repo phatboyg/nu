@@ -3,7 +3,7 @@ namespace nu
    using System.Configuration;
    using Castle.Windsor;
 
-   public static class Locator
+   public static class WLocator
    {
       private static IWindsorContainer _container;
 
@@ -31,7 +31,7 @@ namespace nu
       {
           if (_container != null) return;
           _container = new WindsorContainer();
-          NuConfiguration.Configure(_container);
+          NuBootstrapper.Configure(_container);
       }
 
        public static void InitializeContainer(IWindsorContainer container)
