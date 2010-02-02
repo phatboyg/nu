@@ -4,7 +4,7 @@ namespace nu
     {
         private static void Main(string[] args)
         {
-           Locator.Resolve<Dispatcher>().Forward(args);
+           WLocator.Resolve<Dispatcher>().Forward(args);
         }
     }
 }

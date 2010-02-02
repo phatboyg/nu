@@ -32,7 +32,7 @@ namespace Specs_for_Dispatcher
          SetupResult.For(_mockContainer.Resolve<ICommand>("help"))
             .Return(_mockHelpCommand);
 
-         Locator.InitializeContainer(_mockContainer);
+         WLocator.InitializeContainer(_mockContainer);
 
          SetupResult.For(Get<IArgumentParser>().Parse(_bogusArguments))
             .Return(new ArgumentParser().Parse(_bogusArguments));

@@ -48,7 +48,7 @@ namespace nu.Commands
          ICommand command;
          try
          {
-            command = Locator.Resolve<ICommand>(_commandName);
+            command = WLocator.Resolve<ICommand>(_commandName);
          }
          catch (ComponentNotFoundException)
          {
@@ -64,7 +64,7 @@ namespace nu.Commands
 
       private void DisplayCommandList()
       {
-         IHandler[] handlers = Locator.Container.Kernel.GetAssignableHandlers(typeof (ICommand));
+         IHandler[] handlers = WLocator.Container.Kernel.GetAssignableHandlers(typeof (ICommand));
          if (handlers == null) return;
 
          _console.WriteHeading(nuresources.Help_AvailableCommands);
