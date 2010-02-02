@@ -4,6 +4,7 @@ namespace Specs_for_Dispatcher
    using Castle.Windsor;
    using nu;
    using nu.Commands;
+   using nu.core.Commands;
    using nu.Model.ArgumentParsing;
    using nu.Utility;
    using NUnit.Framework;
@@ -16,21 +17,21 @@ namespace Specs_for_Dispatcher
       private Dispatcher _dispatcher;
       private string[] _bogusArguments;
       private IWindsorContainer _mockContainer;
-      private ICommand _mockHelpCommand;
+      private IOldCommand _mockHelpOldCommand;
 
       protected override void Before_each_spec()
       {
          _dispatcher = Create<Dispatcher>();
          _bogusArguments = new string[] {"no-such-command"};
-         _mockHelpCommand = Mock<ICommand>();
+         _mockHelpOldCommand = Mock<IOldCommand>();
 
          _mockContainer = Mock<IWindsorContainer>();
 
-         SetupResult.For(_mockContainer.Resolve<ICommand>("no-such-command"))
+         SetupResult.For(_mockContainer.Resolve<IOldCommand>("no-such-command"))
             .Throw(new ComponentNotFoundException("no-such-command"));
 
-         SetupResult.For(_mockContainer.Resolve<ICommand>("help"))
-            .Return(_mockHelpCommand);
+         SetupResult.For(_mockContainer.Resolve<IOldCommand>("help"))
+            .Return(_mockHelpOldCommand);
 
          WLocator.InitializeContainer(_mockContainer);
 
@@ -40,8 +41,8 @@ namespace Specs_for_Dispatcher
          SetupResult.For(Get<IArgumentMapFactory>().CreateMap(_dispatcher))
             .Return(new ArgumentMap(typeof (Dispatcher)));
 
-         SetupResult.For(Get<IArgumentMapFactory>().CreateMap(_mockHelpCommand))
-            .Return(new ArgumentMap(typeof (ICommand)));
+         SetupResult.For(Get<IArgumentMapFactory>().CreateMap(_mockHelpOldCommand))
+            .Return(new ArgumentMap(typeof (IOldCommand)));
       }
 
       [Test]
@@ -62,7 +63,7 @@ namespace Specs_for_Dispatcher
       {
          using (Record)
          {
-            _mockHelpCommand.Execute(null);
+            _mockHelpOldCommand.Execute(null);
             LastCall.IgnoreArguments();
          }
          using (Playback)

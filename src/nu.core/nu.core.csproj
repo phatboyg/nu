@@ -56,6 +56,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="Magnum, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Magnum.dll</HintPath>
+    </Reference>
     <Reference Include="NDepend.Helpers.FileDirectoryPath, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\NDepend.Helpers.FileDirectoryPath.dll</HintPath>
@@ -90,6 +94,8 @@
     <None Include="config\project\cs-35\Properties\AssemblyInfo.cs.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\VersionCommand.cs" />
     <Compile Include="DirectoryInfoExtensions.cs" />
     <Compile Include="JsonUtil.cs" />
     <Compile Include="Model\Files\GlobalProperties.cs" />
@@ -154,7 +160,7 @@
     <Compile Include="Commands\NewProjectCommand.cs" />
     <Compile Include="Dispatcher.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
-    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\IOldCommand.cs" />
     <Compile Include="SubSystems\FileSystem\InstallationDirectory.cs" />
     <Compile Include="SubSystems\FileSystem\ProjectDirectory.cs" />
     <Compile Include="SubSystems\FileSystem\WellKnownPaths.cs" />

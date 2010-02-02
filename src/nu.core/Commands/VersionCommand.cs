@@ -12,8 +12,14 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Commands
 {
-	public interface ICommand
+	using System;
+
+	public class VersionCommand :
+		ICommand
 	{
-		void Execute();
+		public void Execute()
+		{
+			Console.WriteLine("The version is 47");
+		}
 	}
 }

@@ -1,12 +1,13 @@
 namespace nu.Commands
 {
     using System.Collections.Generic;
+    using core.Commands;
     using Model.ArgumentParsing;
     using nu.Model.Package;
     using Utility;
 
     [Command(Description = "List packages available in the local repository.")]
-    public class ListCommand : ICommand
+    public class ListCommand : IOldCommand
     {
        private readonly IPackageRepository _packageRepository;
        private readonly IConsole _console;

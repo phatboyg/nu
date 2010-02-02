@@ -102,7 +102,7 @@
   <ItemGroup>
     <ProjectReference Include="..\nu.core\nu.core.csproj">
       <Project>{B106DBF9-AF90-414D-A40C-A0222BF8F5C8}</Project>
-      <Name>nu</Name>
+      <Name>nu.core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

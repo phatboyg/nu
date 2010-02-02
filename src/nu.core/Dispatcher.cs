@@ -7,7 +7,7 @@ namespace nu
 {
     using System.Collections.Generic;
     using Castle.MicroKernel;
-    using Commands;
+    using core.Commands;
     using Model.ArgumentParsing;
     using Model.ArgumentParsing.Exceptions;
     using Utility;
@@ -47,10 +47,10 @@ namespace nu
 
                 DefaultToTheHelpCommandIfCommandNameIsNotFound();
 
-                ICommand command = WLocator.Resolve<ICommand>(_commandName);
-                IArgumentMap commandMap = _argumentMapFactory.CreateMap(command);
-                remainingArgs = commandMap.ApplyTo(command, remainingArgs);
-                command.Execute(remainingArgs);
+                IOldCommand oldCommand = WLocator.Resolve<IOldCommand>(_commandName);
+                IArgumentMap commandMap = _argumentMapFactory.CreateMap(oldCommand);
+                remainingArgs = commandMap.ApplyTo(oldCommand, remainingArgs);
+                oldCommand.Execute(remainingArgs);
             }
             catch(MissingRequiredArgumentsException ex)
             {
@@ -72,7 +72,7 @@ namespace nu
         {
             try
             {
-                WLocator.Resolve<ICommand>(_commandName);
+                WLocator.Resolve<IOldCommand>(_commandName);
             }
             catch (ComponentNotFoundException)
             {

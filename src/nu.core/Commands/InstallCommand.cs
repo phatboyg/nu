@@ -3,12 +3,13 @@ namespace nu.Commands
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using core.Commands;
     using Model.ArgumentParsing;
     using nu.Model.Package;
     using Utility;
 
     [Command(Description = "Installs a package into a NU solution.")]
-    public class InstallCommand : ICommand
+    public class InstallCommand : IOldCommand
     {
         private readonly IFileSystem _fileSystem;
         private readonly IPackageRepository _packageRepository;
