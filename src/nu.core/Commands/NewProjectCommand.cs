@@ -7,10 +7,11 @@ using nu.Utility;
 
 namespace nu.Commands
 {
-    using Model.ArgumentParsing;
+	using core.Commands;
+	using Model.ArgumentParsing;
 
     [Command(Description = "Creates a new project")]
-    public class NewProjectCommand : ICommand
+    public class NewProjectCommand : IOldCommand
     {
         private readonly IConsole _console;
         private readonly IFileSystem _fileSystem;

@@ -6,6 +6,7 @@ namespace Specs_for_HelpCommand
    using Castle.Windsor;
    using nu;
    using nu.Commands;
+   using nu.core.Commands;
    using nu.Model.ArgumentParsing;
    using nu.Utility;
    using NUnit.Framework;
@@ -35,12 +36,12 @@ namespace Specs_for_HelpCommand
          _handlerForFakeCommand2 = Mock<IHandler>();
 
          SetupResult.For(_handlerForFakeCommand1.ComponentModel).Return(
-            new ComponentModel("fake-command-1", typeof (ICommand), typeof (FakeCommand1)));
+            new ComponentModel("fake-command-1", typeof (IOldCommand), typeof (FakeCommand1)));
          SetupResult.For(_handlerForFakeCommand1.Resolve(null)).Return(new FakeCommand1());
          LastCall.IgnoreArguments();
 
          SetupResult.For(_handlerForFakeCommand2.ComponentModel).Return(
-            new ComponentModel("fake-command-2", typeof (ICommand), typeof (FakeCommand2)));
+            new ComponentModel("fake-command-2", typeof (IOldCommand), typeof (FakeCommand2)));
          SetupResult.For(_handlerForFakeCommand2.Resolve(null)).Return(new FakeCommand2());
          LastCall.IgnoreArguments();
 
@@ -54,7 +55,7 @@ namespace Specs_for_HelpCommand
       {
          using (Record)
          {
-            Expect.Call(_kernel.GetAssignableHandlers(typeof (ICommand))).Return(_handlers.ToArray());
+            Expect.Call(_kernel.GetAssignableHandlers(typeof (IOldCommand))).Return(_handlers.ToArray());
          }
          using (Playback)
          {
@@ -67,7 +68,7 @@ namespace Specs_for_HelpCommand
       {
          using (Record)
          {
-            Expect.Call(_kernel.GetAssignableHandlers(typeof (ICommand))).Return(_handlers.ToArray());
+            Expect.Call(_kernel.GetAssignableHandlers(typeof (IOldCommand))).Return(_handlers.ToArray());
             Get<IConsole>().WriteHeading(null);
             LastCall.IgnoreArguments();
          }
@@ -82,7 +83,7 @@ namespace Specs_for_HelpCommand
       {
          using (Record)
          {
-            Expect.Call(_kernel.GetAssignableHandlers(typeof (ICommand))).Return(_handlers.ToArray());
+            Expect.Call(_kernel.GetAssignableHandlers(typeof (IOldCommand))).Return(_handlers.ToArray());
             Get<IConsole>().WriteLine(null);
             LastCall.IgnoreArguments().Repeat.Twice();
          }
@@ -110,7 +111,7 @@ namespace Specs_for_HelpCommand
 
          _commandWeWantHelpFor = new FakeCommand1();
 
-         SetupResult.For(_container.Resolve<ICommand>("fake-command-1")).Return(_commandWeWantHelpFor);
+         SetupResult.For(_container.Resolve<IOldCommand>("fake-command-1")).Return(_commandWeWantHelpFor);
 
          _argumentMap = Mock<IArgumentMap>();
          SetupResult.For(Get<IArgumentMapFactory>().CreateMap(_commandWeWantHelpFor)).Return(_argumentMap);
@@ -157,8 +158,8 @@ namespace Specs_for_HelpCommand
          _container = Mock<IWindsorContainer>();
          WLocator.InitializeContainer(_container);
 
-         SetupResult.For(_container.Resolve<ICommand>("fake-command-1"))
-            .Throw(new ComponentNotFoundException(typeof (ICommand)));
+         SetupResult.For(_container.Resolve<IOldCommand>("fake-command-1"))
+            .Throw(new ComponentNotFoundException(typeof (IOldCommand)));
       }
 
       [Test]
@@ -177,7 +178,7 @@ namespace Specs_for_HelpCommand
    }
 
    [Description("Fake Command 1")]
-   public class FakeCommand1 : ICommand
+   public class FakeCommand1 : IOldCommand
    {
       public void Execute(IEnumerable<IArgument> arguments)
       {
@@ -185,7 +186,7 @@ namespace Specs_for_HelpCommand
    }
 
    [Description("Fake Command 2")]
-   public class FakeCommand2 : ICommand
+   public class FakeCommand2 : IOldCommand
    {
       public void Execute(IEnumerable<IArgument> arguments)
       {

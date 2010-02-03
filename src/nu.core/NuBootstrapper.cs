@@ -7,6 +7,7 @@ namespace nu
     using Castle.MicroKernel;
     using Castle.Windsor;
     using Commands;
+    using core.Commands;
     using Model.ArgumentParsing;
     using Model.Package;
     using Model.Project;
@@ -47,9 +48,9 @@ namespace nu
             container.AddComponentLifeStyle<IProjectManifestRepository, ProjectManifestRepository>("projectManifestRepository", LifestyleType.Transient);
 
             //default package commands
-            container.AddComponent<ICommand, HelpCommand>("help");
+            container.AddComponent<IOldCommand, HelpCommand>("help");
             container.Register(
-                Component.For<ICommand>().ImplementedBy<NewProjectCommand>()
+                Component.For<IOldCommand>().ImplementedBy<NewProjectCommand>()
                 .Named("project")
                 .Parameters(
                     Parameter.ForKey("rootTemplateDirectory").Eq("a"), //TODO: correct this
@@ -57,8 +58,8 @@ namespace nu
             
 
             SetupNewProject(container);
-            container.AddComponent<ICommand, ListCommand>("list");
-            container.AddComponent<ICommand, InstallCommand>("install");
+            container.AddComponent<IOldCommand, ListCommand>("list");
+            container.AddComponent<IOldCommand, InstallCommand>("install");
         }
 
         private static void SetupNewProject(IWindsorContainer container)

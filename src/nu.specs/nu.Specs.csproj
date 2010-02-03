@@ -74,6 +74,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SolutionVersion.cs">
+      <Link>SolutionVersion.cs</Link>
+    </Compile>
     <Compile Include="Commands\HelpCommandSpecs.cs" />
     <Compile Include="Commands\ListCommandSpecs.cs" />
     <Compile Include="Commands\ProjectCommandSpecs.cs" />
@@ -102,7 +105,7 @@
   <ItemGroup>
     <ProjectReference Include="..\nu.core\nu.core.csproj">
       <Project>{B106DBF9-AF90-414D-A40C-A0222BF8F5C8}</Project>
-      <Name>nu</Name>
+      <Name>nu.core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

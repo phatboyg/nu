@@ -5,6 +5,7 @@ namespace nu.Commands
 {
    using System.Collections.Generic;
    using Castle.MicroKernel;
+   using core.Commands;
    using Model.ArgumentParsing;
    using Utility;
 
@@ -12,7 +13,7 @@ namespace nu.Commands
    /// Lists all currently registered commands if a name is supplied and their usage.
    /// </summary>
    [Command(Description = "Displays help for the command-line syntax")]
-   public class HelpCommand : ICommand
+   public class HelpCommand : IOldCommand
    {
       private readonly IArgumentMapFactory _argumentMapFactory;
       private readonly IConsole _console;
@@ -45,10 +46,10 @@ namespace nu.Commands
 
       private void DisplayCommandHelp()
       {
-         ICommand command;
+         IOldCommand oldCommand;
          try
          {
-            command = WLocator.Resolve<ICommand>(_commandName);
+            oldCommand = WLocator.Resolve<IOldCommand>(_commandName);
          }
          catch (ComponentNotFoundException)
          {
@@ -57,21 +58,21 @@ namespace nu.Commands
             return;
          }
 
-         IArgumentMap map = _argumentMapFactory.CreateMap(command);
+         IArgumentMap map = _argumentMapFactory.CreateMap(oldCommand);
          _console.WriteHeading(string.Format(CultureInfo.CurrentUICulture, nuresources.Help_CommandName, _commandName));
          _console.WriteLine(nuresources.Help_CommandUsage, _commandName, map.Usage);
       }
 
       private void DisplayCommandList()
       {
-         IHandler[] handlers = WLocator.Container.Kernel.GetAssignableHandlers(typeof (ICommand));
+         IHandler[] handlers = WLocator.Container.Kernel.GetAssignableHandlers(typeof (IOldCommand));
          if (handlers == null) return;
 
          _console.WriteHeading(nuresources.Help_AvailableCommands);
 
          foreach (IHandler handler in handlers)
          {
-            ICommand cmd = (ICommand) handler.Resolve(CreationContext.Empty);
+            IOldCommand cmd = (IOldCommand) handler.Resolve(CreationContext.Empty);
 
             string description = string.Empty;
             object[] attributes = cmd.GetType().GetCustomAttributes(typeof (CommandAttribute), false);
