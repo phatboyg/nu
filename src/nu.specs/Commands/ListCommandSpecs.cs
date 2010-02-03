@@ -1,7 +1,8 @@
 namespace Specs_for_ListCommand
 {
    using System.Collections.Generic;
-   using nu.Commands;
+   using nu.core.Commands;
+   using nu.core.Model.Package;
    using nu.Model.Package;
    using nu.Utility;
    using NUnit.Framework;

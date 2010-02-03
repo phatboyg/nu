@@ -4,10 +4,9 @@ namespace Specs_for_HelpCommand
    using Castle.Core;
    using Castle.MicroKernel;
    using Castle.Windsor;
-   using nu;
-   using nu.Commands;
    using nu.core.Commands;
-   using nu.Model.ArgumentParsing;
+   using nu.core.Model.ArgumentParsing;
+   using nu.core.SubSystems.Locator;
    using nu.Utility;
    using NUnit.Framework;
    using Rhino.Mocks;

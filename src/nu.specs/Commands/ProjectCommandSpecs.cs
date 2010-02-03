@@ -1,6 +1,4 @@
 using System.IO;
-using nu;
-using nu.Commands;
 using nu.Model.Project;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
@@ -9,6 +7,9 @@ using XF.Specs;
 
 namespace Specs_for_ProjectCommand
 {
+	using nu.core.Commands;
+	using nu.core.SubSystems.FileSystem;
+
     [TestFixture]
     public class When_executing_a_command_argument : Spec
     {

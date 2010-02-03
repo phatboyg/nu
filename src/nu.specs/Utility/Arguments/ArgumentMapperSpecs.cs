@@ -1,8 +1,8 @@
 namespace Specs_for_ArgumentMapper
 {
     using System.Collections.Generic;
-    using nu.Model.ArgumentParsing;
-    using nu.Model.ArgumentParsing.Exceptions;
+    using nu.core.Model.ArgumentParsing;
+    using nu.core.Model.ArgumentParsing.Exceptions;
     using NUnit.Framework;
     using NUnit.Framework.SyntaxHelpers;
     using XF.Specs;
