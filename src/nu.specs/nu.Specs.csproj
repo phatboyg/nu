@@ -74,6 +74,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SolutionVersion.cs">
+      <Link>SolutionVersion.cs</Link>
+    </Compile>
     <Compile Include="Commands\HelpCommandSpecs.cs" />
     <Compile Include="Commands\ListCommandSpecs.cs" />
     <Compile Include="Commands\ProjectCommandSpecs.cs" />
