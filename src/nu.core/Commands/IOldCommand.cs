@@ -1,9 +1,9 @@
 namespace nu.core.Commands
 {
 	using System.Collections.Generic;
-	using Model.ArgumentParsing;
+	using nu.Model.ArgumentParsing;
 
-	public interface IOldCommand
+    public interface IOldCommand
 	{
 		void Execute(IEnumerable<IArgument> arguments);
 	}
