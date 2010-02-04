@@ -41,6 +41,13 @@ namespace nu.core.FilePaths
             }
         }
 
+        public static FilePathAbsolute GetNug(string nugName)
+        {
+            var x = WellKnownPaths.NugsFolder;
+            var n = x.GetChildFileWithName(nugName);
+            return n;
+        }
+
         public static NugPackage GetNugPackage(string name)
         {
             var path = NugsFolder.GetChildFileWithName(string.Format("{0}.nug", name));
@@ -64,6 +71,19 @@ namespace nu.core.FilePaths
             }
             
             return np;
+        }
+
+        public static void WorkWithTempDir(Action<DirectoryPathAbsolute> tempAction)
+        {
+            var tempDir = Path.Combine(Path.GetTempPath(), "nu");
+            tempDir = Path.Combine(tempDir, Guid.NewGuid().ToString());
+            var d = new DirectoryPathAbsolute(tempDir);
+            if (!d.Exists)
+            {
+                d.Create();
+            }
+            tempAction(d);
+            d.Delete();
         }
     }
 
