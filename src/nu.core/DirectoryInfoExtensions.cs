@@ -41,5 +41,11 @@ namespace nu.core
 			if (!path.Exists)
 				Directory.CreateDirectory(path.Path);
 		}
+
+        public static void Delete(this DirectoryPathAbsolute path)
+        {
+            if(path.Exists)
+                Directory.Delete(path.Path, true);
+        }
 	}
 }
