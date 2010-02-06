@@ -13,7 +13,7 @@
 namespace nu.Model.Template
 {
 	using System.IO;
-	using core.Model.Template;
+	using core.SubSystems.Templating;
 	using NUnit.Framework;
 	using NUnit.Framework.SyntaxHelpers;
 	using XF.Specs;

@@ -6,6 +6,7 @@ namespace nu.core.FilePaths
     using System.Reflection;
     using Model.Files.Package;
     using NDepend.Helpers.FileDirectoryPath;
+    using SubSystems.Serialization;
 
     public static class WellKnownPaths
     {
@@ -17,11 +18,41 @@ namespace nu.core.FilePaths
             }
         }
 
-        public static DirectoryPath NusExeLocation
+        public static DirectoryPathAbsolute NusExeLocation
         {
             get
             {
                 return new FilePathAbsolute(Assembly.GetEntryAssembly().Location).ParentDirectoryPath;
+            }
+        }
+
+        public static DirectoryPathAbsolute ProjectRoot
+        {
+            get
+            {
+                return new DirectoryPathAbsolute("");
+            }
+        }
+        public static DirectoryPathAbsolute NuDir
+        {
+            get
+            {
+                return ProjectRoot.GetChildDirectoryWithName(".nu");
+            }
+        }
+        public static FilePathAbsolute GlobalConfigFile
+        {
+            get
+            {
+                return NusExeLocation.GetChildFileWithName("nu.conf");
+            }
+        }
+
+        public static FilePathAbsolute ProjectConfigFile
+        {
+            get
+            {
+                return NuDir.GetChildFileWithName("nu.conf");
             }
         }
 

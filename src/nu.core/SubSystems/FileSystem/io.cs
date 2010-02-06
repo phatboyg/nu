@@ -6,6 +6,7 @@ namespace nu.core.SubSystems.FileSystem
     using FilePaths;
     using Model.Files.Package;
     using NDepend.Helpers.FileDirectoryPath;
+    using Serialization;
 
     public class io
     {

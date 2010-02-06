@@ -87,7 +87,6 @@
     <Compile Include="..\SolutionVersion.cs">
       <Link>SolutionVersion.cs</Link>
     </Compile>
-    <Compile Include="Commands\CommandAttribute.cs" />
     <None Include="config\project\cs-20\Properties\AssemblyInfo.cs.nut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -97,84 +96,54 @@
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\VersionCommand.cs" />
     <Compile Include="DirectoryInfoExtensions.cs" />
-    <Compile Include="JsonUtil.cs" />
-    <Compile Include="Model\Files\GlobalProperties.cs" />
-    <Compile Include="Model\Files\LocalNugInfo.cs" />
-    <Compile Include="Model\Files\NugSpec.cs" />
-    <Compile Include="Model\Files\NuRegistry.cs" />
-    <Compile Include="Model\Files\Package\NugFile.cs" />
-    <Compile Include="Model\Files\Package\NugPackage.cs" />
-    <Compile Include="Model\Files\Package\NugRegistry.cs" />
-    <Compile Include="Model\Package\LocalPackageRepository.cs" />
-    <Compile Include="Model\Project\IProjectEnvironment.cs" />
-    <Compile Include="Model\Project\IProjectManifestRepository.cs" />
-    <Compile Include="Model\Project\Persistence\BaseProjectManifestStore.cs" />
-    <Compile Include="Model\Project\ProjectManifest.cs" />
-    <Compile Include="Model\Project\DTO\FileDTO.cs" />
-    <Compile Include="Model\Project\DTO\FolderDTO.cs" />
-    <Compile Include="Model\Project\DTO\Manifest.cs" />
-    <Compile Include="Model\Project\DTO\PackageDTO.cs" />
-    <Compile Include="Model\Project\ProjectElement.cs" />
-    <Compile Include="Model\Project\IProjectManifestStore.cs" />
-    <Compile Include="Model\Project\ProjectEnviornment.cs" />
-    <Compile Include="Model\Project\ProjectManifestBuilder.cs" />
-    <Compile Include="Model\Project\ProjectManifestRepository.cs" />
-    <Compile Include="Model\Project\Transformation\AbstractTransformationElement.cs" />
-    <Compile Include="Model\Project\Transformation\Exceptions\ProjectManifestRequiredException.cs" />
-    <Compile Include="Model\Project\Transformation\FileTransformationElement.cs" />
-    <Compile Include="Model\Project\Transformation\FolderTransformationElement.cs" />
-    <Compile Include="Model\Project\Transformation\IProjectTransformationPipeline.cs" />
-    <Compile Include="Model\Project\Transformation\ProjectTransformationPipeline.cs" />
-    <Compile Include="Model\Project\Persistence\XmlProjectManifestStore.cs" />
-    <Compile Include="Model\Template\NVelocityTemplateProcessor.cs" />
-    <Compile Include="Model\Template\TemplateContext.cs" />
-    <Compile Include="NuBootstrapper.cs" />
+    <Compile Include="SubSystems\Serialization\JsonUtil.cs" />
+    <Compile Include="SubSystems\Nugs\NugFile.cs" />
+    <Compile Include="SubSystems\Nugs\NugPackage.cs" />
+    <Compile Include="SubSystems\Nugs\NugRegistry.cs" />
+    <Compile Include="SubSystems\Project\IProjectEnvironment.cs" />
+    <Compile Include="SubSystems\Project\IProjectManifestRepository.cs" />
+    <Compile Include="SubSystems\Project\ProjectManifest.cs" />
+    <Compile Include="SubSystems\Project\DTO\FileDTO.cs" />
+    <Compile Include="SubSystems\Project\DTO\FolderDTO.cs" />
+    <Compile Include="SubSystems\Project\DTO\Manifest.cs" />
+    <Compile Include="SubSystems\Project\DTO\PackageDTO.cs" />
+    <Compile Include="SubSystems\Project\ProjectElement.cs" />
+    <Compile Include="SubSystems\Project\IProjectManifestStore.cs" />
+    <Compile Include="SubSystems\Project\ProjectEnviornment.cs" />
+    <Compile Include="SubSystems\Project\ProjectManifestBuilder.cs" />
+    <Compile Include="SubSystems\Project\ProjectManifestRepository.cs" />
+    <Compile Include="SubSystems\Project\Transformation\AbstractTransformationElement.cs" />
+    <Compile Include="SubSystems\Project\Transformation\Exceptions\ProjectManifestRequiredException.cs" />
+    <Compile Include="SubSystems\Project\Transformation\FileTransformationElement.cs" />
+    <Compile Include="SubSystems\Project\Transformation\FolderTransformationElement.cs" />
+    <Compile Include="SubSystems\Project\Transformation\IProjectTransformationPipeline.cs" />
+    <Compile Include="SubSystems\Project\Transformation\ProjectTransformationPipeline.cs" />
+    <Compile Include="SubSystems\Templating\NVelocityTemplateProcessor.cs" />
+    <Compile Include="SubSystems\Templating\TemplateContext.cs" />
     <Compile Include="Resources\nuresources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>nuresources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Model\ArgumentParsing\Argument.cs" />
-    <Compile Include="Model\ArgumentParsing\ArgumentAttribute.cs" />
-    <Compile Include="Model\ArgumentParsing\ArgumentMap.cs" />
-    <Compile Include="Model\ArgumentParsing\ArgumentMapFactory.cs" />
-    <Compile Include="Model\ArgumentParsing\ArgumentParser.cs" />
-    <Compile Include="Model\ArgumentParsing\ArgumentTarget.cs" />
-    <Compile Include="Model\ArgumentParsing\Exceptions\MissingRequiredArgumentsException.cs" />
-    <Compile Include="Model\ArgumentParsing\IArgument.cs" />
-    <Compile Include="Model\ArgumentParsing\IArgumentMap.cs" />
-    <Compile Include="Model\ArgumentParsing\IArgumentMapFactory.cs" />
-    <Compile Include="Model\ArgumentParsing\IArgumentParser.cs" />
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="SubSystems\Configuration\Entries.cs" />
     <Compile Include="SubSystems\Configuration\Entry.cs" />
+    <Compile Include="SubSystems\Configuration\EntryPair.cs" />
     <Compile Include="SubSystems\Configuration\NuConfiguration.cs" />
     <Compile Include="SubSystems\Dispay\ConsoleHelper.cs" />
     <Compile Include="SubSystems\FileSystem\DotNetFileSystem.cs" />
     <Compile Include="SubSystems\Dispay\IConsole.cs" />
     <Compile Include="SubSystems\FileSystem\IFileSystem.cs" />
-    <Compile Include="Model\Package\IPackageRepository.cs" />
-    <Compile Include="Model\Package\Package.cs" />
-    <Compile Include="Model\Package\PackageItem.cs" />
-    <Compile Include="Model\Package\PackageNotFoundException.cs" />
-    <Compile Include="Commands\InstallCommand.cs" />
-    <Compile Include="Commands\ListCommand.cs" />
-    <Compile Include="Commands\NewProjectCommand.cs" />
-    <Compile Include="Dispatcher.cs" />
-    <Compile Include="Commands\HelpCommand.cs" />
-    <Compile Include="Commands\IOldCommand.cs" />
     <Compile Include="SubSystems\FileSystem\InstallationDirectory.cs" />
     <Compile Include="SubSystems\FileSystem\io.cs" />
     <Compile Include="SubSystems\FileSystem\ProjectDirectory.cs" />
     <Compile Include="SubSystems\FileSystem\WellKnownPaths.cs" />
     <Compile Include="SubSystems\FileSystem\WorkingDirectory.cs" />
     <Compile Include="SubSystems\FileSystem\Zip.cs" />
-    <Compile Include="SubSystems\Locator\WLocator.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Model\Project\IProjectManifest.cs" />
-    <Compile Include="Model\Template\ITemplateContext.cs" />
-    <Compile Include="Model\Template\ITemplateProcessor.cs" />
+    <Compile Include="SubSystems\Project\IProjectManifest.cs" />
+    <Compile Include="SubSystems\Templating\ITemplateContext.cs" />
+    <Compile Include="SubSystems\Templating\ITemplateProcessor.cs" />
     <Compile Include="SubSystems\FileSystem\IPath.cs" />
     <Compile Include="SubSystems\FileSystem\PathAdapter.cs" />
     <Compile Include="SubSystems\Network\Http.cs" />
@@ -259,9 +228,6 @@
       <LastGenOutput>nuresources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\Files\Package\NewFolder1\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

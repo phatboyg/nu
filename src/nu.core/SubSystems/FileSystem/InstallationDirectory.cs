@@ -14,10 +14,11 @@ namespace nu.core.SubSystems.FileSystem
 {
 	using System.Collections.Generic;
 	using System.IO;
-	using Files;
+	using Model.Files;
 	using NDepend.Helpers.FileDirectoryPath;
+	using Serialization;
 
-	/// <summary>
+    /// <summary>
 	/// Where the 'nu.exe' is located
 	/// </summary>
 	public class InstallationDirectory

@@ -1,6 +1,7 @@
 namespace nu.core.FilePaths
 {
     using System;
+    using Model.Files;
     using NDepend.Helpers.FileDirectoryPath;
 
     /// <summary>

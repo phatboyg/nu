@@ -12,12 +12,15 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.SubSystems.Configuration
 {
-    using System;
-
-    [Serializable]
-    public class Entry
+    public class EntryPair
     {
-        public string Key { get; set; }
-        public string Value { get; set; }
+        public EntryPair(Entry project, Entry global)
+        {
+            Project = project;
+            Global = global;
+        }
+
+        public Entry Project { get; set; }
+        public Entry Global { get; set; }
     }
 }

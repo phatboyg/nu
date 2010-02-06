@@ -10,14 +10,19 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.SubSystems.Configuration
+namespace nu.core.Model.Files.Package
 {
-    using System;
+    using System.Collections.Generic;
 
-    [Serializable]
-    public class Entry
+    public class NugPackage
     {
-        public string Key { get; set; }
-        public string Value { get; set; }
+        public NugPackage(string name)
+        {
+            Name = name;
+        }
+
+        public string Name { get; set; }
+        public string Version { get; set; }
+        public IList<NugFile> Files { get; set; }
     }
 }

@@ -10,14 +10,25 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.SubSystems.Configuration
+namespace nu.core.SubSystems.Serialization
 {
-    using System;
+    using System.Web.Script.Serialization;
 
-    [Serializable]
-    public class Entry
+    public static class JsonUtil
     {
-        public string Key { get; set; }
-        public string Value { get; set; }
+        public static string ToJson(object objectToSerialize)
+        {
+            return new JavaScriptSerializer().Serialize(objectToSerialize);
+        }
+
+        public static T Get<T>(string rawJson)
+        {
+            return new JavaScriptSerializer().Deserialize<T>(rawJson);
+        }
+
+        public static object Get(string rawJson)
+        {
+            return new JavaScriptSerializer().DeserializeObject(rawJson);
+        }
     }
 }
