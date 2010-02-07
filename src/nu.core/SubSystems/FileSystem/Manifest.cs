@@ -12,24 +12,14 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.SubSystems.FileSystem
 {
-    using System.IO;
+    using System;
+    using System.Collections.Generic;
 
-    public class PathAdapter : IPath
+    [Serializable]
+    public class Manifest
     {
-        public string Combine(string firstPath, string secondPath)
-        {
-            return Path.Combine(firstPath, secondPath);
-        }
-
-        public char DirectorySeparatorChar
-        {
-            get { return Path.DirectorySeparatorChar; }
-        }
-
-
-        public string GetDirectoryName(string path)
-        {
-            return Path.GetDirectoryName(path);
-        }
+        public string Name { get; set; }
+        public string Version { get; set; }
+        public IList<ManifestEntry> Files { get; set; }
     }
 }

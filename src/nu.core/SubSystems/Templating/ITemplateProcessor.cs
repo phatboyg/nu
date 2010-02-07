@@ -10,26 +10,13 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.SubSystems.FileSystem
+namespace nu.core.SubSystems.Templating
 {
-    using System.IO;
+    using System;
 
-    public class PathAdapter : IPath
+    public interface ITemplateProcessor
     {
-        public string Combine(string firstPath, string secondPath)
-        {
-            return Path.Combine(firstPath, secondPath);
-        }
-
-        public char DirectorySeparatorChar
-        {
-            get { return Path.DirectorySeparatorChar; }
-        }
-
-
-        public string GetDirectoryName(string path)
-        {
-            return Path.GetDirectoryName(path);
-        }
+        ITemplateContext CreateTemplateContext();
+        string Process(String template, ITemplateContext context);
     }
 }

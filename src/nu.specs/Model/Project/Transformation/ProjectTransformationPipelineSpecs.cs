@@ -5,7 +5,9 @@ using XF.Specs;
 
 namespace nu.Model.Project.Transformation
 {
-    public class When_executing_a_project_transformation_pipeline : Spec
+	using core.Model.Project.Transformation;
+
+	public class When_executing_a_project_transformation_pipeline : Spec
     {
         [Test]
         public void Should_accept_transformation_elements()

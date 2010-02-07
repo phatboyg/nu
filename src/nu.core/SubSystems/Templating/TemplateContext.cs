@@ -10,26 +10,22 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.SubSystems.FileSystem
+namespace nu.core.SubSystems.Templating
 {
-    using System.IO;
+    using System.Collections.Generic;
 
-    public class PathAdapter : IPath
+    public class TemplateContext : ITemplateContext
     {
-        public string Combine(string firstPath, string secondPath)
+        readonly IDictionary<string, object> _context;
+
+        public TemplateContext()
         {
-            return Path.Combine(firstPath, secondPath);
+            _context = new Dictionary<string, object>();
         }
 
-        public char DirectorySeparatorChar
+        public IDictionary<string, object> Items
         {
-            get { return Path.DirectorySeparatorChar; }
-        }
-
-
-        public string GetDirectoryName(string path)
-        {
-            return Path.GetDirectoryName(path);
+            get { return _context; }
         }
     }
 }

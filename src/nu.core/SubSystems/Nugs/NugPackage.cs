@@ -10,26 +10,19 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.SubSystems.FileSystem
+namespace nu.core.Model.Files.Package
 {
-    using System.IO;
+    using System.Collections.Generic;
 
-    public class PathAdapter : IPath
+    public class NugPackage
     {
-        public string Combine(string firstPath, string secondPath)
+        public NugPackage(string name)
         {
-            return Path.Combine(firstPath, secondPath);
+            Name = name;
         }
 
-        public char DirectorySeparatorChar
-        {
-            get { return Path.DirectorySeparatorChar; }
-        }
-
-
-        public string GetDirectoryName(string path)
-        {
-            return Path.GetDirectoryName(path);
-        }
+        public string Name { get; set; }
+        public string Version { get; set; }
+        public IList<NugFile> Files { get; set; }
     }
 }

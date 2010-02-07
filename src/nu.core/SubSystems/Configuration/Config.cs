@@ -10,26 +10,12 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.SubSystems.FileSystem
+namespace nu.core.SubSystems.Configuration
 {
-    using System.IO;
-
-    public class PathAdapter : IPath
+    public interface Config
     {
-        public string Combine(string firstPath, string secondPath)
-        {
-            return Path.Combine(firstPath, secondPath);
-        }
-
-        public char DirectorySeparatorChar
-        {
-            get { return Path.DirectorySeparatorChar; }
-        }
-
-
-        public string GetDirectoryName(string path)
-        {
-            return Path.GetDirectoryName(path);
-        }
+        Entries GlobalConfiguration { get; }
+        Entries ProjectConfiguration { get; }
+        Entry GetEntryFor(string key);
     }
 }

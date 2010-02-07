@@ -10,26 +10,25 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.SubSystems.FileSystem
+namespace nu.core.SubSystems.Serialization
 {
-    using System.IO;
+    using System.Web.Script.Serialization;
 
-    public class PathAdapter : IPath
+    public static class JsonUtil
     {
-        public string Combine(string firstPath, string secondPath)
+        public static string ToJson(object objectToSerialize)
         {
-            return Path.Combine(firstPath, secondPath);
+            return new JavaScriptSerializer().Serialize(objectToSerialize);
         }
 
-        public char DirectorySeparatorChar
+        public static T Get<T>(string rawJson)
         {
-            get { return Path.DirectorySeparatorChar; }
+            return new JavaScriptSerializer().Deserialize<T>(rawJson);
         }
 
-
-        public string GetDirectoryName(string path)
+        public static object Get(string rawJson)
         {
-            return Path.GetDirectoryName(path);
+            return new JavaScriptSerializer().DeserializeObject(rawJson);
         }
     }
 }
