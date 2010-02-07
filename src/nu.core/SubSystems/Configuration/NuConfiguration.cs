@@ -15,6 +15,7 @@ namespace nu.core.SubSystems.Configuration
     using System;
     using System.Linq;
     using FileSystem;
+    using Serialization;
 
     public class NuConfiguration :
         Config
@@ -26,8 +27,12 @@ namespace nu.core.SubSystems.Configuration
             _fileSystem = fileSystem;
             GlobalConfiguration = new Entries();
             ProjectConfiguration = new Entries();
+        }
 
-            //where to initialize
+        public void Initialize()
+        {
+            GlobalConfiguration = JsonUtil.Get<Entries>(_fileSystem.ReadToEnd(_fileSystem.GlobalConfig.Path));
+            ProjectConfiguration = JsonUtil.Get<Entries>(_fileSystem.ReadToEnd(_fileSystem.ProjectConfig.Path));
         }
 
         /// <summary>

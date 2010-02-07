@@ -15,6 +15,7 @@ namespace nu.core.SubSystems.Configuration
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
     [Serializable]
     public class Entries :
@@ -51,12 +52,23 @@ namespace nu.core.SubSystems.Configuration
             return _items.GetEnumerator();
         }
 
-        public void Add(Entry item)
+        public Entry Get(string key)
+        {
+            return _items.DefaultIfEmpty(null).Single(e => e.Key == key);
+        }
+
+        public void Set(Entry item)
         {
             if(_items.Contains(item))
                 return;
 
             _items.Add(item);
+        }
+
+        public void Remove(Entry item)
+        {
+            if (_items.Contains(item))
+                _items.Remove(item);
         }
     }
 }
