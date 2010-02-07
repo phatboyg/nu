@@ -25,17 +25,17 @@ namespace nu.core.FilePaths
             get { return _projectDirectory.Path; }
         }
 
-        public void Install(LocalNugInfo info)
+        public void Install(object info)
         {
             if(!FoundAProject()) throw new Exception("not in a nu project path");
 
-            var targetDir = _libDirectory.GetChildDirectoryWithName(info.Name);
+            var targetDir = _libDirectory.GetChildDirectoryWithName("info.Name");
             if(!targetDir.Exists)
             {
                 targetDir.Create();
             }
 
-            info.Path.CopyTo(_libDirectory.GetChildDirectoryWithName(info.Name));
+            //info.Path.CopyTo(_libDirectory.GetChildDirectoryWithName(info.Name));
         }
 
         public bool FoundAProject()

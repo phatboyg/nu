@@ -32,16 +32,16 @@ namespace nu.core.SubSystems.FileSystem
 			_installedNugPath = _installationPath.GetChildDirectoryWithName("nugs");
 		}
 
-		public NuRegistry GetRegistry()
+		public object GetRegistry()
 		{
 			string rawJson = GetRegistryFile();
-			return JsonUtil.Get<NuRegistry>(rawJson);
+		    return null; // JsonUtil.Get<NuRegistry>(rawJson);
 		}
 
 		public string GetRegistryFile()
 		{
-			var fi = _installationPath.GetChildFileWithName(NuRegistry.FileName);
-			return File.ReadAllText(fi.Path);
+			//var fi = _installationPath.GetChildFileWithName(NuRegistry.FileName);
+			return File.ReadAllText("fi.Path");
 		}
 
 		public string[] InstalledNugs()
@@ -60,23 +60,23 @@ namespace nu.core.SubSystems.FileSystem
 			return _installedNugPath.GetChildDirectoryWithName(name).Exists;
 		}
 
-		public void StoreNug(NugSpec spec, Stream stream)
+		public void StoreNug(object spec, Stream stream)
 		{
-			var nugDirectory = _installedNugPath.GetChildDirectoryWithName(spec.Name);
+			var nugDirectory = _installedNugPath.GetChildDirectoryWithName("spec.Name");
 			if (!nugDirectory.Exists)
 				Directory.CreateDirectory(nugDirectory.Path);
 
-			var tempName = string.Format("{0}.zip", spec.Name);
+			var tempName = string.Format("{0}.zip", "spec.Name");
 			var tempFile = _installedNugPath.GetChildFileWithName(tempName);
 			stream.WriteToDisk(tempFile.Path);
 			Zip.Unzip(tempFile, nugDirectory);
 			File.Delete(tempFile.Path);
 		}
 
-		public LocalNugInfo GetNug(string name)
+		public object GetNug(string name)
 		{
 			//take from here
-			return new LocalNugInfo();
+            return null; //new LocalNugInfo();
 		}
 	}
 }

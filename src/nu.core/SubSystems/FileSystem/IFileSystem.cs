@@ -14,16 +14,30 @@ namespace nu.core.SubSystems.FileSystem
 {
 	using System;
 	using System.IO;
+	using NDepend.Helpers.FileDirectoryPath;
 
-	public interface IFileSystem
+    public interface IFileSystem
 	{
-		string CurrentDirectory { get; }
-		string ExecutingDirectory { get; }
+        //well known paths
+        DirectoryPath WorkingDirectory { get; }
+        DirectoryPathAbsolute InstallDirectory { get; }
+        DirectoryPathAbsolute ProjectRoot { get; }
+        DirectoryPathAbsolute ProjectNuDirectory { get; }
+        DirectoryPath ExtensionsDirectory { get; }
+
+        //files
+        FilePath ProjectConfig { get; }
+        FilePath GlobalConfig { get; }
+
+
+        //util
+		DirectoryPathAbsolute CurrentDirectory { get; }
+        DirectoryPathAbsolute ExecutingDirectory { get; }
 		char DirectorySeparatorChar { get; }
-		string GetNuRoot { get; }
+        DirectoryPathAbsolute GetNuRoot { get; }
 		bool Exists(string filePath);
 		bool DirectoryExists(string directory);
-		Stream Read(string filePath);
+		void Read(string filePath, Action<Stream> action);
 		String ReadToEnd(string filePath);
 		void Write(string filePath, Stream file);
 		void Write(string filePath, String content);
@@ -34,5 +48,6 @@ namespace nu.core.SubSystems.FileSystem
 		string Combine(string firstPath, string secondPath);
 		string[] GetDirectories(string path);
 		string GetTempFileName();
+        void WorkWithTempDir(Action<DirectoryPath> tempAction);
 	}
 }

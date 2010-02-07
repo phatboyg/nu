@@ -10,65 +10,11 @@ namespace nu.core.FilePaths
 
     public static class WellKnownPaths
     {
-        public static DirectoryPath WorkingDirectory
-        {
-            get
-            {
-                return new DirectoryPathAbsolute(Directory.GetCurrentDirectory());
-            }
-        }
-
-        public static DirectoryPathAbsolute NusExeLocation
-        {
-            get
-            {
-                return new FilePathAbsolute(Assembly.GetEntryAssembly().Location).ParentDirectoryPath;
-            }
-        }
-
-        public static DirectoryPathAbsolute ProjectRoot
-        {
-            get
-            {
-                return new DirectoryPathAbsolute("");
-            }
-        }
-        public static DirectoryPathAbsolute NuDir
-        {
-            get
-            {
-                return ProjectRoot.GetChildDirectoryWithName(".nu");
-            }
-        }
-        public static FilePathAbsolute GlobalConfigFile
-        {
-            get
-            {
-                return NusExeLocation.GetChildFileWithName("nu.conf");
-            }
-        }
-
-        public static FilePathAbsolute ProjectConfigFile
-        {
-            get
-            {
-                return NuDir.GetChildFileWithName("nu.conf");
-            }
-        }
-
-        public static DirectoryPath ExtensionsFolder
-        {
-            get
-            {
-                return new DirectoryPathAbsolute(NusExeLocation.Path).GetChildDirectoryWithName("extensions");
-            }
-        }
-
         public static DirectoryPathAbsolute NugsFolder
         {
             get
             {
-                return new DirectoryPathAbsolute(NusExeLocation.Path).GetChildDirectoryWithName("nugs");
+                return new DirectoryPathAbsolute("NusExeLocation.Path").GetChildDirectoryWithName("nugs");
             }
         }
 

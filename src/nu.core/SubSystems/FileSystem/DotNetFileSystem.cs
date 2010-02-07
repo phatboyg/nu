@@ -14,9 +14,12 @@ namespace nu.core.SubSystems.FileSystem
 {
 	using System;
 	using System.IO;
+	using System.Reflection;
+	using NDepend.Helpers.FileDirectoryPath;
 	using Utility;
 
-	public class DotNetFileSystem : IFileSystem
+	public class DotNetFileSystem :
+        IFileSystem
 	{
 		readonly IPath _path;
 
@@ -35,31 +38,81 @@ namespace nu.core.SubSystems.FileSystem
 			return Directory.Exists(directory);
 		}
 
-		public Stream Read(string filePath)
+		public void Read(string filePath, Action<Stream> action)
 		{
-			return new FileStream(filePath, FileMode.Open);
+            using(var stream = new FileStream(filePath, FileMode.Open))
+            {
+                action(stream);
+            }
 		}
 
-		public string GetTempFileName()
+	    public DirectoryPath WorkingDirectory
+	    {
+            get { return new DirectoryPathAbsolute(Directory.GetCurrentDirectory()); }
+	    }
+
+	    public DirectoryPathAbsolute InstallDirectory
+	    {
+            get
+            {
+                return new FilePathAbsolute(Assembly.GetEntryAssembly().Location).ParentDirectoryPath;
+            }
+	    }
+
+	    public DirectoryPathAbsolute ProjectRoot
+	    {
+            get { return new DirectoryPathAbsolute(""); }
+	    }
+
+	    public DirectoryPathAbsolute ProjectNuDirectory
+	    {
+            get { return ProjectRoot.GetChildDirectoryWithName(".nu"); }
+	    }
+
+	    public DirectoryPath ExtensionsDirectory
+	    {
+            get { return InstallDirectory.GetChildDirectoryWithName("extensions"); }
+	    }
+
+	    public FilePath ProjectConfig
+	    {
+            get
+            {
+                return ProjectNuDirectory.GetChildFileWithName("nu.conf");
+            }
+	    }
+
+	    public FilePath GlobalConfig
+	    {
+            get { return InstallDirectory.GetChildFileWithName("nu.conf"); }
+	    }
+
+	    public void WorkWithTempDir(Action<DirectoryPath> tempAction)
+	    {
+	        throw new NotImplementedException();
+	    }
+
+	    public string GetTempFileName()
 		{
 			return Path.GetTempFileName();
 		}
 
-		public String ReadToEnd(string filePath)
-		{
-			string contents;
-			using (Stream stream = Read(filePath))
-			{
-				using (var reader = new StreamReader(stream))
-				{
-					contents = reader.ReadToEnd();
-				}
-			}
-			return contents;
-		}
+        public String ReadToEnd(string filePath)
+        {
+            string contents = "";
+            Read(filePath, s =>
+                {
+                    using (var reader = new StreamReader(s))
+                    {
+                        contents = reader.ReadToEnd();
+                    }
+                });
+
+            return contents;
+        }
 
 
-		public void Write(string filePath, String contents)
+	    public void Write(string filePath, String contents)
 		{
 			using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
 			{
@@ -99,14 +152,14 @@ namespace nu.core.SubSystems.FileSystem
 			File.Copy(source, destination);
 		}
 
-		public string CurrentDirectory
+		public DirectoryPathAbsolute CurrentDirectory
 		{
-			get { return Directory.GetCurrentDirectory(); }
+			get { return new DirectoryPathAbsolute(Directory.GetCurrentDirectory()); }
 		}
 
-		public virtual string ExecutingDirectory
+        public virtual DirectoryPathAbsolute ExecutingDirectory
 		{
-			get { return AppDomain.CurrentDomain.BaseDirectory; }
+			get { return new DirectoryPathAbsolute(AppDomain.CurrentDomain.BaseDirectory); }
 		}
 
 		public bool IsRooted(string path)
@@ -130,7 +183,7 @@ namespace nu.core.SubSystems.FileSystem
 			return Directory.GetDirectories(path);
 		}
 
-		public string GetNuRoot
+        public DirectoryPathAbsolute GetNuRoot
 		{
 			get { return ExecutingDirectory; }
 		}

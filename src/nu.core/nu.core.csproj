@@ -96,6 +96,8 @@
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\VersionCommand.cs" />
     <Compile Include="DirectoryInfoExtensions.cs" />
+    <Compile Include="SubSystems\FileSystem\Manifest.cs" />
+    <Compile Include="SubSystems\FileSystem\ManifestEntry.cs" />
     <Compile Include="SubSystems\Serialization\JsonUtil.cs" />
     <Compile Include="SubSystems\Nugs\NugFile.cs" />
     <Compile Include="SubSystems\Nugs\NugPackage.cs" />
