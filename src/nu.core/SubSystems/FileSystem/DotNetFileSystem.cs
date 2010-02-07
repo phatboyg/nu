@@ -45,7 +45,7 @@ namespace nu.core.SubSystems.FileSystem
             }
 		}
 
-	    public DirectoryPath WorkingDirectory
+	    public DirectoryPathAbsolute WorkingDirectory
 	    {
             get { return new DirectoryPathAbsolute(Directory.GetCurrentDirectory()); }
 	    }
@@ -60,7 +60,10 @@ namespace nu.core.SubSystems.FileSystem
 
 	    public DirectoryPathAbsolute ProjectRoot
 	    {
-            get { return new DirectoryPathAbsolute(""); }
+            get {
+                var a = WalkThePathLookingForNu(WorkingDirectory);
+                return a; 
+            }
 	    }
 
 	    public DirectoryPathAbsolute ProjectNuDirectory
@@ -188,5 +191,26 @@ namespace nu.core.SubSystems.FileSystem
 		{
 			return Directory.GetDirectories(path);
 		}
+
+        public DirectoryPathAbsolute WalkThePathLookingForNu(DirectoryPathAbsolute path)
+        {
+            DirectoryPathAbsolute result = null;
+
+            if (!path.IsRoot())
+            {
+                DirectoryPathAbsolute bro = path.GetBrotherDirectoryWithName(".nu");
+                if (bro.Exists)
+                {
+                    return bro;
+                }
+                if (path.HasParentDir)
+                {
+                    result = WalkThePathLookingForNu(path.ParentDirectoryPath);
+                }
+            }
+
+
+            return result;
+        }
 	}
 }

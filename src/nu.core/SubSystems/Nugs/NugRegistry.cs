@@ -12,6 +12,7 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.SubSystems.Nugs
 {
+    using System;
     using System.IO;
     using FileSystem;
     using Model.Files.Package;
@@ -57,6 +58,40 @@ namespace nu.core.SubSystems.Nugs
             }
 
             return np;
+        }
+
+        public NugPackage Do(string nugName)
+        {
+            var nug = new NugPackage(nugName);
+            _fileSystem.WorkWithTempDir((temp) =>
+            {
+                var n = GetNug(nugName);
+
+                if (!n.Exists)
+                    throw new Exception("cant find nug");
+
+                Zip.Unzip(n, temp);
+
+                //i now have the unzipped contents @ temp
+                var mani = temp.GetChildFileWithName("MANIFEST");
+                var maniS = File.ReadAllText(mani.Path);
+                //json it
+                var m = JsonUtil.Get<Manifest>(maniS);
+
+                nug.Name = m.Name;
+                nug.Version = m.Version;
+
+                foreach (var entry in m.Files)
+                {
+                    nug.Files.Add(new NugFile
+                    {
+                        Name = entry.Name,
+                        //whoa
+                        File = new MemoryStream(File.ReadAllBytes(mani.GetBrotherFileWithName(entry.Name).Path))
+                    });
+                }
+            });
+            return nug;
         }
     }
 }

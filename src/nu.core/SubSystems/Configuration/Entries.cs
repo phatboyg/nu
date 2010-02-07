@@ -50,5 +50,13 @@ namespace nu.core.SubSystems.Configuration
         {
             return _items.GetEnumerator();
         }
+
+        public void Add(Entry item)
+        {
+            if(_items.Contains(item))
+                return;
+
+            _items.Add(item);
+        }
     }
 }

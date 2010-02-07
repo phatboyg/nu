@@ -12,15 +12,10 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.SubSystems.Configuration
 {
-    public class EntryPair
+    public interface Config
     {
-        public EntryPair(Entry project, Entry global)
-        {
-            Project = project;
-            Global = global;
-        }
-
-        public Entry Project { get; set; }
-        public Entry Global { get; set; }
+        Entries GlobalConfiguration { get; }
+        Entries ProjectConfiguration { get; }
+        Entry GetEntryFor(string key);
     }
 }

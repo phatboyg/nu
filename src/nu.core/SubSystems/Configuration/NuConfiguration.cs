@@ -13,11 +13,23 @@
 namespace nu.core.SubSystems.Configuration
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
+    using FileSystem;
 
-    public class NuConfiguration
+    public class NuConfiguration :
+        Config
     {
+        readonly IFileSystem _fileSystem;
+
+        public NuConfiguration(IFileSystem fileSystem)
+        {
+            _fileSystem = fileSystem;
+            GlobalConfiguration = new Entries();
+            ProjectConfiguration = new Entries();
+
+            //where to initialize
+        }
+
         /// <summary>
         /// Read out of the Global conf file
         /// </summary>
@@ -29,16 +41,19 @@ namespace nu.core.SubSystems.Configuration
         public Entries ProjectConfiguration { get; set; }
 
         /// <summary>
-        /// Looks for a matching entry starting with the project conf then the global conf
+        /// Returns an enttry for the given key. Searching the project config before searchnig the global config
         /// </summary>
-        public IEnumerable<EntryPair> GetEntry(Func<Entry, bool> test)
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public Entry GetEntryFor(string key)
         {
-            //how can I get this to just return the 'p' then the 'g'
-            //probably making this too hard
-            return from p in ProjectConfiguration
-                   from g in GlobalConfiguration
-                   where test(p) || test(g)
-                   select new EntryPair(p, g);
+            if (ProjectConfiguration.Any(e => e.Key == key))
+                return ProjectConfiguration.Single(e => e.Key == key);
+
+            if (GlobalConfiguration.Any(e => e.Key == key))
+                return GlobalConfiguration.Single(e => e.Key == key);
+
+            throw new Exception(string.Format("no key of '{0}' found", key));
         }
     }
 }

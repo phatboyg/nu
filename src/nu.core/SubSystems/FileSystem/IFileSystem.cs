@@ -24,7 +24,7 @@ namespace nu.core.SubSystems.FileSystem
     public interface IFileSystem
 	{
         //well known paths
-        DirectoryPath WorkingDirectory { get; }
+        DirectoryPathAbsolute WorkingDirectory { get; }
         DirectoryPathAbsolute InstallDirectory { get; }
         DirectoryPathAbsolute ProjectRoot { get; }
         DirectoryPathAbsolute ProjectNuDirectory { get; }

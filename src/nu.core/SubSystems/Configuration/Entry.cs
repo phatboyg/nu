@@ -19,5 +19,32 @@ namespace nu.core.SubSystems.Configuration
     {
         public string Key { get; set; }
         public string Value { get; set; }
+
+        #region Equality
+        public bool Equals(Entry other)
+        {
+            if (ReferenceEquals(null, other))
+                return false;
+            if (ReferenceEquals(this, other))
+                return true;
+            return Equals(other.Key, Key);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+                return false;
+            if (ReferenceEquals(this, obj))
+                return true;
+            if (obj.GetType() != typeof(Entry))
+                return false;
+            return Equals((Entry)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (Key != null ? Key.GetHashCode() : 0);
+        }
+        #endregion
     }
 }

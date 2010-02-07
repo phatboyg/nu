@@ -96,6 +96,7 @@
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\VersionCommand.cs" />
     <Compile Include="DirectoryInfoExtensions.cs" />
+    <Compile Include="SubSystems\Configuration\Config.cs" />
     <Compile Include="SubSystems\FileSystem\Manifest.cs" />
     <Compile Include="SubSystems\FileSystem\ManifestEntry.cs" />
     <Compile Include="SubSystems\Serialization\JsonUtil.cs" />
@@ -130,16 +131,11 @@
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="SubSystems\Configuration\Entries.cs" />
     <Compile Include="SubSystems\Configuration\Entry.cs" />
-    <Compile Include="SubSystems\Configuration\EntryPair.cs" />
     <Compile Include="SubSystems\Configuration\NuConfiguration.cs" />
     <Compile Include="SubSystems\Dispay\ConsoleHelper.cs" />
     <Compile Include="SubSystems\FileSystem\DotNetFileSystem.cs" />
     <Compile Include="SubSystems\Dispay\IConsole.cs" />
     <Compile Include="SubSystems\FileSystem\IFileSystem.cs" />
-    <Compile Include="SubSystems\FileSystem\InstallationDirectory.cs" />
-    <Compile Include="SubSystems\FileSystem\io.cs" />
-    <Compile Include="SubSystems\FileSystem\ProjectDirectory.cs" />
-    <Compile Include="SubSystems\FileSystem\WorkingDirectory.cs" />
     <Compile Include="SubSystems\FileSystem\Zip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SubSystems\Project\IProjectManifest.cs" />
