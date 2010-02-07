@@ -139,7 +139,6 @@
     <Compile Include="SubSystems\FileSystem\InstallationDirectory.cs" />
     <Compile Include="SubSystems\FileSystem\io.cs" />
     <Compile Include="SubSystems\FileSystem\ProjectDirectory.cs" />
-    <Compile Include="SubSystems\FileSystem\WellKnownPaths.cs" />
     <Compile Include="SubSystems\FileSystem\WorkingDirectory.cs" />
     <Compile Include="SubSystems\FileSystem\Zip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

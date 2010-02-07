@@ -19,7 +19,8 @@ namespace nu.core.Model.Project.Transformation
 	using SubSystems.FileSystem;
 	using SubSystems.Templating;
 
-    public class FileTransformationElement : AbstractTransformationElement
+    public class FileTransformationElement : 
+        AbstractTransformationElement
 	{
 		readonly IFileSystem _fileSystem;
 		readonly IProjectManifestRepository _manifestRepository;
@@ -42,7 +43,7 @@ namespace nu.core.Model.Project.Transformation
 				string fileTemplatePath = JoinTemplatePath(templateRoot, file.Source);
 				string fileProcessedPath = _processor.Process(fileTemplatePath, context);
 
-				if (!_fileSystem.Exists(fileProcessedPath))
+				if (!_fileSystem.FileExists(fileProcessedPath))
 					throw new FileNotFoundException(
 						string.Format(CultureInfo.CurrentUICulture, nuresources.FileTransformation_MissingFile, fileProcessedPath));
 

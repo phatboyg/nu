@@ -16,6 +16,11 @@ namespace nu.core.SubSystems.FileSystem
 	using System.IO;
 	using NDepend.Helpers.FileDirectoryPath;
 
+    public interface IWellKnownLocations
+    {
+        
+    }
+
     public interface IFileSystem
 	{
         //well known paths
@@ -24,6 +29,7 @@ namespace nu.core.SubSystems.FileSystem
         DirectoryPathAbsolute ProjectRoot { get; }
         DirectoryPathAbsolute ProjectNuDirectory { get; }
         DirectoryPath ExtensionsDirectory { get; }
+        DirectoryPathAbsolute NugsDirectory { get; }
 
         //files
         FilePath ProjectConfig { get; }
@@ -31,16 +37,13 @@ namespace nu.core.SubSystems.FileSystem
 
 
         //util
-		DirectoryPathAbsolute CurrentDirectory { get; }
-        DirectoryPathAbsolute ExecutingDirectory { get; }
 		char DirectorySeparatorChar { get; }
-        DirectoryPathAbsolute GetNuRoot { get; }
-		bool Exists(string filePath);
-		bool DirectoryExists(string directory);
+		bool FileExists(string filePath);
+		bool DirectoryExists(string directoryPath);
 		void Read(string filePath, Action<Stream> action);
-		String ReadToEnd(string filePath);
+		string ReadToEnd(string filePath);
 		void Write(string filePath, Stream file);
-		void Write(string filePath, String content);
+		void Write(string filePath, string content);
 		void CreateDirectory(string directoryPath);
 		void CreateHiddenDirectory(string directoryPath);
 		void Copy(string source, string destination);
@@ -48,6 +51,6 @@ namespace nu.core.SubSystems.FileSystem
 		string Combine(string firstPath, string secondPath);
 		string[] GetDirectories(string path);
 		string GetTempFileName();
-        void WorkWithTempDir(Action<DirectoryPath> tempAction);
+        void WorkWithTempDir(Action<DirectoryPathAbsolute> tempAction);
 	}
 }

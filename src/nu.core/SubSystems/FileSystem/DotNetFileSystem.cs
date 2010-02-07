@@ -28,7 +28,7 @@ namespace nu.core.SubSystems.FileSystem
 			_path = path;
 		}
 
-		public bool Exists(string filePath)
+		public bool FileExists(string filePath)
 		{
 			return File.Exists(filePath);
 		}
@@ -74,6 +74,11 @@ namespace nu.core.SubSystems.FileSystem
             get { return InstallDirectory.GetChildDirectoryWithName("extensions"); }
 	    }
 
+	    public DirectoryPathAbsolute NugsDirectory
+	    {
+            get { return InstallDirectory.GetChildDirectoryWithName("nugs"); }
+	    }
+
 	    public FilePath ProjectConfig
 	    {
             get
@@ -87,10 +92,25 @@ namespace nu.core.SubSystems.FileSystem
             get { return InstallDirectory.GetChildFileWithName("nu.conf"); }
 	    }
 
-	    public void WorkWithTempDir(Action<DirectoryPath> tempAction)
-	    {
-	        throw new NotImplementedException();
-	    }
+        public void WorkWithTempDir(Action<DirectoryPathAbsolute> tempAction)
+        {
+            var tempDir = Path.Combine(Path.GetTempPath(), "nu");
+            tempDir = Path.Combine(tempDir, Guid.NewGuid().ToString());
+            var d = new DirectoryPathAbsolute(tempDir);
+            if (!d.Exists)
+            {
+                d.Create();
+            }
+            try
+            {
+                tempAction(d);
+            }
+            finally
+            {
+
+                d.Delete();
+            }
+        }
 
 	    public string GetTempFileName()
 		{
@@ -111,7 +131,6 @@ namespace nu.core.SubSystems.FileSystem
             return contents;
         }
 
-
 	    public void Write(string filePath, String contents)
 		{
 			using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
@@ -123,7 +142,6 @@ namespace nu.core.SubSystems.FileSystem
 				}
 			}
 		}
-
 
 		public void Write(string filePath, Stream file)
 		{
@@ -152,16 +170,6 @@ namespace nu.core.SubSystems.FileSystem
 			File.Copy(source, destination);
 		}
 
-		public DirectoryPathAbsolute CurrentDirectory
-		{
-			get { return new DirectoryPathAbsolute(Directory.GetCurrentDirectory()); }
-		}
-
-        public virtual DirectoryPathAbsolute ExecutingDirectory
-		{
-			get { return new DirectoryPathAbsolute(AppDomain.CurrentDomain.BaseDirectory); }
-		}
-
 		public bool IsRooted(string path)
 		{
 			return Path.IsPathRooted(path);
@@ -177,15 +185,9 @@ namespace nu.core.SubSystems.FileSystem
 			get { return _path.DirectorySeparatorChar; }
 		}
 
-
 		public string[] GetDirectories(string path)
 		{
 			return Directory.GetDirectories(path);
-		}
-
-        public DirectoryPathAbsolute GetNuRoot
-		{
-			get { return ExecutingDirectory; }
 		}
 	}
 }

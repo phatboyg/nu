@@ -16,16 +16,20 @@ namespace nu.core.SubSystems.FileSystem
     using System.IO;
     using FilePaths;
     using Model.Files.Package;
+    using Nugs;
     using Serialization;
 
     public class io
     {
+        IFileSystem _fileSystem;
+        NugRegistry _nugRegistry;
+
         public NugPackage Do(string nugName)
         {
             var nug = new NugPackage(nugName);
-            WellKnownPaths.WorkWithTempDir((temp) =>
+            _fileSystem.WorkWithTempDir((temp) =>
                 {
-                    var n = WellKnownPaths.GetNug(nugName);
+                    var n = _nugRegistry.GetNug(nugName);
 
                     if (!n.Exists)
                         throw new Exception("cant find nug");
