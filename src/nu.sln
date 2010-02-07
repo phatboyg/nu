@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nu", "nu\nu.csproj", "{8490
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{43E6EB47-708A-4669-893D-80463B8F2A5C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nu.extensions.project", "extensions\nu.extensions.project\nu.extensions.project.csproj", "{C47B118E-DEBF-4835-AA94-68BC5CCDA9E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +29,15 @@ Global
 		{8490969E-9F06-4198-98F9-C89795859C90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8490969E-9F06-4198-98F9-C89795859C90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8490969E-9F06-4198-98F9-C89795859C90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C47B118E-DEBF-4835-AA94-68BC5CCDA9E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C47B118E-DEBF-4835-AA94-68BC5CCDA9E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C47B118E-DEBF-4835-AA94-68BC5CCDA9E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C47B118E-DEBF-4835-AA94-68BC5CCDA9E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C47B118E-DEBF-4835-AA94-68BC5CCDA9E8} = {43E6EB47-708A-4669-893D-80463B8F2A5C}
 	EndGlobalSection
 EndGlobal
