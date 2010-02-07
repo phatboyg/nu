@@ -1,7 +1,18 @@
-namespace nu.core.FilePaths
+// Copyright 2007-2008 The Apache Software Foundation.
+//  
+// Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
+// this file except in compliance with the License. You may obtain a copy of the 
+// License at 
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0 
+// 
+// Unless required by applicable law or agreed to in writing, software distributed 
+// under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+// CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+// specific language governing permissions and limitations under the License.
+namespace nu.core.SubSystems.FileSystem
 {
     using System;
-    using Model.Files;
     using NDepend.Helpers.FileDirectoryPath;
 
     /// <summary>
@@ -9,8 +20,8 @@ namespace nu.core.FilePaths
     /// </summary>
     public class ProjectDirectory
     {
-        private readonly DirectoryPathAbsolute _projectDirectory;
-        private readonly DirectoryPathAbsolute _libDirectory;
+        readonly DirectoryPathAbsolute _libDirectory;
+        readonly DirectoryPathAbsolute _projectDirectory;
 
         public ProjectDirectory(WorkingDirectory workingDirectory)
         {
@@ -27,10 +38,11 @@ namespace nu.core.FilePaths
 
         public void Install(object info)
         {
-            if(!FoundAProject()) throw new Exception("not in a nu project path");
+            if (!FoundAProject())
+                throw new Exception("not in a nu project path");
 
             var targetDir = _libDirectory.GetChildDirectoryWithName("info.Name");
-            if(!targetDir.Exists)
+            if (!targetDir.Exists)
             {
                 targetDir.Create();
             }
@@ -58,7 +70,6 @@ namespace nu.core.FilePaths
                 {
                     result = WalkThePathLookingForNu(path.ParentDirectoryPath);
                 }
-
             }
 
 

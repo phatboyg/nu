@@ -14,15 +14,14 @@ namespace nu.core.SubSystems.FileSystem
 {
     using System;
     using System.IO;
-    using FilePaths;
     using Model.Files.Package;
     using Nugs;
     using Serialization;
 
     public class io
     {
-        IFileSystem _fileSystem;
-        NugRegistry _nugRegistry;
+        readonly IFileSystem _fileSystem;
+        readonly NugRegistry _nugRegistry;
 
         public NugPackage Do(string nugName)
         {

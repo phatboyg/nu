@@ -16,9 +16,8 @@ namespace nu.core.SubSystems.FileSystem
 	using System.IO;
 	using System.Reflection;
 	using NDepend.Helpers.FileDirectoryPath;
-	using Utility;
 
-	public class DotNetFileSystem :
+    public class DotNetFileSystem :
         IFileSystem
 	{
 		readonly IPath _path;

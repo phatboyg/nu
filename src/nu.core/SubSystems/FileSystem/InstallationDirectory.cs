@@ -12,71 +12,69 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.SubSystems.FileSystem
 {
-	using System.Collections.Generic;
-	using System.IO;
-	using Model.Files;
-	using NDepend.Helpers.FileDirectoryPath;
-	using Serialization;
+    using System.Collections.Generic;
+    using System.IO;
+    using NDepend.Helpers.FileDirectoryPath;
 
     /// <summary>
-	/// Where the 'nu.exe' is located
-	/// </summary>
-	public class InstallationDirectory
-	{
-		readonly DirectoryPathAbsolute _installationPath;
-		readonly DirectoryPathAbsolute _installedNugPath;
+    /// Where the 'nu.exe' is located
+    /// </summary>
+    public class InstallationDirectory
+    {
+        readonly DirectoryPathAbsolute _installationPath;
+        readonly DirectoryPathAbsolute _installedNugPath;
 
-		public InstallationDirectory(DirectoryPathAbsolute installationPath)
-		{
-			_installationPath = installationPath;
-			_installedNugPath = _installationPath.GetChildDirectoryWithName("nugs");
-		}
+        public InstallationDirectory(DirectoryPathAbsolute installationPath)
+        {
+            _installationPath = installationPath;
+            _installedNugPath = _installationPath.GetChildDirectoryWithName("nugs");
+        }
 
-		public object GetRegistry()
-		{
-			string rawJson = GetRegistryFile();
-		    return null; // JsonUtil.Get<NuRegistry>(rawJson);
-		}
+        public object GetRegistry()
+        {
+            string rawJson = GetRegistryFile();
+            return null; // JsonUtil.Get<NuRegistry>(rawJson);
+        }
 
-		public string GetRegistryFile()
-		{
-			//var fi = _installationPath.GetChildFileWithName(NuRegistry.FileName);
-			return File.ReadAllText("fi.Path");
-		}
+        public string GetRegistryFile()
+        {
+            //var fi = _installationPath.GetChildFileWithName(NuRegistry.FileName);
+            return File.ReadAllText("fi.Path");
+        }
 
-		public string[] InstalledNugs()
-		{
-			var result = new List<string>();
-			var bob = _installedNugPath.ChildrenDirectoriesPath;
-			foreach (DirectoryPathAbsolute absolute in bob)
-			{
-				result.Add(absolute.DirectoryName);
-			}
-			return result.ToArray();
-		}
+        public string[] InstalledNugs()
+        {
+            var result = new List<string>();
+            var bob = _installedNugPath.ChildrenDirectoriesPath;
+            foreach (DirectoryPathAbsolute absolute in bob)
+            {
+                result.Add(absolute.DirectoryName);
+            }
+            return result.ToArray();
+        }
 
-		public bool IsNugAlreadyLocal(string name)
-		{
-			return _installedNugPath.GetChildDirectoryWithName(name).Exists;
-		}
+        public bool IsNugAlreadyLocal(string name)
+        {
+            return _installedNugPath.GetChildDirectoryWithName(name).Exists;
+        }
 
-		public void StoreNug(object spec, Stream stream)
-		{
-			var nugDirectory = _installedNugPath.GetChildDirectoryWithName("spec.Name");
-			if (!nugDirectory.Exists)
-				Directory.CreateDirectory(nugDirectory.Path);
+        public void StoreNug(object spec, Stream stream)
+        {
+            var nugDirectory = _installedNugPath.GetChildDirectoryWithName("spec.Name");
+            if (!nugDirectory.Exists)
+                Directory.CreateDirectory(nugDirectory.Path);
 
-			var tempName = string.Format("{0}.zip", "spec.Name");
-			var tempFile = _installedNugPath.GetChildFileWithName(tempName);
-			stream.WriteToDisk(tempFile.Path);
-			Zip.Unzip(tempFile, nugDirectory);
-			File.Delete(tempFile.Path);
-		}
+            var tempName = string.Format("{0}.zip", "spec.Name");
+            var tempFile = _installedNugPath.GetChildFileWithName(tempName);
+            stream.WriteToDisk(tempFile.Path);
+            Zip.Unzip(tempFile, nugDirectory);
+            File.Delete(tempFile.Path);
+        }
 
-		public object GetNug(string name)
-		{
-			//take from here
+        public object GetNug(string name)
+        {
+            //take from here
             return null; //new LocalNugInfo();
-		}
-	}
+        }
+    }
 }
