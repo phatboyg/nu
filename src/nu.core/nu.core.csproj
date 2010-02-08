@@ -87,137 +87,57 @@
     <Compile Include="..\SolutionVersion.cs">
       <Link>SolutionVersion.cs</Link>
     </Compile>
-    <None Include="config\project\cs-20\Properties\AssemblyInfo.cs.nut">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\cs-35\Properties\AssemblyInfo.cs.nut">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\VersionCommand.cs" />
     <Compile Include="DirectoryInfoExtensions.cs" />
-    <Compile Include="SubSystems\Configuration\Config.cs" />
-    <Compile Include="SubSystems\FileSystem\Manifest.cs" />
-    <Compile Include="SubSystems\FileSystem\ManifestEntry.cs" />
-    <Compile Include="SubSystems\Serialization\JsonUtil.cs" />
-    <Compile Include="SubSystems\Nugs\NugFile.cs" />
-    <Compile Include="SubSystems\Nugs\NugPackage.cs" />
-    <Compile Include="SubSystems\Nugs\NugRegistry.cs" />
-    <Compile Include="SubSystems\Project\IProjectEnvironment.cs" />
-    <Compile Include="SubSystems\Project\IProjectManifestRepository.cs" />
-    <Compile Include="SubSystems\Project\ProjectManifest.cs" />
-    <Compile Include="SubSystems\Project\DTO\FileDTO.cs" />
-    <Compile Include="SubSystems\Project\DTO\FolderDTO.cs" />
-    <Compile Include="SubSystems\Project\DTO\Manifest.cs" />
-    <Compile Include="SubSystems\Project\DTO\PackageDTO.cs" />
-    <Compile Include="SubSystems\Project\ProjectElement.cs" />
-    <Compile Include="SubSystems\Project\IProjectManifestStore.cs" />
-    <Compile Include="SubSystems\Project\ProjectEnviornment.cs" />
-    <Compile Include="SubSystems\Project\ProjectManifestBuilder.cs" />
-    <Compile Include="SubSystems\Project\ProjectManifestRepository.cs" />
-    <Compile Include="SubSystems\Project\Transformation\AbstractTransformationElement.cs" />
-    <Compile Include="SubSystems\Project\Transformation\Exceptions\ProjectManifestRequiredException.cs" />
-    <Compile Include="SubSystems\Project\Transformation\FileTransformationElement.cs" />
-    <Compile Include="SubSystems\Project\Transformation\FolderTransformationElement.cs" />
-    <Compile Include="SubSystems\Project\Transformation\IProjectTransformationPipeline.cs" />
-    <Compile Include="SubSystems\Project\Transformation\ProjectTransformationPipeline.cs" />
-    <Compile Include="SubSystems\Templating\NVelocityTemplateProcessor.cs" />
-    <Compile Include="SubSystems\Templating\TemplateContext.cs" />
+    <Compile Include="Configuration\Config.cs" />
+    <Compile Include="FileSystem\Manifest.cs" />
+    <Compile Include="FileSystem\ManifestEntry.cs" />
+    <Compile Include="Configuration\JsonUtil.cs" />
+    <Compile Include="Nugs\NugFile.cs" />
+    <Compile Include="Nugs\NugPackage.cs" />
+    <Compile Include="Nugs\NugRegistry.cs" />
+    <Compile Include="Project\IProjectEnvironment.cs" />
+    <Compile Include="Project\IProjectManifestRepository.cs" />
+    <Compile Include="Project\ProjectManifest.cs" />
+    <Compile Include="Project\DTO\FileDTO.cs" />
+    <Compile Include="Project\DTO\FolderDTO.cs" />
+    <Compile Include="Project\DTO\Manifest.cs" />
+    <Compile Include="Project\DTO\PackageDTO.cs" />
+    <Compile Include="Project\ProjectElement.cs" />
+    <Compile Include="Project\IProjectManifestStore.cs" />
+    <Compile Include="Project\ProjectEnviornment.cs" />
+    <Compile Include="Project\ProjectManifestBuilder.cs" />
+    <Compile Include="Project\ProjectManifestRepository.cs" />
+    <Compile Include="Project\Transformation\AbstractTransformationElement.cs" />
+    <Compile Include="Project\Transformation\Exceptions\ProjectManifestRequiredException.cs" />
+    <Compile Include="Project\Transformation\FileTransformationElement.cs" />
+    <Compile Include="Project\Transformation\FolderTransformationElement.cs" />
+    <Compile Include="Project\Transformation\IProjectTransformationPipeline.cs" />
+    <Compile Include="Project\Transformation\ProjectTransformationPipeline.cs" />
+    <Compile Include="Templating\NVelocityTemplateProcessor.cs" />
+    <Compile Include="Templating\TemplateContext.cs" />
     <Compile Include="Resources\nuresources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>nuresources.resx</DependentUpon>
     </Compile>
     <Compile Include="StreamExtensions.cs" />
-    <Compile Include="SubSystems\Configuration\Entries.cs" />
-    <Compile Include="SubSystems\Configuration\Entry.cs" />
-    <Compile Include="SubSystems\Configuration\NuConfiguration.cs" />
-    <Compile Include="SubSystems\Dispay\ConsoleHelper.cs" />
-    <Compile Include="SubSystems\FileSystem\DotNetFileSystem.cs" />
-    <Compile Include="SubSystems\Dispay\IConsole.cs" />
-    <Compile Include="SubSystems\FileSystem\IFileSystem.cs" />
-    <Compile Include="SubSystems\FileSystem\Zip.cs" />
+    <Compile Include="Configuration\Entries.cs" />
+    <Compile Include="Configuration\Entry.cs" />
+    <Compile Include="Configuration\NuConfiguration.cs" />
+    <Compile Include="Dispay\ConsoleHelper.cs" />
+    <Compile Include="FileSystem\DotNetFileSystem.cs" />
+    <Compile Include="Dispay\IConsole.cs" />
+    <Compile Include="FileSystem\IFileSystem.cs" />
+    <Compile Include="FileSystem\Zip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SubSystems\Project\IProjectManifest.cs" />
-    <Compile Include="SubSystems\Templating\ITemplateContext.cs" />
-    <Compile Include="SubSystems\Templating\ITemplateProcessor.cs" />
-    <Compile Include="SubSystems\FileSystem\IPath.cs" />
-    <Compile Include="SubSystems\FileSystem\PathAdapter.cs" />
-    <Compile Include="SubSystems\Network\Http.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="config\project\cs-20\build.bat">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\cs-20\nant.build">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\cs-20\.nu\project.nu">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\cs-35\build.bat">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\cs-35\nant.build">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\cs-20\Default.csproj.nut">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\cs-20\Default.sln.nut">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\cs-20\Default.Tests.csproj.nut">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\cs-35\Default.csproj.nut">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\cs-35\Default.sln.nut">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\cs-35\Default.Tests.csproj.nut">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\vb-20\Default.vbproj.nut">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\vb-20\Default.sln.nut">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\vb-20\Default.Tests.vbproj.nut">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\vb-20\My Project\AssemblyInfo.vb.nut">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\vb-35\Default.vbproj.nut">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\vb-35\Default.sln.nut">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\vb-35\Default.Tests.vbproj.nut">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\vb-35\My Project\AssemblyInfo.vb.nut">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\cs-35\.nu\project.nu">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\vb-20\.nu\project.nu">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\vb-20\build.bat">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\vb-35\.nu\project.nu">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="config\project\vb-35\build.bat">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Compile Include="Project\IProjectManifest.cs" />
+    <Compile Include="Templating\ITemplateContext.cs" />
+    <Compile Include="Templating\ITemplateProcessor.cs" />
+    <Compile Include="FileSystem\IPath.cs" />
+    <Compile Include="FileSystem\PathAdapter.cs" />
+    <Compile Include="Network\Http.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\nuresources.resx">
