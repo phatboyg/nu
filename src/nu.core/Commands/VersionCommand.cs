@@ -13,6 +13,7 @@
 namespace nu.core.Commands
 {
 	using System.Collections.Generic;
+	using System.IO;
 	using System.Linq;
 	using System.Reflection;
 	using Configuration;
@@ -26,6 +27,8 @@ namespace nu.core.Commands
 		readonly GlobalConfiguration _configuration;
 		readonly ILogger _log = Logger.GetLogger<VersionCommand>();
 		readonly bool _verbose;
+		Assembly _core;
+		Assembly _main;
 
 		public VersionCommand(bool verbose, GlobalConfiguration configuration)
 		{
@@ -35,7 +38,10 @@ namespace nu.core.Commands
 
 		public void Execute()
 		{
-			OutputAssembly(typeof(Extension).Assembly);
+			_main = Assembly.GetEntryAssembly();
+			_core = typeof(Extension).Assembly;
+
+			OutputAssembly(_main);
 
 			if (_verbose)
 			{
@@ -54,7 +60,9 @@ namespace nu.core.Commands
 
 			AssemblyName name = assembly.GetName();
 
-			_log.Info(x => x.Write("{0}\t{1}", name.Name, name.Version));
+			string path = (assembly.Location != null) ? assembly.Location.Replace(Path.GetDirectoryName(_main.Location) + "\\", "") : "";
+			
+			_log.Info(x => x.Write("{0}, {1}, {2}", name.Name, path, name.Version));
 		}
 	}
 }
