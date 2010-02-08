@@ -25,16 +25,16 @@ namespace nu
 
 	internal class Program
 	{
-		static ILogger _log;
-
 		static void Main()
 		{
-			IContainer container = Bootstrapper.Bootstrap();
-
-			_log = Logger.GetLogger(typeof(Program).Namespace);
+			ILogger log = null;
 
 			try
 			{
+				IContainer container = Bootstrapper.Bootstrap();
+
+				log = Logger.GetLogger(typeof(Program).Namespace);
+
 				IEnumerable<ICommand> commands = CommandLine.Parse<ICommand>(init =>
 					{
 						var initializer = new StructureMapExtensionInitializer(init, container);
@@ -43,23 +43,37 @@ namespace nu
 					})
 					.ToArray();
 
-				if (!commands.Any())
-					Console.WriteLine("No command line arguments were valid");
+				if (commands.Any())
+				{
+					int count = 0;
+					commands.Each(command =>
+						{
+							command.Execute();
+							count++;
+						});
 
-				commands.Each(command => command.Execute());
+					log.Debug(x => x.Write("{0} command{1} executed", count, (count > 0 ? "s" : "")));
+				}
+				else
+				{
+					log.Warn("0 commands executed (none specified)");
+				}
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("An exception occurred parsing the command line: " + ex);
+				if (log != null)
+					log.Fatal(ex, "An unhandled exception occurred");
+				else
+				{
+					Console.WriteLine(ex);
+				}
 			}
 		}
 
 		static void InitializeExtensions(ExtensionInitializer init, IContainer container)
 		{
-			IList<Extension> extensions = container.GetAllInstances<Extension>();
-			extensions.Each(extension => { extension.Initialize(init); });
-
-//			init.Add(from version in init.Argument("version") select (ICommand)new VersionCommand());
+			container.GetAllInstances<Extension>()
+				.Each(extension => extension.Initialize(init));
 		}
 	}
 }

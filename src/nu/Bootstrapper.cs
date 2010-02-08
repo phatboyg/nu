@@ -62,6 +62,10 @@ namespace nu
 			var fileInfo = new FileInfo(Path.Combine(configurationFolder, configurationFile));
 
 			Log4NetLogProvider.Configure(fileInfo);
+
+			var logger = Logger.GetLogger(typeof(Program).Namespace);
+
+			logger.Debug(x => x.Write("Log configuration loaded: {0}", fileInfo.Name));
 		}
 
 		static IContainer ContainerBootstrap()
