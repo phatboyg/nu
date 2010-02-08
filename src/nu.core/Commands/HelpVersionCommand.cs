@@ -10,10 +10,19 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core
+namespace nu.core.Commands
 {
-	public interface Extension
+	using Magnum.Logging;
+
+	public class HelpVersionCommand :
+		ICommand
 	{
-		void Initialize(ExtensionInitializer cli);
+		readonly ILogger _log = Logger.GetLogger<HelpVersionCommand>();
+
+		public void Execute()
+		{
+			_log.Info("Displays the version of nu that is installed");
+			_log.Info("\t--verbose\tIncludes the version of each assembly that is registered");
+		}
 	}
 }

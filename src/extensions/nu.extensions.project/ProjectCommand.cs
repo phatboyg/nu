@@ -15,7 +15,6 @@ namespace nu.extensions.project
 	using System;
 	using core;
 	using core.Commands;
-	using Magnum.CommandLineParser;
 	using Magnum.Monads.Parser;
 
 	public class ProjectCommand :
@@ -30,9 +29,10 @@ namespace nu.extensions.project
 	public class ProjectCommandExtension :
 		Extension
 	{
-		public void Initialize(ICommandLineElementParser<ICommand> cli)
+		public void Initialize(ExtensionInitializer cli)
 		{
-			cli.Add(from Project in cli.Argument("project") select (ICommand)new ProjectCommand());
+			cli.Add(from project in cli.Argument("project")
+			        select cli.GetInstance<ProjectCommand>());
 		}
 	}
 }

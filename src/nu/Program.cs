@@ -21,6 +21,7 @@ namespace nu
 	using Magnum.CommandLineParser;
 	using Magnum.Logging;
 	using StructureMap;
+	using util;
 
 	internal class Program
 	{
@@ -34,7 +35,12 @@ namespace nu
 
 			try
 			{
-				IEnumerable<ICommand> commands = CommandLine.Parse<ICommand>(init => InitializeExtensions(init, container))
+				IEnumerable<ICommand> commands = CommandLine.Parse<ICommand>(init =>
+					{
+						var initializer = new StructureMapExtensionInitializer(init, container);
+
+						InitializeExtensions(initializer, container);
+					})
 					.ToArray();
 
 				if (!commands.Any())
@@ -48,7 +54,7 @@ namespace nu
 			}
 		}
 
-		static void InitializeExtensions(ICommandLineElementParser<ICommand> init, IContainer container)
+		static void InitializeExtensions(ExtensionInitializer init, IContainer container)
 		{
 			IList<Extension> extensions = container.GetAllInstances<Extension>();
 			extensions.Each(extension => { extension.Initialize(init); });

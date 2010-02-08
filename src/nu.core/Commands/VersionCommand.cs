@@ -12,25 +12,49 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Commands
 {
-	using System;
-	using Magnum.CommandLineParser;
-	using Magnum.Monads.Parser;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Reflection;
+	using Configuration;
+	using Magnum;
+	using Magnum.Logging;
 
 	public class VersionCommand :
 		ICommand
 	{
+		readonly HashSet<Assembly> _alreadyOutput = new HashSet<Assembly>();
+		readonly GlobalConfiguration _configuration;
+		readonly ILogger _log = Logger.GetLogger<VersionCommand>();
+		readonly bool _verbose;
+
+		public VersionCommand(bool verbose, GlobalConfiguration configuration)
+		{
+			_verbose = verbose;
+			_configuration = configuration;
+		}
+
 		public void Execute()
 		{
-			Console.WriteLine("The version is 47");
-		}
-	}
+			OutputAssembly(typeof(Extension).Assembly);
 
-	public class VersionCommandExtension :
-		Extension
-	{
-		public void Initialize(ICommandLineElementParser<ICommand> cli)
+			if (_verbose)
+			{
+				_configuration.Extensions
+					.Select(x => x.GetType().Assembly).
+					Each(OutputAssembly);
+			}
+		}
+
+		void OutputAssembly(Assembly assembly)
 		{
-			cli.Add(from version in cli.Argument("version") select (ICommand)new VersionCommand());
+			if (_alreadyOutput.Contains(assembly))
+				return;
+
+			_alreadyOutput.Add(assembly);
+
+			AssemblyName name = assembly.GetName();
+
+			_log.Info(x => x.Write("{0}\t{1}", name.Name, name.Version));
 		}
 	}
 }

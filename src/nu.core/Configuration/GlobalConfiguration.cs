@@ -12,11 +12,14 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Configuration
 {
+	using System.Collections.Generic;
+
 	/// <summary>
 	/// Configuration that is specified at the global level
 	/// </summary>
 	public interface GlobalConfiguration :
 		Configuration
 	{
+		IEnumerable<Extension> Extensions { get; }
 	}
 }

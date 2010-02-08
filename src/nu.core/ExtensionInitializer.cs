@@ -12,8 +12,16 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core
 {
-	public interface Extension
+	using Commands;
+	using Magnum.CommandLineParser;
+
+	public interface ExtensionInitializer :
+		ICommandLineElementParser<ICommand>
 	{
-		void Initialize(ExtensionInitializer cli);
+		ICommand GetInstance<T>()
+			where T : ICommand;
+
+		ICommand GetInstance<T>(object args)
+			where T : ICommand;
 	}
 }

@@ -87,8 +87,10 @@
     <Compile Include="..\SolutionVersion.cs">
       <Link>SolutionVersion.cs</Link>
     </Compile>
+    <Compile Include="Commands\HelpVersionCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\VersionCommand.cs" />
+    <Compile Include="Commands\VersionCommandExtension.cs" />
     <Compile Include="Configuration\ConfigurationException.cs" />
     <Compile Include="Configuration\GlobalConfiguration.cs" />
     <Compile Include="Configuration\GlobalFileBasedConfiguration.cs" />
@@ -97,6 +99,7 @@
     <Compile Include="DirectoryInfoExtensions.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Extension.cs" />
+    <Compile Include="ExtensionInitializer.cs" />
     <Compile Include="FileSystem\Manifest.cs" />
     <Compile Include="FileSystem\ManifestEntry.cs" />
     <Compile Include="Configuration\JsonUtil.cs" />

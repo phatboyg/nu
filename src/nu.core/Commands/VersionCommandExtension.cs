@@ -10,21 +10,27 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Configuration
+namespace nu.core.Commands
 {
 	using System.Collections.Generic;
-	using SubSystems.FileSystem;
+	using Magnum.CommandLineParser;
+	using Magnum.Monads.Parser;
 
-	public class GlobalFileBasedConfiguration :
-		FileBasedConfiguration,
-		GlobalConfiguration
+	public class VersionCommandExtension :
+		Extension
 	{
-		public GlobalFileBasedConfiguration(IFileSystem fileSystem, IEnumerable<Extension> extensions)
-			: base(fileSystem, fileSystem.GlobalConfig)
+		public void Initialize(ExtensionInitializer cli)
 		{
-			Extensions = extensions;
-		}
+			Parser<IEnumerable<ICommandLineElement>, ISwitchElement> switches =
+				(from verbose in cli.Switch("verbose") select verbose);
 
-		public IEnumerable<Extension> Extensions { get; private set; }
+			cli.Add(from arg in cli.Argument("version")
+			        from verbose in switches.Optional("verbose", false)
+			        select cli.GetInstance<VersionCommand>(new {verbose = verbose.Value}));
+
+			cli.Add(from arg in cli.Argument("help")
+			        from verbose in cli.Argument("version")
+			        select cli.GetInstance<HelpVersionCommand>());
+		}
 	}
 }
