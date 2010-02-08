@@ -10,41 +10,52 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.SubSystems.Configuration
+namespace nu.core.Configuration
 {
-    using System;
+	using System;
 
-    [Serializable]
-    public class Entry
-    {
-        public string Key { get; set; }
-        public string Value { get; set; }
+	[Serializable]
+	public class Entry
+	{
+		public Entry(string key)
+		{
+			Key = key;
+		}
 
-        #region Equality
-        public bool Equals(Entry other)
-        {
-            if (ReferenceEquals(null, other))
-                return false;
-            if (ReferenceEquals(this, other))
-                return true;
-            return Equals(other.Key, Key);
-        }
+		public string Key { get; private set; }
+		public string Value { get; private set; }
 
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-                return false;
-            if (ReferenceEquals(this, obj))
-                return true;
-            if (obj.GetType() != typeof(Entry))
-                return false;
-            return Equals((Entry)obj);
-        }
+		public bool Equals(Entry other)
+		{
+			if (ReferenceEquals(null, other))
+				return false;
+			if (ReferenceEquals(this, other))
+				return true;
+			return Equals(other.Key, Key);
+		}
 
-        public override int GetHashCode()
-        {
-            return (Key != null ? Key.GetHashCode() : 0);
-        }
-        #endregion
-    }
+		public override bool Equals(object obj)
+		{
+			if (ReferenceEquals(null, obj))
+				return false;
+			if (ReferenceEquals(this, obj))
+				return true;
+			if (obj.GetType() != typeof(Entry))
+				return false;
+			return Equals((Entry)obj);
+		}
+
+		public override int GetHashCode()
+		{
+			return (Key != null ? Key.GetHashCode() : 0);
+		}
+
+		public void SetValue(string value)
+		{
+			if (Value == value)
+				return;
+
+			Value = value;
+		}
+	}
 }

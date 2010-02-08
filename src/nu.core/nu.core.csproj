@@ -22,7 +22,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\</OutputPath>
+    <OutputPath>..\..\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,7 +30,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\</OutputPath>
+    <OutputPath>..\..\bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -89,8 +89,14 @@
     </Compile>
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\VersionCommand.cs" />
+    <Compile Include="Configuration\ConfigurationException.cs" />
+    <Compile Include="Configuration\GlobalConfiguration.cs" />
+    <Compile Include="Configuration\GlobalFileBasedConfiguration.cs" />
+    <Compile Include="Configuration\ProjectConfiguration.cs" />
+    <Compile Include="Configuration\ProjectFileBasedConfiguration.cs" />
     <Compile Include="DirectoryInfoExtensions.cs" />
-    <Compile Include="Configuration\Config.cs" />
+    <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Extension.cs" />
     <Compile Include="FileSystem\Manifest.cs" />
     <Compile Include="FileSystem\ManifestEntry.cs" />
     <Compile Include="Configuration\JsonUtil.cs" />
@@ -125,7 +131,7 @@
     <Compile Include="StreamExtensions.cs" />
     <Compile Include="Configuration\Entries.cs" />
     <Compile Include="Configuration\Entry.cs" />
-    <Compile Include="Configuration\NuConfiguration.cs" />
+    <Compile Include="Configuration\FileBasedConfiguration.cs" />
     <Compile Include="Dispay\ConsoleHelper.cs" />
     <Compile Include="FileSystem\DotNetFileSystem.cs" />
     <Compile Include="Dispay\IConsole.cs" />

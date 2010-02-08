@@ -10,27 +10,10 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Commands
+namespace nu.core.Configuration
 {
-	using System;
-	using Magnum.CommandLineParser;
-	using Magnum.Monads.Parser;
-
-	public class VersionCommand :
-		ICommand
+	public interface Configuration
 	{
-		public void Execute()
-		{
-			Console.WriteLine("The version is 47");
-		}
-	}
-
-	public class VersionCommandExtension :
-		Extension
-	{
-		public void Initialize(ICommandLineElementParser<ICommand> cli)
-		{
-			cli.Add(from version in cli.Argument("version") select (ICommand)new VersionCommand());
-		}
+		string this[string key] { get; set; }
 	}
 }

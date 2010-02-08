@@ -15,21 +15,26 @@ namespace nu
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using core;
 	using core.Commands;
 	using Magnum;
 	using Magnum.CommandLineParser;
-	using Magnum.Monads.Parser;
+	using Magnum.Logging;
+	using StructureMap;
 
 	internal class Program
 	{
+		static ILogger _log;
+
 		static void Main()
 		{
+			IContainer container = Bootstrapper.Bootstrap();
+
+			_log = Logger.GetLogger(typeof(Program).Namespace);
+
 			try
 			{
-				IEnumerable<ICommand> commands = CommandLine.Parse<ICommand>(init =>
-					{
-						init.Add(from version in init.Argument("version") select (ICommand)new VersionCommand());
-					})
+				IEnumerable<ICommand> commands = CommandLine.Parse<ICommand>(init => InitializeExtensions(init, container))
 					.ToArray();
 
 				if (!commands.Any())
@@ -41,6 +46,14 @@ namespace nu
 			{
 				Console.WriteLine("An exception occurred parsing the command line: " + ex);
 			}
+		}
+
+		static void InitializeExtensions(ICommandLineElementParser<ICommand> init, IContainer container)
+		{
+			IList<Extension> extensions = container.GetAllInstances<Extension>();
+			extensions.Each(extension => { extension.Initialize(init); });
+
+//			init.Add(from version in init.Argument("version") select (ICommand)new VersionCommand());
 		}
 	}
 }

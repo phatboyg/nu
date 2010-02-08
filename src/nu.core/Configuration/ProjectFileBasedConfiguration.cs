@@ -10,27 +10,27 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Commands
+namespace nu.core.Configuration
 {
-	using System;
-	using Magnum.CommandLineParser;
-	using Magnum.Monads.Parser;
+	using SubSystems.FileSystem;
 
-	public class VersionCommand :
-		ICommand
+	public class ProjectFileBasedConfiguration :
+		FileBasedConfiguration,
+		ProjectConfiguration
 	{
-		public void Execute()
+		readonly GlobalConfiguration _globalConfiguration;
+
+		public ProjectFileBasedConfiguration(IFileSystem fileSystem, GlobalConfiguration globalConfiguration)
+			: base(fileSystem, fileSystem.ProjectConfig)
 		{
-			Console.WriteLine("The version is 47");
+			_globalConfiguration = globalConfiguration;
+
+			OnMissing = GetGlobalConfigurationValue;
 		}
-	}
 
-	public class VersionCommandExtension :
-		Extension
-	{
-		public void Initialize(ICommandLineElementParser<ICommand> cli)
+		string GetGlobalConfigurationValue(string key)
 		{
-			cli.Add(from version in cli.Argument("version") select (ICommand)new VersionCommand());
+			return _globalConfiguration[key];
 		}
 	}
 }

@@ -10,12 +10,29 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.SubSystems.Configuration
+namespace nu.extensions.project
 {
-    public interface Config
-    {
-        Entries GlobalConfiguration { get; }
-        Entries ProjectConfiguration { get; }
-        Entry GetEntryFor(string key);
-    }
+	using System;
+	using core;
+	using core.Commands;
+	using Magnum.CommandLineParser;
+	using Magnum.Monads.Parser;
+
+	public class ProjectCommand :
+		ICommand
+	{
+		public void Execute()
+		{
+			Console.WriteLine("This would do something project related");
+		}
+	}
+
+	public class ProjectCommandExtension :
+		Extension
+	{
+		public void Initialize(ICommandLineElementParser<ICommand> cli)
+		{
+			cli.Add(from Project in cli.Argument("project") select (ICommand)new ProjectCommand());
+		}
+	}
 }

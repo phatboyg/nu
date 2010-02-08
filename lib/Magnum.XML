@@ -11404,6 +11404,39 @@
             <param name="valueProvider">The function to return the value to add if the key is not found</param>
             <returns></returns>
         </member>
+        <member name="T:Magnum.Logging.ILogProvider">
+            <summary>
+            Implemented by a logging provider to obtain log sinks by name
+            </summary>
+        </member>
+        <member name="T:Magnum.Logging.ILogSource">
+            <summary>
+            Provides the relevant context for a log provider to output the log message
+            </summary>
+        </member>
+        <member name="P:Magnum.Logging.ILogSource.Name">
+            <summary>
+            The name of the logger (usually the type generating the log message)
+            </summary>
+        </member>
+        <member name="P:Magnum.Logging.ILogSource.Level">
+            <summary>
+            The level of the message
+            </summary>
+        </member>
+        <member name="T:Magnum.Logging.ILogWriter">
+            <summary>
+            These are only provided in the action syntax since it can be inefficient to generate
+            the format string if the log level is not set to a level that will allow the output
+            to be generated.
+            </summary>
+        </member>
+        <member name="T:Magnum.Logging.LoggerFacade">
+            <summary>
+            Abstract base class which provides most logging method
+            overloads for an <see cref="T:Magnum.Logging.ILogger"/> implementation.
+            </summary>
+        </member>
         <member name="M:Magnum.ILocalContext.Store``1(``0)">
             <summary>
             Stores the value using a <see cref="T:Magnum.Context.TypedKey`1"/> for the key
