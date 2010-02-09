@@ -22,7 +22,7 @@ namespace nu.core.Configuration
 	{
 		readonly NuConventions _conventions;
 
-		public GlobalFileBasedConfiguration(IFileSystem fileSystem, IEnumerable<Extension> extensions, NuConventions conventions)
+		public GlobalFileBasedConfiguration(IFileSystem fileSystem, NuConventions conventions, IEnumerable<Extension> extensions)
 			: base(fileSystem, fileSystem.GlobalConfig)
 		{
 			Extensions = extensions;
@@ -32,7 +32,6 @@ namespace nu.core.Configuration
 			OnMissing = GetGlobalConfigurationValue;
 			_conventions = conventions;
 		}
-
 
 		Configuration Defaults { get; set; }
 

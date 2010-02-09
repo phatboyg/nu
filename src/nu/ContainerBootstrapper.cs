@@ -35,20 +35,20 @@ namespace nu
 
 			IContainer container = new Container(x =>
 				{
-					x.For<NuConventions>().Singleton().Use<DefaultNuConventions>();
+					x.For<NuConventions>().Use<DefaultNuConventions>();
 
-					x.For<GlobalConfiguration>().Singleton().Use<GlobalFileBasedConfiguration>();
+					x.For<GlobalConfiguration>().Use<GlobalFileBasedConfiguration>();
 
-					x.For<ProjectConfiguration>().Singleton().Use<ProjectFileBasedConfiguration>();
+					x.For<ProjectConfiguration>().Use<ProjectFileBasedConfiguration>();
 
-					x.For<IPath>().Singleton().Use<PathAdapter>();
+					x.For<IPath>().Use<PathAdapter>();
 
-					x.For<IFileSystem>().Singleton().Use<DotNetFileSystem>();
+					x.For<IFileSystem>().Use<DotNetFileSystem>();
 				});
 
-			ScanForImplementations(container);
-
 			ScanForExtensions(container);
+
+			ScanForImplementations(container);
 
 			return container;
 		}
@@ -77,20 +77,20 @@ namespace nu
 		{
 			public void Process(Type type, Registry registry)
 			{
-				if(!type.IsConcrete())
+				if (!type.IsConcrete())
 					return;
 
-				if(!type.Name.EndsWith("Impl"))
+				if (!type.Name.EndsWith("Impl"))
 					return;
 
 				string interfaceName = type.Name.Substring(0, type.Name.Length - 4);
 
-				var match = type.GetInterfaces()
+				Type match = type.GetInterfaces()
 					.Where(x => x.Name.Equals(interfaceName))
 					.Where(x => type.Namespace.StartsWith(x.Namespace))
 					.SingleOrDefault();
 
-				if(match != null)
+				if (match != null)
 				{
 					registry.AddType(match, type);
 				}
@@ -112,7 +112,6 @@ namespace nu
 
 							scan.Convention<ExtensionConvention>();
 						});
-
 				});
 		}
 
@@ -125,7 +124,6 @@ namespace nu
 							scan.AssemblyContainingType<Command>();
 							scan.Convention<ImplementationConvention>();
 						});
-
 				});
 		}
 	}
