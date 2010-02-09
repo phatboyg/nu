@@ -16,12 +16,12 @@ namespace nu.core
 	using Magnum.CommandLineParser;
 
 	public interface ExtensionInitializer :
-		ICommandLineElementParser<ICommand>
+		ICommandLineElementParser<Command>
 	{
-		ICommand GetInstance<T>()
-			where T : ICommand;
+		Command GetCommand<T>()
+			where T : Command;
 
-		ICommand GetInstance<T>(object args)
-			where T : ICommand;
+		Command GetCommand<T>(object args)
+			where T : Command;
 	}
 }

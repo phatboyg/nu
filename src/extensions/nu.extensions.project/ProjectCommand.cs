@@ -18,7 +18,7 @@ namespace nu.extensions.project
 	using Magnum.Monads.Parser;
 
 	public class ProjectCommand :
-		ICommand
+		Command
 	{
 		public void Execute()
 		{
@@ -32,7 +32,7 @@ namespace nu.extensions.project
 		public void Initialize(ExtensionInitializer cli)
 		{
 			cli.Add(from project in cli.Argument("project")
-			        select cli.GetInstance<ProjectCommand>());
+			        select cli.GetCommand<ProjectCommand>());
 		}
 	}
 }

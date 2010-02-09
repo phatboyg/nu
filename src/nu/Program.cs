@@ -35,7 +35,7 @@ namespace nu
 
 				log = Logger.GetLogger(typeof(Program).Namespace);
 
-				IEnumerable<ICommand> commands = CommandLine.Parse<ICommand>(init =>
+				IEnumerable<Command> commands = CommandLine.Parse<Command>(init =>
 					{
 						var initializer = new StructureMapExtensionInitializer(init, container);
 

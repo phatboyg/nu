@@ -100,7 +100,7 @@ namespace nu
 				{
 					x.Scan(scan =>
 						{
-							scan.AssemblyContainingType<ICommand>();
+							scan.AssemblyContainingType<Command>();
 							scan.AssembliesFromPath(path);
 
 							scan.Convention<ExtensionConvention>();

@@ -87,8 +87,10 @@
     <Compile Include="..\SolutionVersion.cs">
       <Link>SolutionVersion.cs</Link>
     </Compile>
+    <Compile Include="Commands\ConfigCommandExtension.cs" />
     <Compile Include="Commands\HelpVersionCommand.cs" />
-    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\SetConfigCommand.cs" />
     <Compile Include="Commands\VersionCommand.cs" />
     <Compile Include="Commands\VersionCommandExtension.cs" />
     <Compile Include="Configuration\ConfigurationException.cs" />

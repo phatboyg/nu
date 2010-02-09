@@ -26,15 +26,15 @@ namespace nu.util
 	{
 		readonly IContainer _container;
 		readonly ObjectToDictionaryRegistry _converter = new ObjectToDictionaryRegistry();
-		readonly ICommandLineElementParser<ICommand> _parser;
+		readonly ICommandLineElementParser<Command> _parser;
 
-		public StructureMapExtensionInitializer(ICommandLineElementParser<ICommand> parser, IContainer container)
+		public StructureMapExtensionInitializer(ICommandLineElementParser<Command> parser, IContainer container)
 		{
 			_parser = parser;
 			_container = container;
 		}
 
-		public void Add(Parser<IEnumerable<ICommandLineElement>, ICommand> parser)
+		public void Add(Parser<IEnumerable<ICommandLineElement>, Command> parser)
 		{
 			_parser.Add(parser);
 		}
@@ -84,14 +84,14 @@ namespace nu.util
 			return _parser.Switches(keys);
 		}
 
-		public ICommand GetInstance<T>()
-			where T : ICommand
+		public Command GetCommand<T>()
+			where T : Command
 		{
 			return _container.GetInstance<T>();
 		}
 
-		public ICommand GetInstance<T>(object args)
-			where T : ICommand
+		public Command GetCommand<T>(object args)
+			where T : Command
 		{
 			return _container.GetInstance<T>(new ExplicitArguments(_converter.Convert(args)));
 		}

@@ -12,8 +12,26 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Commands
 {
-	public interface ICommand
-	{
-		void Execute();
-	}
+    using System;
+    using Configuration;
+
+    public class SetConfigCommand :
+        Command
+    {
+        readonly string _key;
+        readonly string _value;
+        ProjectConfiguration _configuration;
+
+        public SetConfigCommand(string key, string value, ProjectConfiguration configuration)
+        {
+            _key = key;
+            _value = value;
+            _configuration = configuration;
+        }
+
+        public void Execute()
+        {
+            _configuration[_key] = _value;
+        }
+    }
 }
