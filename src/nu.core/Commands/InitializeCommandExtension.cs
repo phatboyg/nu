@@ -20,7 +20,7 @@ namespace nu.core.Commands
         public void Initialize(ExtensionInitializer cli)
         {
             cli.Add(from config in cli.Argument("init")
-                    from path in cli.Argument()
+                    from path in cli.ValidPath()
                     select cli.GetCommand<InitializeCommand>(new {path = path.Id}));
         }
     }

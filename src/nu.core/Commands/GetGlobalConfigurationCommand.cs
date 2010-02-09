@@ -12,16 +12,15 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Commands
 {
-    using System;
-    using Configuration;
+	using Configuration;
 	using Magnum.Logging;
 
 	public class GetGlobalConfigurationCommand :
 		Command
 	{
-		readonly ILogger _log = Logger.GetLogger<GetGlobalConfigurationCommand>();
 		readonly GlobalConfiguration _configuration;
 		readonly string _key;
+		readonly ILogger _log = Logger.GetLogger<GetGlobalConfigurationCommand>();
 
 		public GetGlobalConfigurationCommand(string key, GlobalConfiguration configuration)
 		{
@@ -33,7 +32,8 @@ namespace nu.core.Commands
 		{
 			if (_configuration.Contains(_key))
 			{
-				_log.Info(x => x.Write("{0}: '{1}'", _key, _configuration[_key]));
+				_log.Debug(x => x.Write("Current global configuration key '{0}' value: {1}", _key, _configuration[_key]));
+				_log.Info(_configuration[_key]);
 			}
 			else
 			{
@@ -41,30 +41,4 @@ namespace nu.core.Commands
 			}
 		}
 	}
-
-    public class GetConfigurationCommand :
-        Command
-    {
-        readonly ILogger _log = Logger.GetLogger<GetConfigurationCommand>();
-        readonly ProjectConfiguration _configuration;
-        readonly string _key;
-
-        public GetConfigurationCommand(string key, ProjectConfiguration configuration)
-        {
-            _configuration = configuration;
-            _key = key;
-        }
-
-        public void Execute()
-        {
-            if (_configuration.Contains(_key))
-            {
-                _log.Info(x => x.Write("{0}: '{1}'", _key, _configuration[_key]));
-            }
-            else
-            {
-                _log.Warn(x => x.Write("No configuration value is set for '{0}'", _key));
-            }
-        }
-    }
 }

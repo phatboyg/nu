@@ -45,7 +45,7 @@ namespace nu.core
         public static void Create(this FilePathAbsolute path)
         {
             if(!path.Exists)
-                File.Create(path.Path,0).Dispose();
+                File.Create(path.Path).Dispose();
         }
 
         public static void Delete(this DirectoryPathAbsolute path)

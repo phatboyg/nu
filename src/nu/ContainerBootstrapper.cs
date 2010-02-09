@@ -37,9 +37,9 @@ namespace nu
 						.Singleton()
 						.Use<GlobalFileBasedConfiguration>();
 
-//					x.For<ProjectConfiguration>()
-//						.Singleton()
-//						.Use<ProjectFileBasedConfiguration>();
+					x.For<ProjectConfiguration>()
+						.Singleton()
+						.Use<ProjectFileBasedConfiguration>();
 
 					x.For<IPath>()
 						.Singleton()

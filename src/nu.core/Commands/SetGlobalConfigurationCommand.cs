@@ -32,7 +32,7 @@ namespace nu.core.Commands
 
 		public void Execute()
 		{
-			_log.Debug(x => x.Write("Setting '{0}' to '{1}'", _key, _value));
+			_log.Debug(x => x.Write("Global configuration key '{0}' set to '{1}'", _key, _value));
 
 			_configuration[_key] = _value;
 		}

@@ -215,6 +215,9 @@ namespace nu.core.FileSystem
 
         public DirectoryPathAbsolute GetDirectory(string path)
         {
+			if (!Path.IsPathRooted(path))
+				path = Path.Combine(Directory.GetCurrentDirectory(), path);
+
             return new DirectoryPathAbsolute(path);
         }
 

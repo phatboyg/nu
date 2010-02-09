@@ -15,26 +15,30 @@ namespace nu.core.Commands
 	using Configuration;
 	using Magnum.Logging;
 
-	public class SetConfigCommand :
+	public class GetConfigurationCommand :
 		Command
 	{
 		readonly ProjectConfiguration _configuration;
 		readonly string _key;
-		readonly ILogger _log = Logger.GetLogger<SetConfigCommand>();
-		readonly string _value;
+		readonly ILogger _log = Logger.GetLogger<GetConfigurationCommand>();
 
-		public SetConfigCommand(string key, string value, ProjectConfiguration configuration)
+		public GetConfigurationCommand(string key, ProjectConfiguration configuration)
 		{
-			_key = key;
-			_value = value;
 			_configuration = configuration;
+			_key = key;
 		}
 
 		public void Execute()
 		{
-			_log.Debug(x => x.Write("Configuration key '{0}' set to '{1}'", _key, _value));
-
-			_configuration[_key] = _value;
+			if (_configuration.Contains(_key))
+			{
+				_log.Debug(x => x.Write("Current configuration key '{0}' value: {1}", _key, _configuration[_key]));
+				_log.Info(_configuration[_key]);
+			}
+			else
+			{
+				_log.Warn(x => x.Write("No configuration value is set for '{0}'", _key));
+			}
 		}
 	}
 }

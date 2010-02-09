@@ -12,35 +12,34 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Commands
 {
-    using FileSystem;
-    using Magnum.Logging;
+	using FileSystem;
+	using Magnum.Logging;
 
-    public class InitializeCommand :
-        Command
-    {
-        readonly IFileSystem _fileSystem;
-        readonly ILogger _log = Logger.GetLogger<GetGlobalConfigurationCommand>();
-        readonly string _path;
+	public class InitializeCommand :
+		Command
+	{
+		readonly IFileSystem _fileSystem;
+		readonly ILogger _log = Logger.GetLogger<GetGlobalConfigurationCommand>();
+		readonly string _path;
 
-        public InitializeCommand(string path, IFileSystem fileSystem)
-        {
-            _path = path;
-            _fileSystem = fileSystem;
-        }
+		public InitializeCommand(string path, IFileSystem fileSystem)
+		{
+			_path = path;
+			_fileSystem = fileSystem;
+		}
 
-        public void Execute()
-        {
-            if (_fileSystem.DirectoryExists(_path))
-            {
-                _log.Info(x => x.Write("'{0}' exists", _path));
-                var dir = _fileSystem.GetDirectory(_path);
+		public void Execute()
+		{
+			if (_fileSystem.DirectoryExists(_path))
+			{
+				_log.Debug(x => x.Write("Initializing path: {0}", _path));
 
-                _fileSystem.CreateProjectAt(_path);
-            }
-            else
-            {
-                _log.Warn(x => x.Write("Directory '{0}' does not exist.", _path));
-            }
-        }
-    }
+				_fileSystem.CreateProjectAt(_path);
+			}
+			else
+			{
+				_log.Warn(x => x.Write("Directory '{0}' does not exist.", _path));
+			}
+		}
+	}
 }
