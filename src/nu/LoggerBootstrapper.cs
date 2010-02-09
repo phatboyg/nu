@@ -14,7 +14,11 @@ namespace nu
 {
 	using System;
 	using System.IO;
+	using System.Linq;
 	using System.Reflection;
+	using log4net;
+	using log4net.Repository;
+	using log4net.Repository.Hierarchy;
 	using Magnum.Logging;
 	using Magnum.Logging.Log4Net;
 
@@ -26,11 +30,39 @@ namespace nu
 
 			Log4NetLogProvider.Configure(fileInfo);
 
-			ILogger logger = Logger.GetLogger(name);
+			ILogger logger = Magnum.Logging.Logger.GetLogger(name);
 
-			Logger.GetLogger<ContainerBootstrapper>().Debug(x => x.Write("Log configuration loaded: {0}", fileInfo.Name));
+			Magnum.Logging.Logger.GetLogger<ContainerBootstrapper>().Debug(x => x.Write("Log configuration loaded: {0}", fileInfo.Name));
 
 			return logger;
+		}
+
+		public static void SetLoggingLevel(string level)
+		{
+			var valid = new[] {"INFO", "DEBUG", "WARN", "ERROR", "FATAL"};
+			level = level.ToUpperInvariant();
+
+			if (!valid.Contains(level))
+				throw new InvalidOperationException("An invalid logging level was specified");
+
+			ILoggerRepository[] repositories = LogManager.GetAllRepositories();
+
+			//Configure all loggers to be at the debug level.
+			foreach (ILoggerRepository repository in repositories)
+			{
+				repository.Threshold = repository.LevelMap[level];
+				var hier = (Hierarchy)repository;
+				log4net.Core.ILogger[] loggers = hier.GetCurrentLoggers();
+				foreach (log4net.Core.ILogger logger in loggers)
+				{
+					((log4net.Repository.Hierarchy.Logger)logger).Level = hier.LevelMap[level];
+				}
+			}
+
+			//Configure the root logger.
+			var h = (Hierarchy)LogManager.GetRepository();
+			log4net.Repository.Hierarchy.Logger rootLogger = h.Root;
+			rootLogger.Level = h.LevelMap[level];
 		}
 
 		static FileInfo GetLogConfigurationFileInfo()

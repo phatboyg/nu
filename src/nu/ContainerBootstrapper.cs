@@ -121,7 +121,9 @@ namespace nu
 				{
 					x.Scan(scan =>
 						{
+							_log.Debug(d => d.Write("Scanning for default implementations"));
 							scan.AssemblyContainingType<Command>();
+							
 							scan.Convention<ImplementationConvention>();
 						});
 				});

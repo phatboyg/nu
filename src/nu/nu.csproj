@@ -61,6 +61,7 @@
       <Link>SolutionVersion.cs</Link>
     </Compile>
     <Compile Include="ContainerBootstrapper.cs" />
+    <Compile Include="DebugCommand.cs" />
     <Compile Include="LoggerBootstrapper.cs" />
     <Compile Include="util\ObjectToDictionaryRegistry.cs" />
     <Compile Include="Program.cs" />

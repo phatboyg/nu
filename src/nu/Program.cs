@@ -20,6 +20,7 @@ namespace nu
 	using Magnum;
 	using Magnum.CommandLineParser;
 	using Magnum.Logging;
+	using Magnum.Monads.Parser;
 	using StructureMap;
 	using util;
 
@@ -33,22 +34,12 @@ namespace nu
 			{
 				using (IContainer container = new ContainerBootstrapper().Bootstrap())
 				{
-					_log.Debug("Parsing command line");
-					IEnumerable<Command> commands = CommandLine.Parse<Command>(init =>
+					Start(container, init =>
 						{
-							var initializer = new StructureMapExtensionInitializer(init, container);
+							InitializeDebugCommand(init);
 
-							InitializeExtensions(initializer, container);
-						}).ToArray();
-
-					if (commands.Any())
-					{
-						ExecuteCommands(commands);
-					}
-					else
-					{
-						_log.Warn("No commands specified");
-					}
+							InitializeExtensions(init, container);
+						});
 				}
 			}
 			catch (Exception ex)
@@ -60,6 +51,33 @@ namespace nu
 					Console.WriteLine(ex);
 				}
 			}
+		}
+
+		static void Start(IContainer container, Action<ExtensionInitializer> initializeAction)
+		{
+			_log.Debug("Parsing command line");
+
+			IEnumerable<Command> commands = CommandLine.Parse<Command>(init =>
+				{
+					var initializer = new StructureMapExtensionInitializer(init, container);
+
+					initializeAction(initializer);
+				}).ToArray();
+
+			if (commands.Any())
+			{
+				ExecuteCommands(commands);
+			}
+			else
+			{
+				_log.Warn("No commands specified");
+			}
+		}
+
+		static void InitializeDebugCommand(ExtensionInitializer initializer)
+		{
+			initializer.Add(from debug in initializer.Switch("debug")
+			                select initializer.GetCommand<DebugCommand>(new {enabled = debug.Value}));
 		}
 
 		static void ExecuteCommands(IEnumerable<Command> commands)
