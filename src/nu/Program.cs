@@ -25,16 +25,15 @@ namespace nu
 
 	internal class Program
 	{
+		static readonly ILogger _log = new LoggerBootstrapper().Bootstrap(typeof(Program).Namespace);
+
 		static void Main()
 		{
-			ILogger log = null;
-
 			try
 			{
-				IContainer container = Bootstrapper.Bootstrap();
+				IContainer container = new ContainerBootstrapper().Bootstrap();
 
-				log = Logger.GetLogger(typeof(Program).Namespace);
-
+				_log.Debug("Parsing command line");
 				IEnumerable<ICommand> commands = CommandLine.Parse<ICommand>(init =>
 					{
 						var initializer = new StructureMapExtensionInitializer(init, container);
@@ -45,29 +44,34 @@ namespace nu
 
 				if (commands.Any())
 				{
-					int count = 0;
-					commands.Each(command =>
-						{
-							command.Execute();
-							count++;
-						});
-
-					log.Debug(x => x.Write("{0} command{1} executed", count, (count > 0 ? "s" : "")));
+					ExecuteCommands(commands);
 				}
 				else
 				{
-					log.Warn("0 commands executed (none specified)");
+					_log.Warn("No commands specified");
 				}
 			}
 			catch (Exception ex)
 			{
-				if (log != null)
-					log.Fatal(ex, "An unhandled exception occurred");
+				if (_log != null)
+					_log.Fatal(ex, "An unhandled exception occurred");
 				else
 				{
 					Console.WriteLine(ex);
 				}
 			}
+		}
+
+		static void ExecuteCommands(IEnumerable<ICommand> commands)
+		{
+			int count = 0;
+			commands.Each(command =>
+				{
+					command.Execute();
+					count++;
+				});
+
+			_log.Debug(x => x.Write("{0} command{1} executed", count, (count > 0 ? "s" : "")));
 		}
 
 		static void InitializeExtensions(ExtensionInitializer init, IContainer container)

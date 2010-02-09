@@ -60,7 +60,8 @@
     <Compile Include="..\SolutionVersion.cs">
       <Link>SolutionVersion.cs</Link>
     </Compile>
-    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="ContainerBootstrapper.cs" />
+    <Compile Include="LoggerBootstrapper.cs" />
     <Compile Include="util\ObjectToDictionaryRegistry.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

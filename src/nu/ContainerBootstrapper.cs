@@ -13,63 +13,24 @@
 namespace nu
 {
 	using System;
-	using System.IO;
-	using System.Reflection;
 	using core;
 	using core.Commands;
 	using core.Configuration;
 	using core.SubSystems.FileSystem;
 	using Magnum.InterfaceExtensions;
 	using Magnum.Logging;
-	using Magnum.Logging.Log4Net;
 	using StructureMap;
 	using StructureMap.Configuration.DSL;
 	using StructureMap.Graph;
 
-	public static class Bootstrapper
+	public class ContainerBootstrapper
 	{
-		class ExtensionConvention :
-			IRegistrationConvention
+		readonly ILogger _log = Logger.GetLogger<ContainerBootstrapper>();
+
+		public IContainer Bootstrap()
 		{
-			readonly ILogger _log = Logger.GetLogger<ExtensionConvention>();
+			_log.Debug("Bootstrapping container");
 
-			public void Process(Type type, Registry registry)
-			{
-				if (type == typeof(Extension))
-					return;
-
-				if (type.Implements<Extension>())
-				{
-					_log.Debug(x => x.Write("Loading extension: {0} ({1})", type.Name, type.Assembly.GetName().Name));
-
-					registry.AddType(typeof(Extension), type);
-				}
-			}
-		}
-
-		public static IContainer Bootstrap()
-		{
-			LoggerBootstrap();
-
-
-			return ContainerBootstrap();
-		}
-
-		static void LoggerBootstrap()
-		{
-			string configurationFolder = Path.GetDirectoryName(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
-			string configurationFile = Assembly.GetExecutingAssembly().GetName().Name + ".log4net.xml";
-			var fileInfo = new FileInfo(Path.Combine(configurationFolder, configurationFile));
-
-			Log4NetLogProvider.Configure(fileInfo);
-
-			var logger = Logger.GetLogger(typeof(Program).Namespace);
-
-			logger.Debug(x => x.Write("Log configuration loaded: {0}", fileInfo.Name));
-		}
-
-		static IContainer ContainerBootstrap()
-		{
 			IContainer container = new Container(x =>
 				{
 					x.For<GlobalConfiguration>()
@@ -94,12 +55,33 @@ namespace nu
 			return container;
 		}
 
-		static void ScanForExtensions(IContainer container, string path)
+		class ExtensionConvention :
+			IRegistrationConvention
+		{
+			readonly ILogger _log = Logger.GetLogger<ExtensionConvention>();
+
+			public void Process(Type type, Registry registry)
+			{
+				if (type == typeof(Extension))
+					return;
+
+				if (type.Implements<Extension>())
+				{
+					_log.Debug(x => x.Write("Loading extension: {0} ({1})", type.Name, type.Assembly.GetName().Name));
+
+					registry.AddType(typeof(Extension), type);
+				}
+			}
+		}
+
+		void ScanForExtensions(IContainer container, string path)
 		{
 			container.Configure(x =>
 				{
 					x.Scan(scan =>
 						{
+							_log.Debug(d => d.Write("Scanning {0} for extensions", path));
+
 							scan.AssemblyContainingType<ICommand>();
 							scan.AssembliesFromPath(path);
 
