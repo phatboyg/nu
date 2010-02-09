@@ -10,23 +10,35 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Commands
+namespace nu.core.FileSystem
 {
-	using System.Collections.Generic;
-	using Magnum.CommandLineParser;
-	using Magnum.Monads.Parser;
+	using System;
+	using System.IO;
 
-	public class VersionCommandExtension :
-		Extension
+	public class AbsoluteDirectoryName :
+		DirectoryName
 	{
-		public void Initialize(ExtensionInitializer cli)
-		{
-			Parser<IEnumerable<ICommandLineElement>, ISwitchElement> switches =
-				(from verbose in cli.Switch("verbose") select verbose);
+		readonly string _path;
 
-			cli.Add(from arg in cli.Argument("version")
-			        from verbose in switches.Optional("verbose", false)
-			        select cli.GetCommand<VersionCommand>(new {verbose = verbose.Value}));
+		public AbsoluteDirectoryName(string path)
+		{
+			if (!Path.IsPathRooted(path))
+				throw new InvalidOperationException("The path must be an absolute path: " + path);
+
+			_path = path;
+		}
+
+		public override string ToString()
+		{
+			return _path;
+		}
+
+		public override DirectoryName Combine(string path)
+		{
+			if (Path.IsPathRooted(path))
+				return new AbsoluteDirectoryName(path);
+
+			return new AbsoluteDirectoryName(Path.Combine(_path, path));
 		}
 	}
 }

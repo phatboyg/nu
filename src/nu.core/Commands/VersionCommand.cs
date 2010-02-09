@@ -27,7 +27,6 @@ namespace nu.core.Commands
 		readonly GlobalConfiguration _configuration;
 		readonly ILogger _log = Logger.GetLogger<VersionCommand>();
 		readonly bool _verbose;
-		Assembly _core;
 		Assembly _main;
 
 		public VersionCommand(bool verbose, GlobalConfiguration configuration)
@@ -38,8 +37,9 @@ namespace nu.core.Commands
 
 		public void Execute()
 		{
+			_log.Debug(x => x.Write("Running from folder: {0}", _configuration.NuInstallDirectory));
+
 			_main = Assembly.GetEntryAssembly();
-			_core = typeof(Extension).Assembly;
 
 			OutputAssembly(_main);
 
@@ -61,7 +61,7 @@ namespace nu.core.Commands
 			AssemblyName name = assembly.GetName();
 
 			string path = (assembly.Location != null) ? assembly.Location.Replace(Path.GetDirectoryName(_main.Location) + "\\", "") : "";
-			
+
 			_log.Info(x => x.Write("{0}, {1}, {2}", name.Name, path, name.Version));
 		}
 	}

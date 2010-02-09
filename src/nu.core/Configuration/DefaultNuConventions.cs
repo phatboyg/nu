@@ -10,23 +10,29 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Commands
+namespace nu.core.Configuration
 {
-	using System.Collections.Generic;
-	using Magnum.CommandLineParser;
-	using Magnum.Monads.Parser;
-
-	public class VersionCommandExtension :
-		Extension
+	public class DefaultNuConventions :
+		NuConventions
 	{
-		public void Initialize(ExtensionInitializer cli)
+		public string ConfigurationFileName
 		{
-			Parser<IEnumerable<ICommandLineElement>, ISwitchElement> switches =
-				(from verbose in cli.Switch("verbose") select verbose);
+			get { return "nu.conf"; }
+		}
 
-			cli.Add(from arg in cli.Argument("version")
-			        from verbose in switches.Optional("verbose", false)
-			        select cli.GetCommand<VersionCommand>(new {verbose = verbose.Value}));
+		public string ExtensionsDirectoryName
+		{
+			get { return "extensions"; }
+		}
+
+		public string ProjectDirectoryName
+		{
+			get { return ".nu"; }
+		}
+
+		public string NugsDirectoryName
+		{
+			get { return "nugs"; }
 		}
 	}
 }

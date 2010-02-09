@@ -12,20 +12,41 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Configuration
 {
-	using System.Collections.Generic;
-	using FileSystem;
+	using System;
 
-	/// <summary>
-	/// Configuration that is specified at the global level
-	/// </summary>
-	public interface GlobalConfiguration :
+	public class DefaultConfiguration :
 		Configuration
 	{
-		IEnumerable<Extension> Extensions { get; }
+		public DefaultConfiguration()
+		{
+			Entries = new Entries();
+		}
 
-		Directory WorkingDirectory { get; }
-		Directory NuInstallDirectory { get; }
-		Directory ExtensionsDirectory { get; }
-		Directory NugsDirectory { get; }
+		Entries Entries { get; set; }
+
+		public virtual string this[string key]
+		{
+			get
+			{
+				Entry entry = Entries.Get(key);
+
+				if (entry != null)
+					return entry.Value;
+
+				throw new ConfigurationException("No configuration entry for '" + key + "' was found");
+			}
+
+			set { throw new InvalidOperationException("Default configuration values cannot be changed"); }
+		}
+
+		public void Dispose()
+		{
+			Entries = null;
+		}
+
+		public bool Contains(string key)
+		{
+			return Entries.Contains(key);
+		}
 	}
 }

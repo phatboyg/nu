@@ -13,18 +13,54 @@
 namespace nu.core.Configuration
 {
 	using System.Collections.Generic;
+	using System.Reflection;
 	using FileSystem;
 
-    public class GlobalFileBasedConfiguration :
+	public class GlobalFileBasedConfiguration :
 		FileBasedConfiguration,
 		GlobalConfiguration
 	{
-		public GlobalFileBasedConfiguration(IFileSystem fileSystem, IEnumerable<Extension> extensions)
+		readonly NuConventions _conventions;
+
+		public GlobalFileBasedConfiguration(IFileSystem fileSystem, IEnumerable<Extension> extensions, NuConventions conventions)
 			: base(fileSystem, fileSystem.GlobalConfig)
 		{
 			Extensions = extensions;
+
+			Defaults = new DefaultConfiguration();
+
+			OnMissing = GetGlobalConfigurationValue;
+			_conventions = conventions;
 		}
 
+
+		Configuration Defaults { get; set; }
+
 		public IEnumerable<Extension> Extensions { get; private set; }
+
+		public Directory WorkingDirectory
+		{
+			get { return FileSystem.GetCurrentDirectory(); }
+		}
+
+		public Directory NuInstallDirectory
+		{
+			get { return new DotNetDirectory(DirectoryName.GetDirectoryNameFromFileName(Assembly.GetEntryAssembly().Location)); }
+		}
+
+		public Directory ExtensionsDirectory
+		{
+			get { return NuInstallDirectory.GetChildDirectory(_conventions.ExtensionsDirectoryName); }
+		}
+
+		public Directory NugsDirectory
+		{
+			get { return NuInstallDirectory.GetChildDirectory(_conventions.NugsDirectoryName); }
+		}
+
+		string GetGlobalConfigurationValue(string key)
+		{
+			return Defaults[key];
+		}
 	}
 }

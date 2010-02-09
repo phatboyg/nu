@@ -20,7 +20,6 @@ namespace nu.core.Configuration
 
 	public class FileBasedConfiguration
 	{
-		readonly IFileSystem _fileSystem;
 		readonly ILogger _log = Logger.GetLogger<FileBasedConfiguration>();
 		BasePath _configurationPath;
 		bool _disposed;
@@ -29,7 +28,7 @@ namespace nu.core.Configuration
 
 		protected FileBasedConfiguration(IFileSystem fileSystem, FilePath configurationPath)
 		{
-			_fileSystem = fileSystem;
+			FileSystem = fileSystem;
 
 			Entries = ReadExistingConfigurationFromFile(configurationPath);
 		}
@@ -55,8 +54,9 @@ namespace nu.core.Configuration
 			}
 		}
 
+		protected IFileSystem FileSystem { get; private set; }
 
-		protected Entries Entries { get; private set; }
+		Entries Entries { get; set; }
 
 		public void Dispose()
 		{
@@ -86,14 +86,14 @@ namespace nu.core.Configuration
 		{
 			_configurationPath = configurationPath;
 
-			if (!_fileSystem.FileExists(configurationPath.Path))
+			if (!FileSystem.FileExists(configurationPath.Path))
 			{
 				_log.Debug(x => x.Write("No existing configuration file found: {0}", configurationPath.Path));
 
 				return new Entries();
 			}
 
-			return new Entries(JsonUtil.Get<Entry[]>(_fileSystem.ReadToEnd(configurationPath.Path)));
+			return new Entries(JsonUtil.Get<Entry[]>(FileSystem.ReadToEnd(configurationPath.Path)));
 		}
 
 		void WriteConfigurationToFile()
@@ -102,7 +102,7 @@ namespace nu.core.Configuration
 
 			string json = JsonUtil.ToJson(Entries);
 
-			_fileSystem.Write(_configurationPath.Path, json);
+			FileSystem.Write(_configurationPath.Path, json);
 		}
 
 		~FileBasedConfiguration()

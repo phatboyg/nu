@@ -12,222 +12,226 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-    using System;
-    using System.IO;
-    using System.Reflection;
-    using NDepend.Helpers.FileDirectoryPath;
+	using System;
+	using System.IO;
+	using System.Reflection;
+	using Configuration;
+	using NDepend.Helpers.FileDirectoryPath;
 
-    public class DotNetFileSystem :
-        IFileSystem
-    {
-        readonly IPath _path;
+	public class DotNetFileSystem :
+		IFileSystem
+	{
+		readonly NuConventions _conventions;
+		readonly IPath _path;
 
-        public DotNetFileSystem(IPath path)
-        {
-            _path = path;
-        }
+		public DotNetFileSystem(IPath path, NuConventions conventions)
+		{
+			_path = path;
+			_conventions = conventions;
+		}
 
-        public bool FileExists(string filePath)
-        {
-            return File.Exists(filePath);
-        }
+		public bool FileExists(string filePath)
+		{
+			return File.Exists(filePath);
+		}
 
-        public bool DirectoryExists(string directory)
-        {
-            return Directory.Exists(directory);
-        }
+		public bool DirectoryExists(string directory)
+		{
+			return System.IO.Directory.Exists(directory);
+		}
 
-        public void Read(string filePath, Action<Stream> action)
-        {
-            using(var stream = new FileStream(filePath, FileMode.Open))
-            {
-                action(stream);
-            }
-        }
+		public void Read(string filePath, Action<Stream> action)
+		{
+			using (var stream = new FileStream(filePath, FileMode.Open))
+			{
+				action(stream);
+			}
+		}
 
-        public DirectoryPathAbsolute WorkingDirectory
-        {
-            get { return new DirectoryPathAbsolute(Directory.GetCurrentDirectory()); }
-        }
+		public DirectoryPathAbsolute WorkingDirectory
+		{
+			get { return new DirectoryPathAbsolute(System.IO.Directory.GetCurrentDirectory()); }
+		}
 
-        public DirectoryPathAbsolute InstallDirectory
-        {
-            get
-            {
-                return new FilePathAbsolute(Assembly.GetEntryAssembly().Location).ParentDirectoryPath;
-            }
-        }
+		public DirectoryPathAbsolute InstallDirectory
+		{
+			get { return new FilePathAbsolute(Assembly.GetEntryAssembly().Location).ParentDirectoryPath; }
+		}
 
-        public DirectoryPathAbsolute ProjectRoot
-        {
-            get {
-                var a = WalkThePathLookingForNu(WorkingDirectory);
-                return a; 
-            }
-        }
+		public DirectoryPathAbsolute ProjectRoot
+		{
+			get
+			{
+				DirectoryPathAbsolute a = WalkThePathLookingForNu(WorkingDirectory);
+				return a;
+			}
+		}
 
-        public DirectoryPathAbsolute ProjectNuDirectory
-        {
-            get { return ProjectRoot.GetChildDirectoryWithName(".nu"); }
-        }
+		public DirectoryPathAbsolute ProjectNuDirectory
+		{
+			get { return ProjectRoot.GetChildDirectoryWithName(_conventions.ProjectDirectoryName); }
+		}
 
-        public DirectoryPath ExtensionsDirectory
-        {
-            get { return InstallDirectory.GetChildDirectoryWithName("extensions"); }
-        }
+		public DirectoryPath ExtensionsDirectory
+		{
+			get { return InstallDirectory.GetChildDirectoryWithName(_conventions.ExtensionsDirectoryName); }
+		}
 
-        public DirectoryPathAbsolute NugsDirectory
-        {
-            get { return InstallDirectory.GetChildDirectoryWithName("nugs"); }
-        }
+		public DirectoryPathAbsolute NugsDirectory
+		{
+			get { return InstallDirectory.GetChildDirectoryWithName(_conventions.NugsDirectoryName); }
+		}
 
-        public FilePath ProjectConfig
-        {
-            get
-            {
-                return ProjectNuDirectory.GetChildFileWithName("nu.conf");
-            }
-        }
+		public FilePath ProjectConfig
+		{
+			get { return ProjectNuDirectory.GetChildFileWithName(_conventions.ConfigurationFileName); }
+		}
 
-        public FilePath GlobalConfig
-        {
-            get { return InstallDirectory.GetChildFileWithName("nu.conf"); }
-        }
+		public FilePath GlobalConfig
+		{
+			get { return InstallDirectory.GetChildFileWithName(_conventions.ConfigurationFileName); }
+		}
 
-        public void WorkWithTempDir(Action<DirectoryPathAbsolute> tempAction)
-        {
-            var tempDir = Path.Combine(Path.GetTempPath(), "nu");
-            tempDir = Path.Combine(tempDir, Guid.NewGuid().ToString());
-            var d = new DirectoryPathAbsolute(tempDir);
-            if (!d.Exists)
-            {
-                d.Create();
-            }
-            try
-            {
-                tempAction(d);
-            }
-            finally
-            {
+		public void WorkWithTempDir(Action<DirectoryPathAbsolute> tempAction)
+		{
+			string tempDir = Path.Combine(Path.GetTempPath(), "nu");
+			tempDir = Path.Combine(tempDir, Guid.NewGuid().ToString());
+			var d = new DirectoryPathAbsolute(tempDir);
+			if (!d.Exists)
+			{
+				d.Create();
+			}
+			try
+			{
+				tempAction(d);
+			}
+			finally
+			{
+				d.Delete();
+			}
+		}
 
-                d.Delete();
-            }
-        }
+		public string GetTempFileName()
+		{
+			return Path.GetTempFileName();
+		}
 
-        public string GetTempFileName()
-        {
-            return Path.GetTempFileName();
-        }
+		public String ReadToEnd(string filePath)
+		{
+			string contents = "";
+			Read(filePath, s =>
+				{
+					using (var reader = new StreamReader(s))
+					{
+						contents = reader.ReadToEnd();
+					}
+				});
 
-        public String ReadToEnd(string filePath)
-        {
-            string contents = "";
-            Read(filePath, s =>
-                {
-                    using (var reader = new StreamReader(s))
-                    {
-                        contents = reader.ReadToEnd();
-                    }
-                });
+			return contents;
+		}
 
-            return contents;
-        }
+		public void Write(string filePath, String contents)
+		{
+			using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
+			{
+				using (var writer = new StreamWriter(fs))
+				{
+					writer.Write(contents);
+					writer.Flush();
+				}
+			}
+		}
 
-        public void Write(string filePath, String contents)
-        {
-            using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
-            {
-                using (var writer = new StreamWriter(fs))
-                {
-                    writer.Write(contents);
-                    writer.Flush();
-                }
-            }
-        }
+		public void Write(string filePath, Stream file)
+		{
+			using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
+			{
+				using (var writer = new StreamWriter(fs))
+				{
+					writer.Flush();
+				}
+			}
+		}
 
-        public void Write(string filePath, Stream file)
-        {
-            using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
-            {
-                using (var writer = new StreamWriter(fs))
-                {
-                    writer.Flush();
-                }
-            }
-        }
+		public void CreateDirectory(string directoryPath)
+		{
+			System.IO.Directory.CreateDirectory(directoryPath);
+		}
 
-        public void CreateDirectory(string directoryPath)
-        {
-            Directory.CreateDirectory(directoryPath);
-        }
+		public void CreateHiddenDirectory(string directoryPath)
+		{
+			DirectoryInfo di = System.IO.Directory.CreateDirectory(directoryPath);
+			di.Attributes |= FileAttributes.Hidden;
+		}
 
-        public void CreateHiddenDirectory(string directoryPath)
-        {
-            DirectoryInfo di = Directory.CreateDirectory(directoryPath);
-            di.Attributes |= FileAttributes.Hidden;
-        }
+		public void Copy(string source, string destination)
+		{
+			File.Copy(source, destination);
+		}
 
-        public void Copy(string source, string destination)
-        {
-            File.Copy(source, destination);
-        }
+		public bool IsRooted(string path)
+		{
+			return Path.IsPathRooted(path);
+		}
 
-        public bool IsRooted(string path)
-        {
-            return Path.IsPathRooted(path);
-        }
+		public string Combine(string firstPath, string secondPath)
+		{
+			return _path.Combine(firstPath, secondPath);
+		}
 
-        public string Combine(string firstPath, string secondPath)
-        {
-            return _path.Combine(firstPath, secondPath);
-        }
+		public char DirectorySeparatorChar
+		{
+			get { return _path.DirectorySeparatorChar; }
+		}
 
-        public char DirectorySeparatorChar
-        {
-            get { return _path.DirectorySeparatorChar; }
-        }
+		public string[] GetDirectories(string path)
+		{
+			return System.IO.Directory.GetDirectories(path);
+		}
 
-        public string[] GetDirectories(string path)
-        {
-            return Directory.GetDirectories(path);
-        }
-
-        public DirectoryPathAbsolute WalkThePathLookingForNu(DirectoryPathAbsolute path)
-        {
-            DirectoryPathAbsolute result = null;
-
-            if (!path.IsRoot())
-            {
-                DirectoryPathAbsolute bro = path.GetBrotherDirectoryWithName(".nu");
-                if (bro.Exists)
-                {
-                    return bro;
-                }
-                if (path.HasParentDir)
-                {
-                    result = WalkThePathLookingForNu(path.ParentDirectoryPath);
-                }
-            }
-
-
-            return result;
-        }
-
-        public DirectoryPathAbsolute GetDirectory(string path)
-        {
+		public DirectoryPathAbsolute GetDirectory(string path)
+		{
 			if (!Path.IsPathRooted(path))
-				path = Path.Combine(Directory.GetCurrentDirectory(), path);
+				path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), path);
 
-            return new DirectoryPathAbsolute(path);
-        }
+			return new DirectoryPathAbsolute(path);
+		}
 
-        public void CreateProjectAt(string path)
-        {
-            var dir = GetDirectory(path);
-            //this needs to be in a biz object
-            var nu = dir.GetChildDirectoryWithName(".nu");
-            nu.Create();
-            nu.GetChildFileWithName("nu.conf").Create();
-        }
-    }
+		public void CreateProjectAt(string path)
+		{
+			DirectoryPathAbsolute dir = GetDirectory(path);
+			//this needs to be in a biz object
+			DirectoryPathAbsolute nu = dir.GetChildDirectoryWithName(_conventions.ProjectDirectoryName);
+			nu.Create();
+			nu.GetChildFileWithName("nu.conf").Create();
+		}
+
+		public Directory GetCurrentDirectory()
+		{
+			var directory = DirectoryName.GetDirectoryName(System.IO.Directory.GetCurrentDirectory());
+
+			return new DotNetDirectory(directory);
+		}
+
+		public DirectoryPathAbsolute WalkThePathLookingForNu(DirectoryPathAbsolute path)
+		{
+			DirectoryPathAbsolute result = null;
+
+			if (!path.IsRoot())
+			{
+				DirectoryPathAbsolute bro = path.GetBrotherDirectoryWithName(_conventions.ProjectDirectoryName);
+				if (bro.Exists)
+				{
+					return bro;
+				}
+				if (path.HasParentDir)
+				{
+					result = WalkThePathLookingForNu(path.ParentDirectoryPath);
+				}
+			}
+
+
+			return result;
+		}
+	}
 }

@@ -13,6 +13,7 @@
 namespace nu
 {
 	using System;
+	using System.Linq;
 	using core;
 	using core.Commands;
 	using core.Configuration;
@@ -22,6 +23,7 @@ namespace nu
 	using StructureMap;
 	using StructureMap.Configuration.DSL;
 	using StructureMap.Graph;
+	using StructureMap.TypeRules;
 
 	public class ContainerBootstrapper
 	{
@@ -33,24 +35,20 @@ namespace nu
 
 			IContainer container = new Container(x =>
 				{
-					x.For<GlobalConfiguration>()
-						.Singleton()
-						.Use<GlobalFileBasedConfiguration>();
+					x.For<NuConventions>().Singleton().Use<DefaultNuConventions>();
 
-					x.For<ProjectConfiguration>()
-						.Singleton()
-						.Use<ProjectFileBasedConfiguration>();
+					x.For<GlobalConfiguration>().Singleton().Use<GlobalFileBasedConfiguration>();
 
-					x.For<IPath>()
-						.Singleton()
-						.Use<PathAdapter>();
+					x.For<ProjectConfiguration>().Singleton().Use<ProjectFileBasedConfiguration>();
 
-					x.For<IFileSystem>()
-						.Singleton()
-						.Use<DotNetFileSystem>();
+					x.For<IPath>().Singleton().Use<PathAdapter>();
+
+					x.For<IFileSystem>().Singleton().Use<DotNetFileSystem>();
 				});
 
-			ScanForExtensions(container, container.GetInstance<IFileSystem>().ExtensionsDirectory.Path);
+			ScanForImplementations(container);
+
+			ScanForExtensions(container);
 
 			return container;
 		}
@@ -74,19 +72,60 @@ namespace nu
 			}
 		}
 
-		void ScanForExtensions(IContainer container, string path)
+		class ImplementationConvention :
+			IRegistrationConvention
+		{
+			public void Process(Type type, Registry registry)
+			{
+				if(!type.IsConcrete())
+					return;
+
+				if(!type.Name.EndsWith("Impl"))
+					return;
+
+				string interfaceName = type.Name.Substring(0, type.Name.Length - 4);
+
+				var match = type.GetInterfaces()
+					.Where(x => x.Name.Equals(interfaceName))
+					.Where(x => type.Namespace.StartsWith(x.Namespace))
+					.SingleOrDefault();
+
+				if(match != null)
+				{
+					registry.AddType(match, type);
+				}
+			}
+		}
+
+		void ScanForExtensions(IContainer container)
+		{
+			var configuration = container.GetInstance<GlobalConfiguration>();
+
+			container.Configure(x =>
+				{
+					x.Scan(scan =>
+						{
+							_log.Debug(d => d.Write("Scanning {0} for extensions", configuration.ExtensionsDirectory.Name));
+							scan.AssemblyContainingType<Command>();
+
+							scan.AssembliesFromPath(configuration.ExtensionsDirectory.Name.ToString());
+
+							scan.Convention<ExtensionConvention>();
+						});
+
+				});
+		}
+
+		void ScanForImplementations(IContainer container)
 		{
 			container.Configure(x =>
 				{
 					x.Scan(scan =>
 						{
-							_log.Debug(d => d.Write("Scanning {0} for extensions", path));
 							scan.AssemblyContainingType<Command>();
-
-							scan.AssembliesFromPath(path);
-
-							scan.Convention<ExtensionConvention>();
+							scan.Convention<ImplementationConvention>();
 						});
+
 				});
 		}
 	}

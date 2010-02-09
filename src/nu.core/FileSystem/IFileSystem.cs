@@ -56,5 +56,7 @@ namespace nu.core.FileSystem
 
         //does this belong here?
         void CreateProjectAt(string path);
+
+    	Directory GetCurrentDirectory();
     }
 }
