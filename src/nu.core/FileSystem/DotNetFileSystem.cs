@@ -217,5 +217,14 @@ namespace nu.core.FileSystem
         {
             return new DirectoryPathAbsolute(path);
         }
+
+        public void CreateProjectAt(string path)
+        {
+            var dir = GetDirectory(path);
+            //this needs to be in a biz object
+            var nu = dir.GetChildDirectoryWithName(".nu");
+            nu.Create();
+            nu.GetChildFileWithName("nu.conf").Create();
+        }
     }
 }

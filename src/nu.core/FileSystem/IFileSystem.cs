@@ -53,5 +53,8 @@ namespace nu.core.FileSystem
         string GetTempFileName();
         void WorkWithTempDir(Action<DirectoryPathAbsolute> tempAction);
         DirectoryPathAbsolute GetDirectory(string path);
+
+        //does this belong here?
+        void CreateProjectAt(string path);
     }
 }
