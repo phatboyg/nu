@@ -15,5 +15,7 @@ namespace nu.core.Configuration
 	public interface Configuration
 	{
 		string this[string key] { get; set; }
+
+		bool Contains(string key);
 	}
 }

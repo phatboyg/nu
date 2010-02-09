@@ -79,5 +79,10 @@ namespace nu.core.Configuration
 				.ToList()
 				.Each(x => _items.Remove(x));
 		}
+
+		public bool Contains(string key)
+		{
+			return _items.Any(x => x.Key == key);
+		}
 	}
 }

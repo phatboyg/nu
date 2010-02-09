@@ -29,6 +29,12 @@ namespace nu.core.Commands
 			        from k in cli.Argument()
 			        from v in cli.Argument()
 			        select cli.GetCommand<SetGlobalConfigurationCommand>(new {key = k.Id, value = v.Id}));
+
+			cli.Add(from config in cli.Argument("config")
+			        from global in cli.Switch("global")
+			        from get in cli.Switch("get")
+			        from k in cli.Argument()
+			        select cli.GetCommand<GetGlobalConfigurationCommand>(new {key = k.Id}));
 		}
 	}
 }

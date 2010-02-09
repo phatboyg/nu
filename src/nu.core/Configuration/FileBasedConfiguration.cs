@@ -47,6 +47,11 @@ namespace nu.core.Configuration
 		}
 
 
+		public bool Contains(string key)
+		{
+			return Entries.Contains(key);
+		}
+
 		protected Entries Entries { get; private set; }
 
 		Entries ReadExistingConfigurationFromFile(BasePath configurationPath)
