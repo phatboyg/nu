@@ -84,6 +84,11 @@ namespace nu.util
 			return _parser.Switches(keys);
 		}
 
+		public Parser<IEnumerable<ICommandLineElement>, IArgumentElement> ValidPath()
+		{
+			return _parser.ValidPath();
+		}
+
 		public Command GetCommand<T>()
 			where T : Command
 		{

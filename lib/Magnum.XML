@@ -11316,12 +11316,6 @@
             </summary>
             <param name="parser">The pattern to match and return the resulting object</param>
         </member>
-        <member name="M:Magnum.CommandLineParser.ICommandLineElementParser`1.Argument">
-            <summary>
-            Matches an argument on the command line
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:Magnum.Concurrency.SingleLinkNode`1">
             <summary>
             Used by the concurrent collections for interlocked operations
@@ -11404,9 +11398,22 @@
             <param name="valueProvider">The function to return the value to add if the key is not found</param>
             <returns></returns>
         </member>
+        <member name="T:Magnum.Logging.LoggerFacade">
+            <summary>
+            Abstract base class which provides most logging method
+            overloads for an <see cref="T:Magnum.Logging.ILogger"/> implementation.
+            </summary>
+        </member>
         <member name="T:Magnum.Logging.ILogProvider">
             <summary>
             Implemented by a logging provider to obtain log sinks by name
+            </summary>
+        </member>
+        <member name="T:Magnum.Logging.ILogWriter">
+            <summary>
+            These are only provided in the action syntax since it can be inefficient to generate
+            the format string if the log level is not set to a level that will allow the output
+            to be generated.
             </summary>
         </member>
         <member name="T:Magnum.Logging.ILogSource">
@@ -11422,19 +11429,6 @@
         <member name="P:Magnum.Logging.ILogSource.Level">
             <summary>
             The level of the message
-            </summary>
-        </member>
-        <member name="T:Magnum.Logging.ILogWriter">
-            <summary>
-            These are only provided in the action syntax since it can be inefficient to generate
-            the format string if the log level is not set to a level that will allow the output
-            to be generated.
-            </summary>
-        </member>
-        <member name="T:Magnum.Logging.LoggerFacade">
-            <summary>
-            Abstract base class which provides most logging method
-            overloads for an <see cref="T:Magnum.Logging.ILogger"/> implementation.
             </summary>
         </member>
         <member name="M:Magnum.ILocalContext.Store``1(``0)">
