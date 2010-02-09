@@ -12,9 +12,9 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Configuration
 {
-	using SubSystems.FileSystem;
+    using FileSystem;
 
-	public class ProjectFileBasedConfiguration :
+    public class ProjectFileBasedConfiguration :
 		FileBasedConfiguration,
 		ProjectConfiguration
 	{

@@ -14,9 +14,9 @@ namespace nu.core.Model.Project.Transformation
 {
 	using System.Globalization;
 	using System.IO;
+	using FileSystem;
 	using nu.Model.Project;
 	using Resources;
-	using SubSystems.FileSystem;
 	using SubSystems.Templating;
 
     public class FileTransformationElement : 

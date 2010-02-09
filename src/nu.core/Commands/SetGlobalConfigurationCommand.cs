@@ -18,9 +18,9 @@ namespace nu.core.Commands
 	public class SetGlobalConfigurationCommand :
 		Command
 	{
+		readonly ILogger _log = Logger.GetLogger<SetGlobalConfigurationCommand>();
 		readonly GlobalConfiguration _configuration;
 		readonly string _key;
-		readonly ILogger _log = Logger.GetLogger<SetGlobalConfigurationCommand>();
 		readonly string _value;
 
 		public SetGlobalConfigurationCommand(string key, string value, GlobalConfiguration configuration)

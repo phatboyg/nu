@@ -12,9 +12,9 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Model.Project.Transformation
 {
-	using nu.Model.Project;
-	using SubSystems.FileSystem;
-	using SubSystems.Templating;
+    using FileSystem;
+    using nu.Model.Project;
+    using SubSystems.Templating;
 
     public class FolderTransformationElement : AbstractTransformationElement
 	{

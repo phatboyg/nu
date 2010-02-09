@@ -91,6 +91,7 @@
     <Compile Include="Commands\GetGlobalConfigurationCommand.cs" />
     <Compile Include="Commands\HelpVersionCommand.cs" />
     <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\InitializeCommand.cs" />
     <Compile Include="Commands\SetConfigCommand.cs" />
     <Compile Include="Commands\SetGlobalConfigurationCommand.cs" />
     <Compile Include="Commands\VersionCommand.cs" />

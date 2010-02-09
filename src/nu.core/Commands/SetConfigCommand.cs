@@ -13,10 +13,12 @@
 namespace nu.core.Commands
 {
 	using Configuration;
+	using Magnum.Logging;
 
-	public class SetConfigCommand :
+    public class SetConfigCommand :
 		Command
-	{
+    {
+        readonly ILogger _log = Logger.GetLogger<SetConfigCommand>();
 		readonly ProjectConfiguration _configuration;
 		readonly string _key;
 		readonly string _value;
@@ -29,7 +31,9 @@ namespace nu.core.Commands
 		}
 
 		public void Execute()
-		{
+        {
+            _log.Debug(x => x.Write("Setting '{0}' to '{1}'", _key, _value));
+
 			_configuration[_key] = _value;
 		}
 	}

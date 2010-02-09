@@ -14,7 +14,7 @@ namespace nu.core.SubSystems.Nugs
 {
     using System;
     using System.IO;
-    using FileSystem;
+    using core.FileSystem;
     using Model.Files.Package;
     using NDepend.Helpers.FileDirectoryPath;
     using Serialization;

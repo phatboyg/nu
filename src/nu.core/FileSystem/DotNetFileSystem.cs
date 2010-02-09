@@ -10,89 +10,89 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.SubSystems.FileSystem
+namespace nu.core.FileSystem
 {
-	using System;
-	using System.IO;
-	using System.Reflection;
-	using NDepend.Helpers.FileDirectoryPath;
+    using System;
+    using System.IO;
+    using System.Reflection;
+    using NDepend.Helpers.FileDirectoryPath;
 
     public class DotNetFileSystem :
         IFileSystem
-	{
-		readonly IPath _path;
+    {
+        readonly IPath _path;
 
-		public DotNetFileSystem(IPath path)
-		{
-			_path = path;
-		}
+        public DotNetFileSystem(IPath path)
+        {
+            _path = path;
+        }
 
-		public bool FileExists(string filePath)
-		{
-			return File.Exists(filePath);
-		}
+        public bool FileExists(string filePath)
+        {
+            return File.Exists(filePath);
+        }
 
-		public bool DirectoryExists(string directory)
-		{
-			return Directory.Exists(directory);
-		}
+        public bool DirectoryExists(string directory)
+        {
+            return Directory.Exists(directory);
+        }
 
-		public void Read(string filePath, Action<Stream> action)
-		{
+        public void Read(string filePath, Action<Stream> action)
+        {
             using(var stream = new FileStream(filePath, FileMode.Open))
             {
                 action(stream);
             }
-		}
+        }
 
-	    public DirectoryPathAbsolute WorkingDirectory
-	    {
+        public DirectoryPathAbsolute WorkingDirectory
+        {
             get { return new DirectoryPathAbsolute(Directory.GetCurrentDirectory()); }
-	    }
+        }
 
-	    public DirectoryPathAbsolute InstallDirectory
-	    {
+        public DirectoryPathAbsolute InstallDirectory
+        {
             get
             {
                 return new FilePathAbsolute(Assembly.GetEntryAssembly().Location).ParentDirectoryPath;
             }
-	    }
+        }
 
-	    public DirectoryPathAbsolute ProjectRoot
-	    {
+        public DirectoryPathAbsolute ProjectRoot
+        {
             get {
                 var a = WalkThePathLookingForNu(WorkingDirectory);
                 return a; 
             }
-	    }
+        }
 
-	    public DirectoryPathAbsolute ProjectNuDirectory
-	    {
+        public DirectoryPathAbsolute ProjectNuDirectory
+        {
             get { return ProjectRoot.GetChildDirectoryWithName(".nu"); }
-	    }
+        }
 
-	    public DirectoryPath ExtensionsDirectory
-	    {
+        public DirectoryPath ExtensionsDirectory
+        {
             get { return InstallDirectory.GetChildDirectoryWithName("extensions"); }
-	    }
+        }
 
-	    public DirectoryPathAbsolute NugsDirectory
-	    {
+        public DirectoryPathAbsolute NugsDirectory
+        {
             get { return InstallDirectory.GetChildDirectoryWithName("nugs"); }
-	    }
+        }
 
-	    public FilePath ProjectConfig
-	    {
+        public FilePath ProjectConfig
+        {
             get
             {
                 return ProjectNuDirectory.GetChildFileWithName("nu.conf");
             }
-	    }
+        }
 
-	    public FilePath GlobalConfig
-	    {
+        public FilePath GlobalConfig
+        {
             get { return InstallDirectory.GetChildFileWithName("nu.conf"); }
-	    }
+        }
 
         public void WorkWithTempDir(Action<DirectoryPathAbsolute> tempAction)
         {
@@ -114,10 +114,10 @@ namespace nu.core.SubSystems.FileSystem
             }
         }
 
-	    public string GetTempFileName()
-		{
-			return Path.GetTempFileName();
-		}
+        public string GetTempFileName()
+        {
+            return Path.GetTempFileName();
+        }
 
         public String ReadToEnd(string filePath)
         {
@@ -133,64 +133,64 @@ namespace nu.core.SubSystems.FileSystem
             return contents;
         }
 
-	    public void Write(string filePath, String contents)
-		{
-			using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
-			{
-				using (var writer = new StreamWriter(fs))
-				{
-					writer.Write(contents);
-					writer.Flush();
-				}
-			}
-		}
+        public void Write(string filePath, String contents)
+        {
+            using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
+            {
+                using (var writer = new StreamWriter(fs))
+                {
+                    writer.Write(contents);
+                    writer.Flush();
+                }
+            }
+        }
 
-		public void Write(string filePath, Stream file)
-		{
-			using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
-			{
-				using (var writer = new StreamWriter(fs))
-				{
-					writer.Flush();
-				}
-			}
-		}
+        public void Write(string filePath, Stream file)
+        {
+            using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
+            {
+                using (var writer = new StreamWriter(fs))
+                {
+                    writer.Flush();
+                }
+            }
+        }
 
-		public void CreateDirectory(string directoryPath)
-		{
-			Directory.CreateDirectory(directoryPath);
-		}
+        public void CreateDirectory(string directoryPath)
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
 
-		public void CreateHiddenDirectory(string directoryPath)
-		{
-			DirectoryInfo di = Directory.CreateDirectory(directoryPath);
-			di.Attributes |= FileAttributes.Hidden;
-		}
+        public void CreateHiddenDirectory(string directoryPath)
+        {
+            DirectoryInfo di = Directory.CreateDirectory(directoryPath);
+            di.Attributes |= FileAttributes.Hidden;
+        }
 
-		public void Copy(string source, string destination)
-		{
-			File.Copy(source, destination);
-		}
+        public void Copy(string source, string destination)
+        {
+            File.Copy(source, destination);
+        }
 
-		public bool IsRooted(string path)
-		{
-			return Path.IsPathRooted(path);
-		}
+        public bool IsRooted(string path)
+        {
+            return Path.IsPathRooted(path);
+        }
 
-		public string Combine(string firstPath, string secondPath)
-		{
-			return _path.Combine(firstPath, secondPath);
-		}
+        public string Combine(string firstPath, string secondPath)
+        {
+            return _path.Combine(firstPath, secondPath);
+        }
 
-		public char DirectorySeparatorChar
-		{
-			get { return _path.DirectorySeparatorChar; }
-		}
+        public char DirectorySeparatorChar
+        {
+            get { return _path.DirectorySeparatorChar; }
+        }
 
-		public string[] GetDirectories(string path)
-		{
-			return Directory.GetDirectories(path);
-		}
+        public string[] GetDirectories(string path)
+        {
+            return Directory.GetDirectories(path);
+        }
 
         public DirectoryPathAbsolute WalkThePathLookingForNu(DirectoryPathAbsolute path)
         {
@@ -212,5 +212,10 @@ namespace nu.core.SubSystems.FileSystem
 
             return result;
         }
-	}
+
+        public DirectoryPathAbsolute GetDirectory(string path)
+        {
+            return new DirectoryPathAbsolute(path);
+        }
+    }
 }

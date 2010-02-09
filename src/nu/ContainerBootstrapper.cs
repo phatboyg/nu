@@ -16,7 +16,7 @@ namespace nu
 	using core;
 	using core.Commands;
 	using core.Configuration;
-	using core.SubSystems.FileSystem;
+	using core.FileSystem;
 	using Magnum.InterfaceExtensions;
 	using Magnum.Logging;
 	using StructureMap;

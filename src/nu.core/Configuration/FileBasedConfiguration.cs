@@ -13,10 +13,9 @@
 namespace nu.core.Configuration
 {
 	using System;
-	using System.IO;
+	using FileSystem;
 	using Magnum.Logging;
 	using NDepend.Helpers.FileDirectoryPath;
-	using SubSystems.FileSystem;
 	using SubSystems.Serialization;
 
 	public class FileBasedConfiguration
@@ -87,7 +86,7 @@ namespace nu.core.Configuration
 		{
 			_configurationPath = configurationPath;
 
-			if (!File.Exists(configurationPath.Path))
+			if (!_fileSystem.FileExists(configurationPath.Path))
 			{
 				_log.Debug(x => x.Write("No existing configuration file found: {0}", configurationPath.Path));
 

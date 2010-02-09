@@ -13,9 +13,9 @@
 namespace nu.core.Configuration
 {
 	using System.Collections.Generic;
-	using SubSystems.FileSystem;
+	using FileSystem;
 
-	public class GlobalFileBasedConfiguration :
+    public class GlobalFileBasedConfiguration :
 		FileBasedConfiguration,
 		GlobalConfiguration
 	{
