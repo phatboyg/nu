@@ -24,28 +24,26 @@ namespace nu.core.Commands
 		Command
 	{
 		readonly HashSet<Assembly> _alreadyOutput = new HashSet<Assembly>();
-		readonly GlobalConfiguration _configuration;
 		readonly ILogger _log = Logger.GetLogger<VersionCommand>();
 		readonly bool _verbose;
+		readonly IEnumerable<Extension> _extensions;
 		Assembly _main;
 
-		public VersionCommand(bool verbose, GlobalConfiguration configuration)
+		public VersionCommand(bool verbose, IEnumerable<Extension> extensions)
 		{
 			_verbose = verbose;
-			_configuration = configuration;
+			_extensions = extensions;
 		}
 
 		public void Execute()
 		{
-			_log.Debug(x => x.Write("Running from folder: {0}", _configuration.NuInstallDirectory));
-
 			_main = Assembly.GetEntryAssembly();
 
 			OutputAssembly(_main);
 
 			if (_verbose)
 			{
-				_configuration.Extensions
+				_extensions
 					.Select(x => x.GetType().Assembly).
 					Each(OutputAssembly);
 			}

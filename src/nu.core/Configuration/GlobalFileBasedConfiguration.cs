@@ -12,7 +12,6 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Configuration
 {
-	using System.Collections.Generic;
 	using System.Reflection;
 	using FileSystem;
 
@@ -22,11 +21,9 @@ namespace nu.core.Configuration
 	{
 		readonly NuConventions _conventions;
 
-		public GlobalFileBasedConfiguration(IFileSystem fileSystem, NuConventions conventions, IEnumerable<Extension> extensions)
+		public GlobalFileBasedConfiguration(IFileSystem fileSystem, NuConventions conventions)
 			: base(fileSystem, fileSystem.GlobalConfig)
 		{
-			Extensions = extensions;
-
 			Defaults = new DefaultConfiguration();
 
 			OnMissing = GetGlobalConfigurationValue;
@@ -34,8 +31,6 @@ namespace nu.core.Configuration
 		}
 
 		Configuration Defaults { get; set; }
-
-		public IEnumerable<Extension> Extensions { get; private set; }
 
 		public Directory WorkingDirectory
 		{

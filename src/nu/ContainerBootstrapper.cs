@@ -35,15 +35,15 @@ namespace nu
 
 			IContainer container = new Container(x =>
 				{
-					x.For<NuConventions>().Use<DefaultNuConventions>();
+					x.For<NuConventions>().Singleton().Use<DefaultNuConventions>();
 
-					x.For<GlobalConfiguration>().Use<GlobalFileBasedConfiguration>();
+					x.For<GlobalConfiguration>().Singleton().Use<GlobalFileBasedConfiguration>();
 
-					x.For<ProjectConfiguration>().Use<ProjectFileBasedConfiguration>();
+					x.For<ProjectConfiguration>().Singleton().Use<ProjectFileBasedConfiguration>();
 
-					x.For<IPath>().Use<PathAdapter>();
+					x.For<IPath>().Singleton().Use<PathAdapter>();
 
-					x.For<IFileSystem>().Use<DotNetFileSystem>();
+					x.For<IFileSystem>().Singleton().Use<DotNetFileSystem>();
 				});
 
 			ScanForExtensions(container);
@@ -105,7 +105,7 @@ namespace nu
 				{
 					x.Scan(scan =>
 						{
-							_log.Debug(d => d.Write("Scanning {0} for extensions", configuration.ExtensionsDirectory.Name));
+							_log.Debug(d => d.Write("Scanning for extensions in {0}", configuration.ExtensionsDirectory.Name));
 							scan.AssemblyContainingType<Command>();
 
 							scan.AssembliesFromPath(configuration.ExtensionsDirectory.Name.ToString());

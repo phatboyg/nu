@@ -21,8 +21,6 @@ namespace nu.core.Configuration
 	public interface GlobalConfiguration :
 		Configuration
 	{
-		IEnumerable<Extension> Extensions { get; }
-
 		Directory WorkingDirectory { get; }
 		Directory NuInstallDirectory { get; }
 		Directory ExtensionsDirectory { get; }
