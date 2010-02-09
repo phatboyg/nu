@@ -12,17 +12,8 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Commands
 {
-	using Magnum.Logging;
-
-	public class HelpVersionCommand :
-		Command
+	public interface Command
 	{
-		readonly ILogger _log = Logger.GetLogger<HelpVersionCommand>();
-
-		public void Execute()
-		{
-			_log.Info("Displays the version of nu that is installed");
-			_log.Info("\t--verbose\tIncludes the version of each assembly that is registered");
-		}
+		void Execute();
 	}
 }

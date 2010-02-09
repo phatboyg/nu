@@ -34,7 +34,7 @@ namespace nu
 				IContainer container = new ContainerBootstrapper().Bootstrap();
 
 				_log.Debug("Parsing command line");
-				IEnumerable<ICommand> commands = CommandLine.Parse<ICommand>(init =>
+				IEnumerable<Command> commands = CommandLine.Parse<Command>(init =>
 					{
 						var initializer = new StructureMapExtensionInitializer(init, container);
 
@@ -62,7 +62,7 @@ namespace nu
 			}
 		}
 
-		static void ExecuteCommands(IEnumerable<ICommand> commands)
+		static void ExecuteCommands(IEnumerable<Command> commands)
 		{
 			int count = 0;
 			commands.Each(command =>

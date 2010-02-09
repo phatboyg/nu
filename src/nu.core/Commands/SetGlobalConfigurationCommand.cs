@@ -12,8 +12,29 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Commands
 {
-	public interface ICommand
+	using Configuration;
+	using Magnum.Logging;
+
+	public class SetGlobalConfigurationCommand :
+		Command
 	{
-		void Execute();
+		readonly GlobalConfiguration _configuration;
+		readonly string _key;
+		readonly string _value;
+		readonly ILogger _log = Logger.GetLogger<SetGlobalConfigurationCommand>();
+
+		public SetGlobalConfigurationCommand(string key, string value, GlobalConfiguration configuration)
+		{
+			_key = key;
+			_value = value;
+			_configuration = configuration;
+		}
+
+		public void Execute()
+		{
+			_log.Debug(x => x.Write("Setting '{0}' to '{1}'", _key, _value));
+
+			_configuration[_key] = _value;
+		}
 	}
 }

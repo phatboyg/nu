@@ -81,8 +81,8 @@ namespace nu
 					x.Scan(scan =>
 						{
 							_log.Debug(d => d.Write("Scanning {0} for extensions", path));
+							scan.AssemblyContainingType<Command>();
 
-							scan.AssemblyContainingType<ICommand>();
 							scan.AssembliesFromPath(path);
 
 							scan.Convention<ExtensionConvention>();

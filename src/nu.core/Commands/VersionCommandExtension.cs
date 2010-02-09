@@ -26,11 +26,11 @@ namespace nu.core.Commands
 
 			cli.Add(from arg in cli.Argument("version")
 			        from verbose in switches.Optional("verbose", false)
-			        select cli.GetInstance<VersionCommand>(new {verbose = verbose.Value}));
+			        select cli.GetCommand<VersionCommand>(new {verbose = verbose.Value}));
 
 			cli.Add(from arg in cli.Argument("help")
 			        from verbose in cli.Argument("version")
-			        select cli.GetInstance<HelpVersionCommand>());
+			        select cli.GetCommand<HelpVersionCommand>());
 		}
 	}
 }

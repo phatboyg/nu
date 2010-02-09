@@ -55,12 +55,12 @@ namespace nu.core.Configuration
 
 		public Entry Get(string key)
 		{
-			return _items.DefaultIfEmpty(null).SingleOrDefault(e => e.Key == key);
+			return _items.SingleOrDefault(e => e.Key == key);
 		}
 
 		public void Get(string key, Action<Entry> setter)
 		{
-			var entry = _items.DefaultIfEmpty(null).SingleOrDefault(e => e.Key == key);
+			var entry = _items.SingleOrDefault(e => e.Key == key);
 
 			if(entry != null)
 				setter(entry);

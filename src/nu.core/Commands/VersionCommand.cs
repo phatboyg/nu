@@ -21,7 +21,7 @@ namespace nu.core.Commands
 	using Magnum.Logging;
 
 	public class VersionCommand :
-		ICommand
+		Command
 	{
 		readonly HashSet<Assembly> _alreadyOutput = new HashSet<Assembly>();
 		readonly GlobalConfiguration _configuration;

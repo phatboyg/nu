@@ -12,17 +12,23 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Commands
 {
-	using Magnum.Logging;
+	using Magnum.Monads.Parser;
 
-	public class HelpVersionCommand :
-		Command
+	public class ConfigCommandExtension :
+		Extension
 	{
-		readonly ILogger _log = Logger.GetLogger<HelpVersionCommand>();
-
-		public void Execute()
+		public void Initialize(ExtensionInitializer cli)
 		{
-			_log.Info("Displays the version of nu that is installed");
-			_log.Info("\t--verbose\tIncludes the version of each assembly that is registered");
+			cli.Add(from config in cli.Argument("config")
+			        from k in cli.Argument()
+			        from v in cli.Argument()
+			        select cli.GetCommand<SetConfigCommand>(new {key = k.Id, value = v.Id}));
+
+			cli.Add(from config in cli.Argument("config")
+			        from global in cli.Switch("global")
+			        from k in cli.Argument()
+			        from v in cli.Argument()
+			        select cli.GetCommand<SetGlobalConfigurationCommand>(new {key = k.Id, value = v.Id}));
 		}
 	}
 }
