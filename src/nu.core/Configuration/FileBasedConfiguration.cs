@@ -23,9 +23,12 @@ namespace nu.core.Configuration
 	{
 		readonly IFileSystem _fileSystem;
 		readonly ILogger _log = Logger.GetLogger<FileBasedConfiguration>();
+		BasePath _configurationPath;
+		bool _disposed;
+		bool _touched;
 		protected Func<string, string> OnMissing = DefaultMissingKeyHandler;
 
-		public FileBasedConfiguration(IFileSystem fileSystem, FilePath configurationPath)
+		protected FileBasedConfiguration(IFileSystem fileSystem, FilePath configurationPath)
 		{
 			_fileSystem = fileSystem;
 
@@ -43,19 +46,47 @@ namespace nu.core.Configuration
 				return OnMissing(key);
 			}
 
-			set { Entries.Get(key, x => x.SetValue(value)); }
+			set
+			{
+				Entries.Get(key, x =>
+					{
+						x.SetValue(value);
+						_touched = true;
+					});
+			}
 		}
 
+
+		protected Entries Entries { get; private set; }
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
 
 		public bool Contains(string key)
 		{
 			return Entries.Contains(key);
 		}
 
-		protected Entries Entries { get; private set; }
+		void Dispose(bool disposing)
+		{
+			if (_disposed)
+				return;
+			if (disposing)
+			{
+				if (_touched)
+					WriteConfigurationToFile();
+			}
+
+			_disposed = true;
+		}
 
 		Entries ReadExistingConfigurationFromFile(BasePath configurationPath)
 		{
+			_configurationPath = configurationPath;
+
 			if (!File.Exists(configurationPath.Path))
 			{
 				_log.Debug(x => x.Write("No existing configuration file found: {0}", configurationPath.Path));
@@ -63,7 +94,21 @@ namespace nu.core.Configuration
 				return new Entries();
 			}
 
-			return JsonUtil.Get<Entries>(_fileSystem.ReadToEnd(configurationPath.Path));
+			return new Entries(JsonUtil.Get<Entry[]>(_fileSystem.ReadToEnd(configurationPath.Path)));
+		}
+
+		void WriteConfigurationToFile()
+		{
+			_log.Debug(x => x.Write("Saving configuration file: {0}", _configurationPath.Path));
+
+			string json = JsonUtil.ToJson(Entries);
+
+			_fileSystem.Write(_configurationPath.Path, json);
+		}
+
+		~FileBasedConfiguration()
+		{
+			Dispose(false);
 		}
 
 		protected static string DefaultMissingKeyHandler(string key)

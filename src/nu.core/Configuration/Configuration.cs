@@ -12,7 +12,10 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Configuration
 {
-	public interface Configuration
+	using System;
+
+	public interface Configuration :
+		IDisposable
 	{
 		string this[string key] { get; set; }
 

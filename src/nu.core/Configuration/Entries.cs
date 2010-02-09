@@ -29,6 +29,11 @@ namespace nu.core.Configuration
 			_items = new List<Entry>();
 		}
 
+		public Entries(IEnumerable<Entry> entries)
+		{
+			_items = new List<Entry>(entries);
+		}
+
 		/// <summary>
 		/// Returns an enumerator that iterates through a collection.
 		/// </summary>
@@ -60,9 +65,9 @@ namespace nu.core.Configuration
 
 		public void Get(string key, Action<Entry> setter)
 		{
-			var entry = _items.SingleOrDefault(e => e.Key == key);
+			Entry entry = _items.SingleOrDefault(e => e.Key == key);
 
-			if(entry != null)
+			if (entry != null)
 				setter(entry);
 			else
 			{

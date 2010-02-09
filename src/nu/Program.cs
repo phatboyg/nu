@@ -31,24 +31,24 @@ namespace nu
 		{
 			try
 			{
-				IContainer container = new ContainerBootstrapper().Bootstrap();
+				using (IContainer container = new ContainerBootstrapper().Bootstrap())
+				{
+					_log.Debug("Parsing command line");
+					IEnumerable<Command> commands = CommandLine.Parse<Command>(init =>
+						{
+							var initializer = new StructureMapExtensionInitializer(init, container);
 
-				_log.Debug("Parsing command line");
-				IEnumerable<Command> commands = CommandLine.Parse<Command>(init =>
+							InitializeExtensions(initializer, container);
+						}).ToArray();
+
+					if (commands.Any())
 					{
-						var initializer = new StructureMapExtensionInitializer(init, container);
-
-						InitializeExtensions(initializer, container);
-					})
-					.ToArray();
-
-				if (commands.Any())
-				{
-					ExecuteCommands(commands);
-				}
-				else
-				{
-					_log.Warn("No commands specified");
+						ExecuteCommands(commands);
+					}
+					else
+					{
+						_log.Warn("No commands specified");
+					}
 				}
 			}
 			catch (Exception ex)

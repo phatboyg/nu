@@ -22,8 +22,12 @@ namespace nu.core.Configuration
 			Key = key;
 		}
 
-		public string Key { get; private set; }
-		public string Value { get; private set; }
+		public Entry()
+		{
+		}
+
+		public string Key { get; set; }
+		public string Value { get; set; }
 
 		public bool Equals(Entry other)
 		{
