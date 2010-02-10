@@ -29,6 +29,10 @@ namespace nu.Specs.Filesystem
             fs.Write(@".\temp.txt", "hi");
             Assert.AreEqual(fs.ReadToEnd(@".\temp.txt"), "hi");
 
+
+            fs.Write(@".\temp.txt", "hi2");
+            Assert.AreEqual(fs.ReadToEnd(@".\temp.txt"), "hi2");
+
             fs.DeleteFile(@".\temp.txt");
         }
     }
