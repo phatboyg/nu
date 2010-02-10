@@ -24,7 +24,7 @@ namespace nu.core.FileSystem
 	{
 	    readonly ILogger _logger = Logger.GetLogger<DotNetFileSystem>();
 		readonly NuConventions _conventions;
-		readonly IPath _path;
+	    readonly IPath _path;
 
 		public DotNetFileSystem(IPath path, NuConventions conventions)
 		{
@@ -50,53 +50,19 @@ namespace nu.core.FileSystem
 			}
 		}
 
-		public DirectoryPathAbsolute WorkingDirectory
+		public Directory InstallDirectory
 		{
-			get { return new DirectoryPathAbsolute(System.IO.Directory.GetCurrentDirectory()); }
+			get { return new DotNetFile(new AbsoluteFileName(Assembly.GetEntryAssembly().Location)).Parent; }
 		}
 
-		public DirectoryPathAbsolute InstallDirectory
+		public File GlobalConfig
 		{
-			get { return new FilePathAbsolute(Assembly.GetEntryAssembly().Location).ParentDirectoryPath; }
+			get { return InstallDirectory.GetChildFile(_conventions.ConfigurationFileName); }
 		}
 
-		public DirectoryPathAbsolute ProjectRoot
-		{
-			get
-			{
-				DirectoryPathAbsolute a = WalkThePathLookingForNu(WorkingDirectory);
-				return a.ParentDirectoryPath;
-			}
-		}
-
-		public DirectoryPathAbsolute ProjectNuDirectory
-		{
-			get { return ProjectRoot.GetChildDirectoryWithName(_conventions.ProjectDirectoryName); }
-		}
-
-		public DirectoryPath ExtensionsDirectory
-		{
-			get { return InstallDirectory.GetChildDirectoryWithName(_conventions.ExtensionsDirectoryName); }
-		}
-
-		public DirectoryPathAbsolute NugsDirectory
-		{
-			get { return InstallDirectory.GetChildDirectoryWithName(_conventions.NugsDirectoryName); }
-		}
-
-		public FilePath ProjectConfig
-		{
-			get { return ProjectNuDirectory.GetChildFileWithName(_conventions.ConfigurationFileName); }
-		}
-
-		public FilePath GlobalConfig
-		{
-			get { return InstallDirectory.GetChildFileWithName(_conventions.ConfigurationFileName); }
-		}
-
-	    public FilePath DefaultConfig
+	    public File DefaultConfig
 	    {
-            get { return InstallDirectory.GetChildFileWithName(_conventions.DefaultsFileName); }
+            get { return InstallDirectory.GetChildFile(_conventions.DefaultsFileName); }
 	    }
 
 	    public void WorkWithTempDir(Action<DirectoryPathAbsolute> tempAction)
@@ -222,27 +188,6 @@ namespace nu.core.FileSystem
 			var directory = DirectoryName.GetDirectoryName(System.IO.Directory.GetCurrentDirectory());
 
 			return new DotNetDirectory(directory);
-		}
-
-		public DirectoryPathAbsolute WalkThePathLookingForNu(DirectoryPathAbsolute path)
-		{
-			DirectoryPathAbsolute result = null;
-
-			if (!path.IsRoot())
-			{
-				DirectoryPathAbsolute bro = path.GetChildDirectoryWithName(_conventions.ProjectDirectoryName);
-				if (bro.Exists)
-				{
-					return bro;
-				}
-				if (path.HasParentDir)
-				{
-					result = WalkThePathLookingForNu(path.ParentDirectoryPath);
-				}
-			}
-
-
-			return result;
 		}
 
 	    public void DeleteFile(string fileName)

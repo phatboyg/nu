@@ -52,7 +52,7 @@ namespace nu.core.Configuration
 
 		public NugDirectory NugsDirectory
 		{
-			get { return new DotNetNugDirectory(NuInstallDirectory.GetChildDirectory(_conventions.NugsDirectoryName)); }
+			get { return new DotNetNugDirectory(base.FileSystem, NuInstallDirectory.GetChildDirectory(_conventions.NugsDirectoryName)); }
 		}
 
 		string GetDefaultConfigurationValue(string key)

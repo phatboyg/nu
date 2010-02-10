@@ -12,9 +12,12 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
+    using Nugs;
+
     public interface NugDirectory :
         Directory
     {
-        File GetNug(string name);
+        NugPackage GetNug(string name);
+        File GetNugFile(string name);
     }
 }

@@ -20,5 +20,8 @@ namespace nu.core.FileSystem
 	    bool Exists();
 	    File GetChildFile(string name);
         string Path { get; }
+	    Directory Parent { get; }
+	    bool HasParentDir { get; }
+	    bool IsRoot();
 	}
 }

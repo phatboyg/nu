@@ -15,17 +15,16 @@ namespace nu.core.Configuration
 	using System;
 	using FileSystem;
 	using Magnum.Logging;
-	using NDepend.Helpers.FileDirectoryPath;
 
     public class FileBasedConfiguration
 	{
 		static readonly ILogger _log = Logger.GetLogger<FileBasedConfiguration>();
-		BasePath _configurationPath;
+        File _configurationPath;
 		bool _disposed;
 		bool _touched;
 		protected Func<string, string> OnMissing = DefaultMissingKeyHandler;
 
-		protected FileBasedConfiguration(FileSystem fileSystem, FilePath configurationPath)
+		protected FileBasedConfiguration(FileSystem fileSystem, File configurationPath)
 		{
 			FileSystem = fileSystem;
 
@@ -94,7 +93,7 @@ namespace nu.core.Configuration
 			_disposed = true;
 		}
 
-		Entries ReadExistingConfigurationFromFile(BasePath configurationPath)
+        Entries ReadExistingConfigurationFromFile(File configurationPath)
 		{
 			_configurationPath = configurationPath;
 

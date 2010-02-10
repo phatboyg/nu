@@ -12,11 +12,15 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Configuration
 {
-	/// <summary>
+    using FileSystem;
+
+    /// <summary>
 	/// Configuration that is scoped to the project (falls through to GlobalConfiguration if no values are set)
 	/// </summary>
 	public interface ProjectConfiguration :
 		Configuration
 	{
+        Directory ProjectRoot { get; }
+        Directory ProjectNuDirectory { get; }
 	}
 }

@@ -16,24 +16,11 @@ namespace nu.core.FileSystem
     using System.IO;
     using NDepend.Helpers.FileDirectoryPath;
 
-    public interface IWellKnownLocations
-    {
-        
-    }
-
     public interface FileSystem
     {
-        //well known paths
-        DirectoryPathAbsolute WorkingDirectory { get; }
-        DirectoryPathAbsolute InstallDirectory { get; }
-        DirectoryPathAbsolute ProjectRoot { get; }
-        DirectoryPathAbsolute ProjectNuDirectory { get; }
-        DirectoryPath ExtensionsDirectory { get; }
-
         //files
-        FilePath ProjectConfig { get; }
-        FilePath GlobalConfig { get; }
-        FilePath DefaultConfig { get; }
+        File GlobalConfig { get; }
+        File DefaultConfig { get; }
 
 
         //util

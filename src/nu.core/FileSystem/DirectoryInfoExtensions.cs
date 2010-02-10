@@ -31,11 +31,6 @@ namespace nu.core.FileSystem
             }
         }
 
-        public static bool IsRoot(this DirectoryPathAbsolute source)
-        {
-            return source.DirectoryInfo.Root.Name.Replace("\\", "").Equals(source.Path);
-        }
-
         public static void Create(this DirectoryPathAbsolute path)
         {
             if (!path.Exists)

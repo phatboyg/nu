@@ -53,5 +53,30 @@ namespace nu.core.FileSystem
 
             return new DotNetFile(new RelativeFileName(path));
         }
+
+        public Directory Parent
+        {
+            get
+            {
+                var di = new System.IO.DirectoryInfo(Path);
+                
+                return new DotNetDirectory(new AbsoluteDirectoryName(di.Parent.FullName));
+            }
+        }
+
+        public bool HasParentDir
+        {
+            get
+            {
+                var di = new System.IO.DirectoryInfo(Path);
+                return di.Parent != null;
+            }
+        }
+
+        public bool IsRoot()
+        {
+            var di = new System.IO.DirectoryInfo(Path);
+            return di.Root.Name.Replace("\\", "").Equals(Path);
+        }
 	}
 }

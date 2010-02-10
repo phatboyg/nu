@@ -116,7 +116,6 @@
     <Compile Include="FileSystem\RelativeDirectoryName.cs" />
     <Compile Include="Nugs\NugFile.cs" />
     <Compile Include="Nugs\NugPackage.cs" />
-    <Compile Include="Nugs\NugRegistry.cs" />
     <Compile Include="Project\IProjectEnvironment.cs" />
     <Compile Include="Project\IProjectManifestRepository.cs" />
     <Compile Include="Project\ProjectManifest.cs" />

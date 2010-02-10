@@ -22,17 +22,24 @@ namespace nu.extensions.add
         readonly ILogger _logger = Logger.GetLogger<AddPackageCommand>();
         readonly string _name;
         readonly GlobalConfiguration _globalConfiguration;
+        readonly ProjectConfiguration _projectConfiguration;
 
-        public AddPackageCommand(string name, GlobalConfiguration globalConfiguration)
+        public AddPackageCommand(string name, GlobalConfiguration globalConfiguration, ProjectConfiguration projectConfiguration)
         {
             _name = name;
             _globalConfiguration = globalConfiguration;
+            _projectConfiguration = projectConfiguration;
         }
             
         public void Execute()
         {
-            var nugFile = _globalConfiguration.NugsDirectory.GetNug(_name);
-            _logger.Info(x => x.Write("looking for nug at {0}", nugFile.Name));
+            var package = _globalConfiguration.NugsDirectory.GetNug(_name);
+            _logger.Info(x => x.Write("Name: {0}", package.Name));
+            _logger.Info(x => x.Write("Version: {0}", package.Version));
+            _logger.Info(x => x.Write("First File: {0}", package.Files[0].Name));
+
+            var lib = _projectConfiguration["project.librarydirectoryname"];
+            
         }
     }
 }
