@@ -12,18 +12,17 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Configuration
 {
-	using System;
-	using System.Collections.Generic;
+    using System;
 
     public interface Configuration :
-		IDisposable
-	{
-		string this[string key] { get; set; }
+        IDisposable
+    {
+        string this[string key] { get; set; }
 
-		bool Contains(string key);
+        bool Contains(string key);
 
 
         void ForEach(Action<string, string> action);
         void Remove(string key);
-	}
+    }
 }

@@ -12,173 +12,185 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-	using System;
-	using System.IO;
-	using System.Reflection;
-	using Configuration;
-	using Magnum.Logging;
-	using NDepend.Helpers.FileDirectoryPath;
+    using System;
+    using System.IO;
+    using Configuration;
+    using Magnum.Logging;
+    using NDepend.Helpers.FileDirectoryPath;
 
-	public class DotNetFileSystem :
-		FileSystem
-	{
-	    readonly ILogger _logger = Logger.GetLogger<DotNetFileSystem>();
-		readonly NuConventions _conventions;
-	    readonly IPath _path;
+    public class DotNetFileSystem :
+        FileSystem
+    {
+        readonly NuConventions _conventions;
+        readonly ILogger _logger = Logger.GetLogger<DotNetFileSystem>();
+        readonly IPath _path;
 
-		public DotNetFileSystem(IPath path, NuConventions conventions)
-		{
-			_path = path;
-			_conventions = conventions;
-		}
+        public DotNetFileSystem(IPath path, NuConventions conventions)
+        {
+            _path = path;
+            _conventions = conventions;
+        }
 
-		public bool FileExists(string filePath)
-		{
+        public bool FileExists(string filePath)
+        {
             return System.IO.File.Exists(filePath);
-		}
+        }
 
-		public bool DirectoryExists(string directory)
-		{
-			return System.IO.Directory.Exists(directory);
-		}
+        public bool DirectoryExists(string directory)
+        {
+            return System.IO.Directory.Exists(directory);
+        }
 
-		public void Read(string filePath, Action<Stream> action)
-		{
-			using (var stream = new FileStream(filePath, FileMode.Open))
-			{
-				action(stream);
-			}
-		}
+        public void Read(string filePath, Action<Stream> action)
+        {
+            using (var stream = new FileStream(filePath, FileMode.Open))
+            {
+                action(stream);
+            }
+        }
 
-	    public void WorkWithTempDir(Action<DirectoryPathAbsolute> tempAction)
-		{
-			string tempDir = Path.Combine(Path.GetTempPath(), "nu");
-			tempDir = Path.Combine(tempDir, Guid.NewGuid().ToString());
-			var d = new DirectoryPathAbsolute(tempDir);
-			if (!d.Exists)
-			{
-				d.Create();
-			}
-			try
-			{
-				tempAction(d);
-			}
-			finally
-			{
-				d.Delete();
-			}
-		}
+        public void WorkWithTempDir(Action<Directory> tempAction)
+        {
+            string tempDir = Path.Combine(Path.GetTempPath(), "nu");
+            tempDir = Path.Combine(tempDir, Guid.NewGuid().ToString());
+            var d = new DotNetDirectory(new AbsoluteDirectoryName( tempDir));
+            if (!d.Exists())
+            {
+                CreateDirectory(d.Path);
+            }
+            try
+            {
+                tempAction(d);
+            }
+            finally
+            {
+                Delete(d);
+            }
+        }
 
-		public string GetTempFileName()
-		{
-			return Path.GetTempFileName();
-		}
+        public void Delete(Directory directory)
+        {
+            System.IO.Directory.Delete(directory.Path, true);
+        }
 
-		public String ReadToEnd(string filePath)
-		{
-			string contents = "";
-			Read(filePath, s =>
-				{
-					using (var reader = new StreamReader(s))
-					{
-						contents = reader.ReadToEnd();
-					}
-				});
+        public string GetTempFileName()
+        {
+            return Path.GetTempFileName();
+        }
 
-			return contents;
-		}
+        public String ReadToEnd(string filePath)
+        {
+            string contents = "";
+            Read(filePath, s =>
+                {
+                    using (var reader = new StreamReader(s))
+                    {
+                        contents = reader.ReadToEnd();
+                    }
+                });
 
-		public void Write(string filePath, String contents)
-		{
-            if (System.IO.File.Exists(filePath)) System.IO.File.Delete(filePath);
+            return contents;
+        }
 
-			using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
-			{
-				using (var writer = new StreamWriter(fs))
-				{
-					writer.Write(contents);
-					writer.Flush();
-				}
-			}
-		}
+        public void Write(string filePath, String contents)
+        {
+            if (System.IO.File.Exists(filePath))
+                System.IO.File.Delete(filePath);
 
-		public void Write(string filePath, Stream file)
-		{
-			using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
-			{
-				using (var writer = new StreamWriter(fs))
-				{
-					writer.Flush();
-				}
-			}
-		}
+            using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
+            {
+                using (var writer = new StreamWriter(fs))
+                {
+                    writer.Write(contents);
+                    writer.Flush();
+                }
+            }
+        }
 
-		public void CreateDirectory(string directoryPath)
-		{
-			System.IO.Directory.CreateDirectory(directoryPath);
-		}
+        public void Write(string filePath, Stream file)
+        {
+            using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
+            {
+                using (var writer = new StreamWriter(fs))
+                {
+                    writer.Flush();
+                }
+            }
+        }
 
-		public void CreateHiddenDirectory(string directoryPath)
-		{
-			DirectoryInfo di = System.IO.Directory.CreateDirectory(directoryPath);
-			di.Attributes |= FileAttributes.Hidden;
-		}
+        public void CreateDirectory(string directoryPath)
+        {
+            System.IO.Directory.CreateDirectory(directoryPath);
+        }
 
-		public void Copy(string source, string destination)
-		{
+        public void CreateHiddenDirectory(string directoryPath)
+        {
+            DirectoryInfo di = System.IO.Directory.CreateDirectory(directoryPath);
+            di.Attributes |= FileAttributes.Hidden;
+        }
+
+        public void Copy(string source, string destination)
+        {
             System.IO.File.Copy(source, destination);
-		}
+        }
 
-		public bool IsRooted(string path)
-		{
-			return Path.IsPathRooted(path);
-		}
+        public bool IsRooted(string path)
+        {
+            return Path.IsPathRooted(path);
+        }
 
-		public string Combine(string firstPath, string secondPath)
-		{
-			return _path.Combine(firstPath, secondPath);
-		}
+        public string Combine(string firstPath, string secondPath)
+        {
+            return _path.Combine(firstPath, secondPath);
+        }
 
-		public char DirectorySeparatorChar
-		{
-			get { return _path.DirectorySeparatorChar; }
-		}
+        public char DirectorySeparatorChar
+        {
+            get { return _path.DirectorySeparatorChar; }
+        }
 
-		public string[] GetDirectories(string path)
-		{
-			return System.IO.Directory.GetDirectories(path);
-		}
+        public string[] GetDirectories(string path)
+        {
+            return System.IO.Directory.GetDirectories(path);
+        }
 
-		public DirectoryPathAbsolute GetDirectory(string path)
-		{
-			if (!Path.IsPathRooted(path))
-				path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), path);
+        public Directory GetDirectory(string path)
+        {
+            if (!Path.IsPathRooted(path))
+                path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), path);
 
-			return new DirectoryPathAbsolute(path);
-		}
+            return new DotNetDirectory(new AbsoluteDirectoryName(path));
+        }
 
-		public void CreateProjectAt(string path)
-		{
-			DirectoryPathAbsolute dir = GetDirectory(path);
-			//this needs to be in a biz object
-			DirectoryPathAbsolute nu = dir.GetChildDirectoryWithName(_conventions.ProjectDirectoryName);
-			nu.Create();
-            _logger.Debug(x=>x.Write("Creating .nu directory at '{0}'", nu.Path));
-			nu.GetChildFileWithName("nu.conf").Create();
-            _logger.Debug(x=>x.Write("Crating nu.conf at '{0}'", nu.Path));
-		}
+        public void CreateProjectAt(string path)
+        {
+            Directory dir = GetDirectory(path);
+            //this needs to be in a biz object
+            Directory nu = dir.GetChildDirectory(_conventions.ProjectDirectoryName);
+            CreateDirectory(nu.Path);
+           
+            _logger.Debug(x => x.Write("Creating .nu directory at '{0}'", nu.Path));
+            
+            CreateFile(nu.GetChildFile("nu.conf"));
+            _logger.Debug(x => x.Write("Crating nu.conf at '{0}'", nu.Path));
+        }
 
-		public Directory GetCurrentDirectory()
-		{
-			var directory = DirectoryName.GetDirectoryName(System.IO.Directory.GetCurrentDirectory());
+        public void CreateFile(File file)
+        {
+            System.IO.File.WriteAllBytes(file.Path, new byte[0]);
+        }
 
-			return new DotNetDirectory(directory);
-		}
+        public Directory GetCurrentDirectory()
+        {
+            var directory = DirectoryName.GetDirectoryName(System.IO.Directory.GetCurrentDirectory());
 
-	    public void DeleteFile(string fileName)
-	    {
+            return new DotNetDirectory(directory);
+        }
+
+        public void DeleteFile(string fileName)
+        {
             if (System.IO.File.Exists(fileName))
                 System.IO.File.Delete(fileName);
-	    }
-	}
+        }
+    }
 }

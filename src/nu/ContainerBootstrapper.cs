@@ -43,6 +43,8 @@ namespace nu
 
                     x.For<ProjectConfiguration>().Singleton().Use<ProjectFileBasedConfiguration>();
 
+                    x.For<InstallationDirectory>().Singleton().Use<DotNetInstallationDirectory>();
+
                     x.For<IPath>().Singleton().Use<PathAdapter>();
 
                     x.For<FileSystem>().Singleton().Use<DotNetFileSystem>();

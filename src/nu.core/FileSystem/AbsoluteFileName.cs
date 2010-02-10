@@ -33,5 +33,10 @@ namespace nu.core.FileSystem
         {
             return _path;
         }
+
+        public override string GetName()
+        {
+            return System.IO.Path.GetFileName(_path);
+        }
     }
 }

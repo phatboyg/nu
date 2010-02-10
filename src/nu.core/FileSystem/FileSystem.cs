@@ -32,8 +32,8 @@ namespace nu.core.FileSystem
         string Combine(string firstPath, string secondPath);
         string[] GetDirectories(string path);
         string GetTempFileName();
-        void WorkWithTempDir(Action<DirectoryPathAbsolute> tempAction);
-        DirectoryPathAbsolute GetDirectory(string path);
+        void WorkWithTempDir(Action<Directory> tempAction);
+        Directory GetDirectory(string path);
 
         //does this belong here?
         void CreateProjectAt(string path);
@@ -41,5 +41,7 @@ namespace nu.core.FileSystem
     	Directory GetCurrentDirectory();
 
         void DeleteFile(string path);
+        void Delete(Directory directory);
+        void CreateFile(File file);
     }
 }

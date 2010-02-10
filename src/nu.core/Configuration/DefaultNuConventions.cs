@@ -12,34 +12,32 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Configuration
 {
-    using System;
-
     public class DefaultNuConventions :
-		NuConventions
-	{
-		public string ConfigurationFileName
-		{
-			get { return "nu.conf"; }
-		}
+        NuConventions
+    {
+        public string ConfigurationFileName
+        {
+            get { return "nu.conf"; }
+        }
 
-		public string ExtensionsDirectoryName
-		{
-			get { return "extensions"; }
-		}
+        public string ExtensionsDirectoryName
+        {
+            get { return "extensions"; }
+        }
 
-		public string ProjectDirectoryName
-		{
-			get { return ".nu"; }
-		}
+        public string ProjectDirectoryName
+        {
+            get { return ".nu"; }
+        }
 
-		public string NugsDirectoryName
-		{
-			get { return "nugs"; }
-		}
+        public string NugsDirectoryName
+        {
+            get { return "nugs"; }
+        }
 
-	    public string DefaultsFileName
-	    {
+        public string DefaultsFileName
+        {
             get { return "defaults.conf"; }
-	    }
-	}
+        }
+    }
 }

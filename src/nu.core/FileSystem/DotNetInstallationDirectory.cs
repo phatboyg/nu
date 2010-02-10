@@ -12,28 +12,21 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-    using System.IO;
+    using System.Reflection;
 
-    public abstract class FileName
+    public class DotNetInstallationDirectory :
+        DotNetDirectory,
+        InstallationDirectory
     {
-        public abstract FileName Combine(string name);
-
-        public static FileName GetFileName(string path)
+        public DotNetInstallationDirectory()
+            : base(GetInstallPath())
         {
-            if (Path.IsPathRooted(path))
-                return new AbsoluteFileName(path);
-
-            return new RelativeFileName(path);
         }
 
-        public static AbsoluteFileName GetAbsoluteFileName(string path, string source)
+
+        static DirectoryName GetInstallPath()
         {
-            if (Path.IsPathRooted(path))
-                return new AbsoluteFileName(path);
-
-            return new AbsoluteFileName(Path.Combine(source, path));
+            return DirectoryName.GetDirectoryNameFromFileName(Assembly.GetEntryAssembly().Location);
         }
-
-        public abstract string GetName();
     }
 }

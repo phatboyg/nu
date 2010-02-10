@@ -12,41 +12,20 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-    using System.IO;
-    using NDepend.Helpers.FileDirectoryPath;
-
     public static class DirectoryInfoExtensions
     {
-        public static void CopyTo(this DirectoryPathAbsolute source, DirectoryPathAbsolute target)
+        public static void CopyTo(this Directory source, Directory target)
         {
-            foreach (FilePathAbsolute file in source.ChildrenFilesPath)
+            foreach (File file in source.ChildrenFilesPath)
             {
-                System.IO.File.Copy(file.Path, target.GetChildFileWithName(file.FileName).Path);
+                System.IO.File.Copy(file.Path, target.GetChildFile(file.Name.GetName()).Path);
             }
 
 
-            foreach (DirectoryPathAbsolute dir in source.ChildrenDirectoriesPath)
+            foreach (Directory dir in source.ChildrenDirectories)
             {
-                dir.CopyTo(target.GetChildDirectoryWithName(dir.DirectoryName));
+                dir.CopyTo(target.GetChildDirectory(dir.Name.GetName()));
             }
-        }
-
-        public static void Create(this DirectoryPathAbsolute path)
-        {
-            if (!path.Exists)
-                System.IO.Directory.CreateDirectory(path.Path);
-        }
-
-        public static void Create(this FilePathAbsolute path)
-        {
-            if(!path.Exists)
-                System.IO.File.Create(path.Path).Dispose();
-        }
-
-        public static void Delete(this DirectoryPathAbsolute path)
-        {
-            if(path.Exists)
-                System.IO.Directory.Delete(path.Path, true);
         }
     }
 }

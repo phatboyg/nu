@@ -105,9 +105,11 @@
     <Compile Include="FileSystem\DirectoryName.cs" />
     <Compile Include="FileSystem\DotNetDirectory.cs" />
     <Compile Include="FileSystem\DotNetFile.cs" />
+    <Compile Include="FileSystem\DotNetInstallationDirectory.cs" />
     <Compile Include="FileSystem\DotNetNugDirectory.cs" />
     <Compile Include="FileSystem\File.cs" />
     <Compile Include="FileSystem\FileName.cs" />
+    <Compile Include="FileSystem\InstallationDirectory.cs" />
     <Compile Include="FileSystem\NugDirectory.cs" />
     <Compile Include="FileSystem\RelativeFileName.cs" />
     <Compile Include="Nugs\Manifest.cs" />

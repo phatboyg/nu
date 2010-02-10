@@ -46,5 +46,8 @@ namespace nu.core.FileSystem
 
 			return GetDirectoryName(directoryPath);
 		}
+
+	    public abstract string GetName();
+	   
 	}
 }

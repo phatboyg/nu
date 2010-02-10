@@ -12,45 +12,50 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Configuration
 {
-    using System;
     using FileSystem;
     using Magnum.Logging;
 
     public class ProjectFileBasedConfiguration :
-		FileBasedConfiguration,
-		ProjectConfiguration
-	{
-        readonly ILogger _logger = Logger.GetLogger<ProjectFileBasedConfiguration>();
-		readonly GlobalConfiguration _globalConfiguration;
+        FileBasedConfiguration,
+        ProjectConfiguration
+    {
         readonly NuConventions _conventions;
+        readonly GlobalConfiguration _globalConfiguration;
+        readonly ILogger _logger = Logger.GetLogger<ProjectFileBasedConfiguration>();
 
         public ProjectFileBasedConfiguration(FileSystem fileSystem, GlobalConfiguration globalConfiguration, NuConventions conventions)
-			: base(fileSystem, GetFile(fileSystem, conventions))
-		{
-			_globalConfiguration = globalConfiguration;
-		    _conventions = conventions;
+            : base(fileSystem, GetFile(fileSystem, conventions))
+        {
+            _globalConfiguration = globalConfiguration;
+            _conventions = conventions;
 
-		    OnMissing = GetGlobalConfigurationValue;
-		}
-
-		string GetGlobalConfigurationValue(string key)
-		{
-            _logger.Debug(x=>x.Write("Falling back to global config for key '{0}'", key));
-			return _globalConfiguration[key];
-		}
+            OnMissing = GetGlobalConfigurationValue;
+        }
 
         public Directory ProjectRoot
         {
-            get {
-                var a = WalkThePathLookingForNu(FileSystem.GetCurrentDirectory(),_conventions);
+            get
+            {
+                var a = WalkThePathLookingForNu(FileSystem.GetCurrentDirectory(), _conventions);
                 return a.Parent;
-            
             }
         }
 
         public Directory ProjectNuDirectory
         {
             get { return ProjectRoot.GetChildDirectory(_conventions.ProjectDirectoryName); }
+        }
+
+        string GetGlobalConfigurationValue(string key)
+        {
+            _logger.Debug(x => x.Write("Falling back to global config for key '{0}'", key));
+            return _globalConfiguration[key];
+        }
+
+        public static File GetFile(FileSystem fileSystem, NuConventions conventions)
+        {
+            var a = WalkThePathLookingForNu(fileSystem.GetCurrentDirectory(), conventions);
+            return a.Parent.GetChildFile(conventions.ConfigurationFileName);
         }
 
         static Directory WalkThePathLookingForNu(Directory direc, NuConventions conventions)
@@ -73,11 +78,5 @@ namespace nu.core.Configuration
 
             return result;
         }
-
-        public static File GetFile(FileSystem fileSystem, NuConventions conventions)
-        {
-            var a = WalkThePathLookingForNu(fileSystem.GetCurrentDirectory(), conventions);
-            return a.Parent.GetChildFile(conventions.ConfigurationFileName);
-        }
-	}
+    }
 }

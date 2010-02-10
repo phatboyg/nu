@@ -12,59 +12,58 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Configuration
 {
-    using System;
     using System.Reflection;
-	using FileSystem;
+    using FileSystem;
     using Magnum.Logging;
 
     public class GlobalFileBasedConfiguration :
-		FileBasedConfiguration,
-		GlobalConfiguration
-	{
+        FileBasedConfiguration,
+        GlobalConfiguration
+    {
+        readonly NuConventions _conventions;
         readonly ILogger _logger = Logger.GetLogger<GlobalFileBasedConfiguration>();
-		readonly NuConventions _conventions;
 
-		public GlobalFileBasedConfiguration(DefaultsConfiguration defaults, FileSystem fileSystem, NuConventions conventions)
-			: base(fileSystem, PathToMe(fileSystem, conventions))
-		{
-			Defaults = defaults;
-
-			OnMissing = GetDefaultConfigurationValue;
-			_conventions = conventions;
-		}
-
-		DefaultsConfiguration Defaults { get; set; }
-
-		public Directory WorkingDirectory
-		{
-			get { return FileSystem.GetCurrentDirectory(); }
-		}
-
-		public Directory NuInstallDirectory
-		{
-			get { return new DotNetDirectory(DirectoryName.GetDirectoryNameFromFileName(Assembly.GetEntryAssembly().Location)); }
-		}
-
-		public Directory ExtensionsDirectory
-		{
-			get { return NuInstallDirectory.GetChildDirectory(_conventions.ExtensionsDirectoryName); }
-		}
-
-		public NugDirectory NugsDirectory
-		{
-			get { return new DotNetNugDirectory(base.FileSystem, NuInstallDirectory.GetChildDirectory(_conventions.NugsDirectoryName)); }
-		}
-
-		string GetDefaultConfigurationValue(string key)
-		{
-            _logger.Debug(x=>x.Write("Falling back to DEFAULTS for key '{0}'", key));
-
-			return Defaults[key];
-		}
-
-        static File PathToMe(FileSystem fileSystem, NuConventions conventions)
+        public GlobalFileBasedConfiguration(DefaultsConfiguration defaults, FileSystem fileSystem, NuConventions conventions, InstallationDirectory install)
+            : base(fileSystem, PathToMe(install, conventions))
         {
-            return new DotNetDirectory(DirectoryName.GetDirectoryNameFromFileName(Assembly.GetEntryAssembly().Location)).GetChildFile(conventions.ConfigurationFileName);
+            Defaults = defaults;
+
+            OnMissing = GetDefaultConfigurationValue;
+            _conventions = conventions;
         }
-	}
+
+        public Directory NuInstallDirectory
+        {
+            get { return new DotNetDirectory(DirectoryName.GetDirectoryNameFromFileName(Assembly.GetEntryAssembly().Location)); }
+        }
+
+        DefaultsConfiguration Defaults { get; set; }
+
+        public Directory WorkingDirectory
+        {
+            get { return FileSystem.GetCurrentDirectory(); }
+        }
+
+        public Directory ExtensionsDirectory
+        {
+            get { return NuInstallDirectory.GetChildDirectory(_conventions.ExtensionsDirectoryName); }
+        }
+
+        public NugDirectory NugsDirectory
+        {
+            get { return new DotNetNugDirectory(base.FileSystem, NuInstallDirectory.GetChildDirectory(_conventions.NugsDirectoryName)); }
+        }
+
+        string GetDefaultConfigurationValue(string key)
+        {
+            _logger.Debug(x => x.Write("Falling back to DEFAULTS for key '{0}'", key));
+
+            return Defaults[key];
+        }
+
+        static File PathToMe(InstallationDirectory install, NuConventions conventions)
+        {
+            return install.GetChildFile(conventions.ConfigurationFileName);
+        }
+    }
 }

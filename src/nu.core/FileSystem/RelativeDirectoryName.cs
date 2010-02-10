@@ -33,5 +33,10 @@ namespace nu.core.FileSystem
 		{
 			return new RelativeDirectoryName(Path.Combine(_path, name));
 		}
+
+        public override string  GetName()
+         {
+	        return System.IO.Path.GetDirectoryName(_path);
+	    }
 	}
 }

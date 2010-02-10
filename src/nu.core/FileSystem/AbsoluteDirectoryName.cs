@@ -40,5 +40,11 @@ namespace nu.core.FileSystem
 
 			return new AbsoluteDirectoryName(Path.Combine(_path, path));
 		}
+
+
+        public override string GetName()
+        {
+            return System.IO.Path.GetDirectoryName(_path);
+        }
 	}
 }

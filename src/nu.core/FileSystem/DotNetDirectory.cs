@@ -12,43 +12,65 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-    using System;
+    using System.Collections.Generic;
+    using System.IO;
 
     public class DotNetDirectory :
-		Directory
-	{
-		public DotNetDirectory(DirectoryName directoryName)
-		{
-			Name = directoryName;
-		}
+        Directory
+    {
+        public DotNetDirectory(DirectoryName directoryName)
+        {
+            Name = directoryName;
+        }
 
-		public Directory GetChildDirectory(string name)
-		{
-			DirectoryName directoryName = Name.Combine(name);
+        public IEnumerable<File> ChildrenFilesPath
+        {
+            get
+            {
+                foreach (var file in System.IO.Directory.GetFiles(Path))
+                {
+                    yield return new DotNetFile(new AbsoluteFileName(file));
+                }
+                yield break;
+            }
+        }
 
-			return new DotNetDirectory(directoryName);
-		}
+        public IEnumerable<Directory> ChildrenDirectories
+        {
+            get
+            {
+                foreach (var dir in System.IO.Directory.GetDirectories(Path))
+                {
+                    yield return new DotNetDirectory(new AbsoluteDirectoryName(dir));
+                }
 
-		public DirectoryName Name { get; private set; }
+                yield break;
+            }
+        }
 
-	    public bool Exists()
-	    {
-	        return System.IO.Directory.Exists(Name.ToString());
-	    }
+        public Directory GetChildDirectory(string name)
+        {
+            DirectoryName directoryName = Name.Combine(name);
 
-        public override string ToString()
-		{
-			return Path;
-		}
+            return new DotNetDirectory(directoryName);
+        }
+
+        public DirectoryName Name { get; private set; }
+
+        public bool Exists()
+        {
+            return System.IO.Directory.Exists(Name.ToString());
+        }
 
         public string Path
         {
             get { return Name.ToString(); }
         }
+
         public File GetChildFile(string name)
         {
             var path = System.IO.Path.Combine(Name.ToString(), name);
-            if(System.IO.Path.IsPathRooted(path))
+            if (System.IO.Path.IsPathRooted(path))
                 return new DotNetFile(new AbsoluteFileName(path));
 
             return new DotNetFile(new RelativeFileName(path));
@@ -58,8 +80,8 @@ namespace nu.core.FileSystem
         {
             get
             {
-                var di = new System.IO.DirectoryInfo(Path);
-                
+                var di = new DirectoryInfo(Path);
+
                 return new DotNetDirectory(new AbsoluteDirectoryName(di.Parent.FullName));
             }
         }
@@ -68,15 +90,20 @@ namespace nu.core.FileSystem
         {
             get
             {
-                var di = new System.IO.DirectoryInfo(Path);
+                var di = new DirectoryInfo(Path);
                 return di.Parent != null;
             }
         }
 
         public bool IsRoot()
         {
-            var di = new System.IO.DirectoryInfo(Path);
+            var di = new DirectoryInfo(Path);
             return di.Root.Name.Replace("\\", "").Equals(Path);
         }
-	}
+
+        public override string ToString()
+        {
+            return Path;
+        }
+    }
 }

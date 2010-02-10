@@ -12,16 +12,19 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-	public interface Directory
-	{
-		Directory GetChildDirectory(string name);
-		
-		DirectoryName Name { get; }
-	    bool Exists();
-	    File GetChildFile(string name);
+    using System.Collections.Generic;
+
+    public interface Directory
+    {
+        DirectoryName Name { get; }
         string Path { get; }
-	    Directory Parent { get; }
-	    bool HasParentDir { get; }
-	    bool IsRoot();
-	}
+        Directory Parent { get; }
+        bool HasParentDir { get; }
+        IEnumerable<File> ChildrenFilesPath { get; }
+        IEnumerable<Directory> ChildrenDirectories { get; }
+        Directory GetChildDirectory(string name);
+        bool Exists();
+        File GetChildFile(string name);
+        bool IsRoot();
+    }
 }
