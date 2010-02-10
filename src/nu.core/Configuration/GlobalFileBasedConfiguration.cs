@@ -25,7 +25,7 @@ namespace nu.core.Configuration
 		readonly NuConventions _conventions;
 
 		public GlobalFileBasedConfiguration(DefaultsConfiguration defaults, FileSystem fileSystem, NuConventions conventions)
-			: base(fileSystem, fileSystem.GlobalConfig)
+			: base(fileSystem, PathToMe(fileSystem, conventions))
 		{
 			Defaults = defaults;
 
@@ -61,5 +61,10 @@ namespace nu.core.Configuration
 
 			return Defaults[key];
 		}
+
+        static File PathToMe(FileSystem fileSystem, NuConventions conventions)
+        {
+            return new DotNetDirectory(DirectoryName.GetDirectoryNameFromFileName(Assembly.GetEntryAssembly().Location)).GetChildFile(conventions.ConfigurationFileName);
+        }
 	}
 }

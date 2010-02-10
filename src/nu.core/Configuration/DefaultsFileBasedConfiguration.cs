@@ -12,6 +12,7 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Configuration
 {
+    using System.Reflection;
     using FileSystem;
     using Magnum.Logging;
 
@@ -21,9 +22,14 @@ namespace nu.core.Configuration
     {
         readonly ILogger _logger = Logger.GetLogger<DefaultsFileBasedConfiguration>();
 
-        public DefaultsFileBasedConfiguration(FileSystem fileSystem)
-            : base(fileSystem, fileSystem.DefaultConfig)
+        public DefaultsFileBasedConfiguration(FileSystem fileSystem, NuConventions conventions)
+            : base(fileSystem, GetMyPath(fileSystem, conventions))
         {
+        }
+
+        static File GetMyPath(FileSystem fileSystem, NuConventions conventions)
+        {
+            return new DotNetDirectory(DirectoryName.GetDirectoryNameFromFileName(Assembly.GetEntryAssembly().Location)).GetChildFile(conventions.DefaultsFileName); 
         }
     }
 }

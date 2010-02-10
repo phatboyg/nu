@@ -18,12 +18,6 @@ namespace nu.core.FileSystem
 
     public interface FileSystem
     {
-        //files
-        File GlobalConfig { get; }
-        File DefaultConfig { get; }
-
-
-        //util
         char DirectorySeparatorChar { get; }
         bool FileExists(string filePath);
         bool DirectoryExists(string directoryPath);

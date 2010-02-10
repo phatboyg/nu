@@ -50,21 +50,6 @@ namespace nu.core.FileSystem
 			}
 		}
 
-		public Directory InstallDirectory
-		{
-			get { return new DotNetFile(new AbsoluteFileName(Assembly.GetEntryAssembly().Location)).Parent; }
-		}
-
-		public File GlobalConfig
-		{
-			get { return InstallDirectory.GetChildFile(_conventions.ConfigurationFileName); }
-		}
-
-	    public File DefaultConfig
-	    {
-            get { return InstallDirectory.GetChildFile(_conventions.DefaultsFileName); }
-	    }
-
 	    public void WorkWithTempDir(Action<DirectoryPathAbsolute> tempAction)
 		{
 			string tempDir = Path.Combine(Path.GetTempPath(), "nu");
