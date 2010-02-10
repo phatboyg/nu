@@ -12,8 +12,8 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Configuration
 {
-	using System.Collections.Generic;
-	using FileSystem;
+    using System;
+    using FileSystem;
 
 	/// <summary>
 	/// Configuration that is specified at the global level

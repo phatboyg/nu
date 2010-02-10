@@ -12,7 +12,8 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Configuration
 {
-	using System.Reflection;
+    using System;
+    using System.Reflection;
 	using FileSystem;
 
 	public class GlobalFileBasedConfiguration :
@@ -56,5 +57,10 @@ namespace nu.core.Configuration
 		{
 			return Defaults[key];
 		}
+
+	    public override void ForEach(Action<string, string> action)
+	    {
+	        base.ForEach(action);
+	    }
 	}
 }

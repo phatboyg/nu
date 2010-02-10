@@ -10,19 +10,25 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Configuration
+namespace nu.core.Commands.Config
 {
-	using System;
-	using System.Collections.Generic;
+    using Configuration;
+    using Magnum.Logging;
 
-    public interface Configuration :
-		IDisposable
-	{
-		string this[string key] { get; set; }
+    public class ListGlobalConfigurationCommand :
+        Command
+    {
+        readonly GlobalConfiguration _global;
+        readonly ILogger _logger = Logger.GetLogger<ListGlobalConfigurationCommand>();
 
-		bool Contains(string key);
+        public ListGlobalConfigurationCommand(GlobalConfiguration global)
+        {
+            _global = global;
+        }
 
-
-        void ForEach(Action<string, string> action);
-	}
+        public void Execute()
+        {
+            _global.ForEach((k, v) => _logger.Info(x => x.Write("'{0}':'{1}'", k, v)));
+        }
+    }
 }

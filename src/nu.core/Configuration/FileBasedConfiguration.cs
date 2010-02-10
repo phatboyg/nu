@@ -58,6 +58,13 @@ namespace nu.core.Configuration
 
 		Entries Entries { get; set; }
 
+        public virtual void ForEach(Action<string, string> action)
+        {
+            foreach (var entry in Entries)
+            {
+                action(entry.Key, entry.Value);
+            }
+        }
 		public void Dispose()
 		{
 			Dispose(true);

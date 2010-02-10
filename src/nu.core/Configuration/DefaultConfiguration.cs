@@ -48,5 +48,13 @@ namespace nu.core.Configuration
 		{
 			return Entries.Contains(key);
 		}
+
+	    public void ForEach(Action<string, string> action)
+	    {
+	        foreach (var entry in Entries)
+	        {
+	            action(entry.Key, entry.Value);
+	        }
+	    }
 	}
 }
