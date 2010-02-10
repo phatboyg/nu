@@ -152,9 +152,7 @@
     <Compile Include="Configuration\Entries.cs" />
     <Compile Include="Configuration\Entry.cs" />
     <Compile Include="Configuration\FileBasedConfiguration.cs" />
-    <Compile Include="Dispay\ConsoleHelper.cs" />
     <Compile Include="FileSystem\DotNetFileSystem.cs" />
-    <Compile Include="Dispay\IConsole.cs" />
     <Compile Include="FileSystem\IFileSystem.cs" />
     <Compile Include="FileSystem\Zip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
