@@ -102,8 +102,8 @@
     <Compile Include="ExtensionInitializer.cs" />
     <Compile Include="FileSystem\DirectoryName.cs" />
     <Compile Include="FileSystem\DotNetDirectory.cs" />
-    <Compile Include="FileSystem\Manifest.cs" />
-    <Compile Include="FileSystem\ManifestEntry.cs" />
+    <Compile Include="Nugs\Manifest.cs" />
+    <Compile Include="Nugs\ManifestEntry.cs" />
     <Compile Include="Configuration\JsonUtil.cs" />
     <Compile Include="FileSystem\RelativeDirectoryName.cs" />
     <Compile Include="Nugs\NugFile.cs" />
