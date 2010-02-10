@@ -26,12 +26,12 @@ namespace nu.Specs.Filesystem
             var path = new PathAdapter();
             var fs = new DotNetFileSystem(path, conv);
 
-            fs.Write(@".\temp.txt", "hi");
-            Assert.AreEqual(fs.ReadToEnd(@".\temp.txt"), "hi");
+            fs.Write(@".\temp.txt", "hi123");
+            Assert.AreEqual(fs.ReadToEnd(@".\temp.txt"), "hi123");
 
 
-            fs.Write(@".\temp.txt", "hi2");
-            Assert.AreEqual(fs.ReadToEnd(@".\temp.txt"), "hi2");
+            fs.Write(@".\temp.txt", "hii");
+            Assert.AreEqual(fs.ReadToEnd(@".\temp.txt"), "hii");
 
             fs.DeleteFile(@".\temp.txt");
         }

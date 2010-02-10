@@ -13,11 +13,13 @@
 namespace nu.core.Configuration
 {
     using FileSystem;
+    using Magnum.Logging;
 
     public class ProjectFileBasedConfiguration :
 		FileBasedConfiguration,
 		ProjectConfiguration
 	{
+        readonly ILogger _logger = Logger.GetLogger<ProjectFileBasedConfiguration>();
 		readonly GlobalConfiguration _globalConfiguration;
 
 		public ProjectFileBasedConfiguration(FileSystem fileSystem, GlobalConfiguration globalConfiguration)
@@ -30,6 +32,7 @@ namespace nu.core.Configuration
 
 		string GetGlobalConfigurationValue(string key)
 		{
+            _logger.Debug(x=>x.Write("Falling back to global config for key '{0}'", key));
 			return _globalConfiguration[key];
 		}
 	}

@@ -134,6 +134,8 @@ namespace nu.core.FileSystem
 
 		public void Write(string filePath, String contents)
 		{
+            if(File.Exists(filePath)) File.Delete(filePath);
+
 			using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
 			{
 				using (var writer = new StreamWriter(fs))
