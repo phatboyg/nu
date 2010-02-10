@@ -16,11 +16,13 @@ namespace nu.core.FileSystem
 	using System.IO;
 	using System.Reflection;
 	using Configuration;
+	using Magnum.Logging;
 	using NDepend.Helpers.FileDirectoryPath;
 
 	public class DotNetFileSystem :
 		IFileSystem
 	{
+	    ILogger _logger = Logger.GetLogger<DotNetFileSystem>();
 		readonly NuConventions _conventions;
 		readonly IPath _path;
 
@@ -63,7 +65,7 @@ namespace nu.core.FileSystem
 			get
 			{
 				DirectoryPathAbsolute a = WalkThePathLookingForNu(WorkingDirectory);
-				return a;
+				return a.ParentDirectoryPath;
 			}
 		}
 
@@ -203,7 +205,9 @@ namespace nu.core.FileSystem
 			//this needs to be in a biz object
 			DirectoryPathAbsolute nu = dir.GetChildDirectoryWithName(_conventions.ProjectDirectoryName);
 			nu.Create();
+            _logger.Debug(x=>x.Write("Creating .nu directory at '{0}'", nu.Path));
 			nu.GetChildFileWithName("nu.conf").Create();
+            _logger.Debug(x=>x.Write("Crating nu.conf at '{0}'", nu.Path));
 		}
 
 		public Directory GetCurrentDirectory()
@@ -219,7 +223,7 @@ namespace nu.core.FileSystem
 
 			if (!path.IsRoot())
 			{
-				DirectoryPathAbsolute bro = path.GetBrotherDirectoryWithName(_conventions.ProjectDirectoryName);
+				DirectoryPathAbsolute bro = path.GetChildDirectoryWithName(_conventions.ProjectDirectoryName);
 				if (bro.Exists)
 				{
 					return bro;

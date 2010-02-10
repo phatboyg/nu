@@ -29,12 +29,12 @@ namespace nu.core.Configuration
 			_items = new List<Entry>();
 		}
 
-		public Entries(IEnumerable<Entry> entries)
-		{
-			_items = new List<Entry>(entries);
-		}
+        public Entries(IEnumerable<Entry> entries)
+        {
+            _items = new List<Entry>(entries);
+        }
 
-		/// <summary>
+	    /// <summary>
 		/// Returns an enumerator that iterates through a collection.
 		/// </summary>
 		/// <returns>

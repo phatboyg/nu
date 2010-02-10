@@ -100,7 +100,7 @@ namespace nu.core.Configuration
 				return new Entries();
 			}
 
-			return new Entries(JsonUtil.Get<Entry[]>(FileSystem.ReadToEnd(configurationPath.Path)));
+			return new Entries(JsonUtil.Get<Entry[]>(FileSystem.ReadToEnd(configurationPath.Path)) ?? new Entry[0]);
 		}
 
 		void WriteConfigurationToFile()
