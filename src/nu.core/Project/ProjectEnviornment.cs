@@ -12,9 +12,8 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Project
 {
-    using nu.Model.Project;
-
-    public class ProjectEnvironment : IProjectEnvironment
+    public class ProjectEnvironment : 
+        IProjectEnvironment
     {
         readonly bool _isTemplate;
         readonly string _projectDirectory;

@@ -10,30 +10,27 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Model.Project.Transformation
+namespace nu.core.Project.Transformation
 {
-	using nu.Model.Project;
-	using nu.Model.Project.Transformation;
+    public class ProjectTransformationPipeline : IProjectTransformationPipeline
+    {
+        readonly ITransformationElement[] _elements;
 
-	public class ProjectTransformationPipeline : IProjectTransformationPipeline
-	{
-		readonly ITransformationElement[] _elements;
+        public ProjectTransformationPipeline(ITransformationElement[] elements)
+        {
+            _elements = elements;
+        }
 
-		public ProjectTransformationPipeline(ITransformationElement[] elements)
-		{
-			_elements = elements;
-		}
-
-		public void Process(IProjectManifest templateManifest, IProjectEnvironment environment, IProjectEnvironment templateEnvironment)
-		{
-			if (_elements != null)
-			{
-				foreach (ITransformationElement transformationElement in _elements)
-				{
-					if (!transformationElement.Transform(templateManifest, environment, templateEnvironment))
-						break;
-				}
-			}
-		}
-	}
+        public void Process(IProjectManifest templateManifest, IProjectEnvironment environment, IProjectEnvironment templateEnvironment)
+        {
+            if (_elements != null)
+            {
+                foreach (ITransformationElement transformationElement in _elements)
+                {
+                    if (!transformationElement.Transform(templateManifest, environment, templateEnvironment))
+                        break;
+                }
+            }
+        }
+    }
 }

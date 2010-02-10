@@ -10,38 +10,38 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Model.Project.Transformation
+namespace nu.core.Project.Transformation
 {
+    using DTO;
     using FileSystem;
-    using nu.Model.Project;
     using SubSystems.Templating;
 
     public class FolderTransformationElement : AbstractTransformationElement
-	{
-		readonly IFileSystem _fileSystem;
-		readonly IProjectManifestRepository _manifestRepository;
-		readonly ITemplateProcessor _templateProcessor;
+    {
+        readonly IFileSystem _fileSystem;
+        readonly IProjectManifestRepository _manifestRepository;
+        readonly ITemplateProcessor _templateProcessor;
 
 
-		public FolderTransformationElement(ITemplateProcessor processor, IFileSystem fileSystem, IProjectManifestRepository manifestRepository)
-		{
-			_templateProcessor = processor;
-			_fileSystem = fileSystem;
-			_manifestRepository = manifestRepository;
-		}
+        public FolderTransformationElement(ITemplateProcessor processor, IFileSystem fileSystem, IProjectManifestRepository manifestRepository)
+        {
+            _templateProcessor = processor;
+            _fileSystem = fileSystem;
+            _manifestRepository = manifestRepository;
+        }
 
-		public override bool Transform(IProjectManifest templateManifest, IProjectEnvironment environment, IProjectEnvironment templateEnvironment)
-		{
-			string rootDirectory = _manifestRepository.GetProjectDirectory(environment);
-			ITemplateContext context = BuildTemplateContext(_fileSystem, _templateProcessor, environment);
-			foreach (FolderDTO folder in templateManifest.Directories)
-			{
-				string folderTemplatePath = _fileSystem.Combine(rootDirectory, folder.Path);
-				string folderProcessedPath = _templateProcessor.Process(folderTemplatePath, context);
-				_fileSystem.CreateDirectory(folderProcessedPath);
-				folder.Path = folderProcessedPath;
-			}
-			return true;
-		}
-	}
+        public override bool Transform(IProjectManifest templateManifest, IProjectEnvironment environment, IProjectEnvironment templateEnvironment)
+        {
+            string rootDirectory = _manifestRepository.GetProjectDirectory(environment);
+            ITemplateContext context = BuildTemplateContext(_fileSystem, _templateProcessor, environment);
+            foreach (FolderDTO folder in templateManifest.Directories)
+            {
+                string folderTemplatePath = _fileSystem.Combine(rootDirectory, folder.Path);
+                string folderProcessedPath = _templateProcessor.Process(folderTemplatePath, context);
+                _fileSystem.CreateDirectory(folderProcessedPath);
+                folder.Path = folderProcessedPath;
+            }
+            return true;
+        }
+    }
 }

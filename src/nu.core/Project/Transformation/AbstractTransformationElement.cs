@@ -10,37 +10,36 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Model.Project.Transformation
+namespace nu.core.Project.Transformation
 {
     using FileSystem;
-    using nu.Model.Project;
     using SubSystems.Templating;
 
     public abstract class AbstractTransformationElement :
-		ITransformationElement
-	{
-		protected const string DIRECTORY_KEY = "Directory";
-		protected const string DIRECTORY_SEPARATOR_KEY = "PathSeparator";
-		protected const string PROJECT_KEY = "ProjectName";
+        ITransformationElement
+    {
+        protected const string DIRECTORY_KEY = "Directory";
+        protected const string DIRECTORY_SEPARATOR_KEY = "PathSeparator";
+        protected const string PROJECT_KEY = "ProjectName";
 
-		public abstract bool Transform(IProjectManifest templateManifest, IProjectEnvironment environment, IProjectEnvironment templateEnvironment);
+        public abstract bool Transform(IProjectManifest templateManifest, IProjectEnvironment environment, IProjectEnvironment templateEnvironment);
 
-		public virtual ITemplateContext BuildTemplateContext(IFileSystem fileSystem,
-		                                                     ITemplateProcessor templateProcessor, IProjectEnvironment environment)
-		{
-			ITemplateContext context = templateProcessor.CreateTemplateContext();
-			context.Items[PROJECT_KEY] = environment.ProjectName;
-			context.Items[DIRECTORY_KEY] = environment.ProjectDirectory;
-			context.Items[DIRECTORY_SEPARATOR_KEY] = fileSystem.DirectorySeparatorChar;
-			return context;
-		}
-	}
+        public virtual ITemplateContext BuildTemplateContext(IFileSystem fileSystem,
+                                                             ITemplateProcessor templateProcessor, IProjectEnvironment environment)
+        {
+            ITemplateContext context = templateProcessor.CreateTemplateContext();
+            context.Items[PROJECT_KEY] = environment.ProjectName;
+            context.Items[DIRECTORY_KEY] = environment.ProjectDirectory;
+            context.Items[DIRECTORY_SEPARATOR_KEY] = fileSystem.DirectorySeparatorChar;
+            return context;
+        }
+    }
 
-	public interface ITransformationElement
-	{
-		bool Transform(IProjectManifest templateManifest, IProjectEnvironment environment, IProjectEnvironment templateEnvironment);
+    public interface ITransformationElement
+    {
+        bool Transform(IProjectManifest templateManifest, IProjectEnvironment environment, IProjectEnvironment templateEnvironment);
 
-		ITemplateContext BuildTemplateContext(IFileSystem fileSystem,
-		                                      ITemplateProcessor templateProcessor, IProjectEnvironment environment);
-	}
+        ITemplateContext BuildTemplateContext(IFileSystem fileSystem,
+                                              ITemplateProcessor templateProcessor, IProjectEnvironment environment);
+    }
 }
