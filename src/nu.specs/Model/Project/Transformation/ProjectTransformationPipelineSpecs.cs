@@ -10,15 +10,13 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.Model.Project.Transformation
+namespace nu.Specs.Model.Project.Transformation
 {
     using core.Project.Transformation;
     using NUnit.Framework;
-    using NUnit.Framework.SyntaxHelpers;
     using Rhino.Mocks;
-    using XF.Specs;
 
-    public class When_executing_a_project_transformation_pipeline : Spec
+    public class When_executing_a_project_transformation_pipeline
     {
         [Test]
         public void Should_accept_transformation_elements()
@@ -34,21 +32,19 @@ namespace nu.Model.Project.Transformation
             AbstractTransformationElement firstFalseElement = null;
             AbstractTransformationElement secondTrueElement = null;
 
-            using (Record)
-            {
-                firstTrueElement = Mock<AbstractTransformationElement>();
-                firstFalseElement = Mock<AbstractTransformationElement>();
-                secondTrueElement = Mock<AbstractTransformationElement>();
 
-                Expect.Call(firstTrueElement.Transform(null, null, null)).Return(true);
-                Expect.Call(firstFalseElement.Transform(null, null, null)).Return(false);
-            }
-            using (Playback)
-            {
-                var pipeline = new ProjectTransformationPipeline(
-                    new[] {firstTrueElement, firstFalseElement, secondTrueElement});
-                pipeline.Process(null, null, null);
-            }
+
+            firstTrueElement = MockRepository.GenerateStub<AbstractTransformationElement>();
+            firstFalseElement = MockRepository.GenerateStub<AbstractTransformationElement>();
+            secondTrueElement = MockRepository.GenerateStub<AbstractTransformationElement>();
+
+            Expect.Call(firstTrueElement.Transform(null, null, null)).Return(true);
+            Expect.Call(firstFalseElement.Transform(null, null, null)).Return(false);
+
+            var pipeline = new ProjectTransformationPipeline(
+                new[] {firstTrueElement, firstFalseElement, secondTrueElement});
+            pipeline.Process(null, null, null);
+
         }
     }
 }
