@@ -92,13 +92,13 @@
     <Compile Include="Commands\Config\GetGlobalConfigurationCommand.cs" />
     <Compile Include="Commands\Config\ListGlobalConfigurationCommand.cs" />
     <Compile Include="Commands\Config\ListProjectConfigurationCommand.cs" />
-    <Compile Include="Commands\Config\UnsetConfigCommand.cs" />
+    <Compile Include="Commands\Config\UnsetProjectConfigurationCommand.cs" />
     <Compile Include="Commands\Config\UnsetGlobalConfigurationCommand.cs" />
     <Compile Include="Commands\HelpVersionCommand.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\InitializeCommand.cs" />
     <Compile Include="Commands\InitializeCommandExtension.cs" />
-    <Compile Include="Commands\Config\SetConfigCommand.cs" />
+    <Compile Include="Commands\Config\SetProjectConfigurationCommand.cs" />
     <Compile Include="Commands\Config\SetGlobalConfigurationCommand.cs" />
     <Compile Include="Commands\VersionCommand.cs" />
     <Compile Include="Commands\VersionCommandExtension.cs" />
