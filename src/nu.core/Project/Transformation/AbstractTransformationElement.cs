@@ -24,7 +24,7 @@ namespace nu.core.Project.Transformation
 
         public abstract bool Transform(IProjectManifest templateManifest, IProjectEnvironment environment, IProjectEnvironment templateEnvironment);
 
-        public virtual ITemplateContext BuildTemplateContext(IFileSystem fileSystem,
+        public virtual ITemplateContext BuildTemplateContext(FileSystem fileSystem,
                                                              ITemplateProcessor templateProcessor, IProjectEnvironment environment)
         {
             ITemplateContext context = templateProcessor.CreateTemplateContext();
@@ -39,7 +39,7 @@ namespace nu.core.Project.Transformation
     {
         bool Transform(IProjectManifest templateManifest, IProjectEnvironment environment, IProjectEnvironment templateEnvironment);
 
-        ITemplateContext BuildTemplateContext(IFileSystem fileSystem,
+        ITemplateContext BuildTemplateContext(FileSystem fileSystem,
                                               ITemplateProcessor templateProcessor, IProjectEnvironment environment);
     }
 }

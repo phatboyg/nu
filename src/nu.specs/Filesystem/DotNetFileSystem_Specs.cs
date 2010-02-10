@@ -10,20 +10,26 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Configuration
+namespace nu.Specs.Filesystem
 {
-	using System;
-	using System.Collections.Generic;
+    using core.Configuration;
+    using core.FileSystem;
+    using NUnit.Framework;
 
-    public interface Configuration :
-		IDisposable
-	{
-		string this[string key] { get; set; }
+    [TestFixture]
+    public class DotNetFileSystem_Specs
+    {
+        [Test]
+        public void Overwrite_Files()
+        {
+            var conv = new DefaultNuConventions();
+            var path = new PathAdapter();
+            var fs = new DotNetFileSystem(path, conv);
 
-		bool Contains(string key);
+            fs.Write(@".\temp.txt", "hi");
+            Assert.AreEqual(fs.ReadToEnd(@".\temp.txt"), "hi");
 
-
-        void ForEach(Action<string, string> action);
-        void Remove(string key);
-	}
+            fs.DeleteFile(@".\temp.txt");
+        }
+    }
 }

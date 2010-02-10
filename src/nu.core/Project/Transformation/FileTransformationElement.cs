@@ -22,11 +22,11 @@ namespace nu.core.Project.Transformation
     public class FileTransformationElement : 
         AbstractTransformationElement
     {
-        readonly IFileSystem _fileSystem;
+        readonly FileSystem _fileSystem;
         readonly IProjectManifestRepository _manifestRepository;
         readonly ITemplateProcessor _processor;
 
-        public FileTransformationElement(ITemplateProcessor processor, IFileSystem fileSystem, IProjectManifestRepository manifestRepository)
+        public FileTransformationElement(ITemplateProcessor processor, FileSystem fileSystem, IProjectManifestRepository manifestRepository)
         {
             _processor = processor;
             _fileSystem = fileSystem;

@@ -25,7 +25,7 @@ namespace nu.core.Configuration
 		bool _touched;
 		protected Func<string, string> OnMissing = DefaultMissingKeyHandler;
 
-		protected FileBasedConfiguration(IFileSystem fileSystem, FilePath configurationPath)
+		protected FileBasedConfiguration(FileSystem fileSystem, FilePath configurationPath)
 		{
 			FileSystem = fileSystem;
 
@@ -43,17 +43,23 @@ namespace nu.core.Configuration
 				return OnMissing(key);
 			}
 
-			set
-			{
-				Entries.Get(key, x =>
-					{
-						x.SetValue(value);
-						_touched = true;
-					});
-			}
+            set
+            {
+                Entries.Get(key, x =>
+                    {
+                        x.SetValue(value);
+                        _touched = true;
+                    });
+            }
 		}
 
-		protected IFileSystem FileSystem { get; private set; }
+        public void Remove(string key)
+        {
+            Entries.Remove(key);
+            _touched = true;
+        }
+
+		protected FileSystem FileSystem { get; private set; }
 
 		Entries Entries { get; set; }
 

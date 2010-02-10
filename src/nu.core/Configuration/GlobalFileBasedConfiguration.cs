@@ -22,7 +22,7 @@ namespace nu.core.Configuration
 	{
 		readonly NuConventions _conventions;
 
-		public GlobalFileBasedConfiguration(IFileSystem fileSystem, NuConventions conventions)
+		public GlobalFileBasedConfiguration(FileSystem fileSystem, NuConventions conventions)
 			: base(fileSystem, fileSystem.GlobalConfig)
 		{
 			Defaults = new DefaultConfiguration();

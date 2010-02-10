@@ -21,7 +21,7 @@ namespace nu.core.FileSystem
         
     }
 
-    public interface IFileSystem
+    public interface FileSystem
     {
         //well known paths
         DirectoryPathAbsolute WorkingDirectory { get; }
@@ -58,5 +58,7 @@ namespace nu.core.FileSystem
         void CreateProjectAt(string path);
 
     	Directory GetCurrentDirectory();
+
+        void DeleteFile(string path);
     }
 }

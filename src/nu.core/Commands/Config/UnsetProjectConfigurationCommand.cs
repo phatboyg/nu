@@ -32,7 +32,7 @@ namespace nu.core.Commands.Config
         {
             _log.Debug(x => x.Write("Removing configuration key '{0}'", _key));
 
-            _configuration[_key] = null;
+            _configuration.Remove(_key);
         }
     }
 }

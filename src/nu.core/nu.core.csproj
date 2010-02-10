@@ -155,7 +155,7 @@
     <Compile Include="Configuration\Entry.cs" />
     <Compile Include="Configuration\FileBasedConfiguration.cs" />
     <Compile Include="FileSystem\DotNetFileSystem.cs" />
-    <Compile Include="FileSystem\IFileSystem.cs" />
+    <Compile Include="FileSystem\FileSystem.cs" />
     <Compile Include="FileSystem\Zip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Project\IProjectManifest.cs" />

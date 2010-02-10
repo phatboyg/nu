@@ -39,7 +39,12 @@ namespace nu.core.Configuration
 			set { throw new InvalidOperationException("Default configuration values cannot be changed"); }
 		}
 
-		public void Dispose()
+	    public void Remove(string key)
+	    {
+	        Entries.Remove(key);
+	    }
+
+	    public void Dispose()
 		{
 			Entries = null;
 		}

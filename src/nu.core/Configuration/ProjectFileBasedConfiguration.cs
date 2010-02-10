@@ -20,7 +20,7 @@ namespace nu.core.Configuration
 	{
 		readonly GlobalConfiguration _globalConfiguration;
 
-		public ProjectFileBasedConfiguration(IFileSystem fileSystem, GlobalConfiguration globalConfiguration)
+		public ProjectFileBasedConfiguration(FileSystem fileSystem, GlobalConfiguration globalConfiguration)
 			: base(fileSystem, fileSystem.ProjectConfig)
 		{
 			_globalConfiguration = globalConfiguration;

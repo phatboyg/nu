@@ -18,12 +18,12 @@ namespace nu.core.Project.Transformation
 
     public class FolderTransformationElement : AbstractTransformationElement
     {
-        readonly IFileSystem _fileSystem;
+        readonly FileSystem _fileSystem;
         readonly IProjectManifestRepository _manifestRepository;
         readonly ITemplateProcessor _templateProcessor;
 
 
-        public FolderTransformationElement(ITemplateProcessor processor, IFileSystem fileSystem, IProjectManifestRepository manifestRepository)
+        public FolderTransformationElement(ITemplateProcessor processor, FileSystem fileSystem, IProjectManifestRepository manifestRepository)
         {
             _templateProcessor = processor;
             _fileSystem = fileSystem;

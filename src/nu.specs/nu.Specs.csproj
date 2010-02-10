@@ -7,7 +7,7 @@
     <ProjectGuid>{7EBF6A88-89C6-46FF-9A2C-B211F0B60C90}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>nu</RootNamespace>
+    <RootNamespace>nu.Specs</RootNamespace>
     <AssemblyName>nu.Specs</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -77,6 +77,8 @@
     <Compile Include="..\SolutionVersion.cs">
       <Link>SolutionVersion.cs</Link>
     </Compile>
+    <Compile Include="Configuration\Entries_Specs.cs" />
+    <Compile Include="Filesystem\DotNetFileSystem_Specs.cs" />
     <Compile Include="Model\Project\Transformation\ProjectTransformationPipelineSpecs.cs" />
     <Compile Include="Model\Template\NVelocityAdapterSpecs.cs" />
     <Compile Include="Specs\AMC\AbstractMockingStrategy.cs" />

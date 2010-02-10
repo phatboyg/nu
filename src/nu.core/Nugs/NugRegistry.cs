@@ -21,9 +21,9 @@ namespace nu.core.Nugs
 
     public class NugRegistry
     {
-        readonly IFileSystem _fileSystem;
+        readonly FileSystem _fileSystem;
 
-        public NugRegistry(IFileSystem fileSystem)
+        public NugRegistry(FileSystem fileSystem)
         {
             _fileSystem = fileSystem;
         }

@@ -15,10 +15,12 @@ namespace nu.core.Configuration
 	using System;
 	using System.Collections;
 	using System.Collections.Generic;
+	using System.Diagnostics;
 	using System.Linq;
 	using Magnum;
 
 	[Serializable]
+    [DebuggerDisplay("Entries: {Count()}")]
 	public class Entries :
 		IEnumerable<Entry>
 	{
@@ -89,5 +91,10 @@ namespace nu.core.Configuration
 		{
 			return _items.Any(x => x.Key == key);
 		}
+
+        private int Count()
+        {
+            return _items.Count;
+        }
 	}
 }

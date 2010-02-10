@@ -20,7 +20,7 @@ namespace nu.core.FileSystem
 	using NDepend.Helpers.FileDirectoryPath;
 
 	public class DotNetFileSystem :
-		IFileSystem
+		FileSystem
 	{
 	    ILogger _logger = Logger.GetLogger<DotNetFileSystem>();
 		readonly NuConventions _conventions;
@@ -237,5 +237,11 @@ namespace nu.core.FileSystem
 
 			return result;
 		}
+
+	    public void DeleteFile(string fileName)
+	    {
+	        if(File.Exists(fileName))
+                File.Delete(fileName);
+	    }
 	}
 }

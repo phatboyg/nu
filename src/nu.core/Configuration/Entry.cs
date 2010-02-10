@@ -13,8 +13,10 @@
 namespace nu.core.Configuration
 {
 	using System;
+	using System.Diagnostics;
 
-	[Serializable]
+    [Serializable]
+    [DebuggerDisplay("{Key}:{Value}")]
 	public class Entry
 	{
 		public Entry(string key)

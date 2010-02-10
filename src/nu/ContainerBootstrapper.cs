@@ -43,7 +43,7 @@ namespace nu
 
 					x.For<IPath>().Singleton().Use<PathAdapter>();
 
-					x.For<IFileSystem>().Singleton().Use<DotNetFileSystem>();
+					x.For<FileSystem>().Singleton().Use<DotNetFileSystem>();
 				});
 
 			ScanForExtensions(container);
