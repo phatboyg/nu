@@ -90,6 +90,7 @@
     <Compile Include="Configuration\DefaultsConfiguration.cs" />
     <Compile Include="Configuration\DefaultsFileBasedConfiguration.cs" />
     <Compile Include="FileSystem\AbsoluteDirectoryName.cs" />
+    <Compile Include="FileSystem\AbsoluteFileName.cs" />
     <Compile Include="FileSystem\Directory.cs" />
     <Compile Include="Configuration\GlobalConfiguration.cs" />
     <Compile Include="Configuration\GlobalFileBasedConfiguration.cs" />
@@ -103,6 +104,12 @@
     <Compile Include="ExtensionInitializer.cs" />
     <Compile Include="FileSystem\DirectoryName.cs" />
     <Compile Include="FileSystem\DotNetDirectory.cs" />
+    <Compile Include="FileSystem\DotNetFile.cs" />
+    <Compile Include="FileSystem\DotNetNugDirectory.cs" />
+    <Compile Include="FileSystem\File.cs" />
+    <Compile Include="FileSystem\FileName.cs" />
+    <Compile Include="FileSystem\NugDirectory.cs" />
+    <Compile Include="FileSystem\RelativeFileName.cs" />
     <Compile Include="Nugs\Manifest.cs" />
     <Compile Include="Nugs\ManifestEntry.cs" />
     <Compile Include="Configuration\JsonUtil.cs" />

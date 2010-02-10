@@ -34,10 +34,12 @@
     <Reference Include="Magnum, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\Magnum.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="NDepend.Helpers.FileDirectoryPath, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\NDepend.Helpers.FileDirectoryPath.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -53,6 +55,7 @@
     <ProjectReference Include="..\..\nu.core\nu.core.csproj">
       <Project>{B106DBF9-AF90-414D-A40C-A0222BF8F5C8}</Project>
       <Name>nu.core</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

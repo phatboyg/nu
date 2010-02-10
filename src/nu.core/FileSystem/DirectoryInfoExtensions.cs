@@ -21,7 +21,7 @@ namespace nu.core.FileSystem
         {
             foreach (FilePathAbsolute file in source.ChildrenFilesPath)
             {
-                File.Copy(file.Path, target.GetChildFileWithName(file.FileName).Path);
+                System.IO.File.Copy(file.Path, target.GetChildFileWithName(file.FileName).Path);
             }
 
 
@@ -45,7 +45,7 @@ namespace nu.core.FileSystem
         public static void Create(this FilePathAbsolute path)
         {
             if(!path.Exists)
-                File.Create(path.Path).Dispose();
+                System.IO.File.Create(path.Path).Dispose();
         }
 
         public static void Delete(this DirectoryPathAbsolute path)

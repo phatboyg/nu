@@ -37,7 +37,7 @@ namespace nu.core.FileSystem
 
 		public static DirectoryName GetDirectoryNameFromFileName(string path)
 		{
-			if (!File.Exists(path))
+			if (!System.IO.File.Exists(path))
 				throw new InvalidOperationException("The file specified does not exist: " + path);
 
 			string directoryPath = Path.GetDirectoryName(path);

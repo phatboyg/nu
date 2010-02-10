@@ -34,7 +34,7 @@ namespace nu.core.FileSystem
 
 		public bool FileExists(string filePath)
 		{
-			return File.Exists(filePath);
+            return System.IO.File.Exists(filePath);
 		}
 
 		public bool DirectoryExists(string directory)
@@ -139,7 +139,7 @@ namespace nu.core.FileSystem
 
 		public void Write(string filePath, String contents)
 		{
-            if(File.Exists(filePath)) File.Delete(filePath);
+            if (System.IO.File.Exists(filePath)) System.IO.File.Delete(filePath);
 
 			using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
 			{
@@ -175,7 +175,7 @@ namespace nu.core.FileSystem
 
 		public void Copy(string source, string destination)
 		{
-			File.Copy(source, destination);
+            System.IO.File.Copy(source, destination);
 		}
 
 		public bool IsRooted(string path)
@@ -247,8 +247,8 @@ namespace nu.core.FileSystem
 
 	    public void DeleteFile(string fileName)
 	    {
-	        if(File.Exists(fileName))
-                File.Delete(fileName);
+            if (System.IO.File.Exists(fileName))
+                System.IO.File.Delete(fileName);
 	    }
 	}
 }

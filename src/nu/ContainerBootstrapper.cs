@@ -12,123 +12,127 @@
 // specific language governing permissions and limitations under the License.
 namespace nu
 {
-	using System;
-	using System.Linq;
-	using core;
-	using core.Commands;
-	using core.Configuration;
-	using core.FileSystem;
-	using Magnum.InterfaceExtensions;
-	using Magnum.Logging;
-	using StructureMap;
-	using StructureMap.Configuration.DSL;
-	using StructureMap.Graph;
-	using StructureMap.TypeRules;
+    using System;
+    using System.Linq;
+    using core;
+    using core.Commands;
+    using core.Configuration;
+    using core.FileSystem;
+    using Magnum.InterfaceExtensions;
+    using Magnum.Logging;
+    using StructureMap;
+    using StructureMap.Configuration.DSL;
+    using StructureMap.Graph;
+    using StructureMap.TypeRules;
 
-	public class ContainerBootstrapper
-	{
-		readonly ILogger _log = Logger.GetLogger<ContainerBootstrapper>();
+    public class ContainerBootstrapper
+    {
+        readonly ILogger _log = Logger.GetLogger<ContainerBootstrapper>();
 
-		public IContainer Bootstrap()
-		{
-			_log.Debug("Bootstrapping container");
+        public IContainer Bootstrap()
+        {
+            _log.Debug("Bootstrapping container");
 
-			IContainer container = new Container(x =>
-				{
-					x.For<NuConventions>().Singleton().Use<DefaultNuConventions>();
+            IContainer container = new Container(x =>
+                {
+                    x.For<NuConventions>().Singleton().Use<DefaultNuConventions>();
 
-				    x.For<DefaultsConfiguration>().Singleton().Use<DefaultsFileBasedConfiguration>();
+                    x.For<DefaultsConfiguration>().Singleton().Use<DefaultsFileBasedConfiguration>();
 
-					x.For<GlobalConfiguration>().Singleton().Use<GlobalFileBasedConfiguration>();
+                    x.For<GlobalConfiguration>().Singleton().Use<GlobalFileBasedConfiguration>();
 
-					x.For<ProjectConfiguration>().Singleton().Use<ProjectFileBasedConfiguration>();
+                    x.For<ProjectConfiguration>().Singleton().Use<ProjectFileBasedConfiguration>();
 
-					x.For<IPath>().Singleton().Use<PathAdapter>();
+                    x.For<IPath>().Singleton().Use<PathAdapter>();
 
-					x.For<FileSystem>().Singleton().Use<DotNetFileSystem>();
-				});
+                    x.For<FileSystem>().Singleton().Use<DotNetFileSystem>();
+                });
 
-			ScanForExtensions(container);
+            ScanForExtensions(container);
 
-			ScanForImplementations(container);
+            ScanForImplementations(container);
 
-			return container;
-		}
+            return container;
+        }
 
-		class ExtensionConvention :
-			IRegistrationConvention
-		{
-			readonly ILogger _log = Logger.GetLogger<ExtensionConvention>();
+        class ExtensionConvention :
+            IRegistrationConvention
+        {
+            readonly ILogger _log = Logger.GetLogger<ExtensionConvention>();
 
-			public void Process(Type type, Registry registry)
-			{
-				if (type == typeof(Extension))
-					return;
+            public void Process(Type type, Registry registry)
+            {
+                if (type == typeof(Extension))
+                    return;
 
-				if (type.Implements<Extension>())
-				{
-					_log.Debug(x => x.Write("Loading extension: {0} ({1})", type.Name, type.Assembly.GetName().Name));
+                if (type.Implements<Extension>())
+                {
+                    _log.Debug(x => x.Write("Loading extension: {0} ({1})", type.Name, type.Assembly.GetName().Name));
 
-					registry.AddType(typeof(Extension), type);
-				}
-			}
-		}
+                    registry.AddType(typeof(Extension), type);
+                }
+            }
+        }
 
-		class ImplementationConvention :
-			IRegistrationConvention
-		{
-			public void Process(Type type, Registry registry)
-			{
-				if (!type.IsConcrete())
-					return;
+        class ImplementationConvention :
+            IRegistrationConvention
+        {
+            public void Process(Type type, Registry registry)
+            {
+                if (!type.IsConcrete())
+                    return;
 
-				if (!type.Name.EndsWith("Impl"))
-					return;
+                if (!type.Name.EndsWith("Impl"))
+                    return;
 
-				string interfaceName = type.Name.Substring(0, type.Name.Length - 4);
+                string interfaceName = type.Name.Substring(0, type.Name.Length - 4);
 
-				Type match = type.GetInterfaces()
-					.Where(x => x.Name.Equals(interfaceName))
-					.Where(x => type.Namespace.StartsWith(x.Namespace))
-					.SingleOrDefault();
+                Type match = type.GetInterfaces()
+                    .Where(x => x.Name.Equals(interfaceName))
+                    .Where(x => type.Namespace.StartsWith(x.Namespace))
+                    .SingleOrDefault();
 
-				if (match != null)
-				{
-					registry.AddType(match, type);
-				}
-			}
-		}
+                if (match != null)
+                {
+                    registry.AddType(match, type);
+                }
+            }
+        }
 
-		void ScanForExtensions(IContainer container)
-		{
-			var configuration = container.GetInstance<GlobalConfiguration>();
+        void ScanForExtensions(IContainer container)
+        {
+            var configuration = container.GetInstance<GlobalConfiguration>();
 
-			container.Configure(x =>
-				{
-					x.Scan(scan =>
-						{
-							_log.Debug(d => d.Write("Scanning for extensions in {0}", configuration.ExtensionsDirectory.Name));
-							scan.AssemblyContainingType<Command>();
+            container.Configure(x =>
+                {
+                    x.Scan(scan =>
+                        {
+                            _log.Debug(d => d.Write("Scanning for extensions in {0}", configuration.ExtensionsDirectory.Name));
 
-							scan.AssembliesFromPath(configuration.ExtensionsDirectory.Name.ToString());
+                            if(!configuration.ExtensionsDirectory.Exists())
+                                _log.Warn("The extension directory doesn't exist");
 
-							scan.Convention<ExtensionConvention>();
-						});
-				});
-		}
+                            scan.AssemblyContainingType<Command>();
 
-		void ScanForImplementations(IContainer container)
-		{
-			container.Configure(x =>
-				{
-					x.Scan(scan =>
-						{
-							_log.Debug(d => d.Write("Scanning for default implementations"));
-							scan.AssemblyContainingType<Command>();
-							
-							scan.Convention<ImplementationConvention>();
-						});
-				});
-		}
-	}
+                            scan.AssembliesFromPath(configuration.ExtensionsDirectory.Name.ToString());
+
+                            scan.Convention<ExtensionConvention>();
+                        });
+                });
+        }
+
+        void ScanForImplementations(IContainer container)
+        {
+            container.Configure(x =>
+                {
+                    x.Scan(scan =>
+                        {
+                            _log.Debug(d => d.Write("Scanning for default implementations"));
+                            scan.AssemblyContainingType<Command>();
+
+                            scan.Convention<ImplementationConvention>();
+                        });
+                });
+        }
+    }
 }

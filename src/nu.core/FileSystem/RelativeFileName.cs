@@ -10,19 +10,28 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.extensions.add
+namespace nu.core.FileSystem
 {
-    using core;
-    using Magnum.Monads.Parser;
+    using System;
 
-    public class AddCommandExtensions :
-        Extension
+    public class RelativeFileName :
+        FileName
     {
-        public void Initialize(ExtensionInitializer cli)
+        readonly string _path;
+
+        public RelativeFileName(string path)
         {
-            cli.Add(from add in cli.Argument("add")
-                    from nam in cli.Argument()
-                    select cli.GetCommand<AddPackageCommand>(new {name = nam.Id}));
+            _path = path;
+        }
+
+        public override FileName Combine(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            return _path;
         }
     }
 }

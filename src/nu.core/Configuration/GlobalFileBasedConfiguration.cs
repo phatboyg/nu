@@ -50,9 +50,9 @@ namespace nu.core.Configuration
 			get { return NuInstallDirectory.GetChildDirectory(_conventions.ExtensionsDirectoryName); }
 		}
 
-		public Directory NugsDirectory
+		public NugDirectory NugsDirectory
 		{
-			get { return NuInstallDirectory.GetChildDirectory(_conventions.NugsDirectoryName); }
+			get { return new DotNetNugDirectory(NuInstallDirectory.GetChildDirectory(_conventions.NugsDirectoryName)); }
 		}
 
 		string GetDefaultConfigurationValue(string key)

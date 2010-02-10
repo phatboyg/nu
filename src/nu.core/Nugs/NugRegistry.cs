@@ -41,7 +41,7 @@ namespace nu.core.Nugs
             var target = new DirectoryPathAbsolute("");
             Zip.Unzip(path, target);
             var manifest = target.GetChildFileWithName("MANIFEST");
-            var manifestContent = File.ReadAllText(manifest.Path);
+            var manifestContent = System.IO.File.ReadAllText(manifest.Path);
             var m = JsonUtil.Get<Manifest>(manifestContent);
             var np = new NugPackage(m.Name);
             np.Version = m.Version;
@@ -74,7 +74,7 @@ namespace nu.core.Nugs
 
                     //i now have the unzipped contents @ temp
                     var mani = temp.GetChildFileWithName("MANIFEST");
-                    var maniS = File.ReadAllText(mani.Path);
+                    var maniS = System.IO.File.ReadAllText(mani.Path);
                     //json it
                     var m = JsonUtil.Get<Manifest>(maniS);
 
@@ -87,7 +87,7 @@ namespace nu.core.Nugs
                             {
                                 Name = entry.Name,
                                 //whoa
-                                File = new MemoryStream(File.ReadAllBytes(mani.GetBrotherFileWithName(entry.Name).Path))
+                                File = new MemoryStream(System.IO.File.ReadAllBytes(mani.GetBrotherFileWithName(entry.Name).Path))
                             });
                     }
                 });

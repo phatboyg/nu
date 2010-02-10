@@ -13,26 +13,14 @@
 namespace nu.extensions.project
 {
 	using System;
-	using core;
 	using core.Commands;
-	using Magnum.Monads.Parser;
 
-	public class ProjectCommand :
+    public class ProjectCommand :
 		Command
 	{
 		public void Execute()
 		{
 			Console.WriteLine("This would do something project related");
-		}
-	}
-
-	public class ProjectCommandExtension :
-		Extension
-	{
-		public void Initialize(ExtensionInitializer cli)
-		{
-			cli.Add(from project in cli.Argument("project")
-			        select cli.GetCommand<ProjectCommand>());
 		}
 	}
 }

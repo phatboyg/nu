@@ -10,19 +10,21 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.extensions.add
+namespace nu.core.FileSystem
 {
-    using core;
-    using Magnum.Monads.Parser;
-
-    public class AddCommandExtensions :
-        Extension
+    public class DotNetFile :
+        File
     {
-        public void Initialize(ExtensionInitializer cli)
+        public DotNetFile(FileName name)
         {
-            cli.Add(from add in cli.Argument("add")
-                    from nam in cli.Argument()
-                    select cli.GetCommand<AddPackageCommand>(new {name = nam.Id}));
+            Name = name;
+        }
+
+        public FileName Name { get; set; }
+
+        public bool Exists()
+        {
+            return System.IO.File.Exists(Name.ToString());
         }
     }
 }

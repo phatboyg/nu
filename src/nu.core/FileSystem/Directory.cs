@@ -17,5 +17,7 @@ namespace nu.core.FileSystem
 		Directory GetChildDirectory(string name);
 		
 		DirectoryName Name { get; }
+	    bool Exists();
+	    File GetChildFile(string name);
 	}
 }

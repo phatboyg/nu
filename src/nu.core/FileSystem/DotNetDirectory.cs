@@ -12,7 +12,9 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-	public class DotNetDirectory :
+    using System;
+
+    public class DotNetDirectory :
 		Directory
 	{
 		public DotNetDirectory(DirectoryName directoryName)
@@ -29,9 +31,23 @@ namespace nu.core.FileSystem
 
 		public DirectoryName Name { get; private set; }
 
-		public override string ToString()
+	    public bool Exists()
+	    {
+	        return System.IO.Directory.Exists(Name.ToString());
+	    }
+
+        public override string ToString()
 		{
 			return Name.ToString();
 		}
+
+        public File GetChildFile(string name)
+        {
+            var path = System.IO.Path.Combine(Name.ToString(), name);
+            if(System.IO.Path.IsPathRooted(path))
+                return new DotNetFile(new AbsoluteFileName(path));
+
+            return new DotNetFile(new RelativeFileName(path));
+        }
 	}
 }

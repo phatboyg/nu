@@ -13,6 +13,7 @@
 namespace nu.extensions.add
 {
     using core.Commands;
+    using core.Configuration;
     using Magnum.Logging;
 
     public class AddPackageCommand :
@@ -20,15 +21,18 @@ namespace nu.extensions.add
     {
         readonly ILogger _logger = Logger.GetLogger<AddPackageCommand>();
         readonly string _name;
+        readonly GlobalConfiguration _globalConfiguration;
 
-        public AddPackageCommand(string name)
+        public AddPackageCommand(string name, GlobalConfiguration globalConfiguration)
         {
             _name = name;
+            _globalConfiguration = globalConfiguration;
         }
 
         public void Execute()
         {
-            _logger.Info(x => x.Write("hi {0}", _name));
+            var nugFile = _globalConfiguration.NugsDirectory.GetNug(_name);
+            _logger.Info(x => x.Write("looking for nug at {0}", nugFile.Name));
         }
     }
 }
