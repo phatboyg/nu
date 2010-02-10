@@ -12,6 +12,8 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
+    using System;
+
     public class DotNetFile :
         File
     {
@@ -25,6 +27,25 @@ namespace nu.core.FileSystem
         public bool Exists()
         {
             return System.IO.File.Exists(Name.ToString());
+        }
+
+        public string ReadAllText()
+        {
+            return System.IO.File.ReadAllText(Path);
+        }
+
+        public string Path
+        {
+            get { return Name.ToString(); }
+        }
+
+        public Directory Parent
+        {
+            get
+            {
+                var fi = new System.IO.FileInfo(Path);
+                return new DotNetDirectory(new AbsoluteDirectoryName(fi.DirectoryName));
+            }
         }
     }
 }

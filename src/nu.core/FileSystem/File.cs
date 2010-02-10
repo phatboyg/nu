@@ -16,5 +16,8 @@ namespace nu.core.FileSystem
     {
         FileName Name { get; }
         bool Exists();
+        string ReadAllText();
+        string Path { get; }
+        Directory Parent { get;}
     }
 }

@@ -22,6 +22,11 @@ namespace nu.core.FileSystem
             new FastZip().ExtractZip(sourceFile.Path, targetDirectory.Path, "");
         }
 
+        public static void Unzip(File sourceFile, Directory targetDirectory)
+        {
+            new FastZip().ExtractZip(sourceFile.Name.ToString(), targetDirectory.Name.ToString(), "");
+        }
+
         public static void Compress(FilePathAbsolute file, DirectoryPathAbsolute directory)
         {
             new FastZip().CreateZip(file.Path, directory.Path, true, "*.*");

@@ -38,9 +38,13 @@ namespace nu.core.FileSystem
 
         public override string ToString()
 		{
-			return Name.ToString();
+			return Path;
 		}
 
+        public string Path
+        {
+            get { return Name.ToString(); }
+        }
         public File GetChildFile(string name)
         {
             var path = System.IO.Path.Combine(Name.ToString(), name);

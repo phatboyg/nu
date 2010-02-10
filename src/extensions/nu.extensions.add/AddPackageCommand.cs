@@ -28,7 +28,7 @@ namespace nu.extensions.add
             _name = name;
             _globalConfiguration = globalConfiguration;
         }
-
+            
         public void Execute()
         {
             var nugFile = _globalConfiguration.NugsDirectory.GetNug(_name);

@@ -29,7 +29,6 @@ namespace nu.core.FileSystem
         DirectoryPathAbsolute ProjectRoot { get; }
         DirectoryPathAbsolute ProjectNuDirectory { get; }
         DirectoryPath ExtensionsDirectory { get; }
-        DirectoryPathAbsolute NugsDirectory { get; }
 
         //files
         FilePath ProjectConfig { get; }
