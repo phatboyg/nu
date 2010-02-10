@@ -12,7 +12,8 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Commands
 {
-	using FileSystem;
+    using Config;
+    using FileSystem;
 	using Magnum.Logging;
 
 	public class InitializeCommand :

@@ -16,9 +16,8 @@ namespace nu.core.Configuration
 	using FileSystem;
 	using Magnum.Logging;
 	using NDepend.Helpers.FileDirectoryPath;
-	using SubSystems.Serialization;
 
-	public class FileBasedConfiguration
+    public class FileBasedConfiguration
 	{
 		readonly ILogger _log = Logger.GetLogger<FileBasedConfiguration>();
 		BasePath _configurationPath;

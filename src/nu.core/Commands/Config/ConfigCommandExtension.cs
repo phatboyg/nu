@@ -42,6 +42,10 @@ namespace nu.core.Commands.Config
                     select cli.GetCommand<SetConfigCommand>(new {key = k.Id, value = v.Id}));
 
             cli.Add(from config in cli.Argument("config")
+                    from list in cli.Switch("list")
+                    select cli.GetCommand<ListProjectConfigurationCommand>());
+
+            cli.Add(from config in cli.Argument("config")
                     from global in cli.Switch("global")
                     from list in cli.Switch("list")
                     select cli.GetCommand<ListGlobalConfigurationCommand>());

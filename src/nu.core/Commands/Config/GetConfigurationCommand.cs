@@ -10,35 +10,35 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Commands
+namespace nu.core.Commands.Config
 {
-	using Configuration;
-	using Magnum.Logging;
+    using Configuration;
+    using Magnum.Logging;
 
-	public class GetConfigurationCommand :
-		Command
-	{
-		readonly ProjectConfiguration _configuration;
-		readonly string _key;
-		readonly ILogger _log = Logger.GetLogger<GetConfigurationCommand>();
+    public class GetConfigurationCommand :
+        Command
+    {
+        readonly ProjectConfiguration _configuration;
+        readonly string _key;
+        readonly ILogger _log = Logger.GetLogger<GetConfigurationCommand>();
 
-		public GetConfigurationCommand(string key, ProjectConfiguration configuration)
-		{
-			_configuration = configuration;
-			_key = key;
-		}
+        public GetConfigurationCommand(string key, ProjectConfiguration configuration)
+        {
+            _configuration = configuration;
+            _key = key;
+        }
 
-		public void Execute()
-		{
-			if (_configuration.Contains(_key))
-			{
-				_log.Debug(x => x.Write("Current configuration key '{0}' value: {1}", _key, _configuration[_key]));
-				_log.Info(_configuration[_key]);
-			}
-			else
-			{
-				_log.Warn(x => x.Write("No configuration value is set for '{0}'", _key));
-			}
-		}
-	}
+        public void Execute()
+        {
+            if (_configuration.Contains(_key))
+            {
+                _log.Debug(x => x.Write("Current configuration key '{0}' value: {1}", _key, _configuration[_key]));
+                _log.Info(_configuration[_key]);
+            }
+            else
+            {
+                _log.Warn(x => x.Write("No configuration value is set for '{0}'", _key));
+            }
+        }
+    }
 }

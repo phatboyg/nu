@@ -15,30 +15,20 @@ namespace nu.core.Commands.Config
     using Configuration;
     using Magnum.Logging;
 
-    public class GetGlobalConfigurationCommand :
+    public class ListProjectConfigurationCommand :
         Command
     {
-        readonly GlobalConfiguration _configuration;
-        readonly string _key;
-        readonly ILogger _log = Logger.GetLogger<GetGlobalConfigurationCommand>();
+        readonly ProjectConfiguration _global;
+        readonly ILogger _logger = Logger.GetLogger<ListProjectConfigurationCommand>();
 
-        public GetGlobalConfigurationCommand(string key, GlobalConfiguration configuration)
+        public ListProjectConfigurationCommand(ProjectConfiguration global)
         {
-            _key = key;
-            _configuration = configuration;
+            _global = global;
         }
 
         public void Execute()
         {
-            if (_configuration.Contains(_key))
-            {
-                _log.Debug(x => x.Write("Current global configuration key '{0}' value: {1}", _key, _configuration[_key]));
-                _log.Info(_configuration[_key]);
-            }
-            else
-            {
-                _log.Warn(x => x.Write("No global configuration value is set for '{0}'", _key));
-            }
+            _global.ForEach((k, v) => _logger.Info(x => x.Write("'{0}':'{1}'", k, v)));
         }
     }
 }

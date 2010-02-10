@@ -10,31 +10,31 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Commands
+namespace nu.core.Commands.Config
 {
-	using Configuration;
-	using Magnum.Logging;
+    using Configuration;
+    using Magnum.Logging;
 
-	public class SetGlobalConfigurationCommand :
-		Command
-	{
-		readonly ILogger _log = Logger.GetLogger<SetGlobalConfigurationCommand>();
-		readonly GlobalConfiguration _configuration;
-		readonly string _key;
-		readonly string _value;
+    public class SetGlobalConfigurationCommand :
+        Command
+    {
+        readonly ILogger _log = Logger.GetLogger<SetGlobalConfigurationCommand>();
+        readonly GlobalConfiguration _configuration;
+        readonly string _key;
+        readonly string _value;
 
-		public SetGlobalConfigurationCommand(string key, string value, GlobalConfiguration configuration)
-		{
-			_key = key;
-			_value = value;
-			_configuration = configuration;
-		}
+        public SetGlobalConfigurationCommand(string key, string value, GlobalConfiguration configuration)
+        {
+            _key = key;
+            _value = value;
+            _configuration = configuration;
+        }
 
-		public void Execute()
-		{
-			_log.Debug(x => x.Write("Global configuration key '{0}' set to '{1}'", _key, _value));
+        public void Execute()
+        {
+            _log.Debug(x => x.Write("Global configuration key '{0}' set to '{1}'", _key, _value));
 
-			_configuration[_key] = _value;
-		}
-	}
+            _configuration[_key] = _value;
+        }
+    }
 }
