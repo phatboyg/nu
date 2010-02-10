@@ -92,6 +92,8 @@
     <Compile Include="Commands\Config\GetGlobalConfigurationCommand.cs" />
     <Compile Include="Commands\Config\ListGlobalConfigurationCommand.cs" />
     <Compile Include="Commands\Config\ListProjectConfigurationCommand.cs" />
+    <Compile Include="Commands\Config\UnsetConfigCommand.cs" />
+    <Compile Include="Commands\Config\UnsetGlobalConfigurationCommand.cs" />
     <Compile Include="Commands\HelpVersionCommand.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\InitializeCommand.cs" />

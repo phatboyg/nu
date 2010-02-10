@@ -15,26 +15,24 @@ namespace nu.core.Commands.Config
     using Configuration;
     using Magnum.Logging;
 
-    public class SetConfigCommand :
+    public class UnsetGlobalConfigurationCommand :
         Command
     {
-        readonly ILogger _log = Logger.GetLogger<SetConfigCommand>();
-        readonly ProjectConfiguration _configuration;
+        readonly GlobalConfiguration _configuration;
         readonly string _key;
-        readonly string _value;
+        readonly ILogger _log = Logger.GetLogger<SetGlobalConfigurationCommand>();
 
-        public SetConfigCommand(string key, string value, ProjectConfiguration configuration)
+        public UnsetGlobalConfigurationCommand(string key, GlobalConfiguration configuration)
         {
             _key = key;
-            _value = value;
             _configuration = configuration;
         }
 
         public void Execute()
         {
-            _log.Debug(x => x.Write("Configuration key '{0}' set to '{1}'", _key, _value));
+            _log.Debug(x => x.Write("Unsetting global configuration key '{0}'", _key));
 
-            _configuration[_key] = _value;
+            _configuration[_key] = null;
         }
     }
 }
