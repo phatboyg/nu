@@ -10,20 +10,19 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Configuration
+namespace nu.extensions.add
 {
-    using FileSystem;
-    using Magnum.Logging;
+    using core;
+    using Magnum.Monads.Parser;
 
-    public class DefaultsFileBasedConfiguration :
-        FileBasedConfiguration,
-        DefaultsConfiguration
+    public class AddCommandExtensions :
+        Extension
     {
-        readonly ILogger _logger = Logger.GetLogger<DefaultsFileBasedConfiguration>();
-
-        public DefaultsFileBasedConfiguration(FileSystem fileSystem)
-            : base(fileSystem, fileSystem.DefaultConfig)
+        public void Initialize(ExtensionInitializer cli)
         {
+            cli.Add(from add in cli.Argument("add")
+                    from nam in cli.Argument()
+                    select cli.GetCommand<AddPackageCommand>(new {name = nam}));
         }
     }
 }

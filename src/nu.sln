@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nu.extensions.project", "extensions\nu.extensions.project\nu.extensions.project.csproj", "{C47B118E-DEBF-4835-AA94-68BC5CCDA9E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nu.extensions.add", "extensions\nu.extensions.add\nu.extensions.add.csproj", "{E5480178-7CF2-4064-BF29-00407067A8B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,11 +35,16 @@ Global
 		{C47B118E-DEBF-4835-AA94-68BC5CCDA9E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C47B118E-DEBF-4835-AA94-68BC5CCDA9E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C47B118E-DEBF-4835-AA94-68BC5CCDA9E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5480178-7CF2-4064-BF29-00407067A8B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5480178-7CF2-4064-BF29-00407067A8B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5480178-7CF2-4064-BF29-00407067A8B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5480178-7CF2-4064-BF29-00407067A8B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C47B118E-DEBF-4835-AA94-68BC5CCDA9E8} = {43E6EB47-708A-4669-893D-80463B8F2A5C}
+		{E5480178-7CF2-4064-BF29-00407067A8B3} = {43E6EB47-708A-4669-893D-80463B8F2A5C}
 	EndGlobalSection
 EndGlobal
