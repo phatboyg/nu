@@ -87,7 +87,8 @@
     <Compile Include="Commands\VersionCommand.cs" />
     <Compile Include="Commands\VersionCommandExtension.cs" />
     <Compile Include="Configuration\ConfigurationException.cs" />
-    <Compile Include="Configuration\DefaultConfiguration.cs" />
+    <Compile Include="Configuration\DefaultsConfiguration.cs" />
+    <Compile Include="Configuration\DefaultsFileBasedConfiguration.cs" />
     <Compile Include="FileSystem\AbsoluteDirectoryName.cs" />
     <Compile Include="FileSystem\Directory.cs" />
     <Compile Include="Configuration\GlobalConfiguration.cs" />

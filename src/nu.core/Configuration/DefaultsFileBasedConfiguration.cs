@@ -12,12 +12,20 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Configuration
 {
-	public interface NuConventions
+	using System;
+	using Magnum.Logging;
+	using nu.core.FileSystem;
+
+	public class DefaultsFileBasedConfiguration :
+        FileBasedConfiguration,
+		DefaultsConfiguration
 	{
-		string ConfigurationFileName { get; }
-		string ExtensionsDirectoryName { get; }
-		string ProjectDirectoryName { get; }
-		string NugsDirectoryName { get; }
-	    string DefaultsFileName { get; }
+        readonly ILogger _logger = Logger.GetLogger<DefaultsFileBasedConfiguration>();
+
+		public DefaultsFileBasedConfiguration(FileSystem fileSystem) :
+            base(fileSystem,fileSystem.DefaultConfig)
+		{
+
+		}
 	}
 }

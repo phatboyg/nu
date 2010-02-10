@@ -34,6 +34,7 @@ namespace nu.core.FileSystem
         //files
         FilePath ProjectConfig { get; }
         FilePath GlobalConfig { get; }
+        FilePath DefaultConfig { get; }
 
 
         //util

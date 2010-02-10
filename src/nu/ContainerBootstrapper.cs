@@ -37,6 +37,8 @@ namespace nu
 				{
 					x.For<NuConventions>().Singleton().Use<DefaultNuConventions>();
 
+				    x.For<DefaultsConfiguration>().Singleton().Use<DefaultsFileBasedConfiguration>();
+
 					x.For<GlobalConfiguration>().Singleton().Use<GlobalFileBasedConfiguration>();
 
 					x.For<ProjectConfiguration>().Singleton().Use<ProjectFileBasedConfiguration>();

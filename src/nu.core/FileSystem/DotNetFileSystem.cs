@@ -22,7 +22,7 @@ namespace nu.core.FileSystem
 	public class DotNetFileSystem :
 		FileSystem
 	{
-	    ILogger _logger = Logger.GetLogger<DotNetFileSystem>();
+	    readonly ILogger _logger = Logger.GetLogger<DotNetFileSystem>();
 		readonly NuConventions _conventions;
 		readonly IPath _path;
 
@@ -94,7 +94,12 @@ namespace nu.core.FileSystem
 			get { return InstallDirectory.GetChildFileWithName(_conventions.ConfigurationFileName); }
 		}
 
-		public void WorkWithTempDir(Action<DirectoryPathAbsolute> tempAction)
+	    public FilePath DefaultConfig
+	    {
+            get { return InstallDirectory.GetChildFileWithName(_conventions.DefaultsFileName); }
+	    }
+
+	    public void WorkWithTempDir(Action<DirectoryPathAbsolute> tempAction)
 		{
 			string tempDir = Path.Combine(Path.GetTempPath(), "nu");
 			tempDir = Path.Combine(tempDir, Guid.NewGuid().ToString());

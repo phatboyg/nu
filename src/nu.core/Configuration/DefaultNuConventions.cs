@@ -12,7 +12,9 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Configuration
 {
-	public class DefaultNuConventions :
+    using System;
+
+    public class DefaultNuConventions :
 		NuConventions
 	{
 		public string ConfigurationFileName
@@ -34,5 +36,10 @@ namespace nu.core.Configuration
 		{
 			get { return "nugs"; }
 		}
+
+	    public string DefaultsFileName
+	    {
+            get { return "defaults.conf"; }
+	    }
 	}
 }

@@ -15,23 +15,25 @@ namespace nu.core.Configuration
     using System;
     using System.Reflection;
 	using FileSystem;
+    using Magnum.Logging;
 
-	public class GlobalFileBasedConfiguration :
+    public class GlobalFileBasedConfiguration :
 		FileBasedConfiguration,
 		GlobalConfiguration
 	{
+        readonly ILogger _logger = Logger.GetLogger<GlobalFileBasedConfiguration>();
 		readonly NuConventions _conventions;
 
-		public GlobalFileBasedConfiguration(FileSystem fileSystem, NuConventions conventions)
+		public GlobalFileBasedConfiguration(DefaultsConfiguration defaults, FileSystem fileSystem, NuConventions conventions)
 			: base(fileSystem, fileSystem.GlobalConfig)
 		{
-			Defaults = new DefaultConfiguration();
+			Defaults = defaults;
 
-			OnMissing = GetGlobalConfigurationValue;
+			OnMissing = GetDefaultConfigurationValue;
 			_conventions = conventions;
 		}
 
-		Configuration Defaults { get; set; }
+		DefaultsConfiguration Defaults { get; set; }
 
 		public Directory WorkingDirectory
 		{
@@ -53,14 +55,11 @@ namespace nu.core.Configuration
 			get { return NuInstallDirectory.GetChildDirectory(_conventions.NugsDirectoryName); }
 		}
 
-		string GetGlobalConfigurationValue(string key)
+		string GetDefaultConfigurationValue(string key)
 		{
+            _logger.Debug(x=>x.Write("Falling back to DEFAULTS for key '{0}'", key));
+
 			return Defaults[key];
 		}
-
-	    public override void ForEach(Action<string, string> action)
-	    {
-	        base.ForEach(action);
-	    }
 	}
 }

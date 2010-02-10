@@ -18,9 +18,9 @@ namespace nu.core.Commands.Config
     public class GetConfigurationCommand :
         Command
     {
+        readonly ILogger _log = Logger.GetLogger<GetConfigurationCommand>();
         readonly ProjectConfiguration _configuration;
         readonly string _key;
-        readonly ILogger _log = Logger.GetLogger<GetConfigurationCommand>();
 
         public GetConfigurationCommand(string key, ProjectConfiguration configuration)
         {
@@ -30,15 +30,15 @@ namespace nu.core.Commands.Config
 
         public void Execute()
         {
-            if (_configuration.Contains(_key))
-            {
-                _log.Debug(x => x.Write("Current configuration key '{0}' value: {1}", _key, _configuration[_key]));
-                _log.Info(_configuration[_key]);
-            }
-            else
+            var e = _configuration[_key];
+            if (e == null)
             {
                 _log.Warn(x => x.Write("No configuration value is set for '{0}'", _key));
+                return;
             }
+
+            _log.Debug(x => x.Write("Current configuration key '{0}' value: {1}", _key, _configuration[_key]));
+            _log.Info(_configuration[_key]);
         }
     }
 }

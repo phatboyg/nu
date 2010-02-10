@@ -19,7 +19,7 @@ namespace nu.core.Configuration
 
     public class FileBasedConfiguration
 	{
-		readonly ILogger _log = Logger.GetLogger<FileBasedConfiguration>();
+		static readonly ILogger _log = Logger.GetLogger<FileBasedConfiguration>();
 		BasePath _configurationPath;
 		bool _disposed;
 		bool _touched;
@@ -124,7 +124,8 @@ namespace nu.core.Configuration
 
 		protected static string DefaultMissingKeyHandler(string key)
 		{
-			throw new ConfigurationException("No configuration entry for '" + key + "' was found");
+            //_log.Warn(x => x.Write("No configuration entry for '{0}' was found", key));
+		    return null;
 		}
 	}
 }
