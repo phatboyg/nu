@@ -110,7 +110,7 @@
     <Compile Include="Configuration\DefaultNuConventions.cs" />
     <Compile Include="Configuration\ProjectConfiguration.cs" />
     <Compile Include="Configuration\ProjectFileBasedConfiguration.cs" />
-    <Compile Include="DirectoryInfoExtensions.cs" />
+    <Compile Include="FileSystem\DirectoryInfoExtensions.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Extension.cs" />
     <Compile Include="ExtensionInitializer.cs" />
@@ -148,7 +148,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>nuresources.resx</DependentUpon>
     </Compile>
-    <Compile Include="StreamExtensions.cs" />
+    <Compile Include="FileSystem\StreamExtensions.cs" />
     <Compile Include="Configuration\Entries.cs" />
     <Compile Include="Configuration\Entry.cs" />
     <Compile Include="Configuration\FileBasedConfiguration.cs" />
