@@ -12,8 +12,10 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.extensions.add
 {
+    using System;
     using core.Commands;
     using core.Configuration;
+    using core.FileSystem;
     using Magnum.Logging;
 
     public class AddPackageCommand :
@@ -23,23 +25,34 @@ namespace nu.extensions.add
         readonly string _name;
         readonly GlobalConfiguration _globalConfiguration;
         readonly ProjectConfiguration _projectConfiguration;
+        readonly FileSystem _fileSystem;
 
-        public AddPackageCommand(string name, GlobalConfiguration globalConfiguration, ProjectConfiguration projectConfiguration)
+        public AddPackageCommand(string name, GlobalConfiguration globalConfiguration, ProjectConfiguration projectConfiguration, FileSystem fileSystem)
         {
             _name = name;
             _globalConfiguration = globalConfiguration;
             _projectConfiguration = projectConfiguration;
+            _fileSystem = fileSystem;
         }
             
         public void Execute()
         {
             var package = _globalConfiguration.NugsDirectory.GetNug(_name);
-            _logger.Info(x => x.Write("Name: {0}", package.Name));
-            _logger.Info(x => x.Write("Version: {0}", package.Version));
-            _logger.Info(x => x.Write("First File: {0}", package.Files[0].Name));
 
+            //TODO: should this be hidden behind another 'directory'?
             var lib = _projectConfiguration["project.librarydirectoryname"];
-            
+            var libDir  = _projectConfiguration.ProjectRoot.GetChildDirectory(lib);
+
+            _logger.Debug(x=>x.Write("'lib' dir is located at '{0}'", libDir.Path));
+            _fileSystem.CreateDirectory(libDir);
+            var packageDir = libDir.GetChildDirectory(package.Name);
+            _fileSystem.CreateDirectory(packageDir);
+
+            foreach (var file in package.Files)
+            {
+                var writeTo = packageDir.GetChildFile(file.Name);
+                _fileSystem.Write(writeTo.Path, file.File);
+            }
         }
     }
 }

@@ -25,7 +25,7 @@ namespace nu.core.FileSystem
         string ReadToEnd(string filePath);
         void Write(string filePath, Stream file);
         void Write(string filePath, string content);
-        void CreateDirectory(string directoryPath);
+        void CreateDirectory(Directory directory);
         void CreateHiddenDirectory(string directoryPath);
         void Copy(string source, string destination);
         bool IsRooted(string path);

@@ -56,7 +56,7 @@ namespace nu.core.FileSystem
             var d = new DotNetDirectory(new AbsoluteDirectoryName( tempDir));
             if (!d.Exists())
             {
-                CreateDirectory(d.Path);
+                CreateDirectory(d);
             }
             try
             {
@@ -111,16 +111,15 @@ namespace nu.core.FileSystem
         {
             using (var fs = new FileStream(filePath, FileMode.OpenOrCreate))
             {
-                using (var writer = new StreamWriter(fs))
-                {
-                    writer.Flush();
-                }
+                var buff = new byte[file.Length];
+                file.Read(buff, 0, buff.Length);
+                fs.Write(buff,0,buff.Length);
             }
         }
 
-        public void CreateDirectory(string directoryPath)
+        public void CreateDirectory(Directory directoryPath)
         {
-            System.IO.Directory.CreateDirectory(directoryPath);
+            System.IO.Directory.CreateDirectory(directoryPath.Path);
         }
 
         public void CreateHiddenDirectory(string directoryPath)
@@ -167,7 +166,7 @@ namespace nu.core.FileSystem
             Directory dir = GetDirectory(path);
             //this needs to be in a biz object
             Directory nu = dir.GetChildDirectory(_conventions.ProjectDirectoryName);
-            CreateDirectory(nu.Path);
+            CreateDirectory(nu);
            
             _logger.Debug(x => x.Write("Creating .nu directory at '{0}'", nu.Path));
             

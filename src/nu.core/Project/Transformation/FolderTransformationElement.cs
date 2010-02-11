@@ -38,7 +38,7 @@ namespace nu.core.Project.Transformation
             {
                 string folderTemplatePath = _fileSystem.Combine(rootDirectory, folder.Path);
                 string folderProcessedPath = _templateProcessor.Process(folderTemplatePath, context);
-                _fileSystem.CreateDirectory(folderProcessedPath);
+                _fileSystem.CreateDirectory(new DotNetDirectory(new AbsoluteDirectoryName(folderProcessedPath)));
                 folder.Path = folderProcessedPath;
             }
             return true;
