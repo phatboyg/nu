@@ -10,25 +10,32 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Configuration
+namespace nu.core.Network
 {
-	using System.Web.Script.Serialization;
+	using System;
+	using System.Runtime.Serialization;
 
-	public static class JsonUtil
+	[Serializable]
+	public class RemoteResourceException :
+		Exception
 	{
-		public static string ToJson(object objectToSerialize)
+		public RemoteResourceException()
 		{
-			return new JavaScriptSerializer().Serialize(objectToSerialize);
 		}
 
-		public static T Get<T>(string rawJson)
+		public RemoteResourceException(string message)
+			: base(message)
 		{
-			return new JavaScriptSerializer().Deserialize<T>(rawJson);
 		}
 
-		public static object Get(string rawJson)
+		public RemoteResourceException(string message, Exception innerException)
+			: base(message, innerException)
 		{
-			return new JavaScriptSerializer().DeserializeObject(rawJson);
+		}
+
+		protected RemoteResourceException(SerializationInfo info, StreamingContext context)
+			: base(info, context)
+		{
 		}
 	}
 }

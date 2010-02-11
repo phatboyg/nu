@@ -10,25 +10,26 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Configuration
+namespace nu.core.Network
 {
-	using System.Web.Script.Serialization;
+	using System;
+	using System.IO;
 
-	public static class JsonUtil
+	public interface RemoteFile :
+		core.FileSystem.File
 	{
-		public static string ToJson(object objectToSerialize)
-		{
-			return new JavaScriptSerializer().Serialize(objectToSerialize);
-		}
+		long Length { get; }
 
-		public static T Get<T>(string rawJson)
-		{
-			return new JavaScriptSerializer().Deserialize<T>(rawJson);
-		}
+		DateTime ModifyDate { get; }
 
-		public static object Get(string rawJson)
-		{
-			return new JavaScriptSerializer().DeserializeObject(rawJson);
-		}
+		string LockToken { get; }
+
+		void Get(Stream destination);
+
+		void Get(string localFileName);
+
+		byte[] GetRange(long offset, int length);
+
+		RemoteFileToken Lock();
 	}
 }

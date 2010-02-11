@@ -10,25 +10,32 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Configuration
+namespace nu.core.Network
 {
-	using System.Web.Script.Serialization;
+	using System;
+	using System.Collections.Generic;
+	using System.IO;
+	using FileSystem;
 
-	public static class JsonUtil
+	public interface RemoteDirectory :
+		core.FileSystem.Directory
 	{
-		public static string ToJson(object objectToSerialize)
-		{
-			return new JavaScriptSerializer().Serialize(objectToSerialize);
-		}
+		Uri Location { get; }
 
-		public static T Get<T>(string rawJson)
-		{
-			return new JavaScriptSerializer().Deserialize<T>(rawJson);
-		}
+		DateTime CreateDate { get; }
 
-		public static object Get(string rawJson)
-		{
-			return new JavaScriptSerializer().DeserializeObject(rawJson);
-		}
+		RemoteCredentials Credentials { get; }
+
+//			void Delete();
+
+
+		RemoteDirectory CreateDirectory(DirectoryName directoryName);
+
+		RemoteFile PutFile(string name, Stream content);
+
+		RemoteFile PutFile(string fileName, string localFileName);
+
+		IEnumerable<RemoteFile> GetFiles();
+		IEnumerable<RemoteDirectory> GetDirectories();
 	}
 }

@@ -10,25 +10,31 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Configuration
+namespace nu.core.Network
 {
-	using System.Web.Script.Serialization;
+	using System;
+	using System.Net;
 
-	public static class JsonUtil
+	public class DavCredentials :
+		RemoteCredentials
 	{
-		public static string ToJson(object objectToSerialize)
+		readonly string _password;
+		readonly string _username;
+
+		public DavCredentials(string username, string password)
 		{
-			return new JavaScriptSerializer().Serialize(objectToSerialize);
+			_username = username;
+			_password = password;
 		}
 
-		public static T Get<T>(string rawJson)
+		public ICredentials For(Uri location)
 		{
-			return new JavaScriptSerializer().Deserialize<T>(rawJson);
-		}
+			var networkCredential = new NetworkCredential(_username, _password);
 
-		public static object Get(string rawJson)
-		{
-			return new JavaScriptSerializer().DeserializeObject(rawJson);
+			var credentials = new CredentialCache();
+			credentials.Add(location, "Basic", networkCredential);
+
+			return credentials;
 		}
 	}
 }

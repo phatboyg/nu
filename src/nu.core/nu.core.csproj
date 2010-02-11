@@ -59,13 +59,13 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Web.Extensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SolutionVersion.cs">
@@ -90,6 +90,8 @@
     <Compile Include="Configuration\DefaultsConfiguration.cs" />
     <Compile Include="Configuration\FileBasedDefaultsConfiguration.cs" />
     <Compile Include="ContainerConfigurator.cs" />
+    <Compile Include="Network\DavClient.cs" />
+    <Compile Include="Network\DavCredentials.cs" />
     <Compile Include="FileSystem\AbsoluteDirectoryName.cs" />
     <Compile Include="FileSystem\AbsoluteFileName.cs" />
     <Compile Include="FileSystem\Directory.cs" />
@@ -113,6 +115,16 @@
     <Compile Include="FileSystem\InstallationDirectory.cs" />
     <Compile Include="FileSystem\NugDirectory.cs" />
     <Compile Include="FileSystem\RelativeFileName.cs" />
+    <Compile Include="Network\Client.cs" />
+    <Compile Include="Network\DavRemoteDirectory.cs" />
+    <Compile Include="Network\DavRemoteResource.cs" />
+    <Compile Include="Network\DavVerb.cs" />
+    <Compile Include="Network\ExtensionsToUri.cs" />
+    <Compile Include="Network\RemoteCredentials.cs" />
+    <Compile Include="Network\RemoteDirectory.cs" />
+    <Compile Include="Network\RemoteFile.cs" />
+    <Compile Include="Network\RemoteFileToken.cs" />
+    <Compile Include="Network\RemoteResourceException.cs" />
     <Compile Include="Nugs\Manifest.cs" />
     <Compile Include="Nugs\ManifestEntry.cs" />
     <Compile Include="Configuration\JsonUtil.cs" />
@@ -165,6 +177,9 @@
       <LastGenOutput>nuresources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Dav\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

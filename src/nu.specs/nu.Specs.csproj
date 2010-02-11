@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Magnum, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Magnum.dll</HintPath>
+    </Reference>
     <Reference Include="NDepend.Helpers.FileDirectoryPath, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\NDepend.Helpers.FileDirectoryPath.dll</HintPath>
@@ -63,6 +67,7 @@
     </Compile>
     <Compile Include="Configuration\Entries_Specs.cs" />
     <Compile Include="Configuration\ProjectConfiguration_Specs.cs" />
+    <Compile Include="Dav\RemoteDirectory_Specs.cs" />
     <Compile Include="Filesystem\DotNetFileSystem_Specs.cs" />
     <Compile Include="Model\Project\Transformation\ProjectTransformationPipelineSpecs.cs" />
     <Compile Include="Model\Template\NVelocityAdapterSpecs.cs" />
