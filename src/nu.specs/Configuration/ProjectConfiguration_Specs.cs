@@ -26,7 +26,7 @@ namespace nu.Specs.Configuration
 //            fs.Stub(f => f.FileExists(@".\bob.txt")).Return(false);
 //            glob["name"] = "dru";
 //
-//            var proj = new ProjectFileBasedConfiguration(fs, glob);
+//            var proj = new FileBasedProjectConfiguration(fs, glob);
 //
 //            Assert.AreEqual("dru", proj["name"]);
         }

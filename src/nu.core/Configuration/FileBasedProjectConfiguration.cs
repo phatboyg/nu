@@ -15,15 +15,15 @@ namespace nu.core.Configuration
     using FileSystem;
     using Magnum.Logging;
 
-    public class ProjectFileBasedConfiguration :
+    public class FileBasedProjectConfiguration :
         FileBasedConfiguration,
         ProjectConfiguration
     {
         readonly NuConventions _conventions;
         readonly GlobalConfiguration _globalConfiguration;
-        readonly ILogger _logger = Logger.GetLogger<ProjectFileBasedConfiguration>();
+        readonly ILogger _logger = Logger.GetLogger<FileBasedProjectConfiguration>();
 
-        public ProjectFileBasedConfiguration(FileSystem fileSystem, GlobalConfiguration globalConfiguration, NuConventions conventions)
+        public FileBasedProjectConfiguration(FileSystem fileSystem, GlobalConfiguration globalConfiguration, NuConventions conventions)
             : base(fileSystem, GetFile(fileSystem, conventions))
         {
             _globalConfiguration = globalConfiguration;

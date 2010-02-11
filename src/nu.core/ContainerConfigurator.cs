@@ -13,11 +13,16 @@
 namespace nu.core
 {
 	using Commands;
-	using Magnum.CommandLineParser;
 
-	public interface ExtensionInitializer :
-		ICommandLineElementParser<Command>,
-		ContainerConfigurator
+	public interface ContainerConfigurator
 	{
+		void AddType<TInterface, TImplementation>()
+			where TImplementation : TInterface;
+
+		Command GetCommand<T>()
+			where T : Command;
+
+		Command GetCommand<T>(object args)
+			where T : Command;
 	}
 }

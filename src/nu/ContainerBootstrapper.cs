@@ -37,11 +37,11 @@ namespace nu
                 {
                     x.For<NuConventions>().Singleton().Use<DefaultNuConventions>();
 
-                    x.For<DefaultsConfiguration>().Singleton().Use<DefaultsFileBasedConfiguration>();
+                    x.For<DefaultsConfiguration>().Singleton().Use<FileBasedDefaultsConfiguration>();
 
-                    x.For<GlobalConfiguration>().Singleton().Use<GlobalFileBasedConfiguration>();
+                    x.For<GlobalConfiguration>().Singleton().Use<FileBasedGlobalConfiguration>();
 
-                    x.For<ProjectConfiguration>().Singleton().Use<ProjectFileBasedConfiguration>();
+                    x.For<ProjectConfiguration>().Singleton().Use<FileBasedProjectConfiguration>();
 
                     x.For<InstallationDirectory>().Singleton().Use<DotNetInstallationDirectory>();
 

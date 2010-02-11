@@ -89,6 +89,12 @@ namespace nu.util
 			return _parser.ValidPath();
 		}
 
+		public void AddType<TInterface, TImplementation>()
+			where TImplementation : TInterface
+		{
+			_container.Configure(x => x.For<TInterface>().Use<TImplementation>());
+		}
+
 		public Command GetCommand<T>()
 			where T : Command
 		{

@@ -16,14 +16,14 @@ namespace nu.core.Configuration
     using FileSystem;
     using Magnum.Logging;
 
-    public class GlobalFileBasedConfiguration :
+    public class FileBasedGlobalConfiguration :
         FileBasedConfiguration,
         GlobalConfiguration
     {
         readonly NuConventions _conventions;
-        readonly ILogger _logger = Logger.GetLogger<GlobalFileBasedConfiguration>();
+        readonly ILogger _logger = Logger.GetLogger<FileBasedGlobalConfiguration>();
 
-        public GlobalFileBasedConfiguration(DefaultsConfiguration defaults, FileSystem fileSystem, NuConventions conventions, InstallationDirectory install)
+        public FileBasedGlobalConfiguration(DefaultsConfiguration defaults, FileSystem fileSystem, NuConventions conventions, InstallationDirectory install)
             : base(fileSystem, PathToMe(install, conventions))
         {
             Defaults = defaults;
