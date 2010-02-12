@@ -18,6 +18,6 @@ namespace nu.core.Nugs
         Directory
     {
         NugPackage GetNug(string name);
-        File GetNugFile(string name);
+        Directory GetNugget(string name);
     }
 }

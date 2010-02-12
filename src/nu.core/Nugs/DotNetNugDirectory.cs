@@ -12,9 +12,12 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Nugs
 {
+    using System.IO;
     using Configuration;
     using FileSystem;
     using Model.Files.Package;
+    using Directory=nu.core.FileSystem.Directory;
+    using File=System.IO.File;
 
     public class DotNetNugDirectory :
         DotNetDirectory,
@@ -22,48 +25,48 @@ namespace nu.core.Nugs
     {
         readonly FileSystem _fileSystem;
 
-        public DotNetNugDirectory(FileSystem fileSystem, Directory directory)
-            : base(directory.Name)
+        public DotNetNugDirectory(FileSystem fileSystem, InstallationDirectory directory, NuConventions conventions)
+            : base(directory.GetChildDirectory(conventions.NugsDirectoryName).Name)
         {
             _fileSystem = fileSystem;
         }
 
         public NugPackage GetNug(string name)
         {
-            var path = GetNugFile(name);
-
             var np = new NugPackage(name);
-            _fileSystem.WorkWithTempDir(temp =>
-                {
-                    Directory target = new DotNetDirectory(new AbsoluteDirectoryName(temp.Path));
-                    Zip.Unzip(path, target);
-                    var manifest = target.GetChildFile("MANIFEST");
-                    var manifestContent = manifest.ReadAllText();
-                    var m = JsonUtil.Get<Manifest>(manifestContent);
+            Directory target = GetNugget(name);
 
-                    np.Version = m.Version;
+            var manifest = target.GetChildFile("MANIFEST.json");
+            var manifestContent = manifest.ReadAllText();
+            var m = JsonUtil.Get<Manifest>(manifestContent);
 
-                    foreach (var entry in m.Files)
-                    {
-                        np.Files.Add(new NugFile
-                            {
-                                Name = entry.Name,
-                                //whoa
-                                File = new System.IO.MemoryStream(System.IO.File.ReadAllBytes(manifest.Parent.GetChildFile(entry.Name).Path))
-                            });
-                    }
-                });
+            np.Version = m.Version;
+
+            foreach (var entry in m.Files)
+            {
+                var nf = new NugFile() {Name = entry.Name};
+
+                //TODO: ACK!
+                target.GetChildFile(entry.Name).WorkWithStream(s=>nf.File = new MemoryStream(((MemoryStream)s).ToArray()));
+                np.Files.Add(nf);
+            }
 
 
             return np;
         }
 
-        public File GetNugFile(string name)
+        public Directory GetNugget(string name)
         {
-            //list out the children?
-            //if .nug execute zipped folder?
-            //if non-zip dir execute the other?
-            return base.GetChildFile(string.Format("{0}.nug", name));
+            name += ".zip";
+            if (IsADir(name))
+                return new DotNetDirectory(base.Name.Combine(name));
+            else
+                return new ZipFileDirectory(new AbsoluteFileName(System.IO.Path.Combine(Path, name)));
+        }
+
+        public bool IsADir(string name)
+        {
+            return GetChildDirectory(name).Exists();
         }
     }
 }

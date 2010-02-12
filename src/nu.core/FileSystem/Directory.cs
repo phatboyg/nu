@@ -20,8 +20,8 @@ namespace nu.core.FileSystem
         string Path { get; }
         Directory Parent { get; }
         bool HasParentDir { get; }
-        IEnumerable<File> ChildrenFilesPath { get; }
-        IEnumerable<Directory> ChildrenDirectories { get; }
+        IEnumerable<File> ChildrenFilesPath();
+        IEnumerable<Directory> ChildrenDirectories();
         Directory GetChildDirectory(string name);
         bool Exists();
         File GetChildFile(string name);

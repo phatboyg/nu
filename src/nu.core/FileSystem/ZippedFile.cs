@@ -13,6 +13,8 @@
 namespace nu.core.FileSystem
 {
     using System;
+    using System.IO;
+    using System.Text;
     using ICSharpCode.SharpZipLib.Zip;
 
     public class ZippedFile :
@@ -47,7 +49,52 @@ namespace nu.core.FileSystem
 
         public string ReadAllText()
         {
-            throw new NotImplementedException();
+            var result = "";
+            WorkWithStream(s=> result = Encoding.UTF8.GetString(((MemoryStream)s).ToArray()));
+            //what encoding?
+            return result;
+        }
+
+        public void WorkWithStream(Action<Stream> action)
+        {
+            var innerPath = ZippedPath.GetPathInsideZip(Path);
+            var zipFile = ZippedPath.GetZip(Path);
+            var zf = new ZipFile(zipFile);
+            ZipEntry result;
+
+            foreach (ZipEntry entry in zf)
+            {
+                if (entry.Name.StartsWith(innerPath))
+                {
+                    result = entry;
+                    break;
+                }
+            }
+
+
+            var input = new ZipInputStream(System.IO.File.OpenRead(zipFile));
+            ZipEntry zippy;
+            while ((zippy = input.GetNextEntry()) != null)
+            {
+                if (zippy.Name.StartsWith(innerPath))
+                {
+                    break;
+                }
+            }
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+            int size = 2048;
+            var data = new byte[size];
+
+            while (true)
+            {
+                size = input.Read(data, 0, data.Length);
+
+                if (size == 0)
+                    break;
+
+                ms.Write(data, 0, size);
+            }
+            action(ms);
         }
 
         public string Path

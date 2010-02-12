@@ -68,14 +68,14 @@ namespace nu.core.FileSystem
             return new ZippedDirectory((ZippedDirectoryName)Name.Combine(name));
         }
 
-        public IEnumerable<File> ChildrenFilesPath
+        public IEnumerable<File> ChildrenFilesPath()
         {
-            get { throw new NotImplementedException(); }
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<Directory> ChildrenDirectories
+        public IEnumerable<Directory> ChildrenDirectories()
         {
-            get { throw new NotImplementedException(); }
+            throw new NotImplementedException();
         }
     }
 }

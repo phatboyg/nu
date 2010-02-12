@@ -23,29 +23,25 @@ namespace nu.core.FileSystem
             Name = directoryName;
         }
 
-        public IEnumerable<File> ChildrenFilesPath
+        public IEnumerable<File> ChildrenFilesPath()
         {
-            get
-            {
                 foreach (var file in System.IO.Directory.GetFiles(Path))
                 {
                     yield return new DotNetFile(new AbsoluteFileName(file));
                 }
                 yield break;
-            }
+           
         }
 
-        public IEnumerable<Directory> ChildrenDirectories
+        public IEnumerable<Directory> ChildrenDirectories()
         {
-            get
-            {
                 foreach (var dir in System.IO.Directory.GetDirectories(Path))
                 {
                     yield return new DotNetDirectory(new AbsoluteDirectoryName(dir));
                 }
 
                 yield break;
-            }
+            
         }
 
         public Directory GetChildDirectory(string name)

@@ -16,13 +16,13 @@ namespace nu.core.FileSystem
     {
         public static void CopyTo(this Directory source, Directory target)
         {
-            foreach (File file in source.ChildrenFilesPath)
+            foreach (File file in source.ChildrenFilesPath())
             {
                 System.IO.File.Copy(file.Path, target.GetChildFile(file.Name.GetName()).Path);
             }
 
 
-            foreach (Directory dir in source.ChildrenDirectories)
+            foreach (Directory dir in source.ChildrenDirectories())
             {
                 dir.CopyTo(target.GetChildDirectory(dir.Name.GetName()));
             }

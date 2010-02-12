@@ -12,6 +12,7 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
+    using System;
     using System.IO;
 
     public class DotNetFile :
@@ -45,6 +46,14 @@ namespace nu.core.FileSystem
             {
                 var fi = new FileInfo(Path);
                 return new DotNetDirectory(new AbsoluteDirectoryName(fi.DirectoryName));
+            }
+        }
+
+        public void WorkWithStream(Action<Stream> action)
+        {
+            using(var ms = new MemoryStream(System.IO.File.ReadAllBytes(Path)))
+            {
+                action(ms);
             }
         }
     }

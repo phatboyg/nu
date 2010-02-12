@@ -18,6 +18,7 @@ namespace nu
     using core.Commands;
     using core.Configuration;
     using core.FileSystem;
+    using core.Nugs;
     using Magnum.InterfaceExtensions;
     using Magnum.Logging;
     using StructureMap;
@@ -36,6 +37,8 @@ namespace nu
             IContainer container = new Container(x =>
                 {
                     x.For<NuConventions>().Singleton().Use<DefaultNuConventions>();
+
+                    x.For<NugDirectory>().Singleton().Use<DotNetNugDirectory>();
 
                     x.For<DefaultsConfiguration>().Singleton().Use<FileBasedDefaultsConfiguration>();
 
