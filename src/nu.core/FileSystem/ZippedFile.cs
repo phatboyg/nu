@@ -32,19 +32,8 @@ namespace nu.core.FileSystem
             var innerPath = ZippedPath.GetPathInsideZip(Path);
             var zipFile = ZippedPath.GetZip(Path);
             var zf = new ZipFile(zipFile);
-            var result = false;
 
-            foreach (ZipEntry entry in zf)
-            {
-                if (entry.Name.StartsWith(innerPath))
-                {
-                    result = true;
-                    break;
-                }
-            }
-
-
-            return result;
+            return zf.Find(innerPath) != null;
         }
 
         public string ReadAllText()
@@ -59,30 +48,48 @@ namespace nu.core.FileSystem
         {
             var innerPath = ZippedPath.GetPathInsideZip(Path);
             var zipFile = ZippedPath.GetZip(Path);
-            var zf = new ZipFile(zipFile);
-            ZipEntry result;
 
-            foreach (ZipEntry entry in zf)
+            using (var ms = GetStreamFor(zipFile, innerPath))
             {
-                if (entry.Name.StartsWith(innerPath))
+                action(ms);
+            }
+        }
+
+        public string Path
+        {
+            get { return Name.ToString(); }
+        }
+
+        public Directory Parent
+        {
+            get
+            {
+                var path = ZippedPath.GetParentPath(Path);
+                if(path.EndsWith(".zip"))
                 {
-                    result = entry;
-                    break;
+                    return new ZipFileDirectory(new AbsoluteFileName(path));
+                }
+                else
+                {
+                    return new ZippedDirectory(new ZippedDirectoryName(path));
                 }
             }
+        }
 
-
+        static MemoryStream GetStreamFor(string zipFile, string fileName)
+        {
             var input = new ZipInputStream(System.IO.File.OpenRead(zipFile));
             ZipEntry zippy;
             while ((zippy = input.GetNextEntry()) != null)
             {
-                if (zippy.Name.StartsWith(innerPath))
+                if (zippy.Name.StartsWith(fileName))
                 {
                     break;
                 }
             }
-            System.IO.MemoryStream ms = new System.IO.MemoryStream();
-            int size = 2048;
+
+            var ms = new System.IO.MemoryStream();
+            var size = 2048;
             var data = new byte[size];
 
             while (true)
@@ -94,17 +101,25 @@ namespace nu.core.FileSystem
 
                 ms.Write(data, 0, size);
             }
-            action(ms);
+            return ms;
         }
+    }
 
-        public string Path
+    public static class ZipFileExtensions
+    {
+        public static ZipEntry Find(this ZipFile file, string path)
         {
-            get { return Name.ToString(); }
-        }
+            ZipEntry result = null;
 
-        public Directory Parent
-        {
-            get { throw new NotImplementedException(); }
+            foreach (ZipEntry entry in file)
+            {
+                if (entry.Name.StartsWith(path))
+                {
+                    result = entry;
+                    break;
+                }
+            }
+            return result;
         }
     }
 }

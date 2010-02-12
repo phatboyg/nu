@@ -12,6 +12,7 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
+    using System;
     using System.Text.RegularExpressions;
 
     public class ZippedPath
@@ -28,6 +29,38 @@ namespace nu.core.FileSystem
         {
             var m = _file.Match(path);
             return m.Groups["file"].Value;
+        }
+
+        public static string GetParentPath(string path)
+        {
+            var inner = GetPathInsideZip(path);
+            //test/ho.txt
+
+            if(!inner.Contains("/"))
+            {
+                //its a root folder or file
+                return GetZip(path);
+            }
+
+            var isFile = new Regex(@".+\..+$");
+            var isFileMatch = isFile.Match(inner);
+            if (isFileMatch.Success)
+            {
+                var ripZip = new Regex(@"(?<path>.*)/(?<file>.+\..+$)");
+                var m1 = ripZip.Match(inner);
+                var z = m1.Groups["path"].Value;
+
+                return z;
+            }
+            else
+            {
+
+                var getParentPathOfZipFolder = new Regex(@"(?<path>.*)/(?<childdir>.+$)");
+                var m1 = getParentPathOfZipFolder.Match(inner);
+                var z = m1.Groups["path"].Value;
+
+                return z;
+            }
         }
     }
 }

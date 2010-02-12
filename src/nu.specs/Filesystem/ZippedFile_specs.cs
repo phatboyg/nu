@@ -80,5 +80,24 @@ namespace nu.Specs.Filesystem
             var result = ZippedPath.GetZip("nug.zip\\test\\ho.txt");
             Assert.AreEqual("nug.zip", result);
         }
+
+        [Test]
+        public void ParentPath()
+        {
+            var result = ZippedPath.GetParentPath("nug.zip\\test\\ho.txt");
+            Assert.AreEqual("test", result);
+
+
+            var result2 = ZippedPath.GetParentPath("nug.zip\\test\\test2");
+            Assert.AreEqual("test", result2);
+
+
+            var result3 = ZippedPath.GetParentPath("nug.zip\\test");
+            Assert.AreEqual("nug.zip", result3);
+
+
+            var result4 = ZippedPath.GetParentPath("nug.zip\\ho.txt");
+            Assert.AreEqual("nug.zip", result4);
+        }
     }
 }
