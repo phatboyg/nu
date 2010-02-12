@@ -92,6 +92,7 @@
     <Compile Include="FileSystem\ZippedDirectoryName.cs" />
     <Compile Include="FileSystem\ZippedFile.cs" />
     <Compile Include="FileSystem\ZippedFileName.cs" />
+    <Compile Include="FileSystem\ZippedPath.cs" />
     <Compile Include="Network\DavClient.cs" />
     <Compile Include="Network\DavCredentials.cs" />
     <Compile Include="FileSystem\AbsoluteDirectoryName.cs" />

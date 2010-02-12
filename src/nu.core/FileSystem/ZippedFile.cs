@@ -13,6 +13,7 @@
 namespace nu.core.FileSystem
 {
     using System;
+    using ICSharpCode.SharpZipLib.Zip;
 
     public class ZippedFile :
         File
@@ -26,7 +27,22 @@ namespace nu.core.FileSystem
 
         public bool Exists()
         {
-            throw new NotImplementedException();
+            var innerPath = ZippedPath.GetPathInsideZip(Path);
+            var zipFile = ZippedPath.GetZip(Path);
+            var zf = new ZipFile(zipFile);
+            var result = false;
+
+            foreach (ZipEntry entry in zf)
+            {
+                if (entry.Name.StartsWith(innerPath))
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+
+            return result;
         }
 
         public string ReadAllText()

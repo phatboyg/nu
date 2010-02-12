@@ -14,6 +14,7 @@ namespace nu.core.FileSystem
 {
     using System;
     using System.Collections.Generic;
+    using ICSharpCode.SharpZipLib.Zip;
 
     public class ZippedDirectory :
         Directory
@@ -57,12 +58,30 @@ namespace nu.core.FileSystem
 
         public bool Exists()
         {
-            throw new NotImplementedException();
+            var innerPath = ZippedPath.GetPathInsideZip(Path);
+            innerPath += "/";
+            var zipFile = ZippedPath.GetZip(Path);
+            var zf = new ZipFile(zipFile);
+            var result = false;
+
+            foreach (ZipEntry entry in zf)
+            {
+                if(entry.Name.StartsWith(innerPath))
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+
+            return result;
         }
 
         public File GetChildFile(string name)
         {
-            throw new NotImplementedException();
+            var path = System.IO.Path.Combine(Path, name);
+
+            return new ZippedFile(new ZippedFileName(path));
         }
 
         public bool IsRoot()

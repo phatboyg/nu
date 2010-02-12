@@ -18,29 +18,67 @@ namespace nu.Specs.Filesystem
     [TestFixture]
     public class ZippedFile_specs
     {
-        string _zippedFile = "test.zip";
+        string _zippedFile = "nug.zip";
+
+        ZipFileDirectory zf;
+
+        [SetUp]
+        public void SetUp()
+        {
+            zf = new ZipFileDirectory(new RelativeFileName(_zippedFile));
+        }
 
         [Test]
         public void GetChildDirectory()
         {
-            var zf = new ZipFileDirectory(new RelativeFileName(_zippedFile));
             var c = zf.GetChildDirectory("test");
-            Assert.AreEqual("test.zip\\test", c.Path);
+            Assert.AreEqual("nug.zip\\test", c.Path);
+        }
+
+
+        [Test]
+        public void GetChildFileExists()
+        {
+            var c = zf.GetChildFile("MANIFEST.json");
+            Assert.IsTrue(c.Exists());
+
+            var c2 = zf.GetChildDirectory("lib").GetChildFile("yo.txt");
+            Assert.IsTrue(c2.Exists());
+        }
+
+        [Test]
+        public void ZippedDirectoryExists()
+        {
+            var c = zf.GetChildDirectory("lib");
+            Assert.IsTrue(c.Exists());
+            
         }
 
         [Test]
         public void GetChildFile()
         {
-            var zf = new ZipFileDirectory(new RelativeFileName(_zippedFile));
             var c = zf.GetChildFile("ho.txt");
-            Assert.AreEqual("test.zip\\ho.txt", c.Path);
+            Assert.AreEqual("nug.zip\\ho.txt", c.Path);
         }
 
         [Test]
         public void PathWithRelative()
         {
-            var zf = new ZipFileDirectory(new RelativeFileName(_zippedFile));
-            Assert.AreEqual("test.zip", zf.Path);
+            Assert.AreEqual("nug.zip", zf.Path);
+        }
+
+        [Test]
+        public void ZipPathHelpers()
+        {
+            var result = ZippedPath.GetPathInsideZip("nug.zip\\test\\ho.txt");
+            Assert.AreEqual("test/ho.txt", result);
+        }
+
+        [Test]
+        public void MorePath()
+        {
+            var result = ZippedPath.GetZip("nug.zip\\test\\ho.txt");
+            Assert.AreEqual("nug.zip", result);
         }
     }
 }
