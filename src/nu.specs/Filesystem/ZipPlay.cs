@@ -12,6 +12,7 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.Specs.Filesystem
 {
+    using System;
     using System.IO;
     using ICSharpCode.SharpZipLib.Zip;
     using NUnit.Framework;
@@ -19,11 +20,20 @@ namespace nu.Specs.Filesystem
     [TestFixture]
     public class ZipPlay
     {
-        [Test]
+        //[Test]
         public void NAME()
         {
             string outputDirectory = "out";
-            string zipFile = "log4net.nug";
+            string zipFile = "test.zip";
+            ICSharpCode.SharpZipLib.Zip.ZipFile zf = new ZipFile(zipFile);
+
+            foreach (ZipEntry entr in zf)
+            {
+                Console.WriteLine("{0}:{1}",entr.Name,entr.IsDirectory);
+               
+            }
+
+
             ZipInputStream input = new ZipInputStream(System.IO.File.OpenRead(zipFile));
             ZipEntry entry;
 
