@@ -60,6 +60,9 @@ namespace nu.core.Nugs
 
         public File GetNugFile(string name)
         {
+            //list out the children?
+            //if .nug execute zipped folder?
+            //if non-zip dir execute the other?
             return base.GetChildFile(string.Format("{0}.nug", name));
         }
     }

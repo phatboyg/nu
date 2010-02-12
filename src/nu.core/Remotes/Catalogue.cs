@@ -12,7 +12,13 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Remotes
 {
+    using System;
+
     public interface Catalogue
     {
+        //string Name { get; set; }
+        //string Hash { get; set; }
+        //Uri Location { get; set; }
+        //type? git / webdav / svn?
     }
 }

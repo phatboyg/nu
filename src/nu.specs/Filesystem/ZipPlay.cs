@@ -21,20 +21,23 @@ namespace nu.Specs.Filesystem
     public class ZipPlay
     {
         //[Test]
-        public void NAME()
+        public void Metadata()
         {
-            string outputDirectory = "out";
             string zipFile = "test.zip";
-            ICSharpCode.SharpZipLib.Zip.ZipFile zf = new ZipFile(zipFile);
+            var zf = new ZipFile(zipFile);
 
             foreach (ZipEntry entr in zf)
             {
-                Console.WriteLine("{0}:{1}",entr.Name,entr.IsDirectory);
-               
+                Console.WriteLine("{0}:{1}", entr.Name, entr.IsDirectory);
             }
+        }
 
-
-            ZipInputStream input = new ZipInputStream(System.IO.File.OpenRead(zipFile));
+        //[Test]
+        public void ActualUse()
+        {
+            string outputDirectory = "out";
+            string zipFile = "test.zip";
+            var input = new ZipInputStream(File.OpenRead(zipFile));
             ZipEntry entry;
 
             while ((entry = input.GetNextEntry()) != null)
@@ -67,5 +70,4 @@ namespace nu.Specs.Filesystem
             }
         }
     }
-    
 }
