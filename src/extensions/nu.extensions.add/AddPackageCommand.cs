@@ -12,10 +12,10 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.extensions.add
 {
-    using System;
     using core.Commands;
     using core.Configuration;
     using core.FileSystem;
+    using core.Nugs;
     using Magnum.Logging;
 
     public class AddPackageCommand :
@@ -23,21 +23,21 @@ namespace nu.extensions.add
     {
         readonly ILogger _logger = Logger.GetLogger<AddPackageCommand>();
         readonly string _name;
-        readonly GlobalConfiguration _globalConfiguration;
+        readonly NugDirectory _nugDirectory;
         readonly ProjectConfiguration _projectConfiguration;
         readonly FileSystem _fileSystem;
 
-        public AddPackageCommand(string name, GlobalConfiguration globalConfiguration, ProjectConfiguration projectConfiguration, FileSystem fileSystem)
+        public AddPackageCommand(string name, NugDirectory nugDirectory, ProjectConfiguration projectConfiguration, FileSystem fileSystem)
         {
             _name = name;
-            _globalConfiguration = globalConfiguration;
+            _nugDirectory = nugDirectory;
             _projectConfiguration = projectConfiguration;
             _fileSystem = fileSystem;
         }
             
         public void Execute()
         {
-            var package = _globalConfiguration.NugsDirectory.GetNug(_name);
+            var package = _nugDirectory.GetNug(_name);
 
             //TODO: should this be hidden behind another 'directory'?
             var lib = _projectConfiguration["project.librarydirectoryname"];

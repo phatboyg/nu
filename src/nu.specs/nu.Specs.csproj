@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Magnum, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Magnum.dll</HintPath>
@@ -69,6 +73,7 @@
     <Compile Include="Configuration\ProjectConfiguration_Specs.cs" />
     <Compile Include="Dav\RemoteDirectory_Specs.cs" />
     <Compile Include="Filesystem\DotNetFileSystem_Specs.cs" />
+    <Compile Include="Filesystem\ZipPlay.cs" />
     <Compile Include="Model\Project\Transformation\ProjectTransformationPipelineSpecs.cs" />
     <Compile Include="Model\Template\NVelocityAdapterSpecs.cs" />
     <Compile Include="Nugs\Serialization_Specs.cs" />

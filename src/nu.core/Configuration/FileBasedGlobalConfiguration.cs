@@ -49,11 +49,6 @@ namespace nu.core.Configuration
             get { return NuInstallDirectory.GetChildDirectory(_conventions.ExtensionsDirectoryName); }
         }
 
-        public NugDirectory NugsDirectory
-        {
-            get { return new DotNetNugDirectory(base.FileSystem, NuInstallDirectory.GetChildDirectory(_conventions.NugsDirectoryName)); }
-        }
-
         string GetDefaultConfigurationValue(string key)
         {
             _logger.Debug(x => x.Write("Falling back to DEFAULTS for key '{0}'", key));

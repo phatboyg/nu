@@ -109,11 +109,10 @@
     <Compile Include="FileSystem\DotNetDirectory.cs" />
     <Compile Include="FileSystem\DotNetFile.cs" />
     <Compile Include="FileSystem\DotNetInstallationDirectory.cs" />
-    <Compile Include="FileSystem\DotNetNugDirectory.cs" />
+    <Compile Include="Nugs\DotNetNugDirectory.cs" />
     <Compile Include="FileSystem\File.cs" />
     <Compile Include="FileSystem\FileName.cs" />
     <Compile Include="FileSystem\InstallationDirectory.cs" />
-    <Compile Include="FileSystem\NugDirectory.cs" />
     <Compile Include="FileSystem\RelativeFileName.cs" />
     <Compile Include="Network\Client.cs" />
     <Compile Include="Network\DavRemoteDirectory.cs" />
@@ -125,10 +124,12 @@
     <Compile Include="Network\RemoteFile.cs" />
     <Compile Include="Network\RemoteFileToken.cs" />
     <Compile Include="Network\RemoteResourceException.cs" />
+    <Compile Include="Nugs\Dependency.cs" />
     <Compile Include="Nugs\Manifest.cs" />
     <Compile Include="Nugs\ManifestEntry.cs" />
     <Compile Include="Configuration\JsonUtil.cs" />
     <Compile Include="FileSystem\RelativeDirectoryName.cs" />
+    <Compile Include="Nugs\NugDirectory.cs" />
     <Compile Include="Nugs\NugFile.cs" />
     <Compile Include="Nugs\NugPackage.cs" />
     <Compile Include="Project\IProjectEnvironment.cs" />
@@ -149,6 +150,10 @@
     <Compile Include="Project\Transformation\FolderTransformationElement.cs" />
     <Compile Include="Project\Transformation\IProjectTransformationPipeline.cs" />
     <Compile Include="Project\Transformation\ProjectTransformationPipeline.cs" />
+    <Compile Include="Remotes\Catalogue.cs" />
+    <Compile Include="Remotes\CatalogueEntry.cs" />
+    <Compile Include="Remotes\LocalCatalogue.cs" />
+    <Compile Include="Remotes\RemoteCatalogue.cs" />
     <Compile Include="Templating\NVelocityTemplateProcessor.cs" />
     <Compile Include="Templating\TemplateContext.cs" />
     <Compile Include="Resources\nuresources.Designer.cs">

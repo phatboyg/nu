@@ -13,22 +13,11 @@
 namespace nu.core.Nugs
 {
     using System;
-    using System.Collections.Generic;
-    using FileSystem;
 
     [Serializable]
-    public class Manifest
+    public class Dependency
     {
-        public Manifest()
-        {
-            Files = new List<ManifestEntry>();
-        }
-
         public string Name { get; set; }
         public string Version { get; set; }
-        public string Summary { get; set; }
-        public string MinimumFramework { get; set; }
-        public IList<Dependency> Dependencies { get; set; }
-        public IList<ManifestEntry> Files { get; set; }
     }
 }

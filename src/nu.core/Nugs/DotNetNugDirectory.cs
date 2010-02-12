@@ -10,12 +10,11 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.FileSystem
+namespace nu.core.Nugs
 {
-    using System.IO;
     using Configuration;
+    using FileSystem;
     using Model.Files.Package;
-    using Nugs;
 
     public class DotNetNugDirectory :
         DotNetDirectory,
@@ -50,7 +49,7 @@ namespace nu.core.FileSystem
                             {
                                 Name = entry.Name,
                                 //whoa
-                                File = new MemoryStream(System.IO.File.ReadAllBytes(manifest.Parent.GetChildFile(entry.Name).Path))
+                                File = new System.IO.MemoryStream(System.IO.File.ReadAllBytes(manifest.Parent.GetChildFile(entry.Name).Path))
                             });
                     }
                 });

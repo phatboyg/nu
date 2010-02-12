@@ -10,14 +10,9 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.FileSystem
+namespace nu.core.Remotes
 {
-    using Nugs;
-
-    public interface NugDirectory :
-        Directory
+    public interface Catalogue
     {
-        NugPackage GetNug(string name);
-        File GetNugFile(string name);
     }
 }
