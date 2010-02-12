@@ -69,6 +69,7 @@
     <Compile Include="Configuration\ProjectConfiguration_Specs.cs" />
     <Compile Include="Dav\RemoteDirectory_Specs.cs" />
     <Compile Include="Filesystem\DotNetFileSystem_Specs.cs" />
+    <Compile Include="Filesystem\ZippedFile_specs.cs" />
     <Compile Include="Filesystem\ZipPlay.cs" />
     <Compile Include="Model\Project\Transformation\ProjectTransformationPipelineSpecs.cs" />
     <Compile Include="Model\Template\NVelocityAdapterSpecs.cs" />
@@ -80,6 +81,11 @@
       <Project>{B106DBF9-AF90-414D-A40C-A0222BF8F5C8}</Project>
       <Name>nu.core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="test.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utility\" />

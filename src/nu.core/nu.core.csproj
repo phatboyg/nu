@@ -86,6 +86,12 @@
     <Compile Include="Configuration\DefaultsConfiguration.cs" />
     <Compile Include="Configuration\FileBasedDefaultsConfiguration.cs" />
     <Compile Include="ContainerConfigurator.cs" />
+    <Compile Include="FileSystem\ZipFileDirectory.cs" />
+    <Compile Include="FileSystem\ZipFileName.cs" />
+    <Compile Include="FileSystem\ZippedDirectory.cs" />
+    <Compile Include="FileSystem\ZippedDirectoryName.cs" />
+    <Compile Include="FileSystem\ZippedFile.cs" />
+    <Compile Include="FileSystem\ZippedFileName.cs" />
     <Compile Include="Network\DavClient.cs" />
     <Compile Include="Network\DavCredentials.cs" />
     <Compile Include="FileSystem\AbsoluteDirectoryName.cs" />
