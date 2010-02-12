@@ -13,38 +13,55 @@
 namespace nu.core.FileSystem
 {
 	using System;
-	using System.IO;
 
 	public class AbsoluteDirectoryName :
 		DirectoryName
 	{
-		readonly string _path;
-
-		public AbsoluteDirectoryName(string path)
+		public AbsoluteDirectoryName(AbsolutePathName name)
 		{
-			if (!Path.IsPathRooted(path))
-				throw new InvalidOperationException("The path must be an absolute path: " + path);
-
-			_path = path;
+			Name = name;
 		}
 
 		public override string ToString()
 		{
-			return _path;
+			return Name.ToString();
 		}
 
 		public override DirectoryName Combine(string path)
 		{
-			if (Path.IsPathRooted(path))
-				return new AbsoluteDirectoryName(path);
+			var pathName = Name.Combine(path) as AbsolutePathName;
+			if (pathName == null)
+				throw new InvalidOperationException("Unable to combine " + Name + " with " + path);
 
-			return new AbsoluteDirectoryName(Path.Combine(_path, path));
+			return new AbsoluteDirectoryName(pathName);
 		}
 
+		public override DirectoryName Combine(PathName child)
+		{
+			var pathName = Name.Combine(child) as AbsolutePathName;
+			if (pathName == null)
+				throw new InvalidOperationException("Unable to combine " + Name + " with " + child);
 
-        public override string GetName()
-        {
-            return System.IO.Path.GetDirectoryName(_path);
-        }
+			return new AbsoluteDirectoryName(pathName);
+		}
+
+		public override DirectoryName Combine(DirectoryName child)
+		{
+			var pathName = Name.Combine(child.Name) as AbsolutePathName;
+			if (pathName == null)
+				throw new InvalidOperationException("Unable to combine " + Name + " with " + child);
+
+			return new AbsoluteDirectoryName(pathName);
+		}
+
+		public override string GetName()
+		{
+			return Name.GetName();
+		}
+
+		public override string GetPath()
+		{
+			return Name.GetPath();
+		}
 	}
 }

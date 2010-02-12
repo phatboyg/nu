@@ -14,14 +14,18 @@ namespace nu.core.FileSystem
 {
     using System.Collections.Generic;
 
+	/// <summary>
+	/// A directory is a logical reference to a hierarchical physical location containing files
+	/// and directories.
+	/// </summary>
     public interface Directory
     {
         DirectoryName Name { get; }
         string Path { get; }
         Directory Parent { get; }
         bool HasParentDir { get; }
-        IEnumerable<File> ChildrenFilesPath();
-        IEnumerable<Directory> ChildrenDirectories();
+        IEnumerable<File> GetFiles();
+        IEnumerable<Directory> GetDirectories();
         Directory GetChildDirectory(string name);
         bool Exists();
         File GetChildFile(string name);

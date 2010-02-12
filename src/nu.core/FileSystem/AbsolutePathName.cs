@@ -12,34 +12,47 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-	using System;
 	using System.IO;
 
-	public class AbsoluteFileName :
-		FileName
+	public class AbsolutePathName :
+		PathName
 	{
-		public AbsoluteFileName(AbsolutePathName name)
+		readonly string _path;
+
+		public AbsolutePathName(string path)
 		{
-			Name = name;
+			_path = path;
+		}
+
+		public override PathName Combine(string child)
+		{
+			if (Path.IsPathRooted(child))
+				return new AbsolutePathName(child);
+
+			return new AbsolutePathName(Path.Combine(_path, child));
+		}
+
+		public override PathName Combine(PathName child)
+		{
+			if (child is AbsolutePathName)
+				return child;
+
+			return new AbsolutePathName(Path.Combine(_path, child.GetPath()));
+		}
+
+		public override string GetName()
+		{
+			return Path.GetFileName(_path);
+		}
+
+		public override string GetPath()
+		{
+			return _path;
 		}
 
 		public override string ToString()
 		{
-			return Name.ToString();
-		}
-
-		public override DirectoryName GetDirectoryName()
-		{
-			string path = GetPath();
-
-			if (!System.IO.File.Exists(path))
-				throw new InvalidOperationException("The file specified does not exist: " + path);
-
-			string directoryPath = Path.GetDirectoryName(path);
-			if (directoryPath == null)
-				return new AbsoluteDirectoryName(new AbsolutePathName(path));
-
-			return new AbsoluteDirectoryName(new AbsolutePathName(directoryPath));
+			return _path;
 		}
 	}
 }

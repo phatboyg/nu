@@ -12,31 +12,30 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-    using System;
+	using System.IO;
 
-    public class RelativeFileName :
-        FileName
-    {
-        readonly string _path;
+	public class RelativeFileName :
+		FileName
+	{
+		public RelativeFileName(RelativePathName name)
+		{
+			Name = name;
+		}
 
-        public RelativeFileName(string path)
-        {
-            _path = path;
-        }
+		public override string ToString()
+		{
+			return Name.ToString();
+		}
 
-        public override FileName Combine(string name)
-        {
-            throw new NotImplementedException();
-        }
+		public override DirectoryName GetDirectoryName()
+		{
+			string path = GetPath();
 
-        public override string ToString()
-        {
-            return _path;
-        }
+			string directoryPath = Path.GetDirectoryName(path);
+			if (directoryPath == null)
+				return new RelativeDirectoryName(new RelativePathName(path));
 
-        public override string GetName()
-        {
-            return System.IO.Path.GetFileName(_path);
-        }
-    }
+			return new RelativeDirectoryName(new RelativePathName(directoryPath));
+		}
+	}
 }

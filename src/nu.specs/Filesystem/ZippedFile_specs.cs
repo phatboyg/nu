@@ -25,7 +25,7 @@ namespace nu.Specs.Filesystem
         [SetUp]
         public void SetUp()
         {
-            zf = new ZipFileDirectory(new RelativeFileName(_zippedFile));
+            zf = new ZipFileDirectory(new RelativePathName(_zippedFile));
         }
 
         [Test]

@@ -12,28 +12,41 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-    using System.IO;
+	using System;
 
-    public abstract class FileName
-    {
-        public abstract FileName Combine(string name);
+	/// <summary>
+	/// A specialization of the PathName class for files
+	/// </summary>
+	public abstract class FileName
+	{
+		public PathName Name { get; protected set; }
 
-        public static FileName GetFileName(string path)
-        {
-            if (Path.IsPathRooted(path))
-                return new AbsoluteFileName(path);
+		public abstract DirectoryName GetDirectoryName();
 
-            return new RelativeFileName(path);
-        }
+		public virtual string GetName()
+		{
+			return Name.GetName();
+		}
 
-        public static AbsoluteFileName GetAbsoluteFileName(string path, string source)
-        {
-            if (Path.IsPathRooted(path))
-                return new AbsoluteFileName(path);
+		public virtual string GetPath()
+		{
+			return Name.GetPath();
+		}
 
-            return new AbsoluteFileName(Path.Combine(source, path));
-        }
+		public static FileName GetFileName(string name)
+		{
+			return GetFileName(PathName.GetPathName(name));
+		}
 
-        public abstract string GetName();
-    }
+		public static FileName GetFileName(PathName pathName)
+		{
+			if (pathName is RelativePathName)
+				return new RelativeFileName(((RelativePathName)pathName));
+
+			if (pathName is AbsolutePathName)
+				return new AbsoluteFileName(((AbsolutePathName)pathName));
+
+			throw new InvalidOperationException("Unable to convert path: " + pathName);
+		}
+	}
 }

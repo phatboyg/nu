@@ -61,7 +61,7 @@ namespace nu.core.Nugs
             if (IsADir(name))
                 return new DotNetDirectory(base.Name.Combine(name));
             else
-                return new ZipFileDirectory(new AbsoluteFileName(System.IO.Path.Combine(Path, name)));
+                return new ZipFileDirectory(new AbsolutePathName(System.IO.Path.Combine(Path, name)));
         }
 
         public bool IsADir(string name)

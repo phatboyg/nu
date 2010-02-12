@@ -52,7 +52,7 @@ namespace nu.core.FileSystem
         {
             string tempDir = Path.Combine(Path.GetTempPath(), "nu");
             tempDir = Path.Combine(tempDir, Guid.NewGuid().ToString());
-            var d = new DotNetDirectory(new AbsoluteDirectoryName( tempDir));
+            var d = new DotNetDirectory(DirectoryName.GetDirectoryName(tempDir));
             if (!d.Exists())
             {
                 CreateDirectory(d);
@@ -157,7 +157,7 @@ namespace nu.core.FileSystem
             if (!Path.IsPathRooted(path))
                 path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), path);
 
-            return new DotNetDirectory(new AbsoluteDirectoryName(path));
+            return new DotNetDirectory(DirectoryName.GetDirectoryName(path));
         }
 
         public void CreateProjectAt(string path)

@@ -45,7 +45,7 @@ namespace nu.core.FileSystem
             get
             {
                 var fi = new FileInfo(Path);
-                return new DotNetDirectory(new AbsoluteDirectoryName(fi.DirectoryName));
+                return new DotNetDirectory(DirectoryName.GetDirectoryName(fi.DirectoryName));
             }
         }
 

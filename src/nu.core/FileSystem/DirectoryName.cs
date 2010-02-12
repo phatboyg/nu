@@ -13,41 +13,40 @@
 namespace nu.core.FileSystem
 {
 	using System;
-	using System.IO;
 
+	/// <summary>
+	/// A specialization of the PathName class for directories
+	/// </summary>
 	public abstract class DirectoryName
 	{
-		public abstract DirectoryName Combine(string name);
+		/// <summary>
+		/// The contained PathName for the directory
+		/// </summary>
+		public PathName Name { get; protected set; }
 
-		public static DirectoryName GetDirectoryName(string path)
+		/// <summary>
+		/// Combines the directory name with a child directory/file name
+		/// </summary>
+		/// <param name="child"></param>
+		/// <returns></returns>
+		public abstract DirectoryName Combine(string child);
+
+		public abstract DirectoryName Combine(PathName child);
+		public abstract DirectoryName Combine(DirectoryName child);
+
+		public abstract string GetName();
+		public abstract string GetPath();
+
+		public static DirectoryName GetDirectoryName(string name)
 		{
-			if (Path.IsPathRooted(path))
-				return new AbsoluteDirectoryName(path);
+			var directoryName = PathName.GetPathName(name);
+			if (directoryName is RelativePathName)
+				return new RelativeDirectoryName(((RelativePathName)directoryName));
 
-			return new RelativeDirectoryName(path);
+			if (directoryName is AbsolutePathName)
+				return new AbsoluteDirectoryName(((AbsolutePathName)directoryName));
+
+			throw new InvalidOperationException("Unable to convert path: " + name);
 		}
-
-		public static AbsoluteDirectoryName GetAbsoluteDirectoryName(string path, string source)
-		{
-			if (Path.IsPathRooted(path))
-				return new AbsoluteDirectoryName(path);
-
-			return new AbsoluteDirectoryName(Path.Combine(source, path));
-		}
-
-		public static DirectoryName GetDirectoryNameFromFileName(string path)
-		{
-			if (!System.IO.File.Exists(path))
-				throw new InvalidOperationException("The file specified does not exist: " + path);
-
-			string directoryPath = Path.GetDirectoryName(path);
-			if (directoryPath == null)
-				return new AbsoluteDirectoryName(path);
-
-			return GetDirectoryName(directoryPath);
-		}
-
-	    public abstract string GetName();
-	   
 	}
 }

@@ -26,7 +26,7 @@ namespace nu.core.FileSystem
 
         static DirectoryName GetInstallPath()
         {
-            return DirectoryName.GetDirectoryNameFromFileName(Assembly.GetEntryAssembly().Location);
+			return FileName.GetFileName(Assembly.GetEntryAssembly().Location).GetDirectoryName();
         }
     }
 }

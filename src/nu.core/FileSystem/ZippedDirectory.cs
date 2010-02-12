@@ -19,7 +19,7 @@ namespace nu.core.FileSystem
     public class ZippedDirectory :
         Directory
     {
-        public ZippedDirectory(ZippedDirectoryName name)
+        public ZippedDirectory(ZipDirectoryName name)
         {
             Name = name;
         }
@@ -41,12 +41,12 @@ namespace nu.core.FileSystem
             get { throw new NotImplementedException(); }
         }
 
-        public IEnumerable<File> ChildrenFilesPath()
+        public IEnumerable<File> GetFiles()
         {
             throw new NotImplementedException(); 
         }
 
-        public IEnumerable<Directory> ChildrenDirectories()
+        public IEnumerable<Directory> GetDirectories()
         {
             throw new NotImplementedException(); 
         }
@@ -79,9 +79,7 @@ namespace nu.core.FileSystem
 
         public File GetChildFile(string name)
         {
-            var path = System.IO.Path.Combine(Path, name);
-
-            return new ZippedFile(new ZippedFileName(path));
+            return new ZippedFile(new ZipPathName(Path, name));
         }
 
         public bool IsRoot()

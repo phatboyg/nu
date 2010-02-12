@@ -35,7 +35,7 @@ namespace nu.core.Network
 
 		RemoteFile PutFile(string fileName, string localFileName);
 
-		IEnumerable<RemoteFile> GetFiles();
-		IEnumerable<RemoteDirectory> GetDirectories();
+		//IEnumerable<RemoteFile> GetFiles();
+		//IEnumerable<RemoteDirectory> GetDirectories();
 	}
 }

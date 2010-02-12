@@ -34,7 +34,10 @@ namespace nu.core.Configuration
 
         public Directory NuInstallDirectory
         {
-            get { return new DotNetDirectory(DirectoryName.GetDirectoryNameFromFileName(Assembly.GetEntryAssembly().Location)); }
+            get
+            {
+            	return new DotNetDirectory(FileName.GetFileName(Assembly.GetEntryAssembly().Location).GetDirectoryName());
+            }
         }
 
         DefaultsConfiguration Defaults { get; set; }

@@ -12,7 +12,8 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-    using System.Collections.Generic;
+	using System;
+	using System.Collections.Generic;
     using System.IO;
 
     public class DotNetDirectory :
@@ -23,21 +24,21 @@ namespace nu.core.FileSystem
             Name = directoryName;
         }
 
-        public IEnumerable<File> ChildrenFilesPath()
+        public IEnumerable<File> GetFiles()
         {
                 foreach (var file in System.IO.Directory.GetFiles(Path))
                 {
-                    yield return new DotNetFile(new AbsoluteFileName(file));
+                	yield return new DotNetFile(FileName.GetFileName(file));
                 }
                 yield break;
            
         }
 
-        public IEnumerable<Directory> ChildrenDirectories()
+        public IEnumerable<Directory> GetDirectories()
         {
                 foreach (var dir in System.IO.Directory.GetDirectories(Path))
                 {
-                    yield return new DotNetDirectory(new AbsoluteDirectoryName(dir));
+                    yield return new DotNetDirectory(DirectoryName.GetDirectoryName(dir));
                 }
 
                 yield break;
@@ -65,11 +66,9 @@ namespace nu.core.FileSystem
 
         public File GetChildFile(string name)
         {
-            var path = System.IO.Path.Combine(Name.ToString(), name);
-            if (System.IO.Path.IsPathRooted(path))
-                return new DotNetFile(new AbsoluteFileName(path));
+        	var pathName = Name.Name.Combine(name);
 
-            return new DotNetFile(new RelativeFileName(path));
+        	return new DotNetFile(FileName.GetFileName(pathName));
         }
 
         public Directory Parent
@@ -77,8 +76,10 @@ namespace nu.core.FileSystem
             get
             {
                 var di = new DirectoryInfo(Path);
+				if (di.Parent == null)
+					throw new InvalidOperationException("No parent folder: " + di.FullName);
 
-                return new DotNetDirectory(new AbsoluteDirectoryName(di.Parent.FullName));
+                return new DotNetDirectory(DirectoryName.GetDirectoryName(di.Parent.FullName));
             }
         }
 

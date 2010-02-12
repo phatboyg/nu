@@ -19,17 +19,19 @@ namespace nu.core.FileSystem
     public class ZipFileDirectory :
         Directory
     {
-        public ZipFileDirectory(FileName fileName)
+    	public PathName PathName { get; set; }
+
+    	public ZipFileDirectory(PathName pathName)
         {
-            Name = new ZipFileName(fileName.ToString());
+        	PathName = pathName;
         }
 
-        public Directory Parent
+    	public Directory Parent
         {
             get
             {
                 var fi = new FileInfo(Path);
-                return new DotNetDirectory(new AbsoluteDirectoryName(fi.DirectoryName));
+                return new DotNetDirectory(DirectoryName.GetDirectoryName(fi.DirectoryName));
             }
         }
 
@@ -57,23 +59,21 @@ namespace nu.core.FileSystem
 
         public File GetChildFile(string name)
         {
-            var fileName = Name.ToString() + "\\" + name;
-
-            return new ZippedFile(new ZippedFileName(fileName));
+            return new ZippedFile(new ZipPathName(Path, name));
         }
 
         public Directory GetChildDirectory(string name)
         {
             //TODO: Ugh
-            return new ZippedDirectory((ZippedDirectoryName)Name.Combine(name));
+            return new ZippedDirectory((ZipDirectoryName)Name.Combine(name));
         }
 
-        public IEnumerable<File> ChildrenFilesPath()
+        public IEnumerable<File> GetFiles()
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Directory> ChildrenDirectories()
+        public IEnumerable<Directory> GetDirectories()
         {
             throw new NotImplementedException();
         }

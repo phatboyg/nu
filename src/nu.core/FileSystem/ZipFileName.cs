@@ -12,35 +12,16 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-    using System;
-    using System.IO;
+	using System;
 
-    public class ZipFileName :
-        DirectoryName
-    {
-        readonly string _path;
-
-        public ZipFileName(string path)
-        {
-            if (!path.EndsWith(".zip"))
-                throw new Exception(string.Format("most be a zip file not a '{0}'", path));
-
-            _path = path;
-        }
-
-        public override DirectoryName Combine(string name)
-        {
-            return new ZippedDirectoryName(Path.Combine(_path, name));
-        }
-
-        public override string GetName()
-        {
-            return Path.GetFileName(_path);
-        }
-
-        public override string ToString()
-        {
-            return _path;
-        }
-    }
+	public class ZipFileName :
+		RelativeFileName
+	{
+		public ZipFileName(RelativePathName name)
+			: base(name)
+		{
+			if (!Name.GetName().EndsWith(".zip"))
+				throw new Exception(string.Format("most be a zip file not a '{0}'", Name));
+		}
+	}
 }

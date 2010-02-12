@@ -12,31 +12,30 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-    using System;
+	using System.IO;
 
-    public class ZippedFileName :
-        FileName
-    {
-        readonly string _path;
+	public abstract class PathName
+	{
+		public abstract PathName Combine(string child);
+		public abstract PathName Combine(PathName child);
 
-        public ZippedFileName(string path)
-        {
-            _path = path;
-        }
+		public abstract string GetName();
+		public abstract string GetPath();
 
-        public override FileName Combine(string name)
-        {
-            throw new NotImplementedException();
-        }
+		public static PathName GetPathName(string path)
+		{
+			if (Path.IsPathRooted(path))
+				return new AbsolutePathName(path);
 
-        public override string GetName()
-        {
-            throw new NotImplementedException();
-        }
+			return new RelativePathName(path);
+		}
 
-        public override string ToString()
-        {
-            return _path;
-        }
-    }
+		public static AbsolutePathName GetAbsolutePathName(string path, string source)
+		{
+			if (Path.IsPathRooted(path))
+				return new AbsolutePathName(path);
+
+			return new AbsolutePathName(Path.Combine(source, path));
+		}
+	}
 }

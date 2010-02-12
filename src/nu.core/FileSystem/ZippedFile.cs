@@ -20,9 +20,9 @@ namespace nu.core.FileSystem
     public class ZippedFile :
         File
     {
-        public ZippedFile(ZippedFileName name)
+        public ZippedFile(ZipPathName name)
         {
-            Name = name;
+            // TODO FUCKED Name = name;
         }
 
         public FileName Name { get; set; }
@@ -67,11 +67,11 @@ namespace nu.core.FileSystem
                 var path = ZippedPath.GetParentPath(Path);
                 if(path.EndsWith(".zip"))
                 {
-                    return new ZipFileDirectory(new AbsoluteFileName(path));
+                    return new ZipFileDirectory(new AbsolutePathName(path));
                 }
                 else
                 {
-                    return new ZippedDirectory(new ZippedDirectoryName(path));
+                    return new ZippedDirectory(new ZipDirectoryName(new RelativePathName(path)));
                 }
             }
         }

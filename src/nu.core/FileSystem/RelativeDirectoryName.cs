@@ -12,31 +12,55 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-    using System.IO;
+	using System;
 
-    public class RelativeDirectoryName :
-        DirectoryName
-    {
-        readonly string _path;
+	public class RelativeDirectoryName :
+		DirectoryName
+	{
+		readonly string _path;
 
-        public RelativeDirectoryName(string path)
-        {
-            _path = path;
-        }
+		public RelativeDirectoryName(RelativePathName name)
+		{
+			Name = name;
+		}
 
-        public override string ToString()
-        {
-            return _path;
-        }
+		public override string ToString()
+		{
+			return Name.ToString();
+		}
 
-        public override DirectoryName Combine(string name)
-        {
-            return new RelativeDirectoryName(Path.Combine(_path, name));
-        }
+		public override DirectoryName Combine(string path)
+		{
+			return InternalCombine(Name.Combine(path));
+		}
 
-        public override string GetName()
-        {
-            return Path.GetDirectoryName(_path);
-        }
-    }
+		public override DirectoryName Combine(PathName child)
+		{
+			return InternalCombine(Name.Combine(child));
+		}
+
+		public override DirectoryName Combine(DirectoryName child)
+		{
+			return InternalCombine(Name.Combine(child.Name));
+		}
+
+		public override string GetName()
+		{
+			return Name.GetName();
+		}
+
+		public override string GetPath()
+		{
+			return Name.GetPath();
+		}
+
+		static DirectoryName InternalCombine(PathName combinedPathName)
+		{
+			var pathName = combinedPathName as RelativePathName;
+			if (pathName == null)
+				throw new InvalidOperationException("Unable to combine relative paths: " + combinedPathName);
+
+			return new RelativeDirectoryName(pathName);
+		}
+	}
 }

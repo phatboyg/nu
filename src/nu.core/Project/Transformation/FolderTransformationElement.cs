@@ -16,7 +16,8 @@ namespace nu.core.Project.Transformation
     using FileSystem;
     using SubSystems.Templating;
 
-    public class FolderTransformationElement : AbstractTransformationElement
+    public class FolderTransformationElement : 
+		AbstractTransformationElement
     {
         readonly FileSystem _fileSystem;
         readonly IProjectManifestRepository _manifestRepository;
@@ -38,7 +39,7 @@ namespace nu.core.Project.Transformation
             {
                 string folderTemplatePath = _fileSystem.Combine(rootDirectory, folder.Path);
                 string folderProcessedPath = _templateProcessor.Process(folderTemplatePath, context);
-                _fileSystem.CreateDirectory(new DotNetDirectory(new AbsoluteDirectoryName(folderProcessedPath)));
+                _fileSystem.CreateDirectory(new DotNetDirectory(DirectoryName.GetDirectoryName(folderProcessedPath)));
                 folder.Path = folderProcessedPath;
             }
             return true;
