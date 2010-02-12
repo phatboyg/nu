@@ -16,7 +16,6 @@ namespace nu.core.FileSystem
     using System.IO;
     using Configuration;
     using Magnum.Logging;
-    using NDepend.Helpers.FileDirectoryPath;
 
     public class DotNetFileSystem :
         FileSystem

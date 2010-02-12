@@ -14,7 +14,6 @@ namespace nu.core.FileSystem
 {
     using System;
     using System.IO;
-    using NDepend.Helpers.FileDirectoryPath;
 
     public interface FileSystem
     {
