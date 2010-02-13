@@ -10,22 +10,12 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.SubSystems.Templating
+namespace nu.core.Templating
 {
     using System.Collections.Generic;
 
-    public class TemplateContext : ITemplateContext
+    public interface TemplateContext
     {
-        readonly IDictionary<string, object> _context;
-
-        public TemplateContext()
-        {
-            _context = new Dictionary<string, object>();
-        }
-
-        public IDictionary<string, object> Items
-        {
-            get { return _context; }
-        }
+        IDictionary<string, object> Items { get; }
     }
 }

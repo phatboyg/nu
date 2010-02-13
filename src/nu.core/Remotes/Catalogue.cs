@@ -14,11 +14,8 @@ namespace nu.core.Remotes
 {
     using System;
 
-    public interface Catalogue
+    public interface Catalogue :
+        IDisposable
     {
-        //string Name { get; set; }
-        //string Hash { get; set; }
-        //Uri Location { get; set; }
-        //type? git / webdav / svn?
     }
 }

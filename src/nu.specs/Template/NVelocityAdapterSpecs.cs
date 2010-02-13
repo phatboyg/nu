@@ -13,14 +13,14 @@
 namespace nu.Specs.Model.Template
 {
     using System.IO;
-    using core.SubSystems.Templating;
+    using core.Templating;
     using NUnit.Framework;
 
     [TestFixture]
     public class NVelocityAdapterSpecs
     {
-        ITemplateProcessor processor;
-        ITemplateContext context;
+        TemplateProcessor processor;
+        TemplateContext context;
 
         [SetUp]
         protected void Before_each_spec()

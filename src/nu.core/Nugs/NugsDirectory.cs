@@ -10,26 +10,14 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.FileSystem
+namespace nu.core.Nugs
 {
-    using System.IO;
+    using FileSystem;
 
-    public class PathAdapter : IPath
+    public interface NugsDirectory :
+        Directory
     {
-        public string Combine(string firstPath, string secondPath)
-        {
-            return Path.Combine(firstPath, secondPath);
-        }
-
-        public char DirectorySeparatorChar
-        {
-            get { return Path.DirectorySeparatorChar; }
-        }
-
-
-        public string GetDirectoryName(string path)
-        {
-            return Path.GetDirectoryName(path);
-        }
+        NugPackage GetNug(string name);
+        Directory GetNugget(string name);
     }
 }

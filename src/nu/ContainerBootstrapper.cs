@@ -38,7 +38,7 @@ namespace nu
                 {
                     x.For<NuConventions>().Singleton().Use<DefaultNuConventions>();
 
-                    x.For<NugDirectory>().Singleton().Use<DotNetNugDirectory>();
+                    x.For<NugsDirectory>().Singleton().Use<DotNetNugsDirectory>();
 
                     x.For<DefaultsConfiguration>().Singleton().Use<FileBasedDefaultsConfiguration>();
 
@@ -47,8 +47,6 @@ namespace nu
                     x.For<ProjectConfiguration>().Singleton().Use<FileBasedProjectConfiguration>();
 
                     x.For<InstallationDirectory>().Singleton().Use<DotNetInstallationDirectory>();
-
-                    x.For<IPath>().Singleton().Use<PathAdapter>();
 
                     x.For<FileSystem>().Singleton().Use<DotNetFileSystem>();
                 });

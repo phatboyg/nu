@@ -12,23 +12,18 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Nugs
 {
-    using System.IO;
     using Configuration;
     using FileSystem;
-    using Model.Files.Package;
-    using Directory=nu.core.FileSystem.Directory;
-    using File=System.IO.File;
+    using spec;
 
-    public class DotNetNugDirectory :
+    public class DotNetNugsDirectory :
         DotNetDirectory,
-        NugDirectory
+        NugsDirectory
     {
-        readonly FileSystem _fileSystem;
 
-        public DotNetNugDirectory(FileSystem fileSystem, InstallationDirectory directory, NuConventions conventions)
+        public DotNetNugsDirectory(InstallationDirectory directory, NuConventions conventions)
             : base(directory.GetChildDirectory(conventions.NugsDirectoryName).Name)
         {
-            _fileSystem = fileSystem;
         }
 
         public NugPackage GetNug(string name)
@@ -44,10 +39,10 @@ namespace nu.core.Nugs
 
             foreach (var entry in m.Files)
             {
-                var nf = new NugFile() {Name = entry.Name};
+                var nf = new NugFile {Name = entry.Name};
 
                 //TODO: ACK!
-                target.GetChildFile(entry.Name).WorkWithStream(s=>nf.File = new MemoryStream(((MemoryStream)s).ToArray()));
+                target.GetChildFile(entry.Name).WorkWithStream(s => nf.File = new System.IO.MemoryStream(((System.IO.MemoryStream)s).ToArray()));
                 np.Files.Add(nf);
             }
 

@@ -10,25 +10,13 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Nugs
+namespace nu.core.Nugs.spec
 {
     using System;
-    using System.Collections.Generic;
-    using FileSystem;
 
     [Serializable]
-    public class Manifest
+    public class ManifestEntry
     {
-        public Manifest()
-        {
-            Files = new List<ManifestEntry>();
-        }
-
         public string Name { get; set; }
-        public string Version { get; set; }
-        public string Summary { get; set; }
-        public string MinimumFramework { get; set; }
-        public IList<Dependency> Dependencies { get; set; }
-        public IList<ManifestEntry> Files { get; set; }
     }
 }

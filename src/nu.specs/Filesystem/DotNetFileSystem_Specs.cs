@@ -23,8 +23,7 @@ namespace nu.Specs.Filesystem
         public void Overwrite_Files()
         {
             var conv = new DefaultNuConventions();
-            var path = new PathAdapter();
-            var fs = new DotNetFileSystem(path, conv);
+            var fs = new DotNetFileSystem(conv);
 
             fs.Write(@".\temp.txt", "hi123");
             Assert.AreEqual(fs.ReadToEnd(@".\temp.txt"), "hi123");
