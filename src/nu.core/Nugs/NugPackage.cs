@@ -13,7 +13,6 @@
 namespace nu.core.Nugs
 {
     using System.Collections.Generic;
-    using Model.Files.Package;
 
     public class NugPackage
     {

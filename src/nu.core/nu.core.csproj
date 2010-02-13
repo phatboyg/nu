@@ -178,8 +178,6 @@
     <Compile Include="Project\IProjectManifest.cs" />
     <Compile Include="Templating\ITemplateContext.cs" />
     <Compile Include="Templating\ITemplateProcessor.cs" />
-    <Compile Include="FileSystem\IPath.cs" />
-    <Compile Include="FileSystem\PathAdapter.cs" />
     <Compile Include="Network\Http.cs" />
   </ItemGroup>
   <ItemGroup>

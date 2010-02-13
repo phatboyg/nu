@@ -15,9 +15,7 @@ namespace nu.core.Nugs
     using System.IO;
     using Configuration;
     using FileSystem;
-    using Model.Files.Package;
     using Directory=nu.core.FileSystem.Directory;
-    using File=System.IO.File;
 
     public class DotNetNugDirectory :
         DotNetDirectory,
@@ -44,10 +42,10 @@ namespace nu.core.Nugs
 
             foreach (var entry in m.Files)
             {
-                var nf = new NugFile() {Name = entry.Name};
+                var nf = new NugFile {Name = entry.Name};
 
                 //TODO: ACK!
-                target.GetChildFile(entry.Name).WorkWithStream(s=>nf.File = new MemoryStream(((MemoryStream)s).ToArray()));
+                target.GetChildFile(entry.Name).WorkWithStream(s => nf.File = new MemoryStream(((MemoryStream)s).ToArray()));
                 np.Files.Add(nf);
             }
 

@@ -22,11 +22,9 @@ namespace nu.core.FileSystem
     {
         readonly NuConventions _conventions;
         readonly ILogger _logger = Logger.GetLogger<DotNetFileSystem>();
-        readonly IPath _path;
 
-        public DotNetFileSystem(IPath path, NuConventions conventions)
+        public DotNetFileSystem(NuConventions conventions)
         {
-            _path = path;
             _conventions = conventions;
         }
 
@@ -139,12 +137,12 @@ namespace nu.core.FileSystem
 
         public string Combine(string firstPath, string secondPath)
         {
-            return _path.Combine(firstPath, secondPath);
+            return Path.Combine(firstPath, secondPath);
         }
 
         public char DirectorySeparatorChar
         {
-            get { return _path.DirectorySeparatorChar; }
+            get { return Path.DirectorySeparatorChar; }
         }
 
         public string[] GetDirectories(string path)

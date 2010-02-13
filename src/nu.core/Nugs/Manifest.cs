@@ -14,7 +14,6 @@ namespace nu.core.Nugs
 {
     using System;
     using System.Collections.Generic;
-    using FileSystem;
 
     [Serializable]
     public class Manifest
