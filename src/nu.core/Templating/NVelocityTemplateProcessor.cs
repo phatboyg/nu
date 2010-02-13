@@ -10,7 +10,7 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.SubSystems.Templating
+namespace nu.core.Templating
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -22,25 +22,25 @@ namespace nu.core.SubSystems.Templating
 
     public class NVelocityTemplateProcessor :
         VelocityEngine,
-        ITemplateProcessor
+        TemplateProcessor
     {
         public NVelocityTemplateProcessor()
         {
             Init();
         }
 
-        public ITemplateContext CreateTemplateContext()
+        public TemplateContext CreateTemplateContext()
         {
-            return new TemplateContext();
+            return new NVelocityTemplateContext();
         }
 
-        public string Process(string template, ITemplateContext context)
+        public string Process(nu.core.FileSystem.File template, TemplateContext context)
         {
             using (var writer = new StringWriter())
             {
                 try
                 {
-                    Evaluate(CreateNVelocityContext(context.Items), writer, "nu", template);
+                    Evaluate(CreateNVelocityContext(context.Items), writer, "nu", template.Path);
                 }
                 catch (ParseErrorException pe)
                 {

@@ -13,10 +13,10 @@
 namespace nu.core.Project.Transformation
 {
     using FileSystem;
-    using SubSystems.Templating;
+    using Templating;
 
     public abstract class AbstractTransformationElement :
-        ITransformationElement
+        TransformationElement
     {
         protected const string DIRECTORY_KEY = "Directory";
         protected const string DIRECTORY_SEPARATOR_KEY = "PathSeparator";
@@ -24,10 +24,10 @@ namespace nu.core.Project.Transformation
 
         public abstract bool Transform(IProjectManifest templateManifest, IProjectEnvironment environment, IProjectEnvironment templateEnvironment);
 
-        public virtual ITemplateContext BuildTemplateContext(FileSystem fileSystem,
-                                                             ITemplateProcessor templateProcessor, IProjectEnvironment environment)
+        public virtual TemplateContext BuildTemplateContext(FileSystem fileSystem,
+                                                             TemplateProcessor templateProcessor, IProjectEnvironment environment)
         {
-            ITemplateContext context = templateProcessor.CreateTemplateContext();
+            TemplateContext context = templateProcessor.CreateTemplateContext();
             context.Items[PROJECT_KEY] = environment.ProjectName;
             context.Items[DIRECTORY_KEY] = environment.ProjectDirectory;
             context.Items[DIRECTORY_SEPARATOR_KEY] = fileSystem.DirectorySeparatorChar;
@@ -35,11 +35,11 @@ namespace nu.core.Project.Transformation
         }
     }
 
-    public interface ITransformationElement
+    public interface TransformationElement
     {
         bool Transform(IProjectManifest templateManifest, IProjectEnvironment environment, IProjectEnvironment templateEnvironment);
 
-        ITemplateContext BuildTemplateContext(FileSystem fileSystem,
-                                              ITemplateProcessor templateProcessor, IProjectEnvironment environment);
+        TemplateContext BuildTemplateContext(FileSystem fileSystem,
+                                              TemplateProcessor templateProcessor, IProjectEnvironment environment);
     }
 }

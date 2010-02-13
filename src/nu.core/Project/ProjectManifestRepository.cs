@@ -12,44 +12,13 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Project
 {
-    public class ProjectManifestRepository :
-        IProjectManifestRepository
+    public interface ProjectManifestRepository
     {
-        readonly IProjectManifestStore _store;
-
-        public ProjectManifestRepository(IProjectManifestStore store)
-        {
-            _store = store;
-        }
-
-        public virtual IProjectManifest LoadProjectManifest(IProjectEnvironment environment)
-        {
-            return _store.Load(environment);
-        }
-
-        public virtual void SaveProjectManifest(IProjectManifest projectManifest, IProjectEnvironment environment)
-        {
-            _store.Save(environment, projectManifest);
-        }
-
-        public virtual bool ManifestExists(IProjectEnvironment environment)
-        {
-            return _store.Exists(environment);
-        }
-
-        public virtual string GetProjectDirectory(IProjectEnvironment environment)
-        {
-            return _store.GetProjectDirectory(environment);
-        }
-
-        public virtual string GetProjectName(IProjectEnvironment environment)
-        {
-            return _store.GetProjectName(environment);
-        }
-
-        public virtual string GetManifestPath(IProjectEnvironment environment)
-        {
-            return _store.GetManifestPath(environment);
-        }
+        IProjectManifest LoadProjectManifest(IProjectEnvironment environment);
+        void SaveProjectManifest(IProjectManifest projectManifest, IProjectEnvironment environment);
+        bool ManifestExists(IProjectEnvironment environment);
+        string GetProjectDirectory(IProjectEnvironment environment);
+        string GetProjectName(IProjectEnvironment environment);
+        string GetManifestPath(IProjectEnvironment environment);
     }
 }

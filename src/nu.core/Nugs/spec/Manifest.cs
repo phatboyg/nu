@@ -10,11 +10,24 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Project.Transformation
+namespace nu.core.Nugs.spec
 {
-    public interface IProjectTransformationPipeline
+    using System;
+    using System.Collections.Generic;
+
+    [Serializable]
+    public class Manifest
     {
-        void Process(IProjectManifest templateManifest, IProjectEnvironment environment,
-                     IProjectEnvironment templateEnvironment);
+        public Manifest()
+        {
+            Files = new List<ManifestEntry>();
+        }
+
+        public string Name { get; set; }
+        public string Version { get; set; }
+        public string Summary { get; set; }
+        public string MinimumFramework { get; set; }
+        public IList<Dependency> Dependencies { get; set; }
+        public IList<ManifestEntry> Files { get; set; }
     }
 }

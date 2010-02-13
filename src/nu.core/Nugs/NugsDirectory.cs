@@ -12,11 +12,12 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Nugs
 {
-    using System;
+    using FileSystem;
 
-    [Serializable]
-    public class ManifestEntry
+    public interface NugsDirectory :
+        Directory
     {
-        public string Name { get; set; }
+        NugPackage GetNug(string name);
+        Directory GetNugget(string name);
     }
 }

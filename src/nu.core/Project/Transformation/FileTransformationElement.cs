@@ -17,16 +17,16 @@ namespace nu.core.Project.Transformation
     using DTO;
     using FileSystem;
     using Resources;
-    using SubSystems.Templating;
+    using Templating;
 
     public class FileTransformationElement : 
         AbstractTransformationElement
     {
         readonly FileSystem _fileSystem;
-        readonly IProjectManifestRepository _manifestRepository;
-        readonly ITemplateProcessor _processor;
+        readonly ProjectManifestRepository _manifestRepository;
+        readonly TemplateProcessor _processor;
 
-        public FileTransformationElement(ITemplateProcessor processor, FileSystem fileSystem, IProjectManifestRepository manifestRepository)
+        public FileTransformationElement(TemplateProcessor processor, FileSystem fileSystem, ProjectManifestRepository manifestRepository)
         {
             _processor = processor;
             _fileSystem = fileSystem;
@@ -36,7 +36,7 @@ namespace nu.core.Project.Transformation
         public override bool Transform(IProjectManifest templateManifest, IProjectEnvironment environment, IProjectEnvironment templateEnvironment)
         {
             string rootDirectory = _manifestRepository.GetProjectDirectory(environment);
-            ITemplateContext context = BuildTemplateContext(_fileSystem, _processor, environment);
+            TemplateContext context = BuildTemplateContext(_fileSystem, _processor, environment);
             foreach (FileDTO file in templateManifest.Files)
             {
                 string templateRoot = _manifestRepository.GetProjectDirectory(templateEnvironment);

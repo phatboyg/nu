@@ -14,7 +14,7 @@ namespace nu.Specs.Nugs
 {
     using System;
     using core.Configuration;
-    using core.Nugs;
+    using core.Nugs.spec;
     using NUnit.Framework;
 
     [TestFixture]

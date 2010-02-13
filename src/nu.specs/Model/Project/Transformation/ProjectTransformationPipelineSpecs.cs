@@ -21,7 +21,7 @@ namespace nu.Specs.Model.Project.Transformation
         [Test]
         public void Should_accept_transformation_elements()
         {
-            var pipeline = new ProjectTransformationPipeline(new AbstractTransformationElement[] {});
+            var pipeline = new DefaultProjectTransformationPipeline(new AbstractTransformationElement[] {});
             Assert.That(pipeline, Is.Not.Null);
         }
 
@@ -41,7 +41,7 @@ namespace nu.Specs.Model.Project.Transformation
             Expect.Call(firstTrueElement.Transform(null, null, null)).Return(true);
             Expect.Call(firstFalseElement.Transform(null, null, null)).Return(false);
 
-            var pipeline = new ProjectTransformationPipeline(
+            var pipeline = new DefaultProjectTransformationPipeline(
                 new[] {firstTrueElement, firstFalseElement, secondTrueElement});
             pipeline.Process(null, null, null);
 

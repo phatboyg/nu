@@ -38,7 +38,7 @@ namespace nu
                 {
                     x.For<NuConventions>().Singleton().Use<DefaultNuConventions>();
 
-                    x.For<NugDirectory>().Singleton().Use<DotNetNugDirectory>();
+                    x.For<NugsDirectory>().Singleton().Use<DotNetNugsDirectory>();
 
                     x.For<DefaultsConfiguration>().Singleton().Use<FileBasedDefaultsConfiguration>();
 
