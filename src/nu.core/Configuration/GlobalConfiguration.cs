@@ -21,6 +21,5 @@ namespace nu.core.Configuration
         Configuration
     {
         Directory WorkingDirectory { get; }
-        Directory ExtensionsDirectory { get; }
     }
 }

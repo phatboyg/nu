@@ -23,8 +23,10 @@ namespace nu.core.FileSystem
         public ZippedFile(ZipPathName name)
         {
             // TODO FUCKED Name = name;
+            this.PathName = name;
         }
 
+        public PathName PathName { get; set; }
         public FileName Name { get; set; }
 
         public bool Exists()
@@ -57,7 +59,7 @@ namespace nu.core.FileSystem
 
         public string Path
         {
-            get { return Name.ToString(); }
+            get { return PathName.GetPath(); }
         }
 
         public Directory Parent

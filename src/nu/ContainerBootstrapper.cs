@@ -19,6 +19,7 @@ namespace nu
     using core.Configuration;
     using core.FileSystem;
     using core.Nugs;
+    using Magnum;
     using Magnum.InterfaceExtensions;
     using Magnum.Logging;
     using StructureMap;
@@ -39,14 +40,11 @@ namespace nu
                     x.For<NuConventions>().Singleton().Use<DefaultNuConventions>();
 
                     x.For<NugsDirectory>().Singleton().Use<DotNetNugsDirectory>();
+                    x.For<InstallationDirectory>().Singleton().Use<DotNetInstallationDirectory>();
 
                     x.For<DefaultsConfiguration>().Singleton().Use<FileBasedDefaultsConfiguration>();
-
                     x.For<GlobalConfiguration>().Singleton().Use<FileBasedGlobalConfiguration>();
-
                     x.For<ProjectConfiguration>().Singleton().Use<FileBasedProjectConfiguration>();
-
-                    x.For<InstallationDirectory>().Singleton().Use<DotNetInstallationDirectory>();
 
                     x.For<FileSystem>().Singleton().Use<DotNetFileSystem>();
                 });
@@ -104,20 +102,27 @@ namespace nu
 
         void ScanForExtensions(IContainer container)
         {
-            var configuration = container.GetInstance<GlobalConfiguration>();
+            var nugsDirectory = container.GetInstance<NugsDirectory>();
 
             container.Configure(x =>
                 {
                     x.Scan(scan =>
                         {
-                            _log.Debug(d => d.Write("Scanning for extensions in {0}", configuration.ExtensionsDirectory.Name));
+                            _log.Debug(d => d.Write("Scanning for extensions in {0}", nugsDirectory.Path));
 
-                            if(!configuration.ExtensionsDirectory.Exists())
-                                _log.Warn("The extension directory doesn't exist");
+                            if(!nugsDirectory.Exists())
+                                _log.Warn("The nugs directory doesn't exist");
 
                             scan.AssemblyContainingType<Command>();
 
-                            scan.AssembliesFromPath(configuration.ExtensionsDirectory.Name.ToString());
+                            var nugextensions = from d in nugsDirectory.GetDirectories()
+                                                where d.GetChildDirectory("extensions").Exists()
+                                                select d.GetChildDirectory("extensions");
+
+                            nugextensions.Each(dd =>
+                                {
+                                    scan.AssembliesFromPath(dd.Path);
+                                });
 
                             scan.Convention<ExtensionConvention>();
                         });

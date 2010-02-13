@@ -47,11 +47,6 @@ namespace nu.core.Configuration
             get { return FileSystem.GetCurrentDirectory(); }
         }
 
-        public Directory ExtensionsDirectory
-        {
-            get { return NuInstallDirectory.GetChildDirectory(_conventions.ExtensionsDirectoryName); }
-        }
-
         string GetDefaultConfigurationValue(string key)
         {
             _logger.Debug(x => x.Write("Falling back to DEFAULTS for key '{0}'", key));

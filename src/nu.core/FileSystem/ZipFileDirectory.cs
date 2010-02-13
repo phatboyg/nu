@@ -54,7 +54,7 @@ namespace nu.core.FileSystem
 
         public string Path
         {
-            get { return Name.ToString(); }
+            get { return PathName.GetPath(); }
         }
 
         public File GetChildFile(string name)
