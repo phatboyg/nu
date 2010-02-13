@@ -157,9 +157,9 @@
     <Compile Include="Project\Transformation\IProjectTransformationPipeline.cs" />
     <Compile Include="Project\Transformation\ProjectTransformationPipeline.cs" />
     <Compile Include="Remotes\Catalogue.cs" />
-    <Compile Include="Remotes\CatalogueEntry.cs" />
-    <Compile Include="Remotes\LocalCatalogue.cs" />
-    <Compile Include="Remotes\RemoteCatalogue.cs" />
+    <Compile Include="Remotes\ExternalLinks.cs" />
+    <Compile Include="Remotes\Remote.cs" />
+    <Compile Include="Remotes\FileBasedLocalCatalogue.cs" />
     <Compile Include="Templating\NVelocityTemplateProcessor.cs" />
     <Compile Include="Templating\TemplateContext.cs" />
     <Compile Include="Resources\nuresources.Designer.cs">

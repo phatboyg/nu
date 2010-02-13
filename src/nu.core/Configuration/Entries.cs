@@ -19,7 +19,6 @@ namespace nu.core.Configuration
 	using System.Linq;
 	using Magnum;
 
-	[Serializable]
     [DebuggerDisplay("Entries: {Count()}")]
 	public class Entries :
 		IEnumerable<Entry>
@@ -92,7 +91,7 @@ namespace nu.core.Configuration
 			return _items.Any(x => x.Key == key);
 		}
 
-        private int Count()
+        int Count()
         {
             return _items.Count;
         }

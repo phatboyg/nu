@@ -12,18 +12,27 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Remotes
 {
-    using FileSystem;
+    using System;
+    using System.Diagnostics;
 
-    public class LocalCatalogue :
-        Catalogue
+    [Serializable]
+    [DebuggerDisplay("{Alias}:{Address}")]
+    public class Remote
     {
-        InstallationDirectory _installLocation;
-
-        public LocalCatalogue(InstallationDirectory installLocation)
+        public Remote(string alias)
         {
-            _installLocation = installLocation;
+            Alias = alias;
         }
 
+        public string Alias { get; set; }
+        public Uri Address { get; set; }
 
+        public void SetValue(Uri value)
+        {
+            if (Address == value)
+                return;
+
+            Address = value;
+        }
     }
 }
