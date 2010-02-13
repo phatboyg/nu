@@ -144,11 +144,6 @@
     <Compile Include="Remotes\FileBasedLocalCatalogue.cs" />
     <Compile Include="Templating\NVelocityTemplateProcessor.cs" />
     <Compile Include="Templating\NVelocityTemplateContext.cs" />
-    <Compile Include="Resources\nuresources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>nuresources.resx</DependentUpon>
-    </Compile>
     <Compile Include="FileSystem\StreamExtensions.cs" />
     <Compile Include="Configuration\Entries.cs" />
     <Compile Include="Configuration\Entry.cs" />
@@ -159,13 +154,6 @@
     <Compile Include="Templating\TemplateContext.cs" />
     <Compile Include="Templating\TemplateProcessor.cs" />
     <Compile Include="Network\Http.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\nuresources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>nuresources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Nugs\README.txt" />
