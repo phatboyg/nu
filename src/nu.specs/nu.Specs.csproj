@@ -71,8 +71,7 @@
     <Compile Include="Filesystem\DotNetFileSystem_Specs.cs" />
     <Compile Include="Filesystem\ZippedFile_specs.cs" />
     <Compile Include="Filesystem\ZipPlay.cs" />
-    <Compile Include="Model\Project\Transformation\ProjectTransformationPipelineSpecs.cs" />
-    <Compile Include="Model\Template\NVelocityAdapterSpecs.cs" />
+    <Compile Include="Template\NVelocityAdapterSpecs.cs" />
     <Compile Include="Nugs\Serialization_Specs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

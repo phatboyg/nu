@@ -17,6 +17,6 @@ namespace nu.core.Templating
     public interface TemplateProcessor
     {
         TemplateContext CreateTemplateContext();
-        string Process(File template, TemplateContext context);
+        string Process(string template, TemplateContext context);
     }
 }

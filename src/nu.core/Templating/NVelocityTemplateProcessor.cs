@@ -34,13 +34,13 @@ namespace nu.core.Templating
             return new NVelocityTemplateContext();
         }
 
-        public string Process(nu.core.FileSystem.File template, TemplateContext context)
+        public string Process(string template, TemplateContext context)
         {
             using (var writer = new StringWriter())
             {
                 try
                 {
-                    Evaluate(CreateNVelocityContext(context.Items), writer, "nu", template.Path);
+                    Evaluate(CreateNVelocityContext(context.Items), writer, "nu", template);
                 }
                 catch (ParseErrorException pe)
                 {
