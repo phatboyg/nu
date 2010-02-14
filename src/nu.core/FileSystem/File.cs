@@ -12,18 +12,17 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-    using System;
+	using System;
+	using System.IO;
 
-    public interface File
-    {
-        FileName Name { get; }
+	public interface File
+	{
+		FileName Name { get; }
 
-        bool Exists();
+		bool Exists();
 
-        string ReadAllText();
+		string ReadAllText();
 
-        void WorkWithStream(Action<System.IO.Stream> action);
-
-        string Path { get; }
-    }
+		void WorkWithStream(Action<Stream> action);
+	}
 }

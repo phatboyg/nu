@@ -67,7 +67,7 @@ namespace nu.core.FileSystem
 
         public void Delete(Directory directory)
         {
-            System.IO.Directory.Delete(directory.Path, true);
+            System.IO.Directory.Delete(directory.Name.GetPath(), true);
         }
 
         public string GetTempFileName()
@@ -116,7 +116,7 @@ namespace nu.core.FileSystem
 
         public void CreateDirectory(Directory directoryPath)
         {
-            System.IO.Directory.CreateDirectory(directoryPath.Path);
+            System.IO.Directory.CreateDirectory(directoryPath.Name.GetPath());
         }
 
         public void CreateHiddenDirectory(string directoryPath)
@@ -165,15 +165,15 @@ namespace nu.core.FileSystem
             Directory nu = dir.GetChildDirectory(_conventions.ProjectDirectoryName);
             CreateDirectory(nu);
            
-            _logger.Debug(x => x.Write("Creating .nu directory at '{0}'", nu.Path));
+            _logger.Debug(x => x.Write("Creating .nu directory at '{0}'", nu.Name));
             
             CreateFile(nu.GetChildFile("nu.conf"));
-            _logger.Debug(x => x.Write("Crating nu.conf at '{0}'", nu.Path));
+            _logger.Debug(x => x.Write("Crating nu.conf at '{0}'", nu.Name));
         }
 
         public void CreateFile(File file)
         {
-            System.IO.File.WriteAllBytes(file.Path, new byte[0]);
+            System.IO.File.WriteAllBytes(file.Name.GetPath(), new byte[0]);
         }
 
         public Directory GetCurrentDirectory()

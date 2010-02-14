@@ -21,14 +21,33 @@ namespace nu.core.FileSystem
     public interface Directory
     {
         DirectoryName Name { get; }
-        string Path { get; }
+
         Directory Parent { get; }
         bool HasParentDir { get; }
-        IEnumerable<File> GetFiles();
+        
+		/// <summary>
+		/// Returns all of the files contained in the directory
+		/// </summary>
+		/// <returns></returns>
+		IEnumerable<File> GetFiles();
+
+		/// <summary>
+		/// Returns all of the subdirectories in the directory
+		/// </summary>
+		/// <returns></returns>
         IEnumerable<Directory> GetDirectories();
-        Directory GetChildDirectory(string name);
-        bool Exists();
-        File GetChildFile(string name);
-        bool IsRoot();
+
+		/// <summary>
+		/// Checks if the directory exists
+		/// </summary>
+		/// <returns>True if the directory exists, otherwise false</returns>
+		bool Exists();
+
+
+		Directory GetChildDirectory(string name);
+
+		File GetChildFile(string name);
+        
+		bool IsRoot();
     }
 }

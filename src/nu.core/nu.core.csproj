@@ -87,9 +87,9 @@
     <Compile Include="Configuration\FileBasedDefaultsConfiguration.cs" />
     <Compile Include="ContainerConfigurator.cs" />
     <Compile Include="Extensions\ExtensionPoint.cs" />
-    <Compile Include="FileSystem\AbsoluteFileName.cs" />
+    <Compile Include="FileSystem\Internal\AbsoluteFileName.cs" />
     <Compile Include="FileSystem\FileName.cs" />
-    <Compile Include="FileSystem\RelativeFileName.cs" />
+    <Compile Include="FileSystem\Internal\RelativeFileName.cs" />
     <Compile Include="FileSystem\ZipFileDirectory.cs" />
     <Compile Include="FileSystem\ZipFileName.cs" />
     <Compile Include="FileSystem\ZippedDirectory.cs" />
@@ -99,8 +99,8 @@
     <Compile Include="FileSystem\ZippedPath.cs" />
     <Compile Include="Network\DavClient.cs" />
     <Compile Include="Network\DavCredentials.cs" />
-    <Compile Include="FileSystem\AbsoluteDirectoryName.cs" />
-    <Compile Include="FileSystem\AbsolutePathName.cs" />
+    <Compile Include="FileSystem\Internal\AbsoluteDirectoryName.cs" />
+    <Compile Include="FileSystem\Internal\AbsolutePathName.cs" />
     <Compile Include="FileSystem\Directory.cs" />
     <Compile Include="Configuration\GlobalConfiguration.cs" />
     <Compile Include="Configuration\FileBasedGlobalConfiguration.cs" />
@@ -120,7 +120,7 @@
     <Compile Include="FileSystem\File.cs" />
     <Compile Include="FileSystem\PathName.cs" />
     <Compile Include="FileSystem\InstallationDirectory.cs" />
-    <Compile Include="FileSystem\RelativePathName.cs" />
+    <Compile Include="FileSystem\Internal\RelativePathName.cs" />
     <Compile Include="Network\Client.cs" />
     <Compile Include="Network\DavRemoteDirectory.cs" />
     <Compile Include="Network\DavRemoteResource.cs" />
@@ -135,7 +135,7 @@
     <Compile Include="Nugs\spec\Manifest.cs" />
     <Compile Include="Nugs\spec\ManifestEntry.cs" />
     <Compile Include="Configuration\JsonUtil.cs" />
-    <Compile Include="FileSystem\RelativeDirectoryName.cs" />
+    <Compile Include="FileSystem\Internal\RelativeDirectoryName.cs" />
     <Compile Include="Nugs\NugsDirectory.cs" />
     <Compile Include="Nugs\NugFile.cs" />
     <Compile Include="Nugs\Nug.cs" />

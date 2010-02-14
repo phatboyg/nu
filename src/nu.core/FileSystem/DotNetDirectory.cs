@@ -14,93 +14,78 @@ namespace nu.core.FileSystem
 {
 	using System;
 	using System.Collections.Generic;
-    using System.IO;
+	using System.IO;
+	using System.Linq;
 
-    public class DotNetDirectory :
-        Directory
-    {
-        public DotNetDirectory(DirectoryName directoryName)
-        {
-            Name = directoryName;
-        }
+	public class DotNetDirectory :
+		Directory
+	{
+		public DotNetDirectory(DirectoryName directoryName)
+		{
+			Name = directoryName;
+		}
 
-        public IEnumerable<File> GetFiles()
-        {
-                foreach (var file in System.IO.Directory.GetFiles(Path))
-                {
-                	yield return new DotNetFile(FileName.GetFileName(file));
-                }
-                yield break;
-           
-        }
+		public IEnumerable<File> GetFiles()
+		{
+			return System.IO.Directory.GetFiles(Name.GetPath())
+				.Select(file => (File)new DotNetFile(FileName.GetFileName(file)));
+		}
 
-        public IEnumerable<Directory> GetDirectories()
-        {
-                foreach (var dir in System.IO.Directory.GetDirectories(Path))
-                {
-                    yield return new DotNetDirectory(DirectoryName.GetDirectoryName(dir));
-                }
+		public IEnumerable<Directory> GetDirectories()
+		{
+			return System.IO.Directory.GetDirectories(Name.GetPath())
+				.Select(directory => (Directory)new DotNetDirectory(DirectoryName.GetDirectoryName(directory)));
+		}
 
-                yield break;
-            
-        }
+		public Directory GetChildDirectory(string name)
+		{
+			DirectoryName directoryName = Name.Combine(name);
 
-        public Directory GetChildDirectory(string name)
-        {
-            DirectoryName directoryName = Name.Combine(name);
+			return new DotNetDirectory(directoryName);
+		}
 
-            return new DotNetDirectory(directoryName);
-        }
+		public DirectoryName Name { get; private set; }
 
-        public DirectoryName Name { get; private set; }
+		public bool Exists()
+		{
+			return System.IO.Directory.Exists(Name.ToString());
+		}
 
-        public bool Exists()
-        {
-            return System.IO.Directory.Exists(Name.ToString());
-        }
+		public File GetChildFile(string name)
+		{
+			return new DotNetFile(Name.GetFileName(name));
+		}
 
-        public string Path
-        {
-            get { return Name.ToString(); }
-        }
-
-        public File GetChildFile(string name)
-        {
-        	var pathName = Name.Name.Combine(name);
-
-        	return new DotNetFile(FileName.GetFileName(pathName));
-        }
-
-        public Directory Parent
-        {
-            get
-            {
-                var di = new DirectoryInfo(Path);
+		public Directory Parent
+		{
+			get
+			{
+				var di = new DirectoryInfo(Name.GetPath());
 				if (di.Parent == null)
 					throw new InvalidOperationException("No parent folder: " + di.FullName);
 
-                return new DotNetDirectory(DirectoryName.GetDirectoryName(di.Parent.FullName));
-            }
-        }
+				return new DotNetDirectory(DirectoryName.GetDirectoryName(di.Parent.FullName));
+			}
+		}
 
-        public bool HasParentDir
-        {
-            get
-            {
-                var di = new DirectoryInfo(Path);
-                return di.Parent != null;
-            }
-        }
+		public bool HasParentDir
+		{
+			get
+			{
+				var di = new DirectoryInfo(Name.GetPath());
+				return di.Parent != null;
+			}
+		}
 
-        public bool IsRoot()
-        {
-            var di = new DirectoryInfo(Path);
-            return di.Root.Name.Replace("\\", "").Equals(Path);
-        }
+		public bool IsRoot()
+		{
+			var di = new DirectoryInfo(Name.GetPath());
+			return di.Root.Name.Replace("\\", "").Equals(Name.GetPath());
+		}
 
-        public override string ToString()
-        {
-            return Path;
-        }
-    }
+		public override string ToString()
+		{
+			return Name.GetPath();
+		}
+	}
 }

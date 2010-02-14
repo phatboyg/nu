@@ -14,6 +14,7 @@ namespace nu.core.Nugs
 {
     using Configuration;
     using FileSystem;
+    using FileSystem.Internal;
     using spec;
 
     public class DotNetNugsDirectory :
@@ -56,7 +57,7 @@ namespace nu.core.Nugs
             if (IsADir(name))
                 return new DotNetDirectory(base.Name.Combine(name));
             else
-                return new ZipFileDirectory(new AbsolutePathName(System.IO.Path.Combine(Path, name)));
+                return new ZipFileDirectory(new AbsolutePathName(System.IO.Path.Combine(Name.GetPath(), name)));
         }
 
         public bool IsADir(string name)

@@ -108,7 +108,7 @@ namespace nu
                 {
                     x.Scan(scan =>
                         {
-                            _log.Debug(d => d.Write("Scanning for extensions in {0}", nugsDirectory.Path));
+                            _log.Debug(d => d.Write("Scanning for extensions in {0}", nugsDirectory.Name));
 
                             if(!nugsDirectory.Exists())
                                 _log.Warn("The nugs directory doesn't exist");
@@ -121,7 +121,7 @@ namespace nu
 
                             nugextensions.Each(dd =>
                                 {
-                                    scan.AssembliesFromPath(dd.Path);
+                                    scan.AssembliesFromPath(dd.Name.GetPath());
                                 });
 
                             scan.Convention<ExtensionConvention>();

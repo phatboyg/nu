@@ -18,7 +18,9 @@ namespace nu.core.FileSystem
         {
             foreach (File file in source.GetFiles())
             {
-                System.IO.File.Copy(file.Path, target.GetChildFile(file.Name.GetPath()).Path);
+            	var targetName = target.Name.GetFileName(file.Name.GetName());
+
+                System.IO.File.Copy(file.Name.GetPath(), targetName.GetPath());
             }
 
 

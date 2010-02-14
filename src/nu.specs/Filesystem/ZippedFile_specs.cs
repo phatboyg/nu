@@ -13,6 +13,7 @@
 namespace nu.Specs.Filesystem
 {
     using core.FileSystem;
+    using core.FileSystem.Internal;
     using NUnit.Framework;
 
     [TestFixture]
@@ -32,7 +33,7 @@ namespace nu.Specs.Filesystem
         public void GetChildDirectory()
         {
             var c = zf.GetChildDirectory("test");
-            Assert.AreEqual("nug.zip\\test", c.Path);
+            Assert.AreEqual("nug.zip\\test", c.Name.GetPath());
         }
 
 
@@ -58,7 +59,7 @@ namespace nu.Specs.Filesystem
         public void GetChildFile()
         {
             var c = zf.GetChildFile("ho.txt");
-            Assert.AreEqual("nug.zip\\ho.txt", c.Path);
+            Assert.AreEqual("nug.zip\\ho.txt", c.Name.GetPath());
         }
 
         [Test]

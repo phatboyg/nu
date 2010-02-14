@@ -43,7 +43,7 @@ namespace nu.extensions.add
             var lib = _projectConfiguration["project.librarydirectoryname"];
             var libDir  = _projectConfiguration.ProjectRoot.GetChildDirectory(lib);
 
-            _logger.Debug(x=>x.Write("'lib' dir is located at '{0}'", libDir.Path));
+            _logger.Debug(x=>x.Write("'lib' dir is located at '{0}'", libDir.Name));
             _fileSystem.CreateDirectory(libDir);
             var packageDir = libDir.GetChildDirectory(package.Name);
             _fileSystem.CreateDirectory(packageDir);
@@ -51,7 +51,7 @@ namespace nu.extensions.add
             foreach (var file in package.Files)
             {
                 var writeTo = packageDir.GetChildFile(file.Name);
-                _fileSystem.Write(writeTo.Path, file.File);
+                _fileSystem.Write(writeTo.Name.GetPath(), file.File);
             }
         }
     }

@@ -10,16 +10,14 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.FileSystem
+namespace nu.core.FileSystem.Internal
 {
 	using System;
 
-	public class RelativeDirectoryName :
+	public class AbsoluteDirectoryName :
 		DirectoryName
 	{
-		readonly string _path;
-
-		public RelativeDirectoryName(RelativePathName name)
+		public AbsoluteDirectoryName(AbsolutePathName name)
 		{
 			Name = name;
 		}
@@ -31,17 +29,29 @@ namespace nu.core.FileSystem
 
 		public override DirectoryName Combine(string path)
 		{
-			return InternalCombine(Name.Combine(path));
+			var pathName = Name.Combine(path) as AbsolutePathName;
+			if (pathName == null)
+				throw new InvalidOperationException("Unable to combine " + Name + " with " + path);
+
+			return new AbsoluteDirectoryName(pathName);
 		}
 
 		public override DirectoryName Combine(PathName child)
 		{
-			return InternalCombine(Name.Combine(child));
+			var pathName = Name.Combine(child) as AbsolutePathName;
+			if (pathName == null)
+				throw new InvalidOperationException("Unable to combine " + Name + " with " + child);
+
+			return new AbsoluteDirectoryName(pathName);
 		}
 
 		public override DirectoryName Combine(DirectoryName child)
 		{
-			return InternalCombine(Name.Combine(child.Name));
+			var pathName = Name.Combine(child.Name) as AbsolutePathName;
+			if (pathName == null)
+				throw new InvalidOperationException("Unable to combine " + Name + " with " + child);
+
+			return new AbsoluteDirectoryName(pathName);
 		}
 
 		public override string GetName()
@@ -52,15 +62,6 @@ namespace nu.core.FileSystem
 		public override string GetPath()
 		{
 			return Name.GetPath();
-		}
-
-		static DirectoryName InternalCombine(PathName combinedPathName)
-		{
-			var pathName = combinedPathName as RelativePathName;
-			if (pathName == null)
-				throw new InvalidOperationException("Unable to combine relative paths: " + combinedPathName);
-
-			return new RelativeDirectoryName(pathName);
 		}
 	}
 }

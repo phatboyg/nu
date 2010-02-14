@@ -13,6 +13,7 @@
 namespace nu.core.FileSystem
 {
 	using System.IO;
+	using Internal;
 
 	public abstract class PathName
 	{

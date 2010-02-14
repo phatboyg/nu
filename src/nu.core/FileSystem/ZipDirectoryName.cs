@@ -12,6 +12,8 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
+	using Internal;
+
 	public class ZipDirectoryName :
 		RelativeDirectoryName
 	{

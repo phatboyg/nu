@@ -16,14 +16,16 @@ namespace nu.core.FileSystem
     using System.IO;
     using System.Text;
     using ICSharpCode.SharpZipLib.Zip;
+    using Internal;
 
-    public class ZippedFile :
+	public class ZippedFile :
         File
     {
         public ZippedFile(ZipPathName name)
         {
             // TODO FUCKED Name = name;
             this.PathName = name;
+        	Name = FileName.GetFileName(name);
         }
 
         public PathName PathName { get; set; }

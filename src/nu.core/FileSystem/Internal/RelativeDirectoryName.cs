@@ -10,14 +10,14 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.FileSystem
+namespace nu.core.FileSystem.Internal
 {
 	using System;
 
-	public class AbsoluteDirectoryName :
+	public class RelativeDirectoryName :
 		DirectoryName
 	{
-		public AbsoluteDirectoryName(AbsolutePathName name)
+		public RelativeDirectoryName(RelativePathName name)
 		{
 			Name = name;
 		}
@@ -29,29 +29,17 @@ namespace nu.core.FileSystem
 
 		public override DirectoryName Combine(string path)
 		{
-			var pathName = Name.Combine(path) as AbsolutePathName;
-			if (pathName == null)
-				throw new InvalidOperationException("Unable to combine " + Name + " with " + path);
-
-			return new AbsoluteDirectoryName(pathName);
+			return InternalCombine(Name.Combine(path));
 		}
 
 		public override DirectoryName Combine(PathName child)
 		{
-			var pathName = Name.Combine(child) as AbsolutePathName;
-			if (pathName == null)
-				throw new InvalidOperationException("Unable to combine " + Name + " with " + child);
-
-			return new AbsoluteDirectoryName(pathName);
+			return InternalCombine(Name.Combine(child));
 		}
 
 		public override DirectoryName Combine(DirectoryName child)
 		{
-			var pathName = Name.Combine(child.Name) as AbsolutePathName;
-			if (pathName == null)
-				throw new InvalidOperationException("Unable to combine " + Name + " with " + child);
-
-			return new AbsoluteDirectoryName(pathName);
+			return InternalCombine(Name.Combine(child.Name));
 		}
 
 		public override string GetName()
@@ -62,6 +50,15 @@ namespace nu.core.FileSystem
 		public override string GetPath()
 		{
 			return Name.GetPath();
+		}
+
+		static DirectoryName InternalCombine(PathName combinedPathName)
+		{
+			var pathName = combinedPathName as RelativePathName;
+			if (pathName == null)
+				throw new InvalidOperationException("Unable to combine relative paths: " + combinedPathName);
+
+			return new RelativeDirectoryName(pathName);
 		}
 	}
 }

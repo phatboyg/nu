@@ -93,27 +93,27 @@ namespace nu.core.Configuration
 			_disposed = true;
 		}
 
-        Entries ReadExistingConfigurationFromFile(File configurationPath)
+        Entries ReadExistingConfigurationFromFile(File configurationFile)
 		{
-			_configurationPath = configurationPath;
+			_configurationPath = configurationFile;
 
-			if (!FileSystem.FileExists(configurationPath.Path))
+			if (!configurationFile.Exists())
 			{
-				_log.Debug(x => x.Write("No existing configuration file found: {0}", configurationPath.Path));
+				_log.Debug(x => x.Write("No existing configuration file found: {0}", configurationFile.Name));
 
 				return new Entries();
 			}
 
-			return new Entries(JsonUtil.Get<Entry[]>(FileSystem.ReadToEnd(configurationPath.Path)) ?? new Entry[0]);
+			return new Entries(JsonUtil.Get<Entry[]>(configurationFile.ReadAllText()) ?? new Entry[0]);
 		}
 
 		void WriteConfigurationToFile()
 		{
-			_log.Debug(x => x.Write("Saving configuration file: {0}", _configurationPath.Path));
+			_log.Debug(x => x.Write("Saving configuration file: {0}", _configurationPath.Name));
 
 			string json = JsonUtil.ToJson(Entries);
 
-			FileSystem.Write(_configurationPath.Path, json);
+			FileSystem.Write(_configurationPath.Name.ToString(), json);
 		}
 
 		~FileBasedConfiguration()

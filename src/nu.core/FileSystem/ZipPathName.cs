@@ -14,6 +14,7 @@ namespace nu.core.FileSystem
 {
 	using System;
 	using System.IO;
+	using Internal;
 
 	public class ZipPathName :
 		PathName

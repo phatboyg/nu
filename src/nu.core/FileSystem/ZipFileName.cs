@@ -13,6 +13,7 @@
 namespace nu.core.FileSystem
 {
 	using System;
+	using Internal;
 
 	public class ZipFileName :
 		RelativeFileName

@@ -50,7 +50,10 @@ namespace nu.core.FileSystem
             return System.IO.File.Exists(Path);
         }
 
-        public DirectoryName Name { get; set; }
+		public DirectoryName Name
+		{
+			get { return DirectoryName.GetDirectoryName(PathName); }
+		}
 
         public string Path
         {

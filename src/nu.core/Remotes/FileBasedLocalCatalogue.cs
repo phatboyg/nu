@@ -22,7 +22,7 @@ namespace nu.core.Remotes
     {
         readonly FileSystem _fileSystem;
         static readonly ILogger _log = Logger.GetLogger<FileBasedLocalCatalogue>();
-        File _path;
+        File _file;
         bool _disposed;
         bool _touched;
 
@@ -30,33 +30,34 @@ namespace nu.core.Remotes
         public FileBasedLocalCatalogue(FileSystem fileSystem, InstallationDirectory installLocation)
         {
             _fileSystem = fileSystem;
-            _path = installLocation.GetChildFile("catalogue.json");
-            RemoteCatalogues = ReadExistingDataFromFile(_path);
+            _file = installLocation.GetChildFile("catalogue.json");
+            RemoteCatalogues = ReadExistingDataFromFile(_file);
         }
 
         public ExternalLinks RemoteCatalogues { get; set; }
 
-        ExternalLinks ReadExistingDataFromFile(File path)
+        ExternalLinks ReadExistingDataFromFile(File file)
         {
-            _path = path;
+            _file = file;
 
-            if (!_fileSystem.FileExists(path.Path))
+            if (!file.Exists())
             {
-                _log.Debug(x => x.Write("No existing catalogue file found: {0}", path.Path));
+                _log.Debug(x => x.Write("No existing catalogue file found: {0}", file.Name));
 
                 return new ExternalLinks();
             }
 
-            return new ExternalLinks(JsonUtil.Get<Remote[]>(_fileSystem.ReadToEnd(path.Path)) ?? new Remote[0]);
+			return new ExternalLinks(JsonUtil.Get<Remote[]>(file.ReadAllText()) ?? new Remote[0]);
         }
 
         void WriteConfigurationToFile()
         {
-            _log.Debug(x => x.Write("Saving configuration file: {0}", _path.Path));
+			_log.Debug(x => x.Write("Saving configuration file: {0}", _file.Name));
 
             string json = JsonUtil.ToJson(RemoteCatalogues);
 
-            _fileSystem.Write(_path.Path, json);
+			// TODO: You need to write to the File interface, not using the _fileSystem
+			_fileSystem.Write(_file.Name.GetPath(), json);
         }
 
         public bool Contains(string key)

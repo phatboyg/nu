@@ -13,6 +13,7 @@
 namespace nu.core.FileSystem
 {
 	using System;
+	using Internal;
 
 	/// <summary>
 	/// A specialization of the PathName class for directories
@@ -37,9 +38,14 @@ namespace nu.core.FileSystem
 		public abstract string GetName();
 		public abstract string GetPath();
 
+		public FileName GetFileName(string child)
+		{
+			return FileName.GetFileName(Name.Combine(child));
+		}
+
 		public static DirectoryName GetDirectoryName(string name)
 		{
-			var directoryName = PathName.GetPathName(name);
+			PathName directoryName = PathName.GetPathName(name);
 			if (directoryName is RelativePathName)
 				return new RelativeDirectoryName(((RelativePathName)directoryName));
 
@@ -47,6 +53,11 @@ namespace nu.core.FileSystem
 				return new AbsoluteDirectoryName(((AbsolutePathName)directoryName));
 
 			throw new InvalidOperationException("Unable to convert path: " + name);
+		}
+
+		public static DirectoryName GetDirectoryName(PathName pathName)
+		{
+			return GetDirectoryName(pathName.GetPath());
 		}
 	}
 }

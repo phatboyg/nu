@@ -12,49 +12,44 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-    using System;
-    using System.IO;
+	using System;
+	using System.IO;
 
-    public class DotNetFile :
-        File
-    {
-        public DotNetFile(FileName name)
-        {
-            Name = name;
-        }
+	public class DotNetFile :
+		File
+	{
+		public DotNetFile(FileName name)
+		{
+			Name = name;
+		}
 
-        public FileName Name { get; set; }
+		public Directory Parent
+		{
+			get
+			{
+				var fi = new FileInfo(Name.GetPath());
+				return new DotNetDirectory(DirectoryName.GetDirectoryName(fi.DirectoryName));
+			}
+		}
 
-        public bool Exists()
-        {
-            return System.IO.File.Exists(Name.ToString());
-        }
+		public FileName Name { get; set; }
 
-        public string ReadAllText()
-        {
-            return System.IO.File.ReadAllText(Path);
-        }
+		public bool Exists()
+		{
+			return System.IO.File.Exists(Name.ToString());
+		}
 
-        public string Path
-        {
-            get { return Name.ToString(); }
-        }
+		public string ReadAllText()
+		{
+			return System.IO.File.ReadAllText(Name.GetPath());
+		}
 
-        public Directory Parent
-        {
-            get
-            {
-                var fi = new FileInfo(Path);
-                return new DotNetDirectory(DirectoryName.GetDirectoryName(fi.DirectoryName));
-            }
-        }
-
-        public void WorkWithStream(Action<Stream> action)
-        {
-            using(var ms = new MemoryStream(System.IO.File.ReadAllBytes(Path)))
-            {
-                action(ms);
-            }
-        }
-    }
+		public void WorkWithStream(Action<Stream> action)
+		{
+			using (FileStream stream = System.IO.File.OpenRead(Name.GetPath()))
+			{
+				action(stream);
+			}
+		}
+	}
 }

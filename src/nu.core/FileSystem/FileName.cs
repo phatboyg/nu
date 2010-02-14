@@ -13,6 +13,7 @@
 namespace nu.core.FileSystem
 {
 	using System;
+	using Internal;
 
 	/// <summary>
 	/// A specialization of the PathName class for files
@@ -47,6 +48,11 @@ namespace nu.core.FileSystem
 				return new AbsoluteFileName(((AbsolutePathName)pathName));
 
 			throw new InvalidOperationException("Unable to convert path: " + pathName);
+		}
+
+		public static FileName GetFileName(DirectoryName directoryName, string child)
+		{
+			return GetFileName(directoryName.Name.Combine(child));
 		}
 	}
 }
