@@ -12,71 +12,75 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Configuration
 {
-    using FileSystem;
-    using Magnum.Logging;
+	using FileSystem;
+	using Magnum.Logging;
 
-    public class FileBasedProjectConfiguration :
-        FileBasedConfiguration,
-        ProjectConfiguration
-    {
-        readonly NuConventions _conventions;
-        readonly GlobalConfiguration _globalConfiguration;
-        readonly ILogger _logger = Logger.GetLogger<FileBasedProjectConfiguration>();
+	public class FileBasedProjectConfiguration :
+		FileBasedConfiguration,
+		ProjectConfiguration
+	{
+		readonly NuConventions _conventions;
+		readonly GlobalConfiguration _globalConfiguration;
+		static readonly ILogger _logger = Logger.GetLogger<FileBasedProjectConfiguration>();
 
-        public FileBasedProjectConfiguration(FileSystem fileSystem, GlobalConfiguration globalConfiguration, NuConventions conventions)
-            : base(fileSystem, GetFile(fileSystem, conventions))
-        {
-            _globalConfiguration = globalConfiguration;
-            _conventions = conventions;
+		public FileBasedProjectConfiguration(FileSystem fileSystem, GlobalConfiguration globalConfiguration, NuConventions conventions)
+			: base(fileSystem, GetFile(fileSystem, conventions))
+		{
+			_globalConfiguration = globalConfiguration;
+			_conventions = conventions;
 
-            OnMissing = GetGlobalConfigurationValue;
-        }
+			OnMissing = GetGlobalConfigurationValue;
+		}
 
-        public Directory ProjectRoot
-        {
-            get
-            {
-                var a = WalkThePathLookingForNu(FileSystem.GetCurrentDirectory(), _conventions);
-                return a.Parent;
-            }
-        }
+		public Directory ProjectRoot
+		{
+			get
+			{
+				Directory a = WalkThePathLookingForNu(FileSystem.GetCurrentDirectory(), _conventions);
 
-        public Directory ProjectNuDirectory
-        {
-            get { return ProjectRoot.GetChildDirectory(_conventions.ProjectDirectoryName); }
-        }
+				_logger.Debug(x => x.Write("Project Root: {0}", a.Name));
+				return a.Parent;
+			}
+		}
 
-        string GetGlobalConfigurationValue(string key)
-        {
-            _logger.Debug(x => x.Write("Falling back to global config for key '{0}'", key));
-            return _globalConfiguration[key];
-        }
+		public Directory ProjectNuDirectory
+		{
+			get { return ProjectRoot.GetChildDirectory(_conventions.ProjectDirectoryName); }
+		}
 
-        public static File GetFile(FileSystem fileSystem, NuConventions conventions)
-        {
-            var a = WalkThePathLookingForNu(fileSystem.GetCurrentDirectory(), conventions);
-            return a.Parent.GetChildFile(conventions.ConfigurationFileName);
-        }
+		string GetGlobalConfigurationValue(string key)
+		{
+			_logger.Debug(x => x.Write("Falling back to global config for key '{0}'", key));
+			return _globalConfiguration[key];
+		}
 
-        static Directory WalkThePathLookingForNu(Directory direc, NuConventions conventions)
-        {
-            Directory result = null;
+		public static File GetFile(FileSystem fileSystem, NuConventions conventions)
+		{
+			Directory a = WalkThePathLookingForNu(fileSystem.GetCurrentDirectory(), conventions);
 
-            if (!direc.IsRoot())
-            {
-                Directory bro = direc.GetChildDirectory(conventions.ProjectDirectoryName);
-                if (bro.Exists())
-                {
-                    return bro;
-                }
-                if (direc.HasParentDir)
-                {
-                    result = WalkThePathLookingForNu(direc.Parent, conventions);
-                }
-            }
+			return a.GetChildFile(conventions.ConfigurationFileName);
+		}
 
+		static Directory WalkThePathLookingForNu(Directory direc, NuConventions conventions)
+		{
+			Directory result = null;
 
-            return result;
-        }
-    }
+			if (!direc.IsRoot())
+			{
+				Directory bro = direc.GetChildDirectory(conventions.ProjectDirectoryName);
+				if (bro.Exists())
+				{
+					_logger.Debug(x => x.Write("Found the nu folder: {0}", bro.Name));
+
+					return bro;
+				}
+				if (direc.HasParentDir)
+				{
+					result = WalkThePathLookingForNu(direc.Parent, conventions);
+				}
+			}
+
+			return result;
+		}
+	}
 }

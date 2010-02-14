@@ -12,16 +12,22 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Commands
 {
-    using Magnum.Monads.Parser;
+	using System.Collections.Generic;
+	using Magnum.CommandLineParser;
+	using Magnum.Monads.Parser;
 
-    public class InitializeCommandExtension :
-        Extension
-    {
-        public void Initialize(ExtensionInitializer cli)
-        {
-            cli.Add(from config in cli.Argument("init")
-                    from path in cli.ValidPath()
-                    select cli.GetCommand<InitializeCommand>(new {path = path.Id}));
-        }
-    }
+	public class InitializeCommandExtension :
+		Extension
+	{
+		public void Initialize(ExtensionInitializer cli)
+		{
+			Parser<IEnumerable<ICommandLineElement>, ISwitchElement> switches =
+				(from create in cli.Switch("create") select create);
+
+			cli.Add(from config in cli.Argument("init")
+			        from create in switches.Optional("create", false)
+			        from path in cli.ValidPath()
+			        select cli.GetCommand<InitializeCommand>(new {path = path.Id, create = create.Value}));
+		}
+	}
 }

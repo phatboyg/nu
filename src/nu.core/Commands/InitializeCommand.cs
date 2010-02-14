@@ -22,16 +22,27 @@ namespace nu.core.Commands
 		readonly FileSystem _fileSystem;
 		readonly ILogger _log = Logger.GetLogger<GetGlobalConfigurationCommand>();
 		readonly string _path;
+		readonly bool _create;
 
-		public InitializeCommand(string path, FileSystem fileSystem)
+		public InitializeCommand(string path, bool create, FileSystem fileSystem)
 		{
 			_path = path;
+			_create = create;
 			_fileSystem = fileSystem;
 		}
 
 		public void Execute()
 		{
-			if (_fileSystem.DirectoryExists(_path))
+			DirectoryName name = DirectoryName.GetDirectoryName(_path);
+
+			Directory d = new DotNetDirectory(name);
+			if (!d.Exists() && _create)
+			{
+				_log.Debug(x => x.Write("Creating directory: {0}", name));
+				_fileSystem.CreateDirectory(d);
+			}
+
+			if (d.Exists())
 			{
 				_log.Debug(x => x.Write("Initializing path: {0}", _path));
 

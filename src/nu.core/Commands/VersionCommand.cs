@@ -16,7 +16,6 @@ namespace nu.core.Commands
 	using System.IO;
 	using System.Linq;
 	using System.Reflection;
-	using Configuration;
 	using Magnum;
 	using Magnum.Logging;
 
@@ -24,9 +23,9 @@ namespace nu.core.Commands
 		Command
 	{
 		readonly HashSet<Assembly> _alreadyOutput = new HashSet<Assembly>();
+		readonly IEnumerable<Extension> _extensions;
 		readonly ILogger _log = Logger.GetLogger<VersionCommand>();
 		readonly bool _verbose;
-		readonly IEnumerable<Extension> _extensions;
 		Assembly _main;
 
 		public VersionCommand(bool verbose, IEnumerable<Extension> extensions)
