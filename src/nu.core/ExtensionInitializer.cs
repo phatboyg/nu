@@ -17,7 +17,8 @@ namespace nu.core
 
 	public interface ExtensionInitializer :
 		ICommandLineElementParser<Command>,
-		ContainerConfigurator
+		ContainerConfigurator,
+		Container
 	{
 	}
 }

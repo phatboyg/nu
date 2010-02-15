@@ -12,20 +12,18 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core
 {
-	using System;
+	using Commands;
 
-	public interface ContainerConfigurator
+	public interface Container
 	{
-		void AddType<TInterface, TImplementation>()
-			where TImplementation : TInterface;
+		Command GetCommand<T>()
+			where T : Command;
 
-		void AddType(Type interfaceType, Type implementationType);
+		Command GetCommand<T>(object args)
+			where T : Command;
 
-		void AddType<TInterface>(TInterface instance);
+		T GetInstance<T>();
 
-		void AddSingletonType<TInterface, TImplementation>()
-			where TImplementation : TInterface;
-
-		void AddSingletonType(Type interfaceType, Type implementationType);
+		T GetInstance<T>(object args);
 	}
 }

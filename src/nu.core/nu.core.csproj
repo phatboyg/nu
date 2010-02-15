@@ -85,6 +85,7 @@
     <Compile Include="Configuration\ConfigurationException.cs" />
     <Compile Include="Configuration\DefaultsConfiguration.cs" />
     <Compile Include="Configuration\FileBasedDefaultsConfiguration.cs" />
+    <Compile Include="Container.cs" />
     <Compile Include="ContainerConfigurator.cs" />
     <Compile Include="Extensions\ExtensionPoint.cs" />
     <Compile Include="FileSystem\Internal\AbsoluteFileName.cs" />
