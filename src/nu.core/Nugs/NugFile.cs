@@ -12,11 +12,18 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Nugs
 {
+    using System;
     using System.IO;
 
-    public class NugFile
+    public class NugFile :
+        IDisposable
     {
         public string Name { get; set; }
         public Stream File { get; set; }
+
+        public void Dispose()
+        {
+            File.Dispose();
+        }
     }
 }

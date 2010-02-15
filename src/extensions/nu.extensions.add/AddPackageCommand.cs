@@ -35,27 +35,28 @@ namespace nu.extensions.add
             _projectConfiguration = projectConfiguration;
             _fileSystem = fileSystem;
         }
-            
+
         public void Execute()
         {
             if (_projectConfiguration == null)
                 throw new Exception("there is no project");
 
-            var package = _nugsDirectory.GetNug(_name);
-
-            //TODO: should this be hidden behind another 'directory'?
-            var lib = _projectConfiguration["project.librarydirectoryname"];
-            var libDir  = _projectConfiguration.ProjectRoot.GetChildDirectory(lib);
-
-            _logger.Debug(x=>x.Write("'lib' dir is located at '{0}'", libDir.Name));
-            _fileSystem.CreateDirectory(libDir);
-            var packageDir = libDir.GetChildDirectory(package.Name);
-            _fileSystem.CreateDirectory(packageDir);
-
-            foreach (var file in package.Files)
+            using (var package = _nugsDirectory.GetNug(_name))
             {
-                var writeTo = packageDir.GetChildFile(file.Name);
-                _fileSystem.Write(writeTo.Name.GetPath(), file.File);
+                //TODO: should this be hidden behind another 'directory'?
+                var lib = _projectConfiguration["project.librarydirectoryname"];
+                var libDir = _projectConfiguration.ProjectRoot.GetChildDirectory(lib);
+
+                _logger.Debug(x => x.Write("'lib' dir is located at '{0}'", libDir.Name));
+                _fileSystem.CreateDirectory(libDir);
+                var packageDir = libDir.GetChildDirectory(string.Format("{0}-{1}",package.Name, package.Version));
+                _fileSystem.CreateDirectory(packageDir);
+
+                foreach (var file in package.Files)
+                {
+                    var writeTo = packageDir.GetChildFile(file.Name);
+                    _fileSystem.Write(writeTo.Name.GetPath(), file.File);
+                }
             }
         }
     }

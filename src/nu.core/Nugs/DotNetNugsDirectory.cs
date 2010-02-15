@@ -42,23 +42,21 @@ namespace nu.core.Nugs
             {
                 var nf = new NugFile {Name = entry.Name};
 
-                //TODO: ACK!
                 target.GetChildFile(entry.Name).WorkWithStream(s =>
                     {
                         var ms = new System.IO.MemoryStream();
-                        
-                        
-                            var buff = new byte[8048];
-                            var size = buff.Length;
 
-                            do
-                            {
-                                size = s.Read(buff, 0, buff.Length);
-                            } while (size > 0);
+                        var buff = new byte[8048];
+                        var size = buff.Length;
 
-                            nf.File = ms;
-                        
+                        do
+                        {
+                            size = s.Read(buff, 0, buff.Length);
+                        } while (size > 0);
+
+                        nf.File = ms;
                     });
+
                 np.Files.Add(nf);
             }
 

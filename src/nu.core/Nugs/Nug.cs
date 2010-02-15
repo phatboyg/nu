@@ -12,9 +12,12 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Nugs
 {
+    using System;
     using System.Collections.Generic;
+    using Magnum;
 
-    public class NugPackage
+    public class NugPackage :
+        IDisposable
     {
         public NugPackage(string name)
         {
@@ -25,5 +28,11 @@ namespace nu.core.Nugs
         public string Name { get; set; }
         public string Version { get; set; }
         public IList<NugFile> Files { get; set; }
+
+
+        public void Dispose()
+        {
+            Files.Each(x=>x.Dispose());
+        }
     }
 }
