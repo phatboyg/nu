@@ -28,7 +28,15 @@ namespace nu.core.FileSystem
         	Name = FileName.GetFileName(name);
         }
 
-        public PathName PathName { get; set; }
+    	public ZippedFile(DirectoryName name, PathName relativeDirectoryName)
+    	{
+    		Name = name.GetFileName(relativeDirectoryName.GetPath());
+    		FileName = FileName.GetFileName(name.GetPath());
+    	}
+
+		protected FileName FileName { get; set; }
+
+		public PathName PathName { get; set; }
         public FileName Name { get; set; }
 
         public bool Exists()

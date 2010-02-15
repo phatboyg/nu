@@ -14,9 +14,11 @@ namespace nu.core.FileSystem
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using ICSharpCode.SharpZipLib.Zip;
+    using Internal;
 
-    public class ZippedDirectory :
+	public class ZippedDirectory :
         Directory
     {
         public ZippedDirectory(ZipDirectoryName name)
@@ -24,7 +26,15 @@ namespace nu.core.FileSystem
             Name = name;
         }
 
-        public DirectoryName Name { get; set; }
+    	public ZippedDirectory(DirectoryName name, RelativePathName relativeDirectoryName)
+    	{
+    		Name = name.Combine(relativeDirectoryName);
+    		FileName = FileName.GetFileName(name.GetPath());
+    	}
+
+		protected FileName FileName { get; set; }
+
+		public DirectoryName Name { get; set; }
 
         public string Path
         {
@@ -43,8 +53,19 @@ namespace nu.core.FileSystem
 
         public IEnumerable<File> GetFiles()
         {
-            throw new NotImplementedException(); 
-        }
+			string innerPath = ZippedPath.GetPathInsideZip(Path);
+			innerPath += "/";
+			string zipFile = ZippedPath.GetZip(Path);
+			var zf = new ZipFile(zipFile);
+			bool result = false;
+
+			return zf
+				.Cast<ZipEntry>()
+				.Where(entry => !entry.IsDirectory)
+				.Where(entry => entry.Name.StartsWith(innerPath))
+				.Select(entry => new ZippedFile(Name, new RelativePathName(entry.Name)))
+				.Cast<File>();
+		}
 
         public IEnumerable<Directory> GetDirectories()
         {

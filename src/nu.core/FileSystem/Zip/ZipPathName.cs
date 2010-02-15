@@ -57,6 +57,11 @@ namespace nu.core.FileSystem
 			return Path.Combine(_zipFilePath, _contentFilePath);
 		}
 
+		public override string GetAbsolutePath()
+		{
+			throw new NotImplementedException();
+		}
+
 		public override string ToString()
 		{
 			return GetPath();

@@ -12,6 +12,7 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
+	using System;
 	using System.IO;
 	using Internal;
 
@@ -38,5 +39,7 @@ namespace nu.core.FileSystem
 
 			return new AbsolutePathName(Path.Combine(source, path));
 		}
+
+		public abstract string GetAbsolutePath();
 	}
 }

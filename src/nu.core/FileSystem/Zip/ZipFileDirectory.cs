@@ -12,73 +12,96 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
+	using System;
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Linq;
+	using ICSharpCode.SharpZipLib.Zip;
+	using Internal;
 
-    public class ZipFileDirectory :
-        Directory
-    {
-    	public PathName PathName { get; set; }
+	public class ZipFileDirectory :
+		Directory
+	{
+		public ZipFileDirectory(PathName pathName)
+		{
+			PathName = pathName;
+		}
 
-    	public ZipFileDirectory(PathName pathName)
-        {
-        	PathName = pathName;
-        }
+		public PathName PathName { get; set; }
 
-    	public Directory Parent
-        {
-            get
-            {
-                var fi = new FileInfo(Path);
-                return new DotNetDirectory(DirectoryName.GetDirectoryName(fi.DirectoryName));
-            }
-        }
+		public string Path
+		{
+			get { return PathName.GetPath(); }
+		}
 
-        public bool HasParentDir
-        {
-            get { return true; }
-        }
+		public Directory Parent
+		{
+			get
+			{
+				var fi = new FileInfo(Path);
+				return new DotNetDirectory(DirectoryName.GetDirectoryName(fi.DirectoryName));
+			}
+		}
 
-        public bool IsRoot()
-        {
-            return false;
-        }
+		public bool HasParentDir
+		{
+			get { return true; }
+		}
 
-        public bool Exists()
-        {
-            return System.IO.File.Exists(Path);
-        }
+		public bool IsRoot()
+		{
+			return false;
+		}
+
+		public bool Exists()
+		{
+			return System.IO.File.Exists(Path);
+		}
 
 		public DirectoryName Name
 		{
 			get { return DirectoryName.GetDirectoryName(PathName); }
 		}
 
-        public string Path
-        {
-            get { return PathName.GetPath(); }
-        }
+		public File GetChildFile(string name)
+		{
+			return new ZippedFile(new ZipPathName(Path, name));
+		}
 
-        public File GetChildFile(string name)
-        {
-            return new ZippedFile(new ZipPathName(Path, name));
-        }
+		public Directory GetChildDirectory(string name)
+		{
+			//TODO: Ugh
+			return new ZippedDirectory((ZipDirectoryName)Name.Combine(name));
+		}
 
-        public Directory GetChildDirectory(string name)
-        {
-            //TODO: Ugh
-            return new ZippedDirectory((ZipDirectoryName)Name.Combine(name));
-        }
+		public IEnumerable<File> GetFiles()
+		{
+			string zipFile = ZippedPath.GetZip(Path);
+			var zf = new ZipFile(zipFile);
+			bool result = false;
 
-        public IEnumerable<File> GetFiles()
-        {
-            throw new NotImplementedException();
-        }
+			return zf
+				.Cast<ZipEntry>()
+				.Where(entry => !entry.IsDirectory)
+				.Where(entry => !entry.Name.Contains('/'))
+				.Select(entry => new ZippedFile(Name, new RelativePathName(entry.Name)))
+				.Cast<File>();
+		}
 
-        public IEnumerable<Directory> GetDirectories()
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public IEnumerable<Directory> GetDirectories()
+		{
+			string innerPath = ZippedPath.GetPathInsideZip(Path);
+			innerPath += "/";
+			string zipFile = ZippedPath.GetZip(Path);
+			var zf = new ZipFile(zipFile);
+			bool result = false;
+
+			return zf
+				.Cast<ZipEntry>()
+				.Where(entry => entry.IsDirectory)
+				.Where(entry => entry.Name.StartsWith(innerPath))
+				.Select(entry => new ZippedDirectory(Name, new RelativePathName(entry.Name)))
+				.Cast<Directory>();
+		}
+	}
 }

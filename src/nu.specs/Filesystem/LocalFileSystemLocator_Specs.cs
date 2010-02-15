@@ -13,6 +13,10 @@
 namespace nu.Specs.Filesystem
 {
 	using System;
+	using System.Collections.Generic;
+	using System.Diagnostics;
+	using System.IO;
+	using System.Linq;
 	using System.Reflection;
 	using core.FileSystem;
 	using Magnum.TestFramework;
@@ -57,17 +61,84 @@ namespace nu.Specs.Filesystem
 
 			FileSystemLocator locator = new LocalFileSystemLocator();
 
-			File file = locator.GetFile(_fileName);
+			core.FileSystem.File file = locator.GetFile(_fileName);
 
 			file.Exists().ShouldBeTrue();
+
+			file.Name.GetPath().ShouldEqual(_fileName.GetPath());
+		}
+
+		[Test]
+		public void Getting_busy()
+		{
+			FileSystemLocator locator = new LocalFileSystemLocator();
+
+			core.FileSystem.File file = locator.GetFile(FileName.GetFileName("nug.zip/manifest.json"));
+
+			file.Name.GetName().ShouldEqual("manifest.json");
 		}
 	}
 
 	public class LocalFileSystemLocator :
 		FileSystemLocator
 	{
-		public File GetFile(FileName name)
+		public core.FileSystem.File GetFile(FileName name)
 		{
+			core.FileSystem.File info = ResolveFileSystemInfo(name.Name);
+
+			return info;
+		}
+
+		core.FileSystem.File ResolveFileSystemInfo(PathName name)
+		{
+			string root = Path.GetPathRoot(name.GetAbsolutePath());
+
+
+			var di = new DirectoryInfo(root);
+
+			string[] names = name.GetAbsolutePath().Substring(root.Length).Split('\\', '/');
+
+			var directory = new DotNetDirectory(DirectoryName.GetDirectoryName(di.FullName));
+
+			return ResolveFile(directory, names);
+		}
+
+		core.FileSystem.File ResolveFile(core.FileSystem.Directory directoryInfo, IEnumerable<string> children)
+		{
+			if (!children.Any())
+				throw new InvalidOperationException("Unable to resolve file: " + directoryInfo.Name);
+
+			string childName = children.First();
+
+			Trace.WriteLine("Parsing out: " + childName);
+
+			core.FileSystem.Directory info = directoryInfo.GetDirectories()
+				.Where(x => string.Compare(x.Name.GetName(), childName, true) == 0)
+				.SingleOrDefault();
+
+			if (info != null)
+			{
+				Trace.WriteLine(string.Format("Found directory: {0}", info.Name));
+				return ResolveFile(info, children.Skip(1));
+			}
+
+			core.FileSystem.File file = directoryInfo.GetFiles()
+				.Where(x => string.Compare(x.Name.GetName(), childName, true) == 0)
+				.SingleOrDefault();
+
+			if (file == null)
+				throw new InvalidOperationException("Could not get file: " + childName);
+
+
+			if (!children.Skip(1).Any())
+				return file;
+
+
+			if (Path.GetExtension(file.Name.GetName()) == ".zip")
+			{
+				var zipFileDirectory = new ZipFileDirectory(file.Name.Name);
+				return ResolveFile(zipFileDirectory, children.Skip(1));
+			}
 
 			throw new NotImplementedException();
 		}
@@ -75,6 +146,6 @@ namespace nu.Specs.Filesystem
 
 	public interface FileSystemLocator
 	{
-		File GetFile(FileName name);
+		core.FileSystem.File GetFile(FileName name);
 	}
 }
