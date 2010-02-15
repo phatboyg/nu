@@ -12,22 +12,27 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-    public static class DirectoryInfoExtensions
-    {
-        public static void CopyTo(this Directory source, Directory target)
+	using Internal;
+
+	public class ZipDirectoryName :
+		RelativeDirectoryName
+	{
+		public ZipDirectoryName(RelativePathName pathName)
+			: base(pathName)
+		{
+		}
+
+        public override DirectoryName Combine(DirectoryName child)
         {
-            foreach (File file in source.GetFiles())
-            {
-            	var targetName = target.Name.GetFileName(file.Name.GetName());
-
-                System.IO.File.Copy(file.Name.GetPath(), targetName.GetPath());
-            }
-
-
-            foreach (Directory dir in source.GetDirectories())
-            {
-                dir.CopyTo(target.GetChildDirectory(dir.Name.GetName()));
-            }
+            return base.Combine(child);
         }
-    }
+        public override DirectoryName Combine(PathName child)
+        {
+            return base.Combine(child);
+        }
+        public override DirectoryName Combine(string path)
+        {
+            return base.Combine(path);
+        }
+	}
 }

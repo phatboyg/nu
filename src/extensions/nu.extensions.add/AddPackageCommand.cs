@@ -12,6 +12,7 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.extensions.add
 {
+    using System;
     using core.Commands;
     using core.Configuration;
     using core.FileSystem;
@@ -37,6 +38,9 @@ namespace nu.extensions.add
             
         public void Execute()
         {
+            if (_projectConfiguration == null)
+                throw new Exception("there is no project");
+
             var package = _nugsDirectory.GetNug(_name);
 
             //TODO: should this be hidden behind another 'directory'?

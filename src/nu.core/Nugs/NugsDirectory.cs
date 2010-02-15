@@ -18,6 +18,5 @@ namespace nu.core.Nugs
         Directory
     {
         NugPackage GetNug(string name);
-        Directory GetNugget(string name);
     }
 }

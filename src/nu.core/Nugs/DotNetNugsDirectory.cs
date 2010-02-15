@@ -14,7 +14,6 @@ namespace nu.core.Nugs
 {
     using Configuration;
     using FileSystem;
-    using FileSystem.Internal;
     using spec;
 
     public class DotNetNugsDirectory :
@@ -30,7 +29,8 @@ namespace nu.core.Nugs
         public NugPackage GetNug(string name)
         {
             var np = new NugPackage(name);
-            Directory target = GetNugget(name);
+
+            Directory target = this.GetChildDirectory(name);
 
             var manifest = target.GetChildFile("MANIFEST.json");
             var manifestContent = manifest.ReadAllText();
@@ -43,26 +43,27 @@ namespace nu.core.Nugs
                 var nf = new NugFile {Name = entry.Name};
 
                 //TODO: ACK!
-                target.GetChildFile(entry.Name).WorkWithStream(s => nf.File = new System.IO.MemoryStream(((System.IO.MemoryStream)s).ToArray()));
+                target.GetChildFile(entry.Name).WorkWithStream(s =>
+                    {
+                        var ms = new System.IO.MemoryStream();
+                        
+                        
+                            var buff = new byte[8048];
+                            var size = buff.Length;
+
+                            do
+                            {
+                                size = s.Read(buff, 0, buff.Length);
+                            } while (size > 0);
+
+                            nf.File = ms;
+                        
+                    });
                 np.Files.Add(nf);
             }
 
 
             return np;
-        }
-
-        public Directory GetNugget(string name)
-        {
-            name += ".zip";
-            if (IsADir(name))
-                return new DotNetDirectory(base.Name.Combine(name));
-            else
-                return new ZipFileDirectory(new AbsolutePathName(System.IO.Path.Combine(Name.GetPath(), name)));
-        }
-
-        public bool IsADir(string name)
-        {
-            return GetChildDirectory(name).Exists();
         }
     }
 }

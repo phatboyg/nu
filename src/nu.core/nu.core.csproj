@@ -90,13 +90,13 @@
     <Compile Include="FileSystem\Internal\AbsoluteFileName.cs" />
     <Compile Include="FileSystem\FileName.cs" />
     <Compile Include="FileSystem\Internal\RelativeFileName.cs" />
-    <Compile Include="FileSystem\ZipFileDirectory.cs" />
-    <Compile Include="FileSystem\ZipFileName.cs" />
-    <Compile Include="FileSystem\ZippedDirectory.cs" />
-    <Compile Include="FileSystem\ZipDirectoryName.cs" />
-    <Compile Include="FileSystem\ZippedFile.cs" />
-    <Compile Include="FileSystem\ZipPathName.cs" />
-    <Compile Include="FileSystem\ZippedPath.cs" />
+    <Compile Include="FileSystem\Zip\ZipFileDirectory.cs" />
+    <Compile Include="FileSystem\Zip\ZipFileName.cs" />
+    <Compile Include="FileSystem\Zip\ZippedDirectory.cs" />
+    <Compile Include="FileSystem\Zip\ZipDirectoryName.cs" />
+    <Compile Include="FileSystem\Zip\ZippedFile.cs" />
+    <Compile Include="FileSystem\Zip\ZipPathName.cs" />
+    <Compile Include="FileSystem\Zip\ZippedPath.cs" />
     <Compile Include="Network\DavClient.cs" />
     <Compile Include="Network\DavCredentials.cs" />
     <Compile Include="FileSystem\Internal\AbsoluteDirectoryName.cs" />
@@ -108,7 +108,6 @@
     <Compile Include="Configuration\DefaultNuConventions.cs" />
     <Compile Include="Configuration\ProjectConfiguration.cs" />
     <Compile Include="Configuration\FileBasedProjectConfiguration.cs" />
-    <Compile Include="FileSystem\DirectoryInfoExtensions.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Extension.cs" />
     <Compile Include="ExtensionInitializer.cs" />
@@ -145,7 +144,6 @@
     <Compile Include="Remotes\FileBasedLocalCatalogue.cs" />
     <Compile Include="Templating\NVelocityTemplateProcessor.cs" />
     <Compile Include="Templating\NVelocityTemplateContext.cs" />
-    <Compile Include="FileSystem\StreamExtensions.cs" />
     <Compile Include="Configuration\Entries.cs" />
     <Compile Include="Configuration\Entry.cs" />
     <Compile Include="Configuration\FileBasedConfiguration.cs" />

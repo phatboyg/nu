@@ -75,7 +75,6 @@
     <Compile Include="Filesystem\DotNetFileSystem_Specs.cs" />
     <Compile Include="Filesystem\LocalFileSystemLocator_Specs.cs" />
     <Compile Include="Filesystem\ZippedFile_specs.cs" />
-    <Compile Include="Filesystem\ZipPlay.cs" />
     <Compile Include="Template\NVelocityAdapterSpecs.cs" />
     <Compile Include="Nugs\Serialization_Specs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
