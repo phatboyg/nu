@@ -39,12 +39,12 @@ namespace nu.core.FileSystem
 			return System.IO.File.Exists(Name.ToString());
 		}
 
-		public string ReadAllText()
+		public string ReadToEnd()
 		{
 			return System.IO.File.ReadAllText(Name.GetPath());
 		}
 
-		public void WorkWithStream(Action<Stream> action)
+		public void WithStream(Action<Stream> action)
 		{
 			using (FileStream stream = System.IO.File.OpenRead(Name.GetPath()))
 			{

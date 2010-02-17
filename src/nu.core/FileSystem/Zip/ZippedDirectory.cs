@@ -10,102 +10,67 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.FileSystem
+namespace nu.core.FileSystem.Zip
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using ICSharpCode.SharpZipLib.Zip;
-    using Internal;
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
 
 	public class ZippedDirectory :
-        Directory
-    {
-        public ZippedDirectory(ZipDirectoryName name)
-        {
-            Name = name;
-        }
+		Directory
+	{
+		readonly IDictionary<string, ZippedDirectory> _directories = new Dictionary<string, ZippedDirectory>();
+		readonly IDictionary<string, ZippedFile> _files = new Dictionary<string, ZippedFile>();
 
-    	public ZippedDirectory(DirectoryName name, RelativePathName relativeDirectoryName)
-    	{
-    		Name = name.Combine(relativeDirectoryName);
-    		FileName = FileName.GetFileName(name.GetPath());
-    	}
-
-		protected FileName FileName { get; set; }
+		public ZippedDirectory(DirectoryName name, Directory parent)
+		{
+			Name = name;
+			Parent = parent;
+		}
 
 		public DirectoryName Name { get; set; }
 
-        public string Path
-        {
-            get { return Name.ToString(); }
-        }
+		public Directory Parent { get; private set; }
 
-        public Directory Parent
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public bool HasParentDir
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IEnumerable<File> GetFiles()
-        {
-			string innerPath = ZippedPath.GetPathInsideZip(Path);
-			innerPath += "/";
-			string zipFile = ZippedPath.GetZip(Path);
-			var zf = new ZipFile(zipFile);
-			bool result = false;
-
-			return zf
-				.Cast<ZipEntry>()
-				.Where(entry => !entry.IsDirectory)
-				.Where(entry => entry.Name.StartsWith(innerPath))
-				.Select(entry => new ZippedFile(Name, new RelativePathName(entry.Name)))
-				.Cast<File>();
+		public bool HasParentDir
+		{
+			get { return true; }
 		}
 
-        public IEnumerable<Directory> GetDirectories()
-        {
-            throw new NotImplementedException(); 
-        }
+		public IEnumerable<File> GetFiles()
+		{
+			return _files.Values.Cast<File>();
+		}
 
-        public Directory GetChildDirectory(string name)
-        {
-            throw new NotImplementedException();
-        }
+		public IEnumerable<Directory> GetDirectories()
+		{
+			return _directories.Values.Cast<Directory>();
+		}
 
-        public bool Exists()
-        {
-            var innerPath = ZippedPath.GetPathInsideZip(Path);
-            innerPath += "/";
-            var zipFile = ZippedPath.GetZip(Path);
-            var zf = new ZipFile(zipFile);
-            var result = false;
+		public Directory GetChildDirectory(string name)
+		{
+			if (_directories.ContainsKey(name))
+				return _directories[name];
 
-            foreach (ZipEntry entry in zf)
-            {
-                if(entry.Name.StartsWith(innerPath))
-                {
-                    result = true;
-                    break;
-                }
-            }
+			throw new InvalidOperationException("The directory '" + name + "' does not exist in '" + Name + "'");
+		}
 
+		public bool Exists()
+		{
+			return true;
+		}
 
-            return result;
-        }
+		public File GetChildFile(string name)
+		{
+			if (_files.ContainsKey(name))
+				return _files[name];
 
-        public File GetChildFile(string name)
-        {
-            return new ZippedFile(new ZipPathName(Path, name));
-        }
+			throw new InvalidOperationException("The file '" + name + "' does not exist in '" + Name + "'");
+		}
 
-        public bool IsRoot()
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public bool IsRoot()
+		{
+			return false;
+		}
+	}
 }

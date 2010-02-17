@@ -10,35 +10,37 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.FileSystem
+namespace nu.core.FileSystem.Zip
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Diagnostics;
 	using System.IO;
 	using System.Linq;
 	using ICSharpCode.SharpZipLib.Zip;
-	using Internal;
+	using Magnum.StreamExtensions;
 
 	public class ZipFileDirectory :
-		Directory
+		core.FileSystem.Directory
 	{
+		readonly IDictionary<string, ZippedDirectory> _directories = new Dictionary<string, ZippedDirectory>();
+		readonly IDictionary<string, ZippedFile> _files = new Dictionary<string, ZippedFile>();
+		Action _parse;
+
 		public ZipFileDirectory(PathName pathName)
 		{
-			PathName = pathName;
+			Name = DirectoryName.GetDirectoryName(pathName);
+
+			_parse = Parse;
+
+			_parse();
 		}
 
-		public PathName PathName { get; set; }
-
-		public string Path
-		{
-			get { return PathName.GetPath(); }
-		}
-
-		public Directory Parent
+		public core.FileSystem.Directory Parent
 		{
 			get
 			{
-				var fi = new FileInfo(Path);
+				var fi = new FileInfo(Name.GetPath());
 				return new DotNetDirectory(DirectoryName.GetDirectoryName(fi.DirectoryName));
 			}
 		}
@@ -55,53 +57,61 @@ namespace nu.core.FileSystem
 
 		public bool Exists()
 		{
-			return System.IO.File.Exists(Path);
+			return true;
 		}
 
-		public DirectoryName Name
+		public DirectoryName Name { get; private set; }
+
+		public core.FileSystem.File GetChildFile(string name)
 		{
-			get { return DirectoryName.GetDirectoryName(PathName); }
+			if (_files.ContainsKey(name))
+				return _files[name];
+
+			throw new InvalidOperationException("Could not find child element: " + name);
 		}
 
-		public File GetChildFile(string name)
+		public core.FileSystem.Directory GetChildDirectory(string name)
 		{
-			return new ZippedFile(new ZipPathName(Path, name));
+			if (_directories.ContainsKey(name))
+				return _directories[name];
+
+			throw new InvalidOperationException("Count not find child folder: " + name);
 		}
 
-		public Directory GetChildDirectory(string name)
+		public IEnumerable<core.FileSystem.File> GetFiles()
 		{
-			//TODO: Ugh
-			return new ZippedDirectory((ZipDirectoryName)Name.Combine(name));
+			return _files.Values.Cast<core.FileSystem.File>();
 		}
 
-		public IEnumerable<File> GetFiles()
+		public IEnumerable<core.FileSystem.Directory> GetDirectories()
 		{
-			string zipFile = ZippedPath.GetZip(Path);
-			var zf = new ZipFile(zipFile);
-			bool result = false;
-
-			return zf
-				.Cast<ZipEntry>()
-				.Where(entry => !entry.IsDirectory)
-				.Where(entry => !entry.Name.Contains('/'))
-				.Select(entry => new ZippedFile(Name, new RelativePathName(entry.Name)))
-				.Cast<File>();
+			return _directories.Values.Cast<core.FileSystem.Directory>();
 		}
 
-		public IEnumerable<Directory> GetDirectories()
+		void Parse()
 		{
-			string innerPath = ZippedPath.GetPathInsideZip(Path);
-			innerPath += "/";
-			string zipFile = ZippedPath.GetZip(Path);
-			var zf = new ZipFile(zipFile);
-			bool result = false;
+			using (FileStream stream = File.OpenRead(Name.GetPath()))
+			{
+				var input = new ZipInputStream(stream);
 
-			return zf
-				.Cast<ZipEntry>()
-				.Where(entry => entry.IsDirectory)
-				.Where(entry => entry.Name.StartsWith(innerPath))
-				.Select(entry => new ZippedDirectory(Name, new RelativePathName(entry.Name)))
-				.Cast<Directory>();
+				ZipEntry entry;
+				while ((entry = input.GetNextEntry()) != null)
+				{
+					Trace.WriteLine("Reading Entry: " + entry.Name);
+
+					if (entry.IsDirectory)
+					{
+					}
+					else if (entry.IsFile)
+					{
+						byte[] data = input.ReadToEnd();
+
+						Trace.WriteLine("Read: " + data.Length + " bytes");
+					}
+				}
+			}
+
+			_parse = () => { };
 		}
 	}
 }

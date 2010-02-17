@@ -12,17 +12,24 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem
 {
-	using System;
-	using System.IO;
-
-	public interface File
+	/// <summary>
+	/// Supported the resolution of FileName and DirectoryName into the appropriate File 
+	/// or Directory implementations based on the available file systems.
+	/// </summary>
+	public interface FileSystemLocator
 	{
-		FileName Name { get; }
+		/// <summary>
+		/// Given a FileName, returns the File interface for the requested file
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		File GetFile(FileName name);
 
-		bool Exists();
-
-		string ReadToEnd();
-
-		void WithStream(Action<Stream> action);
+		/// <summary>
+		/// Given a DirectoryName, returns the Directory interface for the requested directory
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		Directory GetDirectory(DirectoryName name);
 	}
 }

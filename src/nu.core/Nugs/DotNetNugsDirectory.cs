@@ -33,7 +33,7 @@ namespace nu.core.Nugs
             Directory target = this.GetChildDirectory(name);
 
             var manifest = target.GetChildFile("MANIFEST.json");
-            var manifestContent = manifest.ReadAllText();
+            var manifestContent = manifest.ReadToEnd();
             var m = JsonUtil.Get<Manifest>(manifestContent);
 
             np.Version = m.Version;
@@ -42,7 +42,7 @@ namespace nu.core.Nugs
             {
                 var nf = new NugFile {Name = entry.Name};
 
-                target.GetChildFile(entry.Name).WorkWithStream(s =>
+                target.GetChildFile(entry.Name).WithStream(s =>
                     {
                         var ms = new System.IO.MemoryStream();
 
