@@ -71,7 +71,7 @@ namespace nu
 					var initializer = container.With(init).GetInstance<StructureMapExtensionInitializer>();
 
 					initializeAction(initializer);
-				}).ToArray();
+                }).ToArray();
 
 			if (commands.Any())
 			{

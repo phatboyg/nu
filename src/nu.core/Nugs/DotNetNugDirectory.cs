@@ -15,6 +15,7 @@ namespace nu.core.Nugs
     {
         readonly Manifest _manifest;
 
+        
         public DotNetNugDirectory(DirectoryName directoryName)
             : base(directoryName)
         {

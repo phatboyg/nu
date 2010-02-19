@@ -27,10 +27,18 @@ namespace nu.extensions.add
         readonly NugsDirectory _nugsDirectory;
         readonly ProjectConfiguration _projectConfiguration;
         readonly FileSystem _fileSystem;
+        readonly string _version;
+
 
         public AddPackageCommand(string name, NugsDirectory nugsDirectory, ProjectConfiguration projectConfiguration, FileSystem fileSystem)
+            :this(name, null, nugsDirectory, projectConfiguration, fileSystem)
+        {
+            
+        }
+        public AddPackageCommand(string name, string version, NugsDirectory nugsDirectory, ProjectConfiguration projectConfiguration, FileSystem fileSystem)
         {
             _name = name;
+            _version = version;
             _nugsDirectory = nugsDirectory;
             _projectConfiguration = projectConfiguration;
             _fileSystem = fileSystem;
@@ -46,30 +54,36 @@ namespace nu.extensions.add
             //if it is, what version?
 
             //install
-            var package = _nugsDirectory.GetNug(_name);
-            
-                //TODO: should this be hidden behind another 'directory'?
-                var libName = _projectConfiguration["project.librarydirectoryname"];
-                var libDir = _projectConfiguration.ProjectRoot.GetChildDirectory(libName);
-                _logger.Debug(x => x.Write("'lib' dir is located at '{0}'", libDir.Name));
-                _fileSystem.CreateDirectory(libDir);
+            var package = string.IsNullOrEmpty(_version) ?
+                                                             _nugsDirectory.GetNug(_name) :
+                                                                                              _nugsDirectory.GetNug(_name, _version);
+
+            //TODO: should be part of the project extension
+            var libName = _projectConfiguration["project.librarydirectoryname"];
+            var libDir = _projectConfiguration.ProjectRoot.GetChildDirectory(libName);
+            _logger.Debug(x => x.Write("'lib' dir is located at '{0}'", libDir.Name));
+            _fileSystem.CreateDirectory(libDir);
+            //TODO: END
+
+            var targetPackageDir = libDir.GetChildDirectory(package.NugName);
+            _fileSystem.CreateDirectory(targetPackageDir);
 
 
-                var targetPackageDir = libDir.GetChildDirectory(package.NugName);
-                _fileSystem.CreateDirectory(targetPackageDir);
+            foreach (var file in package.GetFiles())
+            {
+                var fileWriteTo = targetPackageDir.GetChildFile(file.Name.GetName());
+                _fileSystem.Copy(file.Name.GetPath(), fileWriteTo.Name.GetPath());
+            }
 
 
-                foreach (var file in package.GetFiles())
-                {
-                    var fileWriteTo = targetPackageDir.GetChildFile(file.Name.GetName());
-                    _fileSystem.Write(fileWriteTo.Name.GetPath(), file.Name.GetPath());
-                }
-
-//                _projectConfiguration.InstalledNugs.Add(new InstalledNugInformation()
-//                    {
-//                        Name = package.NugName,
-//                        Version = package.Version
-//                    });
+            //TODO:this should be a part of the project extension
+            /*
+                _projectConfiguration.InstalledNugs.Add(new InstalledNugInformation()
+                    {
+                        Name = package.NugName,
+                        Version = package.Version
+             * });
+             */
         }
     }
 }

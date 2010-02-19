@@ -18,5 +18,6 @@ namespace nu.core.Nugs
         Directory
     {
         NugDirectory GetNug(string name);
+        NugDirectory GetNug(string name, string version);
     }
 }

@@ -1,4 +1,4 @@
-// Copyright 2007-2008 The Apache Software Foundation.
+// Copyright 2007-2010 The Apache Software Foundation.
 //  
 // Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 // this file except in compliance with the License. You may obtain a copy of the 
@@ -17,13 +17,11 @@ namespace nu.core.Nugs
     using System.Text.RegularExpressions;
     using Configuration;
     using FileSystem;
-    using spec;
 
     public class DotNetNugsDirectory :
         DotNetDirectory,
         NugsDirectory
     {
-
         public DotNetNugsDirectory(InstallationDirectory directory, NuConventions conventions)
             : base(directory.GetChildDirectory(conventions.NugsDirectoryName).Name)
         {
@@ -32,10 +30,17 @@ namespace nu.core.Nugs
 
         public NugDirectory GetNug(string name)
         {
-            return FindHighestVersion(name);
+            var dir = FindHighestVersion(name);
+
+            return new DotNetNugDirectory(GetChildDirectory(dir).Name);
         }
 
-        DotNetNugDirectory FindHighestVersion(string name)
+        public NugDirectory GetNug(string name, string version)
+        {
+            return new DotNetNugDirectory(GetChildDirectory(string.Format("{0}-{1}", name, version)).Name);
+        }
+
+        string FindHighestVersion(string name)
         {
             var regex = new Regex(string.Format(@"{0}-(?<v>\d\.\d)", name));
             var versions = new List<string>();
@@ -44,7 +49,7 @@ namespace nu.core.Nugs
                 var m = regex.Match(directory.Name.GetName());
                 if (!m.Success)
                     continue;
-             
+
                 var o = m.Groups["v"].Value;
                 versions.Add(o);
             }
@@ -52,8 +57,7 @@ namespace nu.core.Nugs
             var vv = versions.Max();
             var vvv = string.Format("{0}-{1}", name, vv);
 
-
-            return new DotNetNugDirectory(GetChildDirectory(vvv).Name);
+            return vvv;
         }
     }
 }
