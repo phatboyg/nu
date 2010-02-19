@@ -10,29 +10,14 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-namespace nu.core.Nugs
+namespace nu.core.Configuration
 {
     using System;
-    using System.Collections.Generic;
-    using Magnum;
 
-    public class NugPackage :
-        IDisposable
+    [Serializable]
+    public class InstalledNugInformation
     {
-        public NugPackage(string name)
-        {
-            Name = name;
-            Files = new List<NugFile>();
-        }
-
         public string Name { get; set; }
         public string Version { get; set; }
-        public IList<NugFile> Files { get; set; }
-
-
-        public void Dispose()
-        {
-            Files.Each(x=>x.Dispose());
-        }
     }
 }

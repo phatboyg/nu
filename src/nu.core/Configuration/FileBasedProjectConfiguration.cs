@@ -12,7 +12,8 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Configuration
 {
-	using FileSystem;
+    using System.Collections.Generic;
+    using FileSystem;
 	using Magnum.Logging;
 
 	public class FileBasedProjectConfiguration :
@@ -82,5 +83,7 @@ namespace nu.core.Configuration
 
 			return result;
 		}
+
+        public IList<InstalledNugInformation> InstalledNugs { get; set; }
 	}
 }

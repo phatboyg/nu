@@ -12,6 +12,9 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Nugs
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text.RegularExpressions;
     using Configuration;
     using FileSystem;
     using spec;
@@ -26,42 +29,33 @@ namespace nu.core.Nugs
         {
         }
 
-        public NugPackage GetNug(string name)
+
+        public NugDirectory GetNug(string name)
         {
-            var np = new NugPackage(name);
 
-            Directory target = this.GetChildDirectory(name);
+            return FindHighestVersion(name);
+        }
 
-            var manifest = target.GetChildFile("MANIFEST.json");
-            var manifestContent = manifest.ReadAllText();
-            var m = JsonUtil.Get<Manifest>(manifestContent);
-
-            np.Version = m.Version;
-
-            foreach (var entry in m.Files)
+        DotNetNugDirectory FindHighestVersion(string name)
+        {
+            var regex = new Regex(string.Format(@"{0}-(?<v>\d\.\d)", name));
+            var versions = new List<string>();
+            foreach (var directory in GetDirectories())
             {
-                var nf = new NugFile {Name = entry.Name};
+                var m = regex.Match(directory.Name.GetName());
+                if (!m.Success)
+                    continue;
+             
+                var o = m.Groups["v"].Value;
+                versions.Add(o);
 
-                target.GetChildFile(entry.Name).WorkWithStream(s =>
-                    {
-                        var ms = new System.IO.MemoryStream();
-
-                        var buff = new byte[8048];
-                        var size = buff.Length;
-
-                        do
-                        {
-                            size = s.Read(buff, 0, buff.Length);
-                        } while (size > 0);
-
-                        nf.File = ms;
-                    });
-
-                np.Files.Add(nf);
             }
 
+            var vv = versions.Max();
+            var vvv = string.Format("{0}-{1}", name, vv);
 
-            return np;
+
+            return new DotNetNugDirectory(GetChildDirectory(vvv).Name);
         }
     }
 }

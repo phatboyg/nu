@@ -17,6 +17,6 @@ namespace nu.core.Nugs
     public interface NugsDirectory :
         Directory
     {
-        NugPackage GetNug(string name);
+        NugDirectory GetNug(string name);
     }
 }

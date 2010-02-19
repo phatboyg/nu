@@ -12,6 +12,7 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.Configuration
 {
+    using System.Collections.Generic;
     using FileSystem;
 
     /// <summary>
@@ -22,5 +23,6 @@ namespace nu.core.Configuration
 	{
         Directory ProjectRoot { get; }
         Directory ProjectNuDirectory { get; }
+        IList<InstalledNugInformation> InstalledNugs { get; }
 	}
 }

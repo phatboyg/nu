@@ -41,23 +41,35 @@ namespace nu.extensions.add
             if (_projectConfiguration == null)
                 throw new Exception("there is no project");
 
-            using (var package = _nugsDirectory.GetNug(_name))
-            {
-                //TODO: should this be hidden behind another 'directory'?
-                var lib = _projectConfiguration["project.librarydirectoryname"];
-                var libDir = _projectConfiguration.ProjectRoot.GetChildDirectory(lib);
+            //is the nug already installed?
 
+            //if it is, what version?
+
+            //install
+            var package = _nugsDirectory.GetNug(_name);
+            
+                //TODO: should this be hidden behind another 'directory'?
+                var libName = _projectConfiguration["project.librarydirectoryname"];
+                var libDir = _projectConfiguration.ProjectRoot.GetChildDirectory(libName);
                 _logger.Debug(x => x.Write("'lib' dir is located at '{0}'", libDir.Name));
                 _fileSystem.CreateDirectory(libDir);
-                var packageDir = libDir.GetChildDirectory(string.Format("{0}-{1}",package.Name, package.Version));
-                _fileSystem.CreateDirectory(packageDir);
 
-                foreach (var file in package.Files)
+
+                var targetPackageDir = libDir.GetChildDirectory(package.NugName);
+                _fileSystem.CreateDirectory(targetPackageDir);
+
+
+                foreach (var file in package.GetFiles())
                 {
-                    var writeTo = packageDir.GetChildFile(file.Name);
-                    _fileSystem.Write(writeTo.Name.GetPath(), file.File);
+                    var fileWriteTo = targetPackageDir.GetChildFile(file.Name.GetName());
+                    _fileSystem.Write(fileWriteTo.Name.GetPath(), file.Name.GetPath());
                 }
-            }
+
+//                _projectConfiguration.InstalledNugs.Add(new InstalledNugInformation()
+//                    {
+//                        Name = package.NugName,
+//                        Version = package.Version
+//                    });
         }
     }
 }

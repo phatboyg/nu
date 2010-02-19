@@ -85,6 +85,7 @@
     <Compile Include="Configuration\ConfigurationException.cs" />
     <Compile Include="Configuration\DefaultsConfiguration.cs" />
     <Compile Include="Configuration\FileBasedDefaultsConfiguration.cs" />
+    <Compile Include="Configuration\InstalledNugInformation.cs" />
     <Compile Include="ContainerConfigurator.cs" />
     <Compile Include="Extensions\ExtensionPoint.cs" />
     <Compile Include="FileSystem\Internal\AbsoluteFileName.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="FileSystem\DotNetDirectory.cs" />
     <Compile Include="FileSystem\DotNetFile.cs" />
     <Compile Include="FileSystem\DotNetInstallationDirectory.cs" />
+    <Compile Include="Nugs\DotNetNugDirectory.cs" />
     <Compile Include="Nugs\DotNetNugsDirectory.cs" />
     <Compile Include="FileSystem\File.cs" />
     <Compile Include="FileSystem\PathName.cs" />
@@ -130,14 +132,13 @@
     <Compile Include="Network\RemoteFile.cs" />
     <Compile Include="Network\RemoteFileToken.cs" />
     <Compile Include="Network\RemoteResourceException.cs" />
+    <Compile Include="Nugs\NugDirectory.cs" />
     <Compile Include="Nugs\spec\Dependency.cs" />
     <Compile Include="Nugs\spec\Manifest.cs" />
     <Compile Include="Nugs\spec\ManifestEntry.cs" />
     <Compile Include="Configuration\JsonUtil.cs" />
     <Compile Include="FileSystem\Internal\RelativeDirectoryName.cs" />
     <Compile Include="Nugs\NugsDirectory.cs" />
-    <Compile Include="Nugs\NugFile.cs" />
-    <Compile Include="Nugs\Nug.cs" />
     <Compile Include="Remotes\Catalogue.cs" />
     <Compile Include="Remotes\ExternalLinks.cs" />
     <Compile Include="Remotes\Remote.cs" />
