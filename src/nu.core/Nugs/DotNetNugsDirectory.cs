@@ -32,7 +32,6 @@ namespace nu.core.Nugs
 
         public NugDirectory GetNug(string name)
         {
-
             return FindHighestVersion(name);
         }
 
@@ -48,7 +47,6 @@ namespace nu.core.Nugs
              
                 var o = m.Groups["v"].Value;
                 versions.Add(o);
-
             }
 
             var vv = versions.Max();

@@ -18,8 +18,8 @@ namespace nu.core.Nugs
         public DotNetNugDirectory(DirectoryName directoryName)
             : base(directoryName)
         {
-            var manifest = GetChildFile("MANIFEST.json");
-            var manifestContent = manifest.ReadAllText();
+            var manifestFile = GetChildFile("MANIFEST.json");
+            var manifestContent = manifestFile.ReadToEnd();
             _manifest = JsonUtil.Get<Manifest>(manifestContent);
         }
 

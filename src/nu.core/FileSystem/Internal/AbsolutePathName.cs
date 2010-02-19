@@ -50,6 +50,11 @@ namespace nu.core.FileSystem.Internal
 			return _path;
 		}
 
+		public override string GetAbsolutePath()
+		{
+			return _path;
+		}
+
 		public override string ToString()
 		{
 			return _path;

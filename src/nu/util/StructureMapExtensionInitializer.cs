@@ -24,14 +24,16 @@ namespace nu.util
 	public class StructureMapExtensionInitializer :
 		ExtensionInitializer
 	{
-		readonly IContainer _container;
-		readonly ObjectToDictionaryRegistry _converter = new ObjectToDictionaryRegistry();
 		readonly ICommandLineElementParser<Command> _parser;
 
-		public StructureMapExtensionInitializer(ICommandLineElementParser<Command> parser, IContainer container)
+		readonly ContainerConfigurator _configurator;
+		readonly core.Container _container;
+
+		public StructureMapExtensionInitializer(ICommandLineElementParser<Command> parser, ContainerConfigurator configurator, core.Container containerAccess)
 		{
 			_parser = parser;
-			_container = container;
+			_configurator = configurator;
+			_container = containerAccess;
 		}
 
 		public void Add(Parser<IEnumerable<ICommandLineElement>, Command> parser)
@@ -92,19 +94,50 @@ namespace nu.util
 		public void AddType<TInterface, TImplementation>()
 			where TImplementation : TInterface
 		{
-			_container.Configure(x => x.For<TInterface>().Use<TImplementation>());
+			_configurator.AddType<TInterface, TImplementation>();
+		}
+
+		public void AddType(Type interfaceType, Type implementationType)
+		{
+			_configurator.AddType(interfaceType, implementationType);
+		}
+
+		public void AddType<TInterface>(TInterface instance)
+		{
+			_configurator.AddType(instance);
+		}
+
+		public void AddSingletonType<TInterface, TImplementation>()
+			where TImplementation : TInterface
+		{
+			_configurator.AddSingletonType<TInterface, TImplementation>();
+		}
+
+		public void AddSingletonType(Type interfaceType, Type implementationType)
+		{
+			_configurator.AddSingletonType(interfaceType, implementationType);
 		}
 
 		public Command GetCommand<T>()
 			where T : Command
 		{
-			return _container.GetInstance<T>();
+			return _container.GetCommand<T>();
 		}
 
 		public Command GetCommand<T>(object args)
 			where T : Command
 		{
-			return _container.GetInstance<T>(new ExplicitArguments(_converter.Convert(args)));
+			return _container.GetCommand<T>(args);
+		}
+
+		public T GetInstance<T>()
+		{
+			return _container.GetInstance<T>();
+		}
+
+		public T GetInstance<T>(object args)
+		{
+			return _container.GetInstance<T>(args);
 		}
 	}
 }

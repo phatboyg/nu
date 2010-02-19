@@ -12,7 +12,6 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.Specs.Filesystem
 {
-	using System;
 	using System.Reflection;
 	using core.FileSystem;
 	using Magnum.TestFramework;
@@ -60,21 +59,28 @@ namespace nu.Specs.Filesystem
 			File file = locator.GetFile(_fileName);
 
 			file.Exists().ShouldBeTrue();
-		}
-	}
 
-	public class LocalFileSystemLocator :
-		FileSystemLocator
-	{
-		public File GetFile(FileName name)
+			file.Name.GetPath().ShouldEqual(_fileName.GetPath());
+		}
+
+		[Test]
+		public void Getting_a_directory_now()
 		{
+			FileSystemLocator locator = new LocalFileSystemLocator();
 
-			throw new NotImplementedException();
+			Directory directory = locator.GetDirectory(DirectoryName.GetDirectoryName("nug.zip"));
+
+			directory.Name.GetName().ShouldEqual("nug.zip");
 		}
-	}
 
-	public interface FileSystemLocator
-	{
-		File GetFile(FileName name);
+		[Test]
+		public void Getting_busy()
+		{
+			FileSystemLocator locator = new LocalFileSystemLocator();
+
+			File file = locator.GetFile(FileName.GetFileName("nug.zip/manifest.json"));
+
+			file.Name.GetName().ShouldEqual("manifest.json");
+		}
 	}
 }

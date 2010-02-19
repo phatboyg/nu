@@ -86,8 +86,10 @@
     <Compile Include="Configuration\DefaultsConfiguration.cs" />
     <Compile Include="Configuration\FileBasedDefaultsConfiguration.cs" />
     <Compile Include="Configuration\InstalledNugInformation.cs" />
+    <Compile Include="Container.cs" />
     <Compile Include="ContainerConfigurator.cs" />
     <Compile Include="Extensions\ExtensionPoint.cs" />
+    <Compile Include="FileSystem\FileSystemLocator.cs" />
     <Compile Include="FileSystem\Internal\AbsoluteFileName.cs" />
     <Compile Include="FileSystem\FileName.cs" />
     <Compile Include="FileSystem\Internal\RelativeFileName.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="FileSystem\Zip\ZippedFile.cs" />
     <Compile Include="FileSystem\Zip\ZipPathName.cs" />
     <Compile Include="FileSystem\Zip\ZippedPath.cs" />
+    <Compile Include="FileSystem\LocalFileSystemLocator.cs" />
     <Compile Include="Network\DavClient.cs" />
     <Compile Include="Network\DavCredentials.cs" />
     <Compile Include="FileSystem\Internal\AbsoluteDirectoryName.cs" />

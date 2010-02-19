@@ -59,7 +59,16 @@ namespace nu
 
 			IEnumerable<Command> commands = CommandLine.Parse<Command>(init =>
 				{
-					var initializer = new StructureMapExtensionInitializer(init, container);
+					var containerConfigurator = new StructureMapContainerConfigurator(container);
+					var containerAccess = new StructureMapContainer(container);
+
+					container.Configure(x =>
+						{
+							x.For<core.Container>().Singleton().Use(containerAccess);
+							x.For<ContainerConfigurator>().Singleton().Use(containerConfigurator);
+						});
+
+					var initializer = container.With(init).GetInstance<StructureMapExtensionInitializer>();
 
 					initializeAction(initializer);
 				}).ToArray();

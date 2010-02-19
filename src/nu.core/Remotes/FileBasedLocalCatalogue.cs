@@ -47,7 +47,7 @@ namespace nu.core.Remotes
                 return new ExternalLinks();
             }
 
-			return new ExternalLinks(JsonUtil.Get<Remote[]>(file.ReadAllText()) ?? new Remote[0]);
+			return new ExternalLinks(JsonUtil.Get<Remote[]>(file.ReadToEnd()) ?? new Remote[0]);
         }
 
         void WriteConfigurationToFile()

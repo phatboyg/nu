@@ -14,16 +14,17 @@ namespace nu.Specs.Filesystem
 {
     using core.FileSystem;
     using core.FileSystem.Internal;
+    using core.FileSystem.Zip;
     using NUnit.Framework;
 
     [TestFixture]
-    public class ZippedFile_specs
+    public class Accessing_an_existing_zip_file
     {
         string _zippedFile = "nug.zip";
 
         ZipFileDirectory zf;
 
-        [SetUp]
+        [TestFixtureSetUp]
         public void SetUp()
         {
             zf = new ZipFileDirectory(new RelativePathName(_zippedFile));
@@ -65,7 +66,7 @@ namespace nu.Specs.Filesystem
         [Test]
         public void PathWithRelative()
         {
-            Assert.AreEqual("nug.zip", zf.Path);
+            Assert.AreEqual("nug.zip", zf.Name.GetPath());
         }
 
         [Test]

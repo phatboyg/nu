@@ -12,6 +12,7 @@
 // specific language governing permissions and limitations under the License.
 namespace nu.core.FileSystem.Internal
 {
+	using System;
 	using System.IO;
 
 	public class RelativePathName :
@@ -48,6 +49,11 @@ namespace nu.core.FileSystem.Internal
 		public override string GetPath()
 		{
 			return _path;
+		}
+
+		public override string GetAbsolutePath()
+		{
+			return Path.Combine(Directory.GetCurrentDirectory(), _path);
 		}
 
 		public override string ToString()
