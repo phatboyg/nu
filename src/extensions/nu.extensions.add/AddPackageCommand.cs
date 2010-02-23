@@ -1,4 +1,4 @@
-// Copyright 2007-2008 The Apache Software Foundation.
+// Copyright 2007-2010 The Apache Software Foundation.
 //  
 // Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 // this file except in compliance with the License. You may obtain a copy of the 
@@ -22,19 +22,19 @@ namespace nu.extensions.add
     public class AddPackageCommand :
         Command
     {
+        readonly FileSystem _fileSystem;
         readonly ILogger _logger = Logger.GetLogger<AddPackageCommand>();
         readonly string _name;
         readonly NugsDirectory _nugsDirectory;
         readonly ProjectConfiguration _projectConfiguration;
-        readonly FileSystem _fileSystem;
         readonly string _version;
 
 
         public AddPackageCommand(string name, NugsDirectory nugsDirectory, ProjectConfiguration projectConfiguration, FileSystem fileSystem)
-            :this(name, null, nugsDirectory, projectConfiguration, fileSystem)
+            : this(name, null, nugsDirectory, projectConfiguration, fileSystem)
         {
-            
         }
+
         public AddPackageCommand(string name, string version, NugsDirectory nugsDirectory, ProjectConfiguration projectConfiguration, FileSystem fileSystem)
         {
             _name = name;
@@ -49,14 +49,15 @@ namespace nu.extensions.add
             if (_projectConfiguration == null)
                 throw new Exception("there is no project");
 
+            _logger.Debug(f => f.Write(string.Format("Adding '{0}' version '{1}'", _name, _version)));
             //is the nug already installed?
 
             //if it is, what version?
 
             //install
-            var package = string.IsNullOrEmpty(_version) ?
-                                                             _nugsDirectory.GetNug(_name) :
-                                                                                              _nugsDirectory.GetNug(_name, _version);
+            var package = _version == "MAX" ?
+                _nugsDirectory.GetNug(_name) :
+                _nugsDirectory.GetNug(_name, _version);
 
             //TODO: should be part of the project extension
             var libName = _projectConfiguration["project.librarydirectoryname"];

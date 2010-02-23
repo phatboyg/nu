@@ -22,12 +22,13 @@ namespace nu.extensions.add
         {
             cli.Add(from add in cli.Argument("add")
                     from nam in cli.Argument()
-                    select cli.GetCommand<AddPackageCommand>(new {name = nam.Id}));
+                    from v in cli.Definition("version")
+                    select cli.GetCommand<AddPackageCommand>(new {name = nam.Id, version = v.Value}));
 
             cli.Add(from add in cli.Argument("add")
                     from nam in cli.Argument()
-                    from v in cli.Definition("version")
-                    select cli.GetCommand<AddPackageCommand>(new {name = nam.Id, version = v.Value}));
+                    select cli.GetCommand<AddPackageCommand>(new {name = nam.Id, version="MAX"}));
+
         }
     }
 }
