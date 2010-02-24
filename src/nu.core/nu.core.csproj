@@ -89,6 +89,8 @@
     <Compile Include="Container.cs" />
     <Compile Include="ContainerConfigurator.cs" />
     <Compile Include="Extensions\ExtensionPoint.cs" />
+    <Compile Include="FileSystem\CurrentWorkingDirectory.cs" />
+    <Compile Include="FileSystem\DotNetCurrentWorkingDirectory.cs" />
     <Compile Include="FileSystem\FileSystemLocator.cs" />
     <Compile Include="FileSystem\Internal\AbsoluteFileName.cs" />
     <Compile Include="FileSystem\FileName.cs" />

@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="AddCommandExtensions.cs" />
     <Compile Include="AddPackageCommand.cs" />
+    <Compile Include="NuggifyCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -13,6 +13,7 @@
 namespace nu.extensions.add
 {
     using core;
+    using core.Commands;
     using Magnum.Monads.Parser;
 
     public class AddCommandExtensions :
@@ -27,7 +28,12 @@ namespace nu.extensions.add
 
             cli.Add(from add in cli.Argument("add")
                     from nam in cli.Argument()
-                    select cli.GetCommand<AddPackageCommand>(new {name = nam.Id, version="MAX"}));
+                    select cli.GetCommand<AddPackageCommand>(new {name = nam.Id, version = AddPackageCommand.MAX}));
+
+            cli.Add(from nuggify in cli.Argument("nuggify")
+                    from n in cli.Definition("name")
+                    from v in cli.Definition("version")
+                    select cli.GetCommand<NuggifyCommand>(new {version = v.Value, name = n.Value}));
 
         }
     }

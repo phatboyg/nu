@@ -19,15 +19,18 @@ namespace nu.core.Commands
 	public class InitializeCommandExtension :
 		Extension
 	{
-		public void Initialize(ExtensionInitializer cli)
-		{
-			Parser<IEnumerable<ICommandLineElement>, ISwitchElement> switches =
-				(from create in cli.Switch("create") select create);
+        public void Initialize(ExtensionInitializer cli)
+        {
+            Parser<IEnumerable<ICommandLineElement>, ISwitchElement> switches =
+                (from create in cli.Switch("create") select create);
 
-			cli.Add(from config in cli.Argument("init")
-			        from create in switches.Optional("create", false)
-			        from path in cli.ValidPath()
-			        select cli.GetCommand<InitializeCommand>(new {path = path.Id, create = create.Value}));
-		}
+            cli.Add(from config in cli.Argument("init")
+                    from create in switches.Optional("create", false)
+                    from path in cli.ValidPath()
+                    select cli.GetCommand<InitializeCommand>(new {path = path.Id, create = create.Value}));
+
+            cli.Add(from path in cli.Argument("pathify")
+                    select cli.GetCommand<AddToPathCommand>());
+        }
 	}
 }

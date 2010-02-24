@@ -44,20 +44,17 @@ namespace nu.extensions.add
             _fileSystem = fileSystem;
         }
 
+        public static string MAX
+        {
+            get
+            {
+                return "MAX";
+            }
+        }
         public void Execute()
         {
             if (_projectConfiguration == null)
                 throw new Exception("there is no project");
-
-            _logger.Debug(f => f.Write(string.Format("Adding '{0}' version '{1}'", _name, _version)));
-            //is the nug already installed?
-
-            //if it is, what version?
-
-            //install
-            var package = _version == "MAX" ?
-                _nugsDirectory.GetNug(_name) :
-                _nugsDirectory.GetNug(_name, _version);
 
             //TODO: should be part of the project extension
             var libName = _projectConfiguration["project.librarydirectoryname"];
@@ -66,16 +63,25 @@ namespace nu.extensions.add
             _fileSystem.CreateDirectory(libDir);
             //TODO: END
 
-            var targetPackageDir = libDir.GetChildDirectory(package.NugName);
-            _fileSystem.CreateDirectory(targetPackageDir);
+            _logger.Debug(f => f.Write(string.Format("Adding '{0}' version '{1}'", _name, _version)));
+
+            //is the nug already installed?
+
+            //if it is, what version?
+
+            //install
+            var package = _version == MAX ?
+                _nugsDirectory.GetNug(_name) :
+                _nugsDirectory.GetNug(_name, _version);
 
 
-            foreach (var file in package.GetFiles())
+            InstallNug(libDir, package);
+
+            foreach (var dependency in package.Dependencies)
             {
-                var fileWriteTo = targetPackageDir.GetChildFile(file.Name.GetName());
-                _fileSystem.Copy(file.Name.GetPath(), fileWriteTo.Name.GetPath());
+                var dep = _nugsDirectory.GetNug(dependency.Name, dependency.Version);
+                InstallNug(libDir, dep);
             }
-
 
             //TODO:this should be a part of the project extension
             /*
@@ -85,6 +91,20 @@ namespace nu.extensions.add
                         Version = package.Version
              * });
              */
+        }
+
+        void InstallNug(Directory libDir, NugDirectory nug)
+        {
+
+            var targetPackageDir = libDir.GetChildDirectory(nug.NugName);
+            _fileSystem.CreateDirectory(targetPackageDir);
+
+
+            foreach (var file in nug.GetFiles())
+            {
+                var fileWriteTo = targetPackageDir.GetChildFile(file.Name.GetName());
+                _fileSystem.Copy(file.Name.GetPath(), fileWriteTo.Name.GetPath());
+            }
         }
     }
 }

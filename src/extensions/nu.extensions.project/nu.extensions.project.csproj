@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="ProjectCommand.cs" />
     <Compile Include="ProjectCommandExtension.cs" />
+    <Compile Include="ProjectConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
