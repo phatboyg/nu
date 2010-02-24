@@ -27,19 +27,25 @@ namespace nu.core.Commands
             _installPoint = installPoint;
         }
 
+        //needs to request enhanced security
         public void Execute()
         {
-            var old = Environment.GetEnvironmentVariable("PATH");
+            var old = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
             _logger.Debug(x=>x.Write("PATH: {0}", old));
+            var nupath = _installPoint.Name.GetPath();
+
+            if(old.Contains(nupath))
+                return; //aleady installed
+
+
             if (!old.EndsWith(";"))
                 old += ";";
 
-            var nupath = _installPoint.Name.GetPath();
             if (nupath.Contains(" "))
                 nupath = "\"" + nupath + "\"";
             _logger.Debug(x=>x.Write("setting PATH to '{0}'", old+nupath));
 
-            //Environment.SetEnvironmentVariable("PATH", old+nupath);
+            Environment.SetEnvironmentVariable("PATH", old+nupath, EnvironmentVariableTarget.Machine);
         }
     }
 }

@@ -67,6 +67,7 @@
     <Compile Include="..\SolutionVersion.cs">
       <Link>SolutionVersion.cs</Link>
     </Compile>
+    <Compile Include="Commands\AddToPathCommand.cs" />
     <Compile Include="Commands\Config\ConfigCommandExtension.cs" />
     <Compile Include="Commands\Config\GetConfigurationCommand.cs" />
     <Compile Include="Commands\Config\GetGlobalConfigurationCommand.cs" />

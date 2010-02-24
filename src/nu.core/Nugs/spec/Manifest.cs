@@ -21,6 +21,7 @@ namespace nu.core.Nugs.spec
         public Manifest()
         {
             Files = new List<ManifestEntry>();
+            Dependencies = new List<Dependency>();
         }
 
         public string Name { get; set; }

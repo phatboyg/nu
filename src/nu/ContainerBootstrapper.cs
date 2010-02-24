@@ -42,6 +42,7 @@ namespace nu
 
 					x.For<NugsDirectory>().Singleton().Use<DotNetNugsDirectory>();
 					x.For<InstallationDirectory>().Singleton().Use<DotNetInstallationDirectory>();
+					x.For<CurrentWorkingDirectory>().Singleton().Use<DotNetCurrentWorkingDirectory>();
 
 					x.For<DefaultsConfiguration>().Singleton().Use<FileBasedDefaultsConfiguration>();
 					x.For<GlobalConfiguration>().Singleton().Use<FileBasedGlobalConfiguration>();
