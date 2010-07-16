@@ -10,8 +10,13 @@ NOTE: If you are looking at the source - please run build.bat before opening the
 # INFO
 NU
 
+nu install 'somegem'
+
+it will attempt to copy the contents of the gem lib folder to your pwd lib folder
+this is so alpha its omega
+
 # REQUIREMENTS
-* .NET Framework 3.5 
+* Ruby 1.8.7
 
 # RELEASE NOTES
 
