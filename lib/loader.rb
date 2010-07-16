@@ -11,7 +11,8 @@ module Nu
     end
     
     def get_gemspec(name)
-      Gem.searcher.find name
+	  gems = Gem.source_index.find_name name
+	  return gems.last if gems.length > 0
     end
     
     def available? (name)

@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name        = "nu"
-  s.version     = "0.1.3"
+  s.version     = "0.1.4"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Dru Sellers","Chris Patterson", "Rob Reynold"]
-  s.email       = ["dru@drusellers.com"]
-  s.homepage    = "http://drusellers.com"
+  s.email       = ["nu-net@googlegroups.com"]
+  s.homepage    = "http://groups.google.com/group/nu-net"
   s.summary     = "The best way to manage your application's dependencies in .net"
   s.description = "Nu manages an application's dependencies through its entire life, across many machines, systematically and repeatably"
 

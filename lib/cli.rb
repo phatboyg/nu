@@ -1,4 +1,3 @@
-require 'ftools'
 require 'FileUtils'
 
 module Nu
@@ -42,6 +41,7 @@ module Nu
       l = Nu::Loader.new
       libdir = l.get_libdir @gem_to_copy
       #puts File.expand_path libdir
+	  #try Dir.glob("{bin,lib}/**/*")
       libdir.gsub '{lib}','lib'
     end
     
