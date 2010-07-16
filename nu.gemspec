@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.summary     = "The best way to manage your application's dependencies in .net"
   s.description = "Nu manages an application's dependencies through its entire life, across many machines, systematically and repeatably"
 
-  s.required_rubygems_version = ">= 1.3.6"
+  s.required_rubygems_version = ">= 1.3.5"
   s.rubyforge_project         = "nu"
 
   s.files        = Dir.glob("{bin,lib}/**/*")
