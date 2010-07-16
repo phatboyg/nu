@@ -1,6 +1,10 @@
 #!/usr/bin/env ruby
 
-require File.expand_path('../lib/cli', __FILE__)
-require File.expand_path('../lib/loader', __FILE__)
+require 'nu'
 
-Nu::CLI.start
+begin
+	Nu::CLI.start
+rescue Interrupt
+	puts 'quitting'
+	exit 1
+end
