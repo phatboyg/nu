@@ -15,6 +15,7 @@ code_drop/*
 *.bak
 *.orig
 *.gem
+*.tmproj
 
 TestResult.xml
 submit.xml
