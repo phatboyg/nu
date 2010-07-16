@@ -1,8 +1,10 @@
 # -*- encoding: utf-8 -*-
+lib = File.expand_path('../lib/', __FILE__)
+$:.unshift lib unless $:.include?(lib)
 
 Gem::Specification.new do |s|
   s.name        = "nu"
-  s.version     = "0.1.4"
+  s.version     = "0.1.7"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Dru Sellers","Chris Patterson", "Rob Reynold"]
   s.email       = ["nu-net@googlegroups.com"]

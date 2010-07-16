@@ -5,9 +5,6 @@ code_drop/*
 **/*.suo
 **/*.user
 **/*.sln*
-bin
-obj
-_ReSharper*
 
 *.csproj.user
 *.resharper.user

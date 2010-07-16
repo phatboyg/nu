@@ -3,7 +3,7 @@ require 'lib/loader'
 
 #ARGV =[]
 ARGV<<1
-ARGV<<"roundhouse"
+ARGV<<"log4net"
 
 
 Nu::CLI.start
