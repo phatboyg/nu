@@ -1,11 +1,14 @@
 NU - Gems for .NET
 =======
+Inspired by bundler for ruby
+http://yehudakatz.com/2009/11/03/using-the-new-gem-bundler-today/
 
 # LICENSE
 Apache 2.0 - see docs\legal (just LEGAL in the zip folder)
 
 # IMPORTANT
-NOTE: If you are looking at the source - please run build.bat before opening the solution. It creates the SolutionVersion.cs file that is necessary for a successful build.
+NOTE: If you are looking at the source 
+
 
 # INFO
 NU
