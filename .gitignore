@@ -1,7 +1,7 @@
 build_output/*
 code_drop/*
 .DS_Store
-
+*.gem
 **/*.suo
 **/*.user
 **/*.sln*

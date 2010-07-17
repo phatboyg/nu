@@ -1,0 +1,10 @@
+
+#a good time to test out mocking
+describe 'the project' do
+	it 'should know if its in a project' do
+		Project.is_project?.should==true
+	end
+	it 'should know if its NOT in a project' do
+		Project.is_project?.should==false
+	end
+end

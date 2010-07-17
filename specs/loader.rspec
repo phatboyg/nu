@@ -1,0 +1,10 @@
+require 'spec'
+
+describe 'the loader' do
+	it 'should know if a gem is available' do
+		#assert rspec
+	end
+	
+	it 'should' do
+	end
+end

@@ -28,6 +28,8 @@ module Nu
       puts "Copy To: #{to}"
       
       FileUtils.copy_entry start_here, to
+	  
+	  process_dependencies
 	end
 	
     def self.get_libdir(name)
@@ -66,5 +68,17 @@ module Nu
       to
     end
 	
+	def self.process_dependencies
+		spec = get_gemspec @gem_to_copy
+		spec.dependencies.each do |d|
+			if Gem.available? d.name
+				puts "loading #{d.name}"
+				load d.name, @location
+			else
+				puts "#{d.name} is not installed locally"
+				puts "please run 'gem install #{d.name}"
+			end
+		end
+	end
   end
 end
