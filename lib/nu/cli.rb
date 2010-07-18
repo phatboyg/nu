@@ -15,14 +15,16 @@ module Nu
     desc "install GEMNAME", "installs a gem in the 'pwd'"
 	  method_options :location => :string
 	
-  	def install(name)
-  		@proj.ensure_default_config
+  	def install(*names)
+		@proj.ensure_default_config
 		
   		loc = @proj.get_location
   		cl = options['location']
   		loc = cl unless cl.nil?
 		
-  		Nu::Loader.load name, loc
+		names.each do |n|
+			Nu::Loader.load n, loc
+		end
       end
 	
   	desc "lib FOLDER", "where do you want to store the gems"
