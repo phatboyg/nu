@@ -34,9 +34,11 @@ module Nu
 	
     def self.get_libdir(name)
       g = get_gemspec name
-      l = Gem.searcher.lib_dirs_for g
-      #scrub and return?
-      l
+      #puts "GemSpec #{g.full_gem_path}"
+      l = g.full_gem_path
+      d = File.join(l,"lib")
+      #puts d
+      d
     end
     
     def self.get_gemspec(name)
