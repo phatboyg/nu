@@ -9,9 +9,9 @@ module Nu
       if File.exist? @config_file
   			return
   		end
-  		add_file @config_file
+  		
   		content = YAML::dump( {'lib'=>'lib'} )
-  		append_file @config_file, content 
+  		add_file @config_file, content 
     end
   
     def get_location
@@ -26,5 +26,10 @@ module Nu
 		
   		File.open(@config_file, 'w') {|f| f.write(content) }
     end
+    
+    def add_file(name,content)
+      File.open(name, 'w'){|f| f.write(content)}
+    end
+    
   end
 end

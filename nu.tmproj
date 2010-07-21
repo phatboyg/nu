@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>development/nu/lib/nu.rb</string>
+	<string>lib/nu/project.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -16,19 +16,63 @@
 			<key>sourceDirectory</key>
 			<string>lib</string>
 		</dict>
+		<dict>
+			<key>name</key>
+			<string>bin</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>sourceDirectory</key>
+			<string>bin</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>specs</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>sourceDirectory</key>
+			<string>specs</string>
+		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>200</integer>
 	<key>metaData</key>
 	<dict>
-		<key>development/nu/lib/nu.rb</key>
+		<key>lib/nu/cli.rb</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>5</integer>
+				<integer>4</integer>
 				<key>line</key>
-				<integer>13</integer>
+				<integer>10</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>lib/nu/loader.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>5</integer>
+		</dict>
+		<key>lib/nu/project.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>2</integer>
+				<key>line</key>
+				<integer>2</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -38,11 +82,13 @@
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>development/nu/lib/nu.rb</string>
+		<string>lib/nu/loader.rb</string>
+		<string>lib/nu/cli.rb</string>
+		<string>lib/nu/project.rb</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{248, 155}, {960, 588}}</string>
+	<string>{{257, 217}, {960, 588}}</string>
 </dict>
 </plist>
