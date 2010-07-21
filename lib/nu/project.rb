@@ -36,6 +36,13 @@ module Nu
 		save_file(opts)
 		nil
 	end
+	#need to meta awesome this
+	def use_short_names
+		opts = get_options
+		opts['uselongnames']=false
+		save_file(opts)
+		nil
+	end
 	
     
     def add_file(name, content)

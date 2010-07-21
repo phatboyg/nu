@@ -36,6 +36,11 @@ module Nu
 		@proj.use_long_names
 	end
 	
+	desc "useshortnames", "turn the option of name + version number off"
+	def useshortnames
+		@proj.use_short_names
+	end
+	
   	def self.source_root
   		File.dirname(__FILE__)
   	end
