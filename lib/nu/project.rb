@@ -1,3 +1,5 @@
+require 'FileUtils'
+
 module Nu
   class Project
   
@@ -27,7 +29,8 @@ module Nu
   		File.open(@config_file, 'w') {|f| f.write(content) }
     end
     
-    def add_file(name,content)
+    def add_file(name, content)
+      FileUtils.mkdir_p(File.dirname(name))
       File.open(name, 'w'){|f| f.write(content)}
     end
     
