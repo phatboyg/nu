@@ -16,8 +16,8 @@ module Nu
 
       if !Gem.available? @gem_to_copy
         puts "Gem unavailable - trying to install"
-        inst = Gem::DependencyInstaller.new @gem_to_copy
-        inst.install @gem_to_copy, {}
+        inst = Gem::DependencyInstaller.new
+        inst.install @gem_to_copy
         inst.installed_gems.each do |spec|
           say "Successfully installed #{spec.full_name}"
         end
