@@ -16,11 +16,16 @@ module Nu
 
       if !Gem.available? @gem_to_copy
         puts "Gem unavailable - trying to install"
-        inst = Gem::DependencyInstaller.new
-        inst.install @gem_to_copy
-        inst.installed_gems.each do |spec|
-          puts "Successfully installed #{spec.full_name}"
-        end
+		begin
+			inst = Gem::DependencyInstaller.new
+			inst.install @gem_to_copy
+			inst.installed_gems.each do |spec|
+				puts "Successfully installed #{spec.full_name}"
+			end
+		rescue Gem::GemNotFoundException => e
+			puts "ERROR: #{e.message}"
+			return #GTFO
+		end
       else
         puts "Found Gem"
       end
