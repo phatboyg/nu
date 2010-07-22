@@ -7,6 +7,7 @@ module Nu
 	def self.load(name)
 		load(name, 'lib')
 	end
+	
 	def self.load(name, location)
       #improve the crap out of this
       @gem_to_copy = name
@@ -65,9 +66,15 @@ module Nu
     end
     
     def self.get_copy_to
+	  proj = Nu::Project.new
+	  
       spec = get_gemspec @gem_to_copy
       #to be used in copying
-      name =  spec.full_name
+	  if proj.should_use_long_names?
+		name = spec.full_name
+	  else
+		name = spec.name
+	  end
       to = Dir.pwd + "/#{@location}/#{name}"
       if Dir[to] == [] #may need a smarter guy here
         FileUtils.mkpath to

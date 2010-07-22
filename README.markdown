@@ -3,6 +3,12 @@ NU - Gems for .NET
 Inspired by bundler for ruby
 http://yehudakatz.com/2009/11/03/using-the-new-gem-bundler-today/
 
+# COMMANDS
+nu install GEMNAME
+nu lib WHERE_YOU_WANT_THE_DLLS (default: lib)
+nu uselongnames (turns the name-versionnumber on - it is now off by default)
+
+
 # LICENSE
 Apache 2.0 - see docs\legal (just LEGAL in the zip folder)
 

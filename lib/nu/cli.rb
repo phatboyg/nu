@@ -16,9 +16,8 @@ module Nu
 	  method_options :location => :string
 	
   	def install(*names)
-		@proj.ensure_default_config
-		
-  		loc = @proj.get_location
+	
+  		loc = @proj.location
   		cl = options['location']
   		loc = cl unless cl.nil?
 		
@@ -29,8 +28,18 @@ module Nu
 	
   	desc "lib FOLDER", "where do you want to store the gems"
   	def lib(folder)
-  		@proj.set_location folder
+  		@proj.location= folder
   	end
+	
+	desc "uselongnames", "turn the option of name + version number on"
+	def uselongnames
+		@proj.use_long_names
+	end
+	
+	desc "useshortnames", "turn the option of name + version number off"
+	def useshortnames
+		@proj.use_short_names
+	end
 	
   	def self.source_root
   		File.dirname(__FILE__)
