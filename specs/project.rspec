@@ -1,5 +1,21 @@
 require 'lib/nu/project'
+#require 'mocha'
 
 #a good time to test out mocking
 describe 'the project' do
+=begin
+  it "should load a default config if no config present" do
+    File.expects(:exist?).returns(false)
+    FileUtils.expects(:mkdir_p).returns(true)
+    File.expects(:open)
+
+    proj = Project.new
+
+    proj.location.should eql 'lib'
+  end
+=end
+
+  it "should write new configuration to config when provided"
+
+  it "should write contents to a file when provided"
 end
