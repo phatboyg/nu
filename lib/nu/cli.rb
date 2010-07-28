@@ -13,16 +13,18 @@ module Nu
   	end
 	
     desc "install GEMNAME", "installs a gem in the 'pwd'"
-	  method_options :location => :string
+	  method_options :location => :string, :version => :string
 	
   	def install(*names)
 	
   		loc = @proj.location
   		cl = options['location']
+  		ver = options['version']
+  		
   		loc = cl unless cl.nil?
 		
 		names.each do |n|
-			Nu::Loader.load n, loc
+			Nu::Loader.load n, loc, ver
 		end
       end
 	

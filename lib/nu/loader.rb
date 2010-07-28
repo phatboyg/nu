@@ -7,15 +7,16 @@ module Nu
       load(name, 'lib')
     end
 
-    def self.load(name, location)
+    def self.load(name, location, version)
       #improve the crap out of this
       @gem_to_copy = name
       @location = location
+      
       if !Gem.available? @gem_to_copy
         puts "Gem #{@gem_to_copy} is not installed locally - I am now going to try and install it"
         begin
           inst = Gem::DependencyInstaller.new
-          inst.install @gem_to_copy
+          inst.install @gem_to_copy, version
           inst.installed_gems.each do |spec|
             puts "Successfully installed #{spec.full_name}"
           end
