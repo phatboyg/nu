@@ -3,6 +3,7 @@ require 'rubygems/dependency_installer'
 
 module Nu
   class Loader
+    
     def self.load(name)
       load(name, 'lib')
     end
@@ -28,18 +29,18 @@ module Nu
         puts "Found Gem"
       end
       #TODO: better error handling flow control for above
-      
-      
+
       start_here = get_copy_from()
       puts "Copy From: #{start_here}"
-      
+
       to = get_copy_to()
       puts "Copy To: #{to}"
-      
+
       FileUtils.copy_entry start_here, to
+	  
       process_dependencies
     end
-	
+
     def self.get_libdir(name)
       g = get_gemspec name
       #puts "GemSpec #{g.full_gem_path}"
@@ -48,28 +49,28 @@ module Nu
       #puts d
       d
     end
-    
+
     def self.get_gemspec(name)
       gems = Gem.source_index.find_name name
       return gems.last if gems.length > 0
     end
-	    
+
     def self.get_copy_from
       libdir = get_libdir @gem_to_copy
       #puts File.expand_path libdir
       #try Dir.glob("{bin,lib}/**/*")
       libdir.gsub '{lib}','lib'
     end
-    
+
     def self.get_files
       spec = get_gemspec @gem_to_copy
       files = spec.lib_files #get full path
       files
     end
-    
+
     def self.get_copy_to
       proj = Nu::Project.new
-	  
+
       spec = get_gemspec @gem_to_copy
       #to be used in copying
       if proj.should_use_long_names?
@@ -83,7 +84,7 @@ module Nu
       end
       to
     end
-	
+
     def self.process_dependencies
       spec = get_gemspec @gem_to_copy
       spec.dependencies.each do |d|
@@ -96,5 +97,6 @@ module Nu
         end
       end
     end
+
   end
 end
