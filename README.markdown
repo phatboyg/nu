@@ -4,7 +4,9 @@ Inspired by bundler for ruby
 http://yehudakatz.com/2009/11/03/using-the-new-gem-bundler-today/
 
 # COMMANDS
-nu install GEMNAME
+nu install GEMNAME ('nu install log4net')
+or
+nu install GEMNAME1 GEMNAME2 (like 'nu install log4net nunit')
 nu lib WHERE_YOU_WANT_THE_DLLS (default: lib)
 nu uselongnames (turns the name-versionnumber on - it is now off by default)
 
