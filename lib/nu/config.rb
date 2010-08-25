@@ -1,6 +1,6 @@
 require 'yaml'
 require 'thor'
-require 'FileUtils'
+require 'fileutils'
 
 module Nu
 	#class Config < Thor::Group
