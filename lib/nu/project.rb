@@ -1,4 +1,4 @@
-require 'FileUtils'
+require 'fileutils'
 
 module Nu
   class Project
