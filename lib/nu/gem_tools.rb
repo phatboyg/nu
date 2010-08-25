@@ -14,8 +14,8 @@ module Nu
       return all_installed_gems.detect {|spec| spec.satisfies_requirement?(dependency)}
     end
 
-		def self.lib_for(name)
-			gem = spec_for(name)
+		def self.lib_for(name, requirement=nil)
+			gem = spec_for(name, requirement)
 			gem_path = gem.full_gem_path
 			libdir = File.join(gem_path,"lib")
 			unless File.exist?(libdir)

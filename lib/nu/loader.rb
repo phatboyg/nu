@@ -56,7 +56,7 @@ module Nu
 		end
 
     def copy_source
-      Nu::GemTools.lib_for(@gem_name).gsub '{lib}','lib'
+      Nu::GemTools.lib_for(@gem_name, @version).gsub '{lib}','lib'
     end
 
     def copy_dest
