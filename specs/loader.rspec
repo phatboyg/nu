@@ -14,4 +14,12 @@ describe Nu::Loader do
 			Nu::Loader.gem_available?.should eql(true)
 		end
 		
+		it 'should know the source dir' do
+			spec = Nu::GemTools.spec_for('rspec')
+			Nu::Loader.copy_source.should eql(File.join(spec.full_gem_path,'lib'))
+		end
+		
+		it 'should know the dest dir' do
+			Nu::Loader.copy_dest.should eql(File.expand_path('./spec_lib/rspec'))
+		end
 end

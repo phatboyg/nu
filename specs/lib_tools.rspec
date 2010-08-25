@@ -3,14 +3,6 @@ require 'lib/nu/lib_tools'
 
 describe Nu::LibTools do
 	
-	describe 'gemspec_for' do
-		it 'should return a gemspec' do
-			spec = Nu::LibTools.gemspec_for('rspec')
-				spec.should_not eql(nil)
-				spec.name.should eql('rspec')
-		end
-	end
-	
 	describe 'folder_name_for' do
 		describe 'when called' do
 			it 'should return the full path to the folder in the lib folder' do

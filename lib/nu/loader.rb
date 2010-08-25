@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'rubygems/dependency_installer'
 require 'lib/nu/lib_tools'
+require 'lib/nu/gem_tools'
 require 'lib/nu/project'
 
 module Nu
@@ -35,51 +36,30 @@ module Nu
     end
 
 		def self.copy_to_lib
-			 start_here = get_copy_from()
-	      puts "Copy From: #{start_here}"
+			start_here = copy_source
+			puts "Copy From: #{start_here}"
 
-	      to = get_copy_to()
-	      puts "Copy To: #{to}"
+			to = copy_dest
+			puts "Copy To: #{to}"
 
-	      FileUtils.copy_entry start_here, to
+			FileUtils.copy_entry start_here, to
 
-	      process_dependencies
+			process_dependencies
 		end
 
 		def self.gemspec
-			Nu::LibTools.gemspec_for(@gem_name)
+			Nu::GemTools.spec_for(@gem_name)
 		end
 
 		def self.gem_available?
 			Gem.available? @gem_name
 		end
 
-
-    def self.get_libdir(name)
-      gem = get_gemspec name
-      #puts "GemSpec #{gem.full_gem_path}"
-      gem_path = gem.full_gem_path
-      libdir = File.join(gem_path,"lib")
-      unless File.exist?(libdir)
-        puts "Getting libdir from #{File.join(gem_path, '.require_paths')}"
-        libdir = IO.readlines(File.join(gem_path, ".require_paths"))[0].strip 
-        libdir = File.expand_path(File.join(gem_path,libdir))
-      end
-      libdir
+    def self.copy_source
+      Nu::GemTools.lib_for(@gem_name).gsub '{lib}','lib'
     end
 
-    def self.get_copy_from
-      libdir = get_libdir @gem_name
-      #puts File.expand_path libdir
-      #try Dir.glob("{bin,lib}/**/*")
-      libdir.gsub '{lib}','lib'
-    end
-
-    def self.get_files
-      gemspec.lib_files #get full path
-    end
-
-    def self.get_copy_to
+    def self.copy_dest
       proj = Nu::Project.new
 
       #to be used in copying
@@ -99,7 +79,7 @@ module Nu
       gemspec.dependencies.each do |d|
         if Gem.available? d.name
           puts "loading #{d.name}"
-          load d.name, @location, @version
+          load d.name, @location, d.version
         else
           puts "#{d.name} is not installed locally"
           puts "please run 'gem install #{d.name}"

@@ -25,3 +25,4 @@ doc/*
 SolutionVersion.cs
 
 spec_lib/*
+.nu/*
