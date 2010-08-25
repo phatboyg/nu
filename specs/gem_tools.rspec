@@ -1,0 +1,48 @@
+require 'rubygems'
+require 'spec'
+require 'lib/nu/gem_tools'
+
+describe Nu::GemTools do
+	
+	describe 'gemspec_for' do
+		it 'should return a gemspec' do
+			spec = Nu::GemTools.spec_for('rspec')
+				spec.should_not eql(nil)
+				spec.name.should eql('rspec')
+		end
+		
+		it 'should return a gemspec for a particular version with a requirement' do
+			spec = Nu::GemTools.spec_for('rspec', Gem::Requirement.create('= 1.2.4'))
+				spec.should_not eql(nil)
+				spec.name.should eql('rspec')
+				spec.version.to_s.should eql('1.2.4')
+		end
+
+		it 'should return a gemspec for a particular version with a string' do
+			spec = Nu::GemTools.spec_for('rspec', '= 1.2.4')
+				spec.should_not eql(nil)
+				spec.name.should eql('rspec')
+				spec.version.to_s.should eql('1.2.4')
+		end
+
+		
+	end
+
+	describe 'lib_for' do
+		describe 'for a gem with just a lib dir' do
+			it "should return the gem's lib path" do
+				spec = Nu::GemTools.spec_for('rspec')
+				Nu::GemTools.lib_for('rspec').should eql(File.join(spec.full_gem_path, 'lib'))
+			end
+		end
+		
+		describe 'for a gem with a .require_paths' do
+			#TODO: Find a better sample gem, maybe even a special one just for testing
+			it "should return the gem's lib path" do
+				spec = Nu::GemTools.spec_for('textmate')
+				Nu::GemTools.lib_for('textmate').should eql(File.join(spec.full_gem_path, 'bin'))
+			end
+		end
+	end
+
+end

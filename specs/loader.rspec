@@ -1,10 +1,26 @@
 require 'spec'
+require 'lib/nu/loader'
 
-describe 'the loader' do
-	it 'should know if a gem is available' do
-		#assert rspec
-	end
-	
-	it 'should' do
-	end
+describe Nu::Loader do
+
+		before(:all) do
+			@loader = Nu::Loader.new('rspec', 'spec_lib', nil)
+		end
+		
+		it 'should have the gemspec' do
+			@loader.gemspec.name.should eql('rspec')
+		end
+		
+		it 'should know if a gem is available' do
+			@loader.gem_available?.should eql(true)
+		end
+		
+		it 'should know the source dir' do
+			spec = Nu::GemTools.spec_for('rspec')
+			@loader.copy_source.should eql(File.join(spec.full_gem_path,'lib'))
+		end
+		
+		it 'should know the dest dir' do
+			@loader.copy_dest.should eql(File.expand_path('./spec_lib/rspec'))
+		end
 end

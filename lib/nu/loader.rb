@@ -1,23 +1,27 @@
 require 'rubygems'
 require 'rubygems/dependency_installer'
+require File.expand_path(File.dirname(__FILE__) + "/lib_tools.rb")
+require File.expand_path(File.dirname(__FILE__) + "/gem_tools.rb")
+require File.expand_path(File.dirname(__FILE__) + "/project.rb")
 
 module Nu
   class Loader
     
-    def self.load(name)
-      load(name, 'lib')
-    end
-
-    def self.load(name, location, version)
+		attr :gem_name
+		attr :location
+		attr :version
+		
+    def initialize(name, location, version)
       #improve the crap out of this
-      @gem_to_copy = name
+      @gem_name = name
       @location = location
-      
-      if !Gem.available? @gem_to_copy
-        puts "Gem #{@gem_to_copy} is not installed locally - I am now going to try and install it"
+      @version = version
+
+      if !gem_available?
+        puts "Gem #{@gem_name} #{@version} is not installed locally - I am now going to try and install it"
         begin
           inst = Gem::DependencyInstaller.new
-          inst.install @gem_to_copy, version
+          inst.install @gem_name, @version
           inst.installed_gems.each do |spec|
             puts "Successfully installed #{spec.full_name}"
           end
@@ -29,54 +33,40 @@ module Nu
         puts "Found Gem"
       end
       #TODO: better error handling flow control for above
-
-      start_here = get_copy_from()
-      puts "Copy From: #{start_here}"
-
-      to = get_copy_to()
-      puts "Copy To: #{to}"
-
-      FileUtils.copy_entry start_here, to
-	  
-      process_dependencies
     end
 
-    def self.get_libdir(name)
-      g = get_gemspec name
-      #puts "GemSpec #{g.full_gem_path}"
-      l = g.full_gem_path
-      d = File.join(l,"lib")
-      #puts d
-      d
+		def copy_to_lib
+			start_here = copy_source
+			puts "Copy From: #{start_here}"
+
+			to = copy_dest
+			puts "Copy To: #{to}"
+
+			FileUtils.copy_entry start_here, to
+
+			process_dependencies
+		end
+
+		def gemspec
+			Nu::GemTools.spec_for(@gem_name, @version)
+		end
+
+		def gem_available?
+			Gem.available? @gem_name, @version
+		end
+
+    def copy_source
+      Nu::GemTools.lib_for(@gem_name, @version).gsub '{lib}','lib'
     end
 
-    def self.get_gemspec(name)
-      gems = Gem.source_index.find_name name
-      return gems.last if gems.length > 0
-    end
-
-    def self.get_copy_from
-      libdir = get_libdir @gem_to_copy
-      #puts File.expand_path libdir
-      #try Dir.glob("{bin,lib}/**/*")
-      libdir.gsub '{lib}','lib'
-    end
-
-    def self.get_files
-      spec = get_gemspec @gem_to_copy
-      files = spec.lib_files #get full path
-      files
-    end
-
-    def self.get_copy_to
+    def copy_dest
       proj = Nu::Project.new
 
-      spec = get_gemspec @gem_to_copy
       #to be used in copying
       if proj.should_use_long_names?
-        name = spec.full_name
+        name = gemspec.full_name
       else
-        name = spec.name
+        name = gemspec.name
       end
       to = Dir.pwd + "/#{@location}/#{name}"
       if Dir[to] == [] #may need a smarter guy here
@@ -85,12 +75,12 @@ module Nu
       to
     end
 
-    def self.process_dependencies
-      spec = get_gemspec @gem_to_copy
-      spec.dependencies.each do |d|
+    def process_dependencies
+      gemspec.dependencies.each do |d|
         if Gem.available? d.name
-          puts "loading #{d.name}"
-          load d.name, @location
+          puts "Loading dependency: #{d.name} #{d.requirement}"
+					loader = Loader.new(d.name, @location, d.requirement)
+					loader.copy_to_lib
         else
           puts "#{d.name} is not installed locally"
           puts "please run 'gem install #{d.name}"

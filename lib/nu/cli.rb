@@ -24,9 +24,15 @@ module Nu
       loc = cl unless cl.nil?
 
       names.each do |n|
-			Nu::Loader.load n, loc, ver
+				loader = Nu::Loader.new(n, loc, ver)
+				loader.copy_to_lib
       end
     end
+
+		desc "uninstall GEM", "remove the specified gem from the lib folder"
+		def uninstall(gem)
+			
+		end
 
     desc "lib FOLDER", "where do you want to store the gems"
     def lib(folder)
