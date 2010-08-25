@@ -24,8 +24,8 @@ module Nu
       loc = cl unless cl.nil?
 
       names.each do |n|
-				Nu::Loader.load n, loc, ver
-				Nu::Loader.copy_to_lib
+				loader = Nu::Loader.new(n, loc, ver)
+				loader.copy_to_lib
       end
     end
 

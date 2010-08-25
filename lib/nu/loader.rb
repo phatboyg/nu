@@ -7,11 +7,11 @@ require File.expand_path(File.dirname(__FILE__) + "/project.rb")
 module Nu
   class Loader
     
-    def self.load(name)
-      load(name, 'lib')
-    end
-
-    def self.load(name, location, version)
+		attr :gem_name
+		attr :location
+		attr :version
+		
+    def initialize(name, location, version)
       #improve the crap out of this
       @gem_name = name
       @location = location
@@ -21,7 +21,7 @@ module Nu
         puts "Gem #{@gem_name} #{@version} is not installed locally - I am now going to try and install it"
         begin
           inst = Gem::DependencyInstaller.new
-          inst.install @gem_name, version
+          inst.install @gem_name, @version
           inst.installed_gems.each do |spec|
             puts "Successfully installed #{spec.full_name}"
           end
@@ -35,7 +35,7 @@ module Nu
       #TODO: better error handling flow control for above
     end
 
-		def self.copy_to_lib
+		def copy_to_lib
 			start_here = copy_source
 			puts "Copy From: #{start_here}"
 
@@ -47,19 +47,19 @@ module Nu
 			process_dependencies
 		end
 
-		def self.gemspec
+		def gemspec
 			Nu::GemTools.spec_for(@gem_name)
 		end
 
-		def self.gem_available?
+		def gem_available?
 			Gem.available? @gem_name, @version
 		end
 
-    def self.copy_source
+    def copy_source
       Nu::GemTools.lib_for(@gem_name).gsub '{lib}','lib'
     end
 
-    def self.copy_dest
+    def copy_dest
       proj = Nu::Project.new
 
       #to be used in copying
@@ -75,11 +75,12 @@ module Nu
       to
     end
 
-    def self.process_dependencies
+    def process_dependencies
       gemspec.dependencies.each do |d|
         if Gem.available? d.name
           puts "Loading dependency: #{d.name}"
-          load d.name, @location, d.requirement
+					loader = Loader.new(d.name, @location, d.requirement)
+					loader.copy_to_lib
         else
           puts "#{d.name} is not installed locally"
           puts "please run 'gem install #{d.name}"
