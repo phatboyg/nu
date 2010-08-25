@@ -52,7 +52,11 @@ module Nu
 		end
 
 		def gem_available?
-			Gem.available? @gem_name, @version
+			if @version.nil?
+			    Gem.available? @gem_name
+			else
+			    Gem.available? @gem_name, @version
+			end
 		end
 
     def copy_source
