@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'spec'
 require 'lib/nu/gem_tools'
 
@@ -9,6 +10,22 @@ describe Nu::GemTools do
 				spec.should_not eql(nil)
 				spec.name.should eql('rspec')
 		end
+		
+		it 'should return a gemspec for a particular version with a requirement' do
+			spec = Nu::GemTools.spec_for('rspec', Gem::Requirement.create('= 1.2.4'))
+				spec.should_not eql(nil)
+				spec.name.should eql('rspec')
+				spec.version.to_s.should eql('1.2.4')
+		end
+
+		it 'should return a gemspec for a particular version with a string' do
+			spec = Nu::GemTools.spec_for('rspec', '= 1.2.4')
+				spec.should_not eql(nil)
+				spec.name.should eql('rspec')
+				spec.version.to_s.should eql('1.2.4')
+		end
+
+		
 	end
 
 	describe 'lib_for' do

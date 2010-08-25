@@ -3,9 +3,15 @@ require 'rubygems'
 module Nu
 	class GemTools
 		
-		def self.spec_for(name)
-      gems = Gem.source_index.find_name name
-      return gems.last if gems.length > 0
+		def self.spec_for(name, requirement=nil)
+			unless requirement.respond_to?('satisfied_by?') 
+				requirement = Gem::Requirement.create(requirement)
+			end
+			dependency = Gem::Dependency.new(name,requirement)
+			searcher = Gem::GemPathSearcher.new()
+			all_installed_gems = searcher.init_gemspecs()
+			
+      return all_installed_gems.detect {|spec| spec.satisfies_requirement?(dependency)}
     end
 
 		def self.lib_for(name)

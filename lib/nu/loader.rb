@@ -48,7 +48,7 @@ module Nu
 		end
 
 		def gemspec
-			Nu::GemTools.spec_for(@gem_name)
+			Nu::GemTools.spec_for(@gem_name, @version)
 		end
 
 		def gem_available?
@@ -78,7 +78,7 @@ module Nu
     def process_dependencies
       gemspec.dependencies.each do |d|
         if Gem.available? d.name
-          puts "Loading dependency: #{d.name}"
+          puts "Loading dependency: #{d.name} #{d.requirement}"
 					loader = Loader.new(d.name, @location, d.requirement)
 					loader.copy_to_lib
         else
