@@ -1,10 +1,17 @@
 require 'spec'
+require 'lib/nu/loader'
 
-describe 'the loader' do
-	it 'should know if a gem is available' do
-		#assert rspec
-	end
-	
-	it 'should' do
-	end
+describe Nu::Loader do
+		before(:all) do
+			Nu::Loader.load('rspec', 'spec_lib', nil)
+		end
+		
+		it 'should have the gemspec' do
+			Nu::Loader.gemspec.name.should eql('rspec')
+		end
+		
+		it 'should know if a gem is available' do
+			Nu::Loader.gem_available?.should eql(true)
+		end
+		
 end
