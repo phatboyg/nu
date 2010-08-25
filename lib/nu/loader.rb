@@ -56,11 +56,16 @@ module Nu
 
 
     def self.get_libdir(name)
-      #puts "GemSpec #{g.full_gem_path}"
-      l = gemspec.full_gem_path
-      d = File.join(l,"lib")
-      #puts d
-      d
+      gem = get_gemspec name
+      #puts "GemSpec #{gem.full_gem_path}"
+      gem_path = gem.full_gem_path
+      libdir = File.join(gem_path,"lib")
+      unless File.exist?(libdir)
+        puts "Getting libdir from #{File.join(gem_path, '.require_paths')}"
+        libdir = IO.readlines(File.join(gem_path, ".require_paths"))[0].strip 
+        libdir = File.expand_path(File.join(gem_path,libdir))
+      end
+      libdir
     end
 
     def self.get_copy_from
