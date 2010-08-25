@@ -1,8 +1,8 @@
 require 'rubygems'
 require 'rubygems/dependency_installer'
-require 'lib/nu/lib_tools'
-require 'lib/nu/gem_tools'
-require 'lib/nu/project'
+require File.expand_path(File.dirname(__FILE__) + "/lib_tools.rb")
+require File.expand_path(File.dirname(__FILE__) + "/gem_tools.rb")
+require File.expand_path(File.dirname(__FILE__) + "/project.rb")
 
 module Nu
   class Loader
