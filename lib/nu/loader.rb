@@ -18,7 +18,7 @@ module Nu
       @version = version
 
       if !gem_available?
-        puts "Gem #{@gem_name} is not installed locally - I am now going to try and install it"
+        puts "Gem #{@gem_name} #{@version} is not installed locally - I am now going to try and install it"
         begin
           inst = Gem::DependencyInstaller.new
           inst.install @gem_name, version
@@ -52,7 +52,7 @@ module Nu
 		end
 
 		def self.gem_available?
-			Gem.available? @gem_name
+			Gem.available? @gem_name, @version
 		end
 
     def self.copy_source
@@ -78,8 +78,8 @@ module Nu
     def self.process_dependencies
       gemspec.dependencies.each do |d|
         if Gem.available? d.name
-          puts "loading #{d.name}"
-          load d.name, @location, d.version
+          puts "Loading dependency: #{d.name}"
+          load d.name, @location, d.requirement
         else
           puts "#{d.name} is not installed locally"
           puts "please run 'gem install #{d.name}"

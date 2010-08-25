@@ -5,7 +5,7 @@ describe Nu::GemTools do
 	
 	describe 'gemspec_for' do
 		it 'should return a gemspec' do
-			spec = Nu::GemTools.gemspec_for('rspec')
+			spec = Nu::GemTools.spec_for('rspec')
 				spec.should_not eql(nil)
 				spec.name.should eql('rspec')
 		end
@@ -14,7 +14,7 @@ describe Nu::GemTools do
 	describe 'lib_for' do
 		describe 'for a gem with just a lib dir' do
 			it "should return the gem's lib path" do
-				spec = Nu::GemTools.gemspec_for('rspec')
+				spec = Nu::GemTools.spec_for('rspec')
 				Nu::GemTools.lib_for('rspec').should eql(File.join(spec.full_gem_path, 'lib'))
 			end
 		end
@@ -22,7 +22,7 @@ describe Nu::GemTools do
 		describe 'for a gem with a .require_paths' do
 			#TODO: Find a better sample gem, maybe even a special one just for testing
 			it "should return the gem's lib path" do
-				spec = Nu::GemTools.gemspec_for('textmate')
+				spec = Nu::GemTools.spec_for('textmate')
 				Nu::GemTools.lib_for('textmate').should eql(File.join(spec.full_gem_path, 'bin'))
 			end
 		end
