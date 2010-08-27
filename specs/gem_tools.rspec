@@ -1,6 +1,8 @@
 require 'rubygems'
 require 'spec'
 require 'lib/nu/gem_tools'
+require 'yaml'
+require 'fileutils'
 
 describe Nu::GemTools do
 	
@@ -42,6 +44,20 @@ describe Nu::GemTools do
 				Nu::GemTools.lib_for('nu_test_has_require_paths').should eql(File.join(spec.full_gem_path, 'not_lib'))
 			end
 		end
+	end
+
+	describe 'write_spec' do
+
+		before(:each) do
+			Nu::GemTools.write_spec('nu_test_has_require_paths', '.')
+		end
+				
+		it "should write a nu_spec file containing the gem spec" do
+			path = File.expand_path('./nu_spec.yaml')
+			spec = YAML::load_file(path)
+			spec.version.to_s.should eql("0.0.1")
+		end
+		
 	end
 
 end

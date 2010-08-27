@@ -5,6 +5,7 @@ describe Nu::Loader do
 
 		before(:all) do
 			@loader = Nu::Loader.new('rspec', 'spec_lib', nil)
+			@loader.load_gem
 		end
 		
 		it 'should have the gemspec' do

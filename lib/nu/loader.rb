@@ -16,9 +16,11 @@ module Nu
       @gem_name = name
       @location = location
       @version = version
+    end
 
-      if !gem_available?
-        puts "Gem #{@gem_name} #{@version} is not installed locally - I am now going to try and install it"
+		def load_gem
+			if !gem_available?
+        puts "Gem #{(@gem_name + " #{@version}").strip} is not installed locally - I am now going to try and install it"
         begin
           inst = Gem::DependencyInstaller.new
           inst.install @gem_name, @version
@@ -27,13 +29,12 @@ module Nu
           end
         rescue Gem::GemNotFoundException => e
           puts "ERROR: #{e.message}"
-          return #GTFO
+          return false
         end
       else
-        puts "Found Gem"
+        return true
       end
-      #TODO: better error handling flow control for above
-    end
+		end
 
 		def copy_to_lib
 			start_here = copy_source
@@ -43,6 +44,7 @@ module Nu
 			puts "Copy To: #{to}"
 
 			FileUtils.copy_entry start_here, to
+			Nu::GemTools.write_spec(gemspec, to)
 
 			process_dependencies
 		end
@@ -66,17 +68,7 @@ module Nu
     def copy_dest
       proj = Nu::Project.new
 
-      #to be used in copying
-      if proj.should_use_long_names?
-        name = gemspec.full_name
-      else
-        name = gemspec.name
-      end
-      to = Dir.pwd + "/#{@location}/#{name}"
-      if Dir[to] == [] #may need a smarter guy here
-        FileUtils.mkpath to
-      end
-      to
+			Nu::LibTools.folder_for(gemspec, @location, proj.should_use_long_names?)
     end
 
     def process_dependencies

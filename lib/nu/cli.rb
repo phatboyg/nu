@@ -17,15 +17,17 @@ module Nu
 
     def install(*names)
 
-      loc = @proj.location
-      cl = options['location']
-  		ver = options['version']
+			loc = @proj.location
+			cl = options['location']
+			ver = options['version']
   		
       loc = cl unless cl.nil?
 
       names.each do |n|
 				loader = Nu::Loader.new(n, loc, ver)
-				loader.copy_to_lib
+				if loader.load_gem
+					 loader.copy_to_lib
+				end
       end
     end
 
@@ -36,7 +38,7 @@ module Nu
 
     desc "lib FOLDER", "where do you want to store the gems"
     def lib(folder)
-      @proj.location= folder
+      @proj.location = folder
     end
 
     desc "uselongnames", "turn the option of name + version number on"

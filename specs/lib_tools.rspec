@@ -1,23 +1,30 @@
 require 'spec'
 require 'lib/nu/lib_tools'
+require 'lib/nu/gem_tools'
 
 describe Nu::LibTools do
 	
 	describe 'folder_name_for' do
+		
+		before(:all) do
+			@spec = Nu::GemTools.spec_for('rspec')
+		end
+		
 		describe 'when called' do
 			it 'should return the full path to the folder in the lib folder' do
-				Nu::LibTools.folder_name_for('rspec', 'foo').should eql(File.expand_path('./foo/rspec'))
+				Nu::LibTools.folder_for(@spec, 'foo').should eql(File.expand_path('./foo/rspec'))
 			end
 		end
+		
 		describe 'when called with long_name=false' do
 			it 'should use the short name' do
-				Nu::LibTools.folder_name_for('rspec', 'lib', false).should eql(File.expand_path('./lib/rspec'))
+				Nu::LibTools.folder_for(@spec, 'lib', false).should eql(File.expand_path('./lib/rspec'))
 			end
 		end
+		
 		describe 'when called with long_name=true' do
 			it 'should use the long name' do
-				spec = Nu::LibTools.gemspec_for('rspec')
-				Nu::LibTools.folder_name_for('rspec', 'lib', true).should eql(File.expand_path("./lib/#{spec.full_name}"))
+				Nu::LibTools.folder_for(@spec, 'lib', true).should eql(File.expand_path("./lib/#{@spec.full_name}"))
 			end
 		end
 	end

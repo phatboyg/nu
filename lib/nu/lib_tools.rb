@@ -3,20 +3,20 @@ require 'rubygems'
 module Nu
 	class LibTools
 		
-		def self.gemspec_for(name)
-      gems = Gem.source_index.find_name name
-      return gems.last if gems.length > 0
-    end
+		def self.folder_for(spec, lib, long_name=false)
+      if long_name
+        name = spec.full_name
+      else
+        name = spec.name
+      end
 
-		def self.folder_name_for(gem_name, lib, long_name=false)
-			  spec = gemspec_for(gem_name)
+      to = Dir.pwd + "/#{lib}/#{name}"
+			if Dir[to] == [] #may need a smarter guy here
+	      FileUtils.mkpath to
+      end
 
-	      if long_name
-	        name = spec.full_name
-	      else
-	        name = spec.name
-	      end
-	      Dir.pwd + "/#{lib}/#{name}"
+			return to
 		end
+		
 	end
 end
