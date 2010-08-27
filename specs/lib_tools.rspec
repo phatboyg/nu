@@ -29,4 +29,17 @@ describe Nu::LibTools do
 		end
 	end
 
+	describe 'read_specs_from_lib' do
+		
+		before(:each) do
+			Nu::GemTools.write_spec('nu_test_has_require_paths', '.')
+		end
+		
+		describe 'should return some results' do
+			results = Nu::LibTools.read_specs_from_lib('../')
+			results.each {|item| puts item.name + " "}
+		end
+		
+	end
+
 end

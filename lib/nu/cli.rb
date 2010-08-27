@@ -1,6 +1,8 @@
 require 'fileutils'
 require 'thor'
 require 'yaml'
+require File.expand_path(File.dirname(__FILE__) + "/lib_tools.rb")
+require File.expand_path(File.dirname(__FILE__) + "/gem_tools.rb")
 
 module Nu
   class CLI < Thor
@@ -30,6 +32,22 @@ module Nu
 				end
       end
     end
+
+		desc "version", "display the version of this nu"
+		def version
+			nu_spec = Nu::GemTools.spec_for("nu")
+			puts "Nu, version #{nu_spec.version}"
+		end
+
+		desc "report", "list the packages that are currently in the lib folder"
+		def report
+			puts ""
+			puts "The following packages are installed:"
+			puts "====================================="
+			Nu::LibTools.read_specs_from_lib(@proj.location).each{|i| puts "    " + i.full_name}
+			puts "====================================="
+			puts ""
+		end
 
 		desc "uninstall GEM", "remove the specified gem from the lib folder"
 		def uninstall(gem)

@@ -18,5 +18,12 @@ module Nu
 			return to
 		end
 		
+		def self.read_specs_from_lib(lib)
+			lib = File.expand_path(lib)
+			glob = "#{lib}/**/nu_spec.yaml"
+			files = Dir.glob(glob)
+			files.map{|file| YAML::load_file(file)}
+		end
+		
 	end
 end
