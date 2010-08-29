@@ -20,5 +20,4 @@ Gem::Specification.new do |s|
   s.bindir = 'bin'
   s.require_path = 'lib'
   
-  s.add_dependency('thor', '>= 0.13.8')
 end
