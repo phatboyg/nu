@@ -61,6 +61,9 @@ module Nu
 				@project_settings.platform = @project_settings.platform.gsub('.','_')
 				if !@platforms.index(@project_settings.platform)
 					disp "'#{@project_settings.platform}' is not a valid platform." 
+					disp "\nChoose one of these:"
+					@platforms.each {|p| disp "  #{p}"}
+					disp ""
 					exit 1
 				end
 			end
