@@ -26,10 +26,10 @@ module Nu
 				'silverlight_2_0', 'silverlight_3_0', 'silverlight_4_0']
 			
 			@project_settings = YAML.load_file(@settings_file) if File.exist?(@settings_file)
+			@project_settings = OpenStruct.new if @project_settings == nil
 			Nu::SettingsExtension.mix_in(@project_settings)
 			
 			#set defaults just in case they didn't load
-			@project_settings = OpenStruct.new if @project_settings == nil
 			@project_settings.lib = OpenStruct.new if @project_settings.lib == nil
 			@project_settings.lib.location = './lib' if @project_settings.lib.location == nil
 			@project_settings.lib.use_long_names = false if @project_settings.lib.use_long_names == nil

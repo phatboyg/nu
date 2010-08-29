@@ -31,7 +31,7 @@ class App
 	begin
 		OptionParser.new do |opts|
 
-			opts.banner = ["Usage: nu [un]install|upgrade PACKAGE [options]",
+			opts.banner = ["Usage: nu install PACKAGE [options]",
 										"\nConfig: nu config NAME VALUE",
 										"\nReport: nu report"]
 		
@@ -87,19 +87,19 @@ class App
 
 		def extract_commands
 			if @arguments.count > 0
-				case @arguments[0].downcase
+				@options.command = @arguments[0].downcase
+				case @options.command
+				when 'report'
+					@commands << lambda {Nu::Api.output_report}
 				when 'install'
 					assert_param_count(2)
 					@options.package = @arguments[1]
-					@options.command = 'INSTALL'
 					@commands << lambda {Nu::Api.install_package(@options.package, @options.package_version)}
-				when 'uninstall'
-					assert_param_count(2)
-					@options.package = @arguments[1]
-					@options.command = 'UNINSTALL'
-					@commands << lambda {Nu::Api.uninstall_package(@options.package, @options.package_version)}
+				# when 'uninstall'
+				# 				assert_param_count(2)
+				# 				@options.package = @arguments[1]
+				# 				@commands << lambda {Nu::Api.uninstall_package(@options.package, @options.package_version)}
 				when 'config'
-					@options.command = 'CONFIG'
 					if @arguments.count == 2
 						@commands << lambda {puts "#{@arguments[1]} = #{Nu::Api.get_setting(@arguments[1])}"} 
 					else

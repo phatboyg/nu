@@ -5,7 +5,7 @@ module Nu
 	class SettingsExtension
 		
 		def self.mix_in(target)
-		
+
 			def target.set_setting_by_path(path, value, logger)
 				path = path.split('.') if path.class == String
 				set_setting(self, path, value, logger)
@@ -45,7 +45,7 @@ module Nu
 				else
 					prop = path.shift
 					settings_object.send(prop + "=", OpenStruct.new) if settings_object.send(prop) == nil
-					set_project_setting(settings_object.send(prop), path,value)
+					set_setting(settings_object.send(prop), path, value, logger)
 				end
 			end
 			
