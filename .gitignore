@@ -27,3 +27,5 @@ SolutionVersion.cs
 spec_lib/*
 .nu/*
 nu_spec.yaml
+meta_data.yaml
+nuniverse.yaml

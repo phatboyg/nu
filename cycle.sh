@@ -6,4 +6,4 @@ gem uninstall nu -a -x
 
 gem build nu.gemspec
 
-gem install nu
+gem install --no-rdoc --no-ri nu

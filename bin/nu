@@ -1,9 +1,11 @@
 #!/usr/bin/ruby
 
-require 'nu'
+require 'app'
 
 begin
-	Nu::CLI.start
+	# Create and run the application
+	app = App.new(ARGV, STDIN, STDOUT)
+	app.run
 rescue Interrupt
 	puts 'quitting'
 	exit 1

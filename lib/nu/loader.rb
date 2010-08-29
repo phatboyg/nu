@@ -2,7 +2,6 @@ require 'rubygems'
 require 'rubygems/dependency_installer'
 require File.expand_path(File.dirname(__FILE__) + "/lib_tools.rb")
 require File.expand_path(File.dirname(__FILE__) + "/gem_tools.rb")
-require File.expand_path(File.dirname(__FILE__) + "/project.rb")
 
 module Nu
   class Loader
@@ -11,8 +10,9 @@ module Nu
 		attr :location
 		attr :version
 		
-    def initialize(name, location, version)
+    def initialize(name, version, location, long_names)
       #improve the crap out of this
+			@long_names = long_names
       @gem_name = name
       @location = location
       @version = version
@@ -66,9 +66,7 @@ module Nu
     end
 
     def copy_dest
-      proj = Nu::Project.new
-
-			Nu::LibTools.folder_for(gemspec, @location, proj.should_use_long_names?)
+			Nu::LibTools.folder_for(gemspec, @location, @long_names)
     end
 
     def process_dependencies

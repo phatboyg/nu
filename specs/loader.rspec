@@ -4,7 +4,7 @@ require 'lib/nu/loader'
 describe Nu::Loader do
 
 		before(:all) do
-			@loader = Nu::Loader.new('rspec', 'spec_lib', nil)
+			@loader = Nu::Loader.new('rspec', nil, 'spec_lib', false)
 			@loader.load_gem
 		end
 		
