@@ -4,10 +4,10 @@ Nubular - Gems for .NET
 
 *IMPORTANT: This is so alpha its omega...*
 
-For more information, check out the project wiki: http://nu.wikispot.org/
+For more information, check out the project wiki: [http://nu.wikispot.org/][1]
 
 Inspired by bundler for ruby:
-http://yehudakatz.com/2009/11/03/using-the-new-gem-bundler-today/
+[http://yehudakatz.com/2009/11/03/using-the-new-gem-bundler-today/][2]
 
 # USAGE
 	Usage: nu install PACKAGE [options]
@@ -46,7 +46,11 @@ And, coming soon:
 Apache 2.0 - see docs\legal (just LEGAL in the zip folder)
 
 # REQUIREMENTS
-* Ruby 1.8.7 - Windows users can install it easily: http://rubyforge.org/frs/download.php/72085/rubyinstaller-1.8.7-p302.exe 
+* Ruby 1.8.7 - Windows users can install it easily: [http://rubyforge.org/frs/download.php/72085/rubyinstaller-1.8.7-p302.exe][3]
 
 # CREDITS
 see legal\CREDITS
+
+[1]: http://nu.wikispot.org/
+[2]: http://yehudakatz.com/2009/11/03/using-the-new-gem-bundler-today/
+[3]: http://rubyforge.org/frs/download.php/72085/rubyinstaller-1.8.7-p302.exe
