@@ -1,0 +1,60 @@
+require 'rubygems'
+require 'spec'
+require 'ostruct'
+require 'lib/nu/settings.rb'
+
+describe 'settings extension' do
+	describe 'mix_in' do
+		it 'should add the methods to the object passed in' do
+			obj = ""
+			Nu::SettingsExtension.mix_in(obj)
+			obj.respond_to?('set_setting_by_path').should eql(true)
+			obj.respond_to?('get_setting_by_path').should eql(true)
+		end
+	end
+	
+	describe 'get_setting_by_path' do
+		
+		before(:all) do
+			@obj = OpenStruct.new
+			@logger = lambda {|msg|}
+			Nu::SettingsExtension.mix_in(@obj)
+		end
+		
+		it 'should return the correct value' do
+			@obj.simple = "hello"
+			@obj.simple.should eql("hello")
+			@obj.get_setting_by_path('simple', @logger).should eql("hello")
+		end
+		
+		it 'should be able to navigate into a long path' do
+			@obj.one = OpenStruct.new
+			@obj.one.two = OpenStruct.new
+			@obj.one.two.three = OpenStruct.new
+			@obj.one.two.three.value = "tada!"
+			
+			@obj.one.two.three.value.should eql("tada!")
+			@obj.get_setting_by_path('one.two.three.value', @logger).should eql('tada!')
+		end
+	end
+	
+	describe 'get_setting_by_path' do
+		before(:all) do
+			@obj = OpenStruct.new
+			@logger = lambda {|msg|}
+			Nu::SettingsExtension.mix_in(@obj)
+		end
+		
+		it 'should set the value' do
+			@obj.set_setting_by_path('simple', 'hello', @logger)
+			@obj.simple.should eql('hello')
+		end
+		
+		it 'should build up objects to support the provided path' do
+			@obj.set_setting_by_path('start.middle.end.value', 'tada!!', @logger)
+			@obj.start.middle.end.value.should eql('tada!!')
+		end
+		
+	end
+	
+end
