@@ -13,7 +13,7 @@ class App
   def initialize(arguments, stdin, stdout)
     
 		#special case, they want to know our version
-		if arguments.count == 1 && arguments[0] == '--version'
+		if arguments.length == 1 && arguments[0] == '--version'
 			output_version
 			exit 0
 		end
@@ -86,7 +86,7 @@ class App
   protected
 
 		def extract_commands
-			if @arguments.count > 0
+			if @arguments.length > 0
 				@options.command = @arguments[0].downcase
 				case @options.command
 				when 'report'
@@ -100,21 +100,21 @@ class App
 				# 				@options.package = @arguments[1]
 				# 				@commands << lambda {Nu::Api.uninstall_package(@options.package, @options.package_version)}
 				when 'config'
-					if @arguments.count == 2
+					if @arguments.length == 2
 						@commands << lambda {puts "#{@arguments[1]} = #{Nu::Api.get_setting(@arguments[1])}"} 
 					else
 						assert_param_count(3)
 						@commands << lambda do
 							Nu::Api.store_setting(@arguments[1], @arguments[2])
 							puts "#{@arguments[1]} = #{Nu::Api.get_setting(@arguments[1])}"
-						end if @arguments.count == 3
+						end if @arguments.length == 3
 					end
 				end
 			end
 		end
 
 		def assert_param_count(count)
-			unless @arguments.count == count
+			unless @arguments.length == count
 				@help_command.call
 			end
 		end
@@ -126,7 +126,7 @@ class App
     
     # True if required arguments were provided
     def arguments_valid?
-      true if @commands.count > 0
+      true if @commands.length > 0
     end
 
     def output_inputs

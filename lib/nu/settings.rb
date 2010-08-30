@@ -14,8 +14,8 @@ module Nu
 			def target.get_setting_by_path(path, logger)
 				path = path.split('.') if path.class == String
 				obj = self
-				path.count.times do 
-					if path.count == 1
+				path.length.times do 
+					if path.length == 1
 						return obj.send(path.to_s)
 					else
 						part = path.shift
@@ -27,7 +27,7 @@ module Nu
 			end
 		
 			def target.set_setting(settings_object, path, value, logger)
-				if path.count == 1
+				if path.length == 1
 					logger.call("Assigning value: #{value.to_s}")
 					begin
 						if value.match(/^\d*\.\d*$/)
