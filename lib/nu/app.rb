@@ -31,15 +31,23 @@ class App
 	begin
 		OptionParser.new do |opts|
 
-			opts.banner = ["Usage: nu install PACKAGE [options]",
-										"\nConfig: nu config NAME VALUE",
-										"\nReport: nu report"]
+			opts.banner = "\nUsage:" + 
+										"\n    nu -h/--help" +
+										"\n    nu --version" +
+										"\n    nu COMMAND [arguments...] [options...]" +
+										"\n\nExamples:" +
+										"\n    nu install fluentnhibernate" + 
+										"\n    nu install nunit --version 2.5.7.10213.20100801" +
+										"\n    nu config lib.location ./lib" +
+										"\n    nu report" +
+										"\n    nu install fluentnhibernate --report" +
+										"\n\nOptions and Switches:" 
 		
 			opts.on('-v', '--version VERSION','Specify version of package to install' ) do |ver|
 				 @options.package_version = ver
 			end
 		
-			opts.on('-r','--report', 'Report on the packages currently installed in the lib folder') do
+			opts.on('-r','--report', 'Report on the packages currently installed in the lib folder. When called as a switch it will run the report AFTER executing the requested command.') do
 				@commands << lambda {Nu::Api.output_report}
 			end
 
@@ -140,7 +148,12 @@ class App
     
 		def output_help(opts)
 			output_version
+			output_description
 			puts opts
+			puts "\n\nFurther Information:" +
+			"\n    http://nu.wikispot.org" +
+			"\n    http://groups.google.com/group/nu-net"
+			puts ''
       exit 0
 		end
 
@@ -148,4 +161,7 @@ class App
 			puts Nu::Api.version_string
     end
 
+		def output_description
+			puts "Nu will automatically download and install specified library packages into your lib folder, along with all their dependencies.\n"
+		end
 end
