@@ -4,9 +4,9 @@ $:.unshift lib unless $:.include?(lib)
 
 Gem::Specification.new do |s|
   s.name        = "nu"
-  s.version     = "0.1.22"
+  s.version     = "0.2.2"
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Dru Sellers","Chris Patterson", "Rob Reynold", "Travis Smith", "Brendan Erwin"]
+  s.authors     = ["Dru Sellers","Brendan Erwin", "Rob Reynold", "Travis Smith" ]
   s.email       = ["nu-net@googlegroups.com"]
   s.homepage    = "http://groups.google.com/group/nu-net"
   s.summary     = "The best way to manage your application's dependencies in .net"
