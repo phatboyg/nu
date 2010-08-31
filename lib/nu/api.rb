@@ -8,18 +8,18 @@ require File.expand_path(File.dirname(__FILE__) + "/settings.rb")
 module Nu
 	class Api
 		
-		def self.out(out)
-			@stdout = out
+		def self.set_log(logger)
+			@log = logger
 		end
 		
-		def self.verbose(verbose)
-			@verbose = verbose
+		def self.set_out(outer)
+			@out = outer
 		end
 	
 		def self.load_project_settings(settings_file)
 			log "Load Project Settings called: settings_file=#{settings_file}"
 			@settings_file = settings_file
-			@logger = lambda {|msg| log(msg)}
+
 			@platforms = 
 			['net1_0', 'net1_1', 'net2_0', 'net3_0', 'net3_5', 'net4_0',
 				'mono1_0', 'mono2_0', 
@@ -35,9 +35,9 @@ module Nu
 			@project_settings.lib.use_long_names = false if @project_settings.lib.use_long_names == nil
 
 			if @verbose
-				disp "Project Settings:"
-				disp YAML.dump(@project_settings).gsub('!ruby/object:OpenStruct','').gsub(/\s*table:/,'').gsub('---','')
-				disp ""
+				log "Project Settings:"
+				log YAML.dump(@project_settings).gsub('!ruby/object:OpenStruct','').gsub(/\s*table:/,'').gsub('---','')
+				log ""
 			end
 		end
 	
@@ -46,7 +46,7 @@ module Nu
 			log "Before:"
 			load_project_settings(@settings_file) if @verbose
 			
-			@project_settings.set_setting_by_path(name, value, @logger)
+			@project_settings.set_setting_by_path(name, value, @log)
 			assert_project_settings
 			
 			File.open(@settings_file, 'w') do |out|
@@ -60,10 +60,10 @@ module Nu
 			if @project_settings.platform
 				@project_settings.platform = @project_settings.platform.gsub('.','_')
 				if !@platforms.index(@project_settings.platform)
-					disp "'#{@project_settings.platform}' is not a valid platform." 
-					disp "\nChoose one of these:"
+					out "'#{@project_settings.platform}' is not a valid platform." 
+					out "\nChoose one of these:"
 					@platforms.each {|p| disp "  #{p}"}
-					disp ""
+					out ""
 					exit 1
 				end
 			end
@@ -71,7 +71,7 @@ module Nu
 	
 		def self.get_setting(name)
 			log "Get Setting called: name=#{name}"
-			@project_settings.get_setting_by_path(name, @logger)
+			@project_settings.get_setting_by_path(name, @log)
 		end
 	
 		def self.version_string
@@ -82,32 +82,26 @@ module Nu
 		def self.install_package(package_name, package_version)
 			log "Install called: package_name=#{package_name} package_version=#{package_version}."
 			
-			loader = Nu::Loader.new(package_name, package_version, @project_settings.lib.location, @project_settings.lib.use_long_names)
+			loader = Nu::Loader.new(package_name, package_version, @project_settings.lib.location, @project_settings.lib.use_long_names, @out, @log)
 			if loader.load_gem
 				 loader.copy_to_lib
 			end
 			
 		end
 		
-		def self.output_report()
+		def self.report()
 			log "Report called."
-			
-			disp "\n"
-			disp "The following packages are installed:"
-			disp "====================================="
-			Nu::LibTools.read_specs_from_lib(@project_settings.lib.location).each{|i| disp "    " + i.full_name}
-			disp "====================================="
-			disp ""
+			Nu::LibTools.read_specs_from_lib(@project_settings.lib.location)
 		end
 		
 		private 
 		
 			def self.log(msg)
-				disp(msg) if @verbose
+				@log.call(msg)
 			end
 		
-			def self.disp(msg)
-				@stdout << msg + "\n"
+			def self.out(msg)
+				@out.call(msg)
 			end
 			
 		end

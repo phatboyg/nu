@@ -2,33 +2,36 @@ require 'rubygems'
 require 'rubygems/dependency_installer'
 require File.expand_path(File.dirname(__FILE__) + "/lib_tools.rb")
 require File.expand_path(File.dirname(__FILE__) + "/gem_tools.rb")
+require File.expand_path(File.dirname(__FILE__) + "/has_out_and_log.rb")
 
 module Nu
-  class Loader
+  class Loader < HasOutAndLog
     
 		attr :gem_name
 		attr :location
 		attr :version
 		
-    def initialize(name, version, location, long_names)
+    def initialize(name, version, location, long_names, out, log)
       #improve the crap out of this
 			@long_names = long_names
       @gem_name = name
       @location = location
       @version = version
+			super(out, log)
     end
 
 		def load_gem
+			log "Load Gem #{(@gem_name + " #{@version}").strip}."
 			if !gem_available?
-        puts "Gem #{(@gem_name + " #{@version}").strip} is not installed locally - I am now going to try and install it"
+        out "Gem #{(@gem_name + " #{@version}").strip} is not installed locally - I am now going to try and install it"
         begin
           inst = Gem::DependencyInstaller.new
           inst.install @gem_name, @version
           inst.installed_gems.each do |spec|
-            puts "Successfully installed #{spec.full_name}"
+            out "Successfully installed #{spec.full_name}"
           end
         rescue Gem::GemNotFoundException => e
-          puts "ERROR: #{e.message}"
+          out "ERROR: #{e.message}"
           return false
         end
       else
@@ -38,10 +41,10 @@ module Nu
 
 		def copy_to_lib
 			start_here = copy_source
-			puts "Copy From: #{start_here}"
+			log "Copy From: #{start_here}"
 
 			to = copy_dest
-			puts "Copy To: #{to}"
+			log "Copy To: #{to}"
 
 			FileUtils.copy_entry start_here, to
 			Nu::GemTools.write_spec(gemspec, to)
@@ -72,12 +75,12 @@ module Nu
     def process_dependencies
       gemspec.dependencies.each do |d|
         if Gem.available? d.name
-          puts "Loading dependency: #{d.name} #{d.requirement}"
+          out "Loading dependency: #{d.name} #{d.requirement}"
 					loader = Loader.new(d.name, d.requirement, @location, @long_names)
 					loader.copy_to_lib
         else
-          puts "#{d.name} is not installed locally"
-          puts "please run 'gem install #{d.name}"
+          out "#{d.name} is not installed locally"
+          out "please run 'gem install #{d.name}"
         end
       end
     end
