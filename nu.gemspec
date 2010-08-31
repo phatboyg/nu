@@ -15,6 +15,8 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.5"
   s.rubyforge_project         = "nu"
 
+  s.add_dependency('activesupport','>= 3.0.0')
+
   s.files        = Dir.glob("{bin,lib}/**/*")
   s.executables  = ['nu']
   s.bindir = 'bin'
