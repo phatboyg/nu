@@ -183,7 +183,9 @@ class App
 		
 		def log(msg)
 			log_to_file(msg) if @options.json
-			puts msg unless @options.json
+			if @options.verbose
+				puts msg unless @options.json
+			end
 		end
 		
 		def log_to_file(msg)

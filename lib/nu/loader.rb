@@ -76,7 +76,7 @@ module Nu
       gemspec.dependencies.each do |d|
         if Gem.available? d.name
           out "Loading dependency: #{d.name} #{d.requirement}"
-					loader = Loader.new(d.name, d.requirement, @location, @long_names)
+					loader = Loader.new(d.name, d.requirement, @location, @long_names, @out, @log)
 					loader.copy_to_lib
         else
           out "#{d.name} is not installed locally"
