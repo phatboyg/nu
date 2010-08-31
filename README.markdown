@@ -10,13 +10,17 @@ Inspired by bundler for ruby:
 [http://yehudakatz.com/2009/11/03/using-the-new-gem-bundler-today/][2]
 
 # USAGE
-	Usage: nu install PACKAGE [options]
-	Config: nu config NAME VALUE
-	Report: nu report
+	Usage:
+	    nu -h/--help
+	    nu -v/--version
+	    nu COMMAND [arguments...] [options...]
+
+	Options and Switches:
 	    -v, --version VERSION            Specify version of package to install
-	    -r, --report                     Report on the packages currently installed in the lib folder
+	    -r, --report                     Report on the packages currently installed in the lib folder. When called as a switch it will run the report AFTER executing the requested command.
 	    -V, --verbose
 	    -q, --quiet
+	        --json                       Run in JSON mode. All outputs will be in JSON, status messages silenced.
 	    -h, --help                       Display this screen
 
 ###Examples
@@ -28,6 +32,14 @@ Inspired by bundler for ruby:
   * `nu config lib.location ./third_party`
   * `nu config lib.use_long_names true`
 
+# COMMANDS
+
+The following commands are available:
+
+  * `install PACKAGE [options...]` - Installs the specified package into the folder configured in `lib.location`. The `--version VERSION` switch can be used to specify a specific version of the package.
+  * `report` - Outputs a report listing the currently installed packages in the lib folder.
+  * `config OPTION_NAME VALUE` - Stores the specified value for the specified configuration option.
+  * `config OPTION_NAME` - Displays the current value for the specified configuration option.
 
 # CONFIG
 
@@ -41,6 +53,18 @@ These are the current active config values:
 And, coming soon:
 
   * `platform` - Specifies the specific .net platform to target. (When a package cares.)
+
+# API/Integration
+
+The `--json` switch is useful for integrating with `nu`. Passing `--json` will cause chatty stuff to be silenced and normal output to be JSON structures.
+
+For debugging, using `--json --verbose` will cause debug logging to `nu.log`
+
+**Hint:** Use the `--report` with `--json` to have nu update with the final state of the folder.
+
+The plan is that each new feature will be made available via JSON as well as through the normal CLI interface.
+
+*`--version`, to get the version of nu, does not work with the `--json` switch. `--version` as an option to INSTALL does though.*
 
 # LICENSE
 Apache 2.0 - see docs\legal (just LEGAL in the zip folder)
