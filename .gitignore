@@ -29,3 +29,4 @@ spec_lib/*
 nu_spec.yaml
 meta_data.yaml
 nuniverse.yaml
+*.log

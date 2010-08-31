@@ -43,8 +43,6 @@ module Nu
 	
 		def self.store_setting(name, value)
 			log "Store Setting called: name=#{name} value=#{value}"
-			log "Before:"
-			load_project_settings(@settings_file) if @verbose
 			
 			@project_settings.set_setting_by_path(name, value, @log)
 			assert_project_settings
@@ -52,7 +50,6 @@ module Nu
 			File.open(@settings_file, 'w') do |out|
 	 			YAML.dump(@project_settings, out)
 		  end
-			log "After:"
 			load_project_settings(@settings_file)
 		end
 	

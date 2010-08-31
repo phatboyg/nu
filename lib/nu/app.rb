@@ -3,6 +3,7 @@
 require 'optparse' 
 require 'ostruct'
 require 'date'
+require 'logger'
 require File.expand_path(File.dirname(__FILE__) + "/api.rb")
 require File.expand_path(File.dirname(__FILE__) + "/loader.rb")
 require File.expand_path(File.dirname(__FILE__) + "/cli_shim.rb")
@@ -60,7 +61,10 @@ class App
 				opts.on('-q', '--quiet')      { @options.quiet = true }
 				opts.on('--json', 'Run in JSON mode. All outputs will be in JSON, status messages silenced.') do 
 					@options.json = true
-					@shim = JsonShim.new(lambda {|json| puts json}, lambda {|msg| log msg})
+					@shim = JsonShim.new(lambda do |json|
+						 puts json
+						 log_to_file(json)
+						end, lambda {|msg| log msg})
 				end
 
 				opts.on_tail( '-h', '--help', 'Display this screen' ) do
@@ -82,7 +86,7 @@ class App
         
     if arguments_valid? 
       
-      disp "Start at #{DateTime.now}\n\n" if @options.verbose
+      log "Start at #{DateTime.now}\n\n"
       output_version if @options.verbose
       output_inputs if @options.verbose
       
@@ -90,7 +94,7 @@ class App
 			
 			@commands.reverse.each {|command| command.call}
 
-      disp "\nFinished at #{DateTime.now}" if @options.verbose
+      log "\nFinished at #{DateTime.now}"
       
     else
       @help_command.call
@@ -135,7 +139,6 @@ class App
 		end
 
     def post_process_options
-			@options.quiet = true if @options.json
 		  @options.verbose = false if !@options.verbose
       @options.verbose = false if @options.quiet
     end
@@ -175,10 +178,18 @@ class App
 		end
 		
 		def disp(msg)
-			puts msg unless @options.quiet
+			puts msg unless @options.quiet || @options.json
 		end
 		
 		def log(msg)
-			puts msg if @options.verbose
+			log_to_file(msg) if @options.json
+			puts msg unless @options.json
+		end
+		
+		def log_to_file(msg)
+			if @options.verbose
+				@file_logger ||= Logger.new('nu.log', 5, 1024000)	
+				@file_logger.debug("#{DateTime.now} - #{msg.strip}")
+			end
 		end
 end
