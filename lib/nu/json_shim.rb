@@ -1,4 +1,5 @@
 require 'rubygems'
+gem 'activesupport', '=2.3.5'
 require 'active_support'
 require File.expand_path(File.dirname(__FILE__) + "/has_out_and_log.rb")
 
