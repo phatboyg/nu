@@ -40,6 +40,12 @@ describe Nu::LibTools do
 			results.each {|item| puts item.name + " "}
 		end
 		
+		describe "when there are no matches" do
+		  it "should return an empty array" do
+		    Nu::LibTools.new.read_specs_from_lib('../spec_lib').should eql([])
+		  end
+		end
+		
 	end
 
 end
