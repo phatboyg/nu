@@ -8,20 +8,20 @@ describe Nu::GemTools do
 	
 	describe 'gemspec_for' do
 		it 'should return a gemspec' do
-			spec = Nu::GemTools.spec_for('nu_test_has_different_versions')
+			spec = Nu::GemTools.new.spec_for('nu_test_has_different_versions')
 				spec.should_not eql(nil)
 				spec.name.should eql('nu_test_has_different_versions')
 		end
 		
 		it 'should return a gemspec for a particular version with a requirement' do
-			spec = Nu::GemTools.spec_for('nu_test_has_different_versions', Gem::Requirement.create('= 0.0.1'))
+			spec = Nu::GemTools.new.spec_for('nu_test_has_different_versions', Gem::Requirement.create('= 0.0.1'))
 				spec.should_not eql(nil)
 				spec.name.should eql('nu_test_has_different_versions')
 				spec.version.to_s.should eql('0.0.1')
 		end
 
 		it 'should return a gemspec for a particular version with a string' do
-			spec = Nu::GemTools.spec_for('nu_test_has_different_versions', '= 0.0.1')
+			spec = Nu::GemTools.new.spec_for('nu_test_has_different_versions', '= 0.0.1')
 				spec.should_not eql(nil)
 				spec.name.should eql('nu_test_has_different_versions')
 				spec.version.to_s.should eql('0.0.1')
@@ -33,15 +33,15 @@ describe Nu::GemTools do
 	describe 'lib_for' do
 		describe 'for a gem with just a lib dir' do
 			it "should return the gem's lib path" do
-				spec = Nu::GemTools.spec_for('nu_test_has_different_versions')
-				Nu::GemTools.lib_for('nu_test_has_different_versions').should eql(File.join(spec.full_gem_path, 'lib'))
+				spec = Nu::GemTools.new.spec_for('nu_test_has_different_versions')
+				Nu::GemTools.new.lib_for('nu_test_has_different_versions').should eql(File.join(spec.full_gem_path, 'lib'))
 			end
 		end
 		
 		describe 'for a gem with a .require_paths' do
 			it "should return the gem's lib path" do
-				spec = Nu::GemTools.spec_for('nu_test_has_require_paths')
-				Nu::GemTools.lib_for('nu_test_has_require_paths').should eql(File.join(spec.full_gem_path, 'not_lib'))
+				spec = Nu::GemTools.new.spec_for('nu_test_has_require_paths')
+				Nu::GemTools.new.lib_for('nu_test_has_require_paths').should eql(File.join(spec.full_gem_path, 'not_lib'))
 			end
 		end
 	end
@@ -49,7 +49,7 @@ describe Nu::GemTools do
 	describe 'write_spec' do
 
 		before(:each) do
-			Nu::GemTools.write_spec('nu_test_has_require_paths', '.')
+			Nu::GemTools.new.write_spec('nu_test_has_require_paths', '.')
 		end
 				
 		it "should write a nu_spec file containing the gem spec" do

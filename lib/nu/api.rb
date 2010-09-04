@@ -41,6 +41,7 @@ module Nu
 			end
 			
 			@lib_tools = Nu::LibTools.new
+			@gem_tools = Nu::GemTools.new
 		end
 	
 		def self.store_setting(name, value)
@@ -74,7 +75,7 @@ module Nu
 		end
 	
 		def self.version_string
-			nu_spec = Nu::GemTools.spec_for("nu")
+			nu_spec = @gem_tools.spec_for("nu")
 			"Nubular, version #{nu_spec.version}"
 		end
 		
@@ -93,11 +94,18 @@ module Nu
 			@lib_tools.read_specs_from_lib(@project_settings.lib.location)
 		end
 		
-		def self.retrieve_installed_specification(name)
-			log "Retrieve Installed Specification called. Name: #{name}"
+		def self.retrieve_specification(name, from = {:from => :lib})
+			log "Retrieve Specification called. Name: #{name} From: #{from}"
+			
+			return case from[:from]
+			when :lib then
+				installed = @lib_tools.read_specs_from_lib(@project_settings.lib.location)
+				installed.select{|spec| spec.name == name}.first
+			when :cache then
+				puts "here"
+			end
+			
 
-			installed = @lib_tools.read_specs_from_lib(@project_settings.lib.location)
-			installed.select{|spec| spec.name == name}.first
 		end
 		
 		private 

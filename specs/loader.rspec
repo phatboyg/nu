@@ -17,7 +17,7 @@ describe Nu::Loader do
 		end
 		
 		it 'should know the source dir' do
-			spec = Nu::GemTools.spec_for('rspec')
+			spec = Nu::GemTools.new.spec_for('rspec')
 			@loader.copy_source.should eql(File.join(spec.full_gem_path,'lib'))
 		end
 		

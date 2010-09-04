@@ -12,28 +12,52 @@ describe "commands specification api" do
     Nu::Api.load_project_settings('nilfile')
 	end
 	
-	describe "retrieve_installed_specification" do
-	  it "should return a specification object if the package is installed" do
-			spec = OpenStruct.new
-			spec.name = 'test'
-
-			Nu::LibTools.any_instance.stubs(:read_specs_from_lib).returns([spec])
-	    Nu::Api.retrieve_installed_specification('test').name.should eql('test')
-	  end
-		
-		it "should return nil if the package is not installed" do
-			spec = OpenStruct.new
-			spec.name = 'test'
+	describe "retrieve_specification" do
+		describe "from lib folder" do
 			
-			Nu::LibTools.any_instance.stubs(:read_specs_from_lib).returns([spec])
-		  Nu::Api.retrieve_installed_specification('I_dont_exist').should eql(nil)
-		end
+		  it "should return a specification object if the package is installed" do
+				spec = OpenStruct.new
+				spec.name = 'test'
+
+				Nu::LibTools.any_instance.stubs(:read_specs_from_lib).returns([spec])
+		    Nu::Api.retrieve_specification('test').name.should eql('test')
+		  end
 		
-		it "should return nil if there are no packages installed" do
-		  Nu::LibTools.any_instance.stubs(:read_specs_from_lib).returns([])
-		  Nu::Api.retrieve_installed_specification('it_doesnt_matter').should eql(nil)
-		end
+			it "should return nil if the package is not installed" do
+				spec = OpenStruct.new
+				spec.name = 'test'
+			
+				Nu::LibTools.any_instance.stubs(:read_specs_from_lib).returns([spec])
+			  Nu::Api.retrieve_specification('I_dont_exist').should eql(nil)
+			end
 		
+			it "should return nil if there are no packages installed" do
+			  Nu::LibTools.any_instance.stubs(:read_specs_from_lib).returns([])
+			  Nu::Api.retrieve_specification('it_doesnt_matter').should eql(nil)
+			end
+		end
+	end
+
+	describe "retrieve_specification" do
+		describe "from cache" do
+			describe "without version specified" do
+			  it "should return a specification object if it found one" do
+					spec = OpenStruct.new
+					spec.name = "foo_spec"
+					Nu::GemTools.any_instance.stubs(:spec_for).returns(spec)
+					Nu::Api.retrieve_specification("foo_spec", :from=>:cache).should eql(spec)
+			  end
+		
+				it "should return the highest versioned specification if it finds more than one" do
+			  
+				end
+			
+				it "should return nil if it can't find one" do
+			  
+				end
+			
+			end
+		end
 	end
 
 end

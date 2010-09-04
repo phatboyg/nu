@@ -7,7 +7,7 @@ describe Nu::LibTools do
 	describe 'folder_name_for' do
 		
 		before(:all) do
-			@spec = Nu::GemTools.spec_for('rspec')
+			@spec = Nu::GemTools.new.spec_for('rspec')
 		end
 		
 		describe 'when called' do
@@ -32,7 +32,7 @@ describe Nu::LibTools do
 	describe 'read_specs_from_lib' do
 		
 		before(:each) do
-			Nu::GemTools.write_spec('nu_test_has_require_paths', '.')
+			Nu::GemTools.new.write_spec('nu_test_has_require_paths', '.')
 		end
 		
 		describe 'should return some results' do

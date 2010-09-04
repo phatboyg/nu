@@ -4,7 +4,7 @@ require 'yaml'
 module Nu
 	class GemTools
 		
-		def self.spec_for(spec, requirement=nil)
+		def spec_for(spec, requirement=nil)
 			unless requirement.respond_to?('satisfied_by?') 
 				requirement = Gem::Requirement.create(requirement)
 			end
@@ -15,7 +15,7 @@ module Nu
       return all_installed_gems.detect {|spec| spec.satisfies_requirement?(dependency)}
     end
 
-		def self.lib_for(name, requirement=nil)
+		def lib_for(name, requirement=nil)
 			spec = spec_for(name, requirement)
 			gem_path = spec.full_gem_path
 			libdir = File.join(gem_path,"lib")
@@ -26,7 +26,7 @@ module Nu
 			libdir
 		end
 
-		def self.write_spec(spec, dest)
+		def write_spec(spec, dest)
 			dest = File.expand_path(dest)
 			dest = File.join(dest,'nu_spec.yaml')
 			

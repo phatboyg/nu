@@ -18,6 +18,7 @@ module Nu
       @location = location
       @version = version
 			@lib_tools = Nu::LibTools.new
+			@gem_tools = Nu::GemTools.new
 			super(out, log)
     end
 
@@ -48,13 +49,13 @@ module Nu
 			log "Copy To: #{to}"
 
 			FileUtils.copy_entry start_here, to
-			Nu::GemTools.write_spec(gemspec, to)
+			@gem_tools.write_spec(gemspec, to)
 
 			process_dependencies
 		end
 
 		def gemspec
-			Nu::GemTools.spec_for(@gem_name, @version)
+			@gem_tools.spec_for(@gem_name, @version)
 		end
 
 		def gem_available?
@@ -66,7 +67,7 @@ module Nu
 		end
 
     def copy_source
-      Nu::GemTools.lib_for(@gem_name, @version).gsub '{lib}','lib'
+      @gem_tools.lib_for(@gem_name, @version).gsub '{lib}','lib'
     end
 
     def copy_dest
