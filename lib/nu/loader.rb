@@ -17,6 +17,7 @@ module Nu
       @gem_name = name
       @location = location
       @version = version
+			@lib_tools = Nu::LibTools.new
 			super(out, log)
     end
 
@@ -69,7 +70,7 @@ module Nu
     end
 
     def copy_dest
-			Nu::LibTools.folder_for(gemspec, @location, @long_names)
+			@lib_tools.folder_for(gemspec, @location, @long_names)
     end
 
     def process_dependencies

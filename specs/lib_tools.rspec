@@ -12,19 +12,19 @@ describe Nu::LibTools do
 		
 		describe 'when called' do
 			it 'should return the full path to the folder in the lib folder' do
-				Nu::LibTools.folder_for(@spec, 'foo').should eql(File.expand_path('./foo/rspec'))
+				Nu::LibTools.new.folder_for(@spec, 'foo').should eql(File.expand_path('./foo/rspec'))
 			end
 		end
 		
 		describe 'when called with long_name=false' do
 			it 'should use the short name' do
-				Nu::LibTools.folder_for(@spec, 'lib', false).should eql(File.expand_path('./lib/rspec'))
+				Nu::LibTools.new.folder_for(@spec, 'lib', false).should eql(File.expand_path('./lib/rspec'))
 			end
 		end
 		
 		describe 'when called with long_name=true' do
 			it 'should use the long name' do
-				Nu::LibTools.folder_for(@spec, 'lib', true).should eql(File.expand_path("./lib/#{@spec.full_name}"))
+				Nu::LibTools.new.folder_for(@spec, 'lib', true).should eql(File.expand_path("./lib/#{@spec.full_name}"))
 			end
 		end
 	end
@@ -36,7 +36,7 @@ describe Nu::LibTools do
 		end
 		
 		describe 'should return some results' do
-			results = Nu::LibTools.read_specs_from_lib('../')
+			results = Nu::LibTools.new.read_specs_from_lib('../')
 			results.each {|item| puts item.name + " "}
 		end
 		

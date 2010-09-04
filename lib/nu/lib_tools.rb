@@ -3,7 +3,7 @@ require 'rubygems'
 module Nu
 	class LibTools
 		
-		def self.folder_for(spec, lib, long_name=false)
+		def folder_for(spec, lib, long_name=false)
       if long_name
         name = spec.full_name
       else
@@ -18,7 +18,7 @@ module Nu
 			return to
 		end
 		
-		def self.read_specs_from_lib(lib)
+		def read_specs_from_lib(lib)
 			lib = File.expand_path(lib)
 			glob = "#{lib}/**/nu_spec.yaml"
 			files = Dir.glob(glob)
