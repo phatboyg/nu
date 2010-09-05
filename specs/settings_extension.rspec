@@ -1,6 +1,4 @@
-require 'rubygems'
-require 'spec'
-require 'ostruct'
+require 'specs/spec_helper'
 require 'lib/nu/settings.rb'
 
 describe 'settings extension' do

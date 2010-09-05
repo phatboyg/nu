@@ -1,8 +1,7 @@
-require 'spec'
+require 'specs/spec_helper'
 require 'lib/nu/api'
 require 'lib/nu/lib_tools'
-require 'mocha'
-require 'ostruct'
+
 
 describe "commands specification api" do
 	
@@ -28,12 +27,12 @@ describe "commands specification api" do
 				spec.name = 'test'
 			
 				Nu::LibTools.any_instance.stubs(:read_specs_from_lib).returns([spec])
-			  Nu::Api.retrieve_specification('I_dont_exist').should eql(nil)
+			  Nu::Api.retrieve_specification('I_dont_exist').should be_nil
 			end
 		
 			it "should return nil if there are no packages installed" do
 			  Nu::LibTools.any_instance.stubs(:read_specs_from_lib).returns([])
-			  Nu::Api.retrieve_specification('it_doesnt_matter').should eql(nil)
+			  Nu::Api.retrieve_specification('it_doesnt_matter').should be_nil
 			end
 		end
 	end
@@ -45,15 +44,16 @@ describe "commands specification api" do
 					spec = OpenStruct.new
 					spec.name = "foo_spec"
 					Nu::GemTools.any_instance.stubs(:spec_for).returns(spec)
-					Nu::Api.retrieve_specification("foo_spec", :from=>:cache).should eql(spec)
+					Nu::Api.retrieve_specification("foo_spec", :from => :cache).should eql(spec)
 			  end
 		
 				it "should return the highest versioned specification if it finds more than one" do
-			  
+			  	#already covered in the GemTools specification
 				end
 			
 				it "should return nil if it can't find one" do
-			  
+					Nu::GemTools.any_instance.stubs(:spec_for).returns(nil)
+					Nu::Api.retrieve_specification("hello?", :from => :cache).should be_nil
 				end
 			
 			end

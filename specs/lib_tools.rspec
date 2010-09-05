@@ -1,4 +1,4 @@
-require 'spec'
+require 'specs/spec_helper'
 require 'lib/nu/lib_tools'
 require 'lib/nu/gem_tools'
 
@@ -12,19 +12,19 @@ describe Nu::LibTools do
 		
 		describe 'when called' do
 			it 'should return the full path to the folder in the lib folder' do
-				Nu::LibTools.new.folder_for(@spec, 'foo').should eql(File.expand_path('./foo/rspec'))
+				Nu::LibTools.new.folder_for(@spec, '/foo').should eql(File.expand_path('/foo/rspec'))
 			end
 		end
 		
 		describe 'when called with long_name=false' do
 			it 'should use the short name' do
-				Nu::LibTools.new.folder_for(@spec, 'lib', false).should eql(File.expand_path('./lib/rspec'))
+				Nu::LibTools.new.folder_for(@spec, '/lib', false).should eql(File.expand_path('/lib/rspec'))
 			end
 		end
 		
 		describe 'when called with long_name=true' do
 			it 'should use the long name' do
-				Nu::LibTools.new.folder_for(@spec, 'lib', true).should eql(File.expand_path("./lib/#{@spec.full_name}"))
+				Nu::LibTools.new.folder_for(@spec, '/lib', true).should eql(File.expand_path("/lib/#{@spec.full_name}"))
 			end
 		end
 	end
@@ -32,17 +32,18 @@ describe Nu::LibTools do
 	describe 'read_specs_from_lib' do
 		
 		before(:each) do
-			Nu::GemTools.new.write_spec('nu_test_has_require_paths', '.')
+		  @loc = File.dirname(__FILE__)
+			Nu::GemTools.new.write_spec('nu_test_has_require_paths', @loc)
 		end
 		
 		describe 'should return some results' do
-			results = Nu::LibTools.new.read_specs_from_lib('../')
+			results = Nu::LibTools.new.read_specs_from_lib(File.dirname(__FILE__) + '../')
 			results.each {|item| puts item.name + " "}
 		end
 		
 		describe "when there are no matches" do
 		  it "should return an empty array" do
-		    Nu::LibTools.new.read_specs_from_lib('../spec_lib').should eql([])
+		    Nu::LibTools.new.read_specs_from_lib(File.dirname(__FILE__) + '../spec_lib').should eql([])
 		  end
 		end
 		

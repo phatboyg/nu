@@ -94,15 +94,28 @@ module Nu
 			@lib_tools.read_specs_from_lib(@project_settings.lib.location)
 		end
 		
-		def self.retrieve_specification(name, from = {:from => :lib})
-			log "Retrieve Specification called. Name: #{name} From: #{from}"
+		def self.retrieve_specification_with_version(name, version, source = {:from => :lib})
+			log "Retrieve Specification With Version called. Name: #{name} Version: #{version} Source: #{source}"
 			
-			return case from[:from]
+			return case source[:from]
+			when :cache then
+				#@gem_tools
+			else
+				raise "source can only be :cache, or :remote"
+			end
+		end
+		
+		def self.retrieve_specification(name, source = {:from => :lib})
+			log "Retrieve Specification called. Name: #{name} Source: #{source}"
+			
+			return case source[:from]
 			when :lib then
 				installed = @lib_tools.read_specs_from_lib(@project_settings.lib.location)
 				installed.select{|spec| spec.name == name}.first
 			when :cache then
-				puts "here"
+				@gem_tools.spec_for(name)
+			else
+				raise "source can only be :lib, :cache, or :remote"
 			end
 			
 

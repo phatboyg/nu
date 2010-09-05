@@ -1,4 +1,4 @@
-require 'spec'
+require 'specs/spec_helper'
 require 'lib/nu/loader'
 
 describe Nu::Loader do

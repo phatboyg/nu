@@ -11,7 +11,7 @@ module Nu
 			dependency = Gem::Dependency.new(spec,requirement)
 			searcher = Gem::GemPathSearcher.new()
 			all_installed_gems = searcher.init_gemspecs()
-			
+
       return all_installed_gems.detect {|spec| spec.satisfies_requirement?(dependency)}
     end
 

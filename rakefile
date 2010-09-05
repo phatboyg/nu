@@ -2,8 +2,9 @@ require 'rake'
 require 'spec/rake/spectask'
 
 Spec::Rake::SpecTask.new(:spec) do |t|
-  t.spec_files = FileList['specs/*.rspec', 'specs/*_spec.rb']
+  t.spec_files = FileList['specs/**/*.rspec', 'specs/**/*_spec.rb']
   t.spec_opts = ['--color --format nested']
+	t.libs = ['lib']
 end
 
 task :default => :spec
