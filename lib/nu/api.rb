@@ -100,6 +100,8 @@ module Nu
 			return case source[:from]
 			when :cache then
 				@gem_tools.spec_for(name, version)
+			when :remote then
+				@gem_tools.remote_spec_for(name, version)
 			else
 				raise "source can only be :cache, or :remote"
 			end
@@ -114,6 +116,8 @@ module Nu
 				installed.select{|spec| spec.name == name}.first
 			when :cache then
 				@gem_tools.spec_for(name)
+			when :remote then
+				@gem_tools.remote_spec_for(name)
 			else
 				raise "source can only be :lib, :cache, or :remote"
 			end

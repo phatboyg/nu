@@ -37,6 +37,7 @@ describe Nu::GemTools do
 
 	describe "remote_spec_for" do
 		#These specs are gonna be fragile... Can't think of a solution though.
+		#and slooooowwww...
 		
 			it 'should return a gemspec with the highest version' do
 					spec = Nu::GemTools.new.remote_spec_for('nu_test_has_different_versions')

@@ -12,10 +12,17 @@ module Nu
 		end
 		
 		def remote_spec_for(spec, requirement=nil)
-			dependency = dependency_from_requirement(spec, requirement)
+			dependency = dependency_from_requirement(spec, nil)
 			fetcher = Gem::SpecFetcher.new
-			specs = fetcher.fetch(dependency)
-			specs.first.first
+			specs = fetcher.fetch(dependency, true)
+			dependency = dependency_from_requirement(spec, requirement)
+			unless specs == nil
+				specs.map! do |item| 
+					item.first
+				end
+				specs.sort! {|a,b| b.version <=> a.version}
+				specs.detect {|spec| spec.satisfies_requirement?(dependency)}
+			end
 		end
 		
 		def spec_for(spec, requirement=nil)
