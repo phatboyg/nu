@@ -23,15 +23,16 @@ class App
 
 		@arguments = arguments
 
-		#special case, they want to know our version
-		if arguments.length == 1 && (arguments[0] == '--version' || arguments[0] == '-v')
-			output_version
-			exit 0
-		end
-
 		Nu::Api.set_log(lambda {|msg| log msg})
 		Nu::Api.set_out(lambda {|msg| disp msg})
 		@shim = CliShim.new(lambda {|msg| disp msg}, lambda {|msg| log msg})
+		
+		#special case, they want to know our version
+		if arguments.length == 1 && (arguments[0] == '--version' || arguments[0] == '-v')
+			@commands << lambda {output_version}
+			execute_commands
+			exit 0
+		end
 		
 		begin
 			OptionParser.new do |opts|
@@ -57,14 +58,13 @@ class App
 				end
 
 				# Specify options
+				@options.source = :lib
+				opts.on('--remote', 'Use package server for query operations.') {@options.source = :remote}
+				opts.on('--cache', 'Use local package cache for query operations.') {@options.source = :cache unless @options.source == :remote}
 				opts.on('-V', '--verbose')    { @options.verbose = true }  
 				opts.on('-q', '--quiet')      { @options.quiet = true }
 				opts.on('--json', 'Run in JSON mode. All outputs will be in JSON, status messages silenced.') do 
-					@options.json = true
-					@shim = JsonShim.new(lambda do |json|
-						 puts json
-						 log_to_file(json)
-						end, lambda {|msg| log msg})
+					set_json
 				end
 
 				opts.on_tail( '-h', '--help', 'Display this screen' ) do
@@ -75,7 +75,9 @@ class App
 	
 		end.parse!
 	rescue
-		@help_command.call
+		@commands << @help_command
+		execute_commands
+		exit 0
 	end
 	
 		post_process_options
@@ -87,22 +89,26 @@ class App
     if arguments_valid? 
       
       log "Start at #{DateTime.now}\n\n"
-      output_version if @options.verbose
       output_inputs if @options.verbose
       
-			Nu::Api.load_project_settings('nuniverse.yaml')
-			
-			@commands.reverse.each {|command| command.call}
+			execute_commands
 
       log "\nFinished at #{DateTime.now}"
       
     else
-      @help_command.call
+      @commands << @help_command
+			execute_commands
+			exit 0
     end
       
   end
   
   protected
+
+		def execute_commands
+			Nu::Api.load_project_settings('nuniverse.yaml')
+			@commands.reverse.each {|command| command.call}
+		end
 
 		def extract_commands
 			if @arguments.length > 0
@@ -110,6 +116,9 @@ class App
 				case @options.command
 				when 'report'
 					@commands << lambda {@shim.report}
+				when 'specification'
+					set_json
+					@commands << lambda {@shim.specification(@arguments[1], @options.package_version, @options.source)}
 				when 'install'
 					assert_param_count(2)
 					@options.package = @arguments[1]
@@ -193,5 +202,13 @@ class App
 				@file_logger ||= Logger.new('nu.log', 5, 1024000)	
 				@file_logger.debug("#{DateTime.now} - #{msg.strip}")
 			end
+		end
+		
+		def set_json
+			@options.json = true
+			@shim = JsonShim.new(lambda do |json|
+				 puts json
+				 log_to_file(json)
+				end, lambda {|msg| log msg})
 		end
 end

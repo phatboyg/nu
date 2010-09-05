@@ -17,4 +17,13 @@ class JsonShim < HasOutAndLog
 		out ({:name => name, :value => Nu::Api.get_setting(name) }.to_json)
 	end
 	
+	def specification(name, version, source)
+		log "Json Shim Specification called. name: #{name} version: #{version} source:#{source}"
+		if version == nil
+			out Nu::Api.retrieve_specification(name, :from => source).to_json
+		else
+			out Nu::Api.retrieve_specification_with_version(name, version, :from => source).to_json
+		end
+	end
+	
 end
