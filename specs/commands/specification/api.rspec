@@ -38,9 +38,16 @@ describe "commands specification api" do
 	end
 
 	describe "retrieve_specification" do
+		describe "with_version" do
+			it "should throw if called with :lib for location" do
+			  lambda{Nu::Api.retrieve_specification_with_version("test", "0.0.1", :from => :lib)}.should raise_error
+			end
+		end
+		
 		describe "from cache" do
 			describe "without version specified" do
-			  it "should return a specification object if it found one" do
+			  
+			 it "should return a specification object if it found one" do
 					spec = OpenStruct.new
 					spec.name = "foo_spec"
 					Nu::GemTools.any_instance.stubs(:spec_for).returns(spec)
@@ -57,6 +64,37 @@ describe "commands specification api" do
 				end
 			
 			end
+			
+			describe "with version specification" do
+				
+			  it "should return a specification object if it found one" do
+						spec = OpenStruct.new
+						spec.name = "foo_spec"
+						Nu::GemTools.any_instance.stubs(:spec_for).returns(spec)
+						Nu::Api.retrieve_specification_with_version("foo_spec", "0.0.4", :from => :cache).should eql(spec)
+				 end
+
+					it "should return nil if it can't find one" do
+						Nu::GemTools.any_instance.stubs(:spec_for).returns(nil)
+						Nu::Api.retrieve_specification_with_version("hello?", "0.5.6", :from => :cache).should be_nil
+					end
+				
+			end
+			
+		end
+	end
+
+	describe "retrieve_specification" do
+		describe "from remote" do
+
+			describe "without version specified" do
+
+			end
+
+			describe "with version specification" do
+
+			end
+
 		end
 	end
 

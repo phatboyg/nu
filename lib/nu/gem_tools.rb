@@ -4,11 +4,22 @@ require 'yaml'
 module Nu
 	class GemTools
 		
-		def spec_for(spec, requirement=nil)
+		def dependency_from_requirement(spec, requirement)
 			unless requirement.respond_to?('satisfied_by?') 
 				requirement = Gem::Requirement.create(requirement)
 			end
-			dependency = Gem::Dependency.new(spec,requirement)
+			Gem::Dependency.new(spec,requirement)
+		end
+		
+		def remote_spec_for(spec, requirement=nil)
+			dependency = dependency_from_requirement(spec, requirement)
+			fetcher = Gem::SpecFetcher.new
+			specs = fetcher.fetch(dependency)
+			specs.first.first
+		end
+		
+		def spec_for(spec, requirement=nil)
+			dependency = dependency_from_requirement(spec, requirement)
 			searcher = Gem::GemPathSearcher.new()
 			all_installed_gems = searcher.init_gemspecs()
 
@@ -18,12 +29,7 @@ module Nu
 		def lib_for(name, requirement=nil)
 			spec = spec_for(name, requirement)
 			gem_path = spec.full_gem_path
-			libdir = File.join(gem_path,"lib")
-			unless File.exist?(libdir)
-			  libdir = IO.readlines(File.join(gem_path, ".require_paths"))[0].strip 
-			  libdir = File.expand_path(File.join(gem_path,libdir))
-			end
-			libdir
+			File.expand_path(File.join(gem_path,spec.require_paths.first))
 		end
 
 		def write_spec(spec, dest)

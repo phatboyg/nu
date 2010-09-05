@@ -1,6 +1,7 @@
 require 'specs/spec_helper'
 require 'yaml'
 require 'fileutils'
+require 'active_support'
 
 require File.expand_path(File.dirname(__FILE__) + '/../lib/nu/gem_tools')
 
@@ -32,6 +33,36 @@ describe Nu::GemTools do
 		  Nu::GemTools.new.spec_for('foo_doesnt_exist_qwertyuoip').should be_nil
 		end
 		
+	end
+
+	describe "remote_spec_for" do
+		#These specs are gonna be fragile... Can't think of a solution though.
+		
+			it 'should return a gemspec with the highest version' do
+					spec = Nu::GemTools.new.remote_spec_for('nu_test_has_different_versions')
+					spec.should_not be_nil
+					spec.name.should eql('nu_test_has_different_versions')
+					spec.version.to_s.should eql("0.2.1")
+			end
+
+			it 'should return a gemspec for a particular version with a requirement' do
+					spec = Nu::GemTools.new.remote_spec_for('nu_test_has_different_versions', Gem::Requirement.create('= 0.0.1'))
+					spec.should_not be_nil
+					spec.name.should eql('nu_test_has_different_versions')
+					spec.version.to_s.should eql('0.0.1')
+			end
+
+			it 'should return a gemspec for a particular version with a string' do
+					spec = Nu::GemTools.new.remote_spec_for('nu_test_has_different_versions', '= 0.0.1')
+					spec.should_not be_nil
+					spec.name.should eql('nu_test_has_different_versions')
+					spec.version.to_s.should eql('0.0.1')
+			end
+
+			it "should return nil if it can't find the gem" do
+			  Nu::GemTools.new.remote_spec_for('foo_doesnt_exist_qwertyuoip').should be_nil
+			end
+			
 	end
 
 	describe 'lib_for' do

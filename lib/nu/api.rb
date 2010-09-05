@@ -99,7 +99,7 @@ module Nu
 			
 			return case source[:from]
 			when :cache then
-				#@gem_tools
+				@gem_tools.spec_for(name, version)
 			else
 				raise "source can only be :cache, or :remote"
 			end
