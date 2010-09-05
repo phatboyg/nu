@@ -117,6 +117,10 @@ class App
 				when 'report'
 					@commands << lambda {@shim.report}
 				when 'specification'
+					if @options.source == :lib && @options.package_version
+						puts "The --version flag can not be used with the specification command unless either --cache or --remote is also specified." 
+						exit 1
+					end
 					set_json
 					@commands << lambda {@shim.specification(@arguments[1], @options.package_version, @options.source)}
 				when 'install'
