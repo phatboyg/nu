@@ -26,7 +26,7 @@ Scenario: News Group Example
 Scenario: No Conflict
 	Given package "nhibernate (2.1.2)" is installed
 	And package "castle.core (1.1.0)" is installed
-	When package "castle.windsor (2.0)" is proposed
+	When package "castle.windsor (2.0.0)" is proposed
 	Then a conflict should not be detected
 	And the acceptable version for package "castle.core" should be "1.1.0"
 
