@@ -1,7 +1,7 @@
-module helper
+module Helper
 	def some_method
 		
 	end
 end
 
-World(helper)
+World(Helper)
