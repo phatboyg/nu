@@ -1,10 +1,21 @@
 require 'rake'
 require 'spec/rake/spectask'
+require 'cucumber/rake/task'
 
-Spec::Rake::SpecTask.new(:spec) do |t|
-  t.spec_files = FileList['specs/**/*.rspec', 'specs/**/*_spec.rb']
-  t.spec_opts = ['--color --format progress']
-	t.libs = ['lib']
+namespace :specifications do
+	Cucumber::Rake::Task.new do |t|
+	  t.cucumber_opts = "--format pretty"
+	end
+
+	desc "Run RSpec specifications."
+	Spec::Rake::SpecTask.new(:rspec) do |t|
+	  t.spec_files = FileList['specs/**/*.rspec', 'specs/**/*_spec.rb']
+	  t.spec_opts = ['--color --format progress']
+		t.libs = ['lib']
+	end
+
+	desc "Execute all specifications."
+	task :all => [:rspec, :cucumber]
 end
 
-task :default => :spec
+task :default => 'specifications:all'
