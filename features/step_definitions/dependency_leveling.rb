@@ -1,7 +1,7 @@
 require 'lib/nu/dependency_leveler'
 
 def existing_package(name, version)
-	@packages.select {|spec| spec.name == name && spec.version == version}.first
+	@packages.select {|spec| spec.name == name and spec.version.to_s == version}.first
 end
 
 Given /^package "([^"]*) \((\d\.\d\.\d)\)" is installed$/ do |name, version|
