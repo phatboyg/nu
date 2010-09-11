@@ -6,10 +6,21 @@ class DependencyLeveler
 	
 	def analyze_proposal(proposed_package)
 		conflicts = find_conflicts(proposed_package)
+		conflict_found = conflicts.length > 0
+		
+		proposed_packages = []
+		proposed_packages = @installed_packages.map{|spec| {:name=> spec.name, :version=> spec.version.to_s}} 
+		proposed_packages << {:name=>proposed_package.name, :version=> proposed_package.version.to_s}
+		proposed_packages = proposed_packages | proposed_package.dependencies.map do |dep|
+			{:name=>dep.name, :version=>dep.requirement.to_s}
+		end
+		proposed_packages.uniq!
+		puts proposed_packages.inspect
 		
 		AnalysisResults.new do |r|
-			r.conflict = conflicts.length > 0
+			r.conflict = conflict_found
 			r.conflicting_packages = conflicts.map{|hash| hash[:name]}
+			r.proposed_packages = proposed_packages
 		end
 	end
 	
@@ -39,15 +50,11 @@ class DependencyLeveler
 	end
 	
 	class AnalysisResults
-		attr_accessor :conflict, :conflicting_packages
+		attr_accessor :conflict, :conflicting_packages, :proposed_packages
 		alias_method :conflict?, :conflict
 		
 		def initialize(&block)
 			yield(self)
-		end
-		
-		def acceptable_packages
-			{:name => '', :version => ''}
-		end
+		end		
 	end
 end

@@ -28,7 +28,9 @@ Scenario: No Conflict
 	And package "castle.core (1.1.0)" is installed
 	When package "castle.windsor (2.0.0)" is proposed
 	Then a conflict should not be detected
-	And the acceptable version for package "castle.core" should be "1.1.0"
+	And the proposed version for package "nhibernate" should be "2.1.2"
+	And the proposed version for package "castle.core" should be "1.1.0"
+	And the proposed version for package "castle.windsor" should be "2.0.0"
 
 Scenario: Conflict with a directly installed package
 	Given package "castle.core (1.1.0)" is installed
@@ -40,7 +42,8 @@ Scenario: No conflict with a directly installed package
 	Given package "castle.core (1.1.0)" is installed
 	When package "castle.windsor (2.0.0)" is proposed
 	Then a conflict should not be detected
-	And the acceptable version for package "castle.core" should be "1.1.0"
+	And the proposed version for package "castle.core" should be "1.1.0"
+	And the proposed version for package "castle.windsor" should be "2.0.0"
 	
 Scenario: Multiple conflicts
 	Given package "has_conflict_1 (1.0.0)" exists and depends on:
@@ -74,4 +77,8 @@ Scenario: No conflict because of forgiving constraint range, downgrade a depende
 	And package "dependency (1.0.1)" is installed
 	When package "proposed (1.0.0)" is proposed
 	Then a conflict should not be detected
-	And the acceptable version for package "dependency" should be "1.0.0"
+	And the proposed version for package "top" should be "1.0.0"
+	And the proposed version for package "dependency" should be "1.0.0"
+	And the proposed version for package "proposed" should be "1.0.0"
+	
+	
