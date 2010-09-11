@@ -2,47 +2,38 @@ require 'rubygems'
 require File.expand_path(File.dirname(__FILE__) + "/package_conflict_finder.rb")
 
 class PackageConflictOverlapResolver
-	def initialize(installed_packages)
+	def initialize(installed_packages, package_lister)
 		@installed_packages = installed_packages
+		raise "package_lister must respond to find(name)" unless package_lister.respond_to?("find")
+		@package_lister = package_lister
 		@conflict_finder = PackageConflictFinder.new(installed_packages)
 	end
 	
 	def analyze_proposal(proposed_package)
 		r = @conflict_finder.analyze_proposal(proposed_package)
-		adapt_requirements(r.conflicts)
 		
 		Array.new(r.conflicts).each do |conflict|
-			if conflict[:requirement_one].encompasses?(conflict[:requirement_two])
-				resolve_conflict(r,conflict,conflict[:requirement_one])
-			else 
-				if conflict[:requirement_two].encompasses?(conflict[:requirement_one])
-					resolve_conflict(r,conflict,conflict[:requirement_two])
-				end
-			end
+			hav = highest_acceptable_version(conflict[:name], conflict[:requirement_one], conflict[:requirement_two])
+			resolve_conflict(r,conflict,hav) if hav
 		end if r.conflict?
 		
-		r
+		return r
+	end
+	
+	def highest_acceptable_version(name, requirement_one, requirement_two)
+		candidates = @package_lister.find(name)
+		candidates = candidates.select do |spec| 
+			requirement_one.satisfied_by?(spec.version) and requirement_two.satisfied_by?(spec.version)
+		end
+		return Gem::Requirement.new(candidates.sort{|a,b| a.version <=> b.version}.last.version) if candidates.length > 0
 	end
 	
 	private
 	
-		def resolve_conflict(results,conflict,selected_requirement)
+		def resolve_conflict(results,conflict,version)
 			results.conflicts.reject! {|c| c[:name] == conflict[:name]}
-			results.suggested_packages << {:name => conflict[:name], :version => selected_requirement}
+			results.suggested_packages << {:name => conflict[:name], :version => version}
 			results.conflict = results.conflicts.length > 0
 		end
 		
-		def adapt_requirements(conflicts)
-			conflicts.each do |c| 
-				c[:requirement_one] = add_methods_to_req(c[:requirement_one])
-				c[:requirement_two] = add_methods_to_req(c[:requirement_two])
-			end
-		end
-		
-		def add_methods_to_req(req)
-			def req.encompasses?(requirement)
-				false #TODO: Make this method!
-			end
-			req
-		end
 end

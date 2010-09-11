@@ -15,7 +15,7 @@ namespace :specifications do
 	end
 
 	desc "Execute all specifications."
-	task :all => [:rspec, :cucumber]
+	task :all => [:cucumber, :rspec]
 end
 
 task :default => 'specifications:all'
