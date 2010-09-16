@@ -11,6 +11,12 @@ module Nu
 			Gem::Dependency.new(spec,requirement)
 		end
 		
+		def find(package_name)
+			dependency = dependency_from_requirement(spec, nil)
+			fetcher = Gem::SpecFetcher.new
+			fetcher.fetch(dependency, true)
+		end
+		
 		def remote_spec_for(spec, requirement=nil)
 			dependency = dependency_from_requirement(spec, nil)
 			fetcher = Gem::SpecFetcher.new
