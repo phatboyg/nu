@@ -8,11 +8,10 @@ class CliShim < HasOutAndLog
 		
 		out "\n"
 		out "The following packages are installed:"
-		out "====================================="
+		hr
 		#TODO: render differently if details==true
 		Nu::Api.report.each{|i| out "    #{i.name} (#{i.version})"}
-		out "====================================="
-		out ""
+		hr("\n")
 	end
 	
 	def install_package(package, package_version)
@@ -23,4 +22,24 @@ class CliShim < HasOutAndLog
 	def get_setting(name)
 		out "#{name} = #{Nu::Api.get_setting(name)}"
 	end
+	
+	def propose(name, version)
+		log "Propose called. name: #{name} version: #{version}"
+		report(true)
+		out "Analyzing effects of installing #{name}..."
+		results = Nu::Api.propose_package(name, version)
+		
+		if results.conflict?
+			out "A conflict is detected between #{name} \nand the currently installed:"
+			hr
+			results.conflicts.each{|spec| out "    #{spec[:name]} (#{spec[:requirement_one].requirements.first}) vs. (#{spec[:requirement_two].requirements.first})"}
+			hr("\n")
+		else
+			out "No unresolved conflicts. \nAdding #{name} would result in:"
+			hr
+			results.suggested_packages.each{|spec| out "    #{spec[:name]} (#{spec[:version]})"}
+			hr("\n")
+		end
+	end
+	
 end

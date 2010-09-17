@@ -5,6 +5,8 @@ require File.expand_path(File.dirname(__FILE__) + "/lib_tools.rb")
 require File.expand_path(File.dirname(__FILE__) + "/gem_tools.rb")
 require File.expand_path(File.dirname(__FILE__) + "/settings.rb")
 
+require File.expand_path(File.dirname(__FILE__) + "/dependency_leveling/package_conflict_overlap_resolver.rb")
+
 module Nu
 	class Api
 		
@@ -89,6 +91,17 @@ module Nu
 			
 		end
 		
+		def self.propose_package(package_name, package_version=nil)
+			log "Propose Package called. package_name: #{package_name} package_version: #{package_version}"
+			current_specs = @lib_tools.read_specs_from_lib(@project_settings.lib.location)
+			
+			log "Current Package Specs:"
+			current_specs.each{|spec| log "#{spec.name} (#{spec.version})"}
+			
+			analyzer = PackageConflictOverlapResolver.new(current_specs, @gem_tools)
+			analyzer.analyze_proposal(@gem_tools.remote_spec_for(package_name, package_version))
+		end
+		
 		def self.report()
 			log "Report called."
 			@lib_tools.read_specs_from_lib(@project_settings.lib.location)
@@ -121,8 +134,6 @@ module Nu
 			else
 				raise "source can only be :lib, :cache, or :remote"
 			end
-			
-
 		end
 		
 		private 
