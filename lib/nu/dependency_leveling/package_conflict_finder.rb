@@ -29,7 +29,6 @@ class PackageConflictFinder
 		end
 	
 		def initialized_suggested_packages(proposed_package)
-			suggested_packages = []
 			suggested_packages = @installed_packages.map{|spec| {:name=> spec.name, :version=> req(spec.version)}} 
 			suggested_packages << {:name=>proposed_package.name, :version=> req(proposed_package.version)}
 			suggested_packages = suggested_packages | proposed_package.dependencies.map do |dep|
@@ -42,9 +41,11 @@ class PackageConflictFinder
 			conflicts = []
 
 			#installed packages that conflict with the proposed_spec
-			conflicts = @installed_packages.select do |installed_package|
-				installed_package.name == proposed_spec.name ? installed_package.version != proposed_spec.version : false
-			end.map{|spec| {:name => spec.name, :requirement_one => req(installed_package.version), :requirement_two => req(proposed_spec.version)}}
+			@installed_packages.each do |installed_package|
+				if (installed_package.name == proposed_spec.name ? installed_package.version != proposed_spec.version : false)
+					conflicts << {:name => installed_package.name, :requirement_one => req(installed_package.version), :requirement_two => req(proposed_spec.version)}
+				end
+			end
 		
 			#installed package's dependencies that conflict with the proposed_spec
 			@installed_packages.each do |installed_package|

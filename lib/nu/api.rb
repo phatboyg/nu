@@ -92,7 +92,13 @@ module Nu
 		end
 		
 		def self.propose_package(package_name, package_version=nil)
-			analyzer = PackageConflictOverlapResolver.new(@lib_tools.read_specs_from_lib(), @gem_tools)
+			log "Propose Package called. package_name: #{package_name} package_version: #{package_version}"
+			current_specs = @lib_tools.read_specs_from_lib(@project_settings.lib.location)
+			
+			log "Current Package Specs:"
+			current_specs.each{|spec| log "#{spec.name} (#{spec.version})"}
+			
+			analyzer = PackageConflictOverlapResolver.new(current_specs, @gem_tools)
 			analyzer.analyze_proposal(@gem_tools.remote_spec_for(package_name, package_version))
 		end
 		

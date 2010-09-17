@@ -131,6 +131,10 @@ class App
 				# 				assert_param_count(2)
 				# 				@options.package = @arguments[1]
 				# 				@commands << lambda {@shim.uninstall_package(@options.package, @options.package_version)}
+				when 'propose'
+					assert_param_count(2)
+					@options.package = @arguments[1]
+					@commands << lambda {@shim.propose(@options.package, @options.package_version)}
 				when 'config'
 					if @arguments.length == 2
 						@commands << lambda {@shim.get_setting(@arguments[1])} 
