@@ -23,14 +23,13 @@ module Nu
     end
 
 		def load_gem
-			log "Load Gem #{(@gem_name + " #{@version}").strip}."
-			if !gem_available?
-        out "Gem #{(@gem_name + " #{@version}").strip} is not installed locally - I am now going to try and install it"
+			if (!Gem.available? @gem_name, @version) or (@version == nil)
+        out "Getting #{(@gem_name + " #{@version}").strip}..."
         begin
           inst = Gem::DependencyInstaller.new
           inst.install @gem_name, @version
           inst.installed_gems.each do |spec|
-            out "Successfully installed #{spec.full_name}"
+            out "Got #{spec.full_name}"
           end
         rescue Gem::GemNotFoundException => e
           out "ERROR: #{e.message}"
@@ -56,14 +55,6 @@ module Nu
 
 		def gemspec
 			@gem_tools.spec_for(@gem_name, @version)
-		end
-
-		def gem_available?
-			if @version.nil?
-			    Gem.available? @gem_name
-			else
-			    Gem.available? @gem_name, @version
-			end
 		end
 
     def copy_source
