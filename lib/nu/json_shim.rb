@@ -14,7 +14,7 @@ class JsonShim < HasOutAndLog
 	end
 	
 	def install_package(package, package_version)
-		Nu::Api.install_package(package, package_version)
+		json_out Nu::Api.install_package(package, package_version)
 	end
 	
 	def get_setting(name)

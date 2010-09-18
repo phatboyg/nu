@@ -17,8 +17,8 @@ class PackageConflictFinder
 
 		AnalysisResults.new do |r|
 			r.conflict = conflict_found
-			r.conflicts = conflicts
-			r.suggested_packages = suggested_packages
+			r.conflicts = conflicts.uniq
+			r.suggested_packages = suggested_packages.uniq
 		end
 	end
 	
@@ -30,11 +30,15 @@ class PackageConflictFinder
 	
 		def initialized_suggested_packages(proposed_package)
 			suggested_packages = @installed_packages.map{|spec| {:name=> spec.name, :version=> req(spec.version)}} 
-			suggested_packages << {:name=>proposed_package.name, :version=> req(proposed_package.version)}
-			suggested_packages = suggested_packages | proposed_package.dependencies.map do |dep|
-				{:name=>dep.name, :version=>dep.requirement}
+
+			suggested_packages.reject! {|i| i[:name] == proposed_package.name}
+			suggested_packages << {:name=>proposed_package.name, :version=> req(proposed_package.version)}  
+
+			proposed_package.dependencies.each do |dep|
+				suggested_packages.reject! {|i| i[:name] == dep.name}
+				suggested_packages << {:name=>dep.name, :version=>dep.requirement}
 			end
-			suggested_packages.uniq
+			return suggested_packages
 		end
 	
 		def find_conflicts(proposed_spec)

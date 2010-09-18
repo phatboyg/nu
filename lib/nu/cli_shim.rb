@@ -16,7 +16,6 @@ class CliShim < HasOutAndLog
 	
 	def install_package(package, package_version)
 		Nu::Api.install_package(package, package_version)
-		out "Installed package #{(package + " #{package_version}").strip}."
 	end
 	
 	def get_setting(name)

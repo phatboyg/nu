@@ -7,6 +7,14 @@ require File.expand_path(File.dirname(__FILE__) + "/settings.rb")
 
 require File.expand_path(File.dirname(__FILE__) + "/dependency_leveling/package_conflict_overlap_resolver.rb")
 
+class ::Hash
+  def method_missing(name)
+    return self[name] if key? name
+    self.each { |k,v| return v if k.to_s.to_sym == name }
+    super.method_missing name
+  end
+end
+
 module Nu
 	class Api
 		
@@ -81,14 +89,27 @@ module Nu
 			"Nubular, version #{nu_spec.version}"
 		end
 		
-		def self.install_package(package_name, package_version)
-			log "Install called: package_name=#{package_name} package_version=#{package_version}."
+		def self.install_package(package_name, package_version=nil)
+			log "Install called: package_name: #{package_name} package_version: #{package_version}."
 			
-			loader = Nu::Loader.new(package_name, package_version, @project_settings.lib.location, @project_settings.lib.use_long_names, @out, @log)
-			if loader.load_gem
-				 loader.copy_to_lib
+			current_specs = @lib_tools.read_specs_from_lib(@project_settings.lib.location)
+			analyzer = PackageConflictOverlapResolver.new(current_specs, @gem_tools)
+			results = analyzer.analyze_proposal(@gem_tools.remote_spec_for(package_name, package_version))
+			
+			unless results.conflict?
+				results.suggested_packages.each do |package|
+					loader = Nu::Loader.new(package.name, package.version, @project_settings.lib.location, @project_settings.lib.use_long_names, @out, @log)
+					log "Installing #{package.name} (#{package.version})"
+					if loader.load_gem
+						 loader.copy_to_lib
+					end
+				end
+				out "Installed package #{(package + " #{package_version}").strip}"
+			else
+				out "Could not install #{package_name} due to conflicts. Run `propose` to see analysis."
 			end
-			
+
+			return results
 		end
 		
 		def self.propose_package(package_name, package_version=nil)

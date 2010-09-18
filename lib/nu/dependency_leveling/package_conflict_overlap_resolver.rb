@@ -16,6 +16,9 @@ class PackageConflictOverlapResolver
 			hav = highest_acceptable_version(conflict[:name], conflict[:requirement_one], conflict[:requirement_two])
 			resolve_conflict(r,conflict,hav) if hav
 		end if r.conflict?
+
+		r.suggested_packages.uniq!
+		r.conflicts.uniq!
 		
 		return r
 	end
@@ -32,6 +35,7 @@ class PackageConflictOverlapResolver
 	
 		def resolve_conflict(results,conflict,version)
 			results.conflicts.reject! {|c| c[:name] == conflict[:name]}
+			results.suggested_packages.reject! {|p| p[:name] == conflict[:name]}
 			results.suggested_packages << {:name => conflict[:name], :version => version}
 			results.conflict = results.conflicts.length > 0
 		end

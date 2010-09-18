@@ -49,8 +49,6 @@ module Nu
 
 			FileUtils.copy_entry start_here, to
 			@gem_tools.write_spec(gemspec, to)
-
-			process_dependencies
 		end
 
 		def gemspec
@@ -63,19 +61,6 @@ module Nu
 
     def copy_dest
 			@lib_tools.folder_for(gemspec, @location, @long_names)
-    end
-
-    def process_dependencies
-      gemspec.dependencies.each do |d|
-        if Gem.available? d.name
-          out "Loading dependency: #{d.name} #{d.requirement}"
-					loader = Loader.new(d.name, d.requirement, @location, @long_names, @out, @log)
-					loader.copy_to_lib
-        else
-          out "#{d.name} is not installed locally"
-          out "please run 'gem install #{d.name}"
-        end
-      end
     end
 
   end
