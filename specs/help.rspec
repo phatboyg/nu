@@ -1,0 +1,11 @@
+require 'lib/nu/help/help.rb'
+
+describe Help do
+
+  describe "help_doc_for" do
+    it "should load the correct file from disk" do
+      
+    end
+  end
+
+end
