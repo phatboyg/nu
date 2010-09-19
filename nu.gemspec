@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
 
 	s.add_dependency('activesupport', '=2.3.5')
 
-  s.files        = Dir.glob("{bin,lib}/**/*")
+  s.files        = Dir.glob("{bin,lib,docs}/**/*")
   s.executables  = ['nu']
   s.bindir = 'bin'
   s.require_path = 'lib'
