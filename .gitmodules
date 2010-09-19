@@ -1,0 +1,3 @@
+[submodule "help-wiki"]
+	path = help-wiki
+	url = git@github.com:nu/nu.wiki.git
