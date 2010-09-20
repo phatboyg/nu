@@ -11,6 +11,19 @@ module Nu
 			Gem::Dependency.new(spec,requirement)
 		end
 		
+		def find(package_name)
+			dependency = dependency_from_requirement(package_name, nil)
+			fetcher = Gem::SpecFetcher.new
+			specs = fetcher.fetch(dependency, true)
+			unless specs == nil
+				specs.map! do |item| 
+					item.first
+				end
+				specs.sort! {|a,b| b.version <=> a.version}
+			end
+			specs
+		end
+		
 		def remote_spec_for(spec, requirement=nil)
 			dependency = dependency_from_requirement(spec, nil)
 			fetcher = Gem::SpecFetcher.new

@@ -8,9 +8,11 @@ require File.expand_path(File.dirname(__FILE__) + "/api.rb")
 require File.expand_path(File.dirname(__FILE__) + "/loader.rb")
 require File.expand_path(File.dirname(__FILE__) + "/cli_shim.rb")
 require File.expand_path(File.dirname(__FILE__) + "/json_shim.rb")
-
+require File.expand_path(File.dirname(__FILE__) + "/help/help.rb")  
+		
 class App
-  
+  include Help
+
   attr_reader :options
 
   def initialize(arguments, stdin, stdout)
@@ -37,41 +39,27 @@ class App
 		begin
 			OptionParser.new do |opts|
 
-				opts.banner = "\nUsage:" + 
-											"\n    nu -h/--help" +
-											"\n    nu -v/--version" +
-											"\n    nu COMMAND [arguments...] [options...]" +
-											"\n\nExamples:" +
-											"\n    nu install fluentnhibernate" + 
-											"\n    nu install nunit --version 2.5.7.10213.20100801" +
-											"\n    nu config lib.location ./lib" +
-											"\n    nu report" +
-											"\n    nu install fluentnhibernate --report" +
-											"\n\nOptions and Switches:" 
-
-				opts.on('-v', '--version VERSION','Specify version of package to install' ) do |ver|
+				opts.on('-v', '--version VERSION') do |ver|
 					 @options.package_version = ver
 				end
 
-				opts.on('-r','--report', 'Report on the packages currently installed in the lib folder. When called as a switch it will run the report AFTER executing the requested command.') do
+				opts.on('-r','--report') do
 					@commands << lambda {@shim.report}
 				end
 
 				# Specify options
 				@options.source = :lib
-				opts.on('--remote', 'Use package server for query operations.') {@options.source = :remote}
-				opts.on('--cache', 'Use local package cache for query operations.') {@options.source = :cache unless @options.source == :remote}
+				opts.on('--remote') {@options.source = :remote}
+				opts.on('--cache') {@options.source = :cache unless @options.source == :remote}
 				opts.on('-V', '--verbose')    { @options.verbose = true }  
 				opts.on('-q', '--quiet')      { @options.quiet = true }
-				opts.on('--json', 'Run in JSON mode. All outputs will be in JSON, status messages silenced.') do 
-					set_json
-				end
+				opts.on('--json') {set_json}
 
-				opts.on_tail( '-h', '--help', 'Display this screen' ) do
-					output_help(opts)
+				opts.on_tail( '-h', '--help' ) do
+					output_help
 				end
 	
-				@help_command = lambda{output_help(opts)}
+				@help_command = lambda{output_help}
 	
 		end.parse!
 	rescue
@@ -118,7 +106,7 @@ class App
 					@commands << lambda {@shim.report}
 				when 'specification'
 					if @options.source == :lib && @options.package_version
-						puts "The --version flag can not be used with the specification command unless either --cache or --remote is also specified." 
+						puts "The --version flag cannot be used with the specification command unless either --cache or --remote is also specified." 
 						exit 1
 					end
 					set_json
@@ -131,6 +119,12 @@ class App
 				# 				assert_param_count(2)
 				# 				@options.package = @arguments[1]
 				# 				@commands << lambda {@shim.uninstall_package(@options.package, @options.package_version)}
+				when 'propose'
+					assert_param_count(2)
+					@options.package = @arguments[1]
+					@commands << lambda {@shim.propose(@options.package, @options.package_version)}
+				when 'help'
+					@commands << lambda {output_help(@arguments)}
 				when 'config'
 					if @arguments.length == 2
 						@commands << lambda {@shim.get_setting(@arguments[1])} 
@@ -170,14 +164,11 @@ class App
 			disp ""
     end
     
-		def output_help(opts)
+		def output_help(descriptor='help-usage')
 			@options.quiet = false
 			output_version
-			output_description
-			disp opts
-			disp "\n\nFurther Information:" +
-			"\n    http://nu.wikispot.org" +
-			"\n    http://groups.google.com/group/nu-net"
+			disp ''
+			disp help_doc_for(descriptor)
 			disp ''
       exit 0
 		end
@@ -185,10 +176,6 @@ class App
     def output_version
 			disp Nu::Api.version_string
     end
-
-		def output_description
-			disp "Nu will automatically download and install specified library packages into your lib folder, along with all their dependencies.\n"
-		end
 		
 		def disp(msg)
 			puts msg unless @options.quiet || @options.json

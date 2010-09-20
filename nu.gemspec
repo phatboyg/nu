@@ -4,7 +4,7 @@ $:.unshift lib unless $:.include?(lib)
 
 Gem::Specification.new do |s|
   s.name        = "nu"
-  s.version     = "0.2.5"
+  s.version     = "0.2.6.pre"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Dru Sellers","Brendan Erwin", "Rob Reynold", "Travis Smith" ]
   s.email       = ["nu-net@googlegroups.com"]
@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
 
 	s.add_dependency('activesupport', '=2.3.5')
 
-  s.files        = Dir.glob("{bin,lib}/**/*")
+  s.files        = Dir.glob("{bin,lib,docs}/**/*")
   s.executables  = ['nu']
   s.bindir = 'bin'
   s.require_path = 'lib'

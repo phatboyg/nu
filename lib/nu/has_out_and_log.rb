@@ -11,6 +11,12 @@ class HasOutAndLog
 		@out.call(msg)
 	end
 	
+	def hr(suffix=nil)
+		line = "=" * 80
+		out(line) unless suffix
+		out(line + suffix) if suffix
+	end
+	
 	def log(msg)
 		@log.call(msg)
 	end

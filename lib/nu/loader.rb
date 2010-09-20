@@ -23,14 +23,13 @@ module Nu
     end
 
 		def load_gem
-			log "Load Gem #{(@gem_name + " #{@version}").strip}."
-			if !gem_available?
-        out "Gem #{(@gem_name + " #{@version}").strip} is not installed locally - I am now going to try and install it"
+			if (!Gem.available? @gem_name, @version) or (@version == nil)
+        out "Getting #{(@gem_name + " #{@version}").strip}..."
         begin
           inst = Gem::DependencyInstaller.new
           inst.install @gem_name, @version
           inst.installed_gems.each do |spec|
-            out "Successfully installed #{spec.full_name}"
+            out "Got #{spec.full_name}"
           end
         rescue Gem::GemNotFoundException => e
           out "ERROR: #{e.message}"
@@ -50,20 +49,10 @@ module Nu
 
 			FileUtils.copy_entry start_here, to
 			@gem_tools.write_spec(gemspec, to)
-
-			process_dependencies
 		end
 
 		def gemspec
 			@gem_tools.spec_for(@gem_name, @version)
-		end
-
-		def gem_available?
-			if @version.nil?
-			    Gem.available? @gem_name
-			else
-			    Gem.available? @gem_name, @version
-			end
 		end
 
     def copy_source
@@ -72,19 +61,6 @@ module Nu
 
     def copy_dest
 			@lib_tools.folder_for(gemspec, @location, @long_names)
-    end
-
-    def process_dependencies
-      gemspec.dependencies.each do |d|
-        if Gem.available? d.name
-          out "Loading dependency: #{d.name} #{d.requirement}"
-					loader = Loader.new(d.name, d.requirement, @location, @long_names, @out, @log)
-					loader.copy_to_lib
-        else
-          out "#{d.name} is not installed locally"
-          out "please run 'gem install #{d.name}"
-        end
-      end
     end
 
   end

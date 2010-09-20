@@ -1,0 +1,24 @@
+require 'specs/spec_helper'
+require 'lib/nu/api'
+require 'lib/nu/dependency_leveling/package_conflict_overlap_resolver'
+require 'lib/nu/dependency_leveling/package_conflict_overlap_resolver'
+require 'mocha'
+
+describe "commands propose api" do
+
+	before(:all) do
+		Nu::Api.set_log(lambda{|msg|})
+		Nu::Api.set_out(lambda{|msg|})
+    Nu::Api.load_project_settings('nilfile')
+	end  
+
+	describe "propose_package" do
+	  it "should return analysis results" do
+			result = "This is a test"
+			Nu::LibTools.any_instance.stubs(:read_specs_from_lib).returns(Array.new)
+	    PackageConflictOverlapResolver.any_instance.stubs(:analyze_proposal).returns(result)
+			Nu::Api.propose_package("test").should eql(result)
+	  end
+	end
+
+end

@@ -38,6 +38,7 @@ The following commands are available:
 
   * `install PACKAGE [options...]` - Installs the specified package into the folder configured in `lib.location`. The `--version VERSION` switch can be used to specify a specific version of the package.
   * `report` - Outputs a report listing the currently installed packages in the lib folder.
+  * `propose PACKAGE [options...]` - Analyzes what installing the proposed package would do to your lib folder. The `--version VERSION` switch can be used to specify a specific version of the package.
   * `config OPTION_NAME VALUE` - Stores the specified value for the specified configuration option.
   * `config OPTION_NAME` - Displays the current value for the specified configuration option.
 
