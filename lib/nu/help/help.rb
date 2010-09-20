@@ -34,6 +34,10 @@ module Help
 		from.gsub!(/\[\[(.*)\|.*\]\]/,'\1')
 		from.gsub!(/\[\[(.*)\]\]/,'\1')
 		
+		#word wrap
+		col = 80
+		from.gsub!(/(.{1,#{col}})( +|$\n?)|(.{1,#{col}})/,"\\1\\3\n")
+		
 		return from
 	end
 	
