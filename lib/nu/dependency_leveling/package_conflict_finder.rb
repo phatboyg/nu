@@ -35,8 +35,9 @@ class PackageConflictFinder
 			suggested_packages << {:name=>proposed_package.name, :version=> req(proposed_package.version)}  
 
 			proposed_package.dependencies.each do |dep|
-				suggested_packages.reject! {|i| i[:name] == dep.name}
-				suggested_packages << {:name=>dep.name, :version=>dep.requirement}
+				unless suggested_packages.any?{|i| i[:name] == dep.name}
+					suggested_packages << {:name=>dep.name, :version=>dep.requirement}
+				end
 			end
 			return suggested_packages
 		end
