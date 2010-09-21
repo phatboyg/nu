@@ -104,7 +104,7 @@ module Nu
 						 loader.copy_to_lib
 					end
 				end
-				out "Installed package #{(package + " #{package_version}").strip}"
+				out "Installed package #{(package_name + " #{package_version}").strip}"
 			else
 				out "Could not install #{package_name} due to conflicts. Run `propose` to see analysis."
 			end
