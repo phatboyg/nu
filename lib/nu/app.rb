@@ -24,7 +24,8 @@ class App
 		@commands = []    
 
 		@arguments = arguments
-
+		@help_command = lambda{output_help}
+		
 		Nu::Api.set_log(lambda {|msg| log msg})
 		Nu::Api.set_out(lambda {|msg| disp msg})
 		@shim = CliShim.new(lambda {|msg| disp msg}, lambda {|msg| log msg})
@@ -58,8 +59,6 @@ class App
 				opts.on_tail( '-h', '--help' ) do
 					output_help
 				end
-	
-				@help_command = lambda{output_help}
 	
 		end.parse!
 	rescue
@@ -141,7 +140,8 @@ class App
 
 		def assert_param_count(count)
 			unless @arguments.length == count
-				@help_command.call
+				@commands << @help_command
+				execute_commands
 			end
 		end
 

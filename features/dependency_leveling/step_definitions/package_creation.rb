@@ -14,7 +14,6 @@ Given /^package "([^"]*) \((\d\.\d\.\d)\)" exists$/ do |name, version|
 end
 
 def create_package(name, version)
-	@packages ||= []
 	spec = Gem::Specification.new do |s|
 	    s.name = name
 	    s.version = version

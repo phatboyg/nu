@@ -3,10 +3,9 @@ require File.expand_path(File.dirname(__FILE__) + "/package_conflict_finder.rb")
 
 class PackageConflictOverlapResolver
 	def initialize(installed_packages, package_lister)
+		@conflict_finder = PackageConflictFinder.new(installed_packages, package_lister)
 		@installed_packages = installed_packages
-		raise "package_lister must respond to find(name)" unless package_lister.respond_to?("find")
 		@package_lister = package_lister
-		@conflict_finder = PackageConflictFinder.new(installed_packages)
 	end
 	
 	def analyze_proposal(proposed_package)
