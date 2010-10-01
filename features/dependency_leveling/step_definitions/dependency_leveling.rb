@@ -2,18 +2,13 @@ require 'lib/nu/dependency_leveling/package_conflict_finder'
 require 'lib/nu/dependency_leveling/package_conflict_overlap_resolver'
 
 Given /^I am talking about the ([^"]*)$/ do |class_name|
-	case class_name
-	when "PackageConflictOverlapResolver"
-		@leveler_maker = lambda do 
-			def @packages.find(name)
-				self.select{|spec| spec.name == name}
-			end
-			PackageConflictOverlapResolver.new(@installed_packages, @packages)
-		end
-	else
-  	@leveler_maker = lambda{Kernel.const_get(class_name).new(@installed_packages)}		
+	@packages = []
+	def @packages.find(name, constraint=nil)
+		return self.select{|spec| spec.name == name} unless constraint
+		return self.select{|spec| spec.satisfies_requirement?(Gem::Dependency.new(name, constraint))}.first if constraint
 	end
-
+	@packages.should respond_to('find')
+ 	@leveler_maker = lambda{Kernel.const_get(class_name).new(@installed_packages, @packages)}		
 end
 
 def existing_package(name, version)
@@ -26,10 +21,10 @@ Given /^package "([^"]*) \((\d\.\d\.\d)\)" is installed$/ do |name, version|
 end
 
 When /^package "([^"]*) \((\d\.\d\.\d)\)" is proposed$/ do |name, version|
+	@installed_packages ||= []
 	leveler = @leveler_maker.call
 	@result = leveler.analyze_proposal(existing_package(name, version))
 end
-
 
 Then /^a conflict should be detected$/ do
   @result.conflict?.should be_true

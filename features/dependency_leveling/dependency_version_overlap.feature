@@ -53,3 +53,16 @@ Scenario: Conflict is with a package that is not a dependency itself in the lib 
 	Then a conflict should be detected
 	And the conflicting package should be "explicit" between "= 1.0.0" and ">= 1.0.1, <= 1.4.0"
 	
+Scenario: Propose a package with dependencies that have dependencies
+	Given package "bottom (1.0.0)" exists
+	And package "middle (1.0.0)" exists and depends on:
+		| name		| constraint			|
+		| bottom	| = 1.0.0				|
+	And package "top (1.0.0)" exists and depends on:
+		| name		| constraint			|
+		| middle	| = 1.0.0				|
+	When package "top (1.0.0)" is proposed
+	Then a conflict should not be detected
+	And the suggested version for package "top" should be "= 1.0.0"
+	And the suggested version for package "middle" should be "= 1.0.0"
+	And the suggested version for package "bottom" should be "= 1.0.0"

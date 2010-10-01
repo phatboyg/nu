@@ -2,7 +2,9 @@ require 'rubygems'
 require File.expand_path(File.dirname(__FILE__) + "/analysis_results.rb")
 
 class PackageConflictFinder
-	def initialize(installed_packages)
+	def initialize(installed_packages, package_lister)
+		raise "package_lister must respond to find(name, version)" unless package_lister.respond_to?("find")
+		@package_lister = package_lister
 		@installed_packages = installed_packages
 	end
 	
@@ -34,12 +36,18 @@ class PackageConflictFinder
 			suggested_packages.reject! {|i| i[:name] == proposed_package.name}
 			suggested_packages << {:name=>proposed_package.name, :version=> req(proposed_package.version)}  
 
-			proposed_package.dependencies.each do |dep|
+			extract_dependencies(proposed_package, suggested_packages)
+			
+			return suggested_packages
+		end
+	
+		def extract_dependencies(package, suggested_packages)
+			package.dependencies.each do |dep|
 				unless suggested_packages.any?{|i| i[:name] == dep.name}
 					suggested_packages << {:name=>dep.name, :version=>dep.requirement}
+					extract_dependencies(@package_lister.find(dep.name, dep.requirement), suggested_packages)
 				end
 			end
-			return suggested_packages
 		end
 	
 		def find_conflicts(proposed_spec)
